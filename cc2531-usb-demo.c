@@ -74,6 +74,7 @@ PROCESS_THREAD(cc2531_usb_demo_process, ev, data)
       putstring("cc2531 USB Dongle In : ");
       putstring((char *)data);
       putchar('\n');
+      //Test
     }
   }
 
