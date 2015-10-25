@@ -1,0 +1,2804 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Oct 24 2015) (Linux)
+                                      4 ; This file was generated Sun Oct 25 01:52:01 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module route_discovery
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _route_lookup
+                                     13 	.globl _route_add
+                                     14 	.globl _netflood_send
+                                     15 	.globl _netflood_close
+                                     16 	.globl _netflood_open
+                                     17 	.globl _unicast_send
+                                     18 	.globl _unicast_close
+                                     19 	.globl _unicast_open
+                                     20 	.globl _packetbuf_set_datalen
+                                     21 	.globl _packetbuf_dataptr
+                                     22 	.globl _packetbuf_clear
+                                     23 	.globl _rimeaddr_cmp
+                                     24 	.globl _rimeaddr_copy
+                                     25 	.globl _ctimer_stop
+                                     26 	.globl _ctimer_set
+                                     27 	.globl _ACTIVE
+                                     28 	.globl _TX_BYTE
+                                     29 	.globl _RX_BYTE
+                                     30 	.globl _ERR
+                                     31 	.globl _FE
+                                     32 	.globl _SLAVE
+                                     33 	.globl _RE
+                                     34 	.globl _MODE
+                                     35 	.globl _T3OVFIF
+                                     36 	.globl _T3CH0IF
+                                     37 	.globl _T3CH1IF
+                                     38 	.globl _T4OVFIF
+                                     39 	.globl _T4CH0IF
+                                     40 	.globl _T4CH1IF
+                                     41 	.globl _OVFIM
+                                     42 	.globl _B_0
+                                     43 	.globl _B_1
+                                     44 	.globl _B_2
+                                     45 	.globl _B_3
+                                     46 	.globl _B_4
+                                     47 	.globl _B_5
+                                     48 	.globl _B_6
+                                     49 	.globl _B_7
+                                     50 	.globl _P2IF
+                                     51 	.globl _UTX0IF
+                                     52 	.globl _UTX1IF
+                                     53 	.globl _P1IF
+                                     54 	.globl _WDTIF
+                                     55 	.globl _ACC_0
+                                     56 	.globl _ACC_1
+                                     57 	.globl _ACC_2
+                                     58 	.globl _ACC_3
+                                     59 	.globl _ACC_4
+                                     60 	.globl _ACC_5
+                                     61 	.globl _ACC_6
+                                     62 	.globl _ACC_7
+                                     63 	.globl _P
+                                     64 	.globl _F1
+                                     65 	.globl _OV
+                                     66 	.globl _RS0
+                                     67 	.globl _RS1
+                                     68 	.globl _F0
+                                     69 	.globl _AC
+                                     70 	.globl _CY
+                                     71 	.globl _DMAIF
+                                     72 	.globl _T1IF
+                                     73 	.globl _T2IF
+                                     74 	.globl _T3IF
+                                     75 	.globl _T4IF
+                                     76 	.globl _P0IF
+                                     77 	.globl _STIF
+                                     78 	.globl _DMAIE
+                                     79 	.globl _T1IE
+                                     80 	.globl _T2IE
+                                     81 	.globl _T3IE
+                                     82 	.globl _T4IE
+                                     83 	.globl _P0IE
+                                     84 	.globl _RFERRIE
+                                     85 	.globl _ADCIE
+                                     86 	.globl _URX0IE
+                                     87 	.globl _URX1IE
+                                     88 	.globl _ENCIE
+                                     89 	.globl _STIE
+                                     90 	.globl _EA
+                                     91 	.globl _P2_0
+                                     92 	.globl _P2_1
+                                     93 	.globl _P2_2
+                                     94 	.globl _P2_3
+                                     95 	.globl _P2_4
+                                     96 	.globl _P2_5
+                                     97 	.globl _P2_6
+                                     98 	.globl _P2_7
+                                     99 	.globl _ENCIF_0
+                                    100 	.globl _ENCIF_1
+                                    101 	.globl _P1_0
+                                    102 	.globl _P1_1
+                                    103 	.globl _P1_2
+                                    104 	.globl _P1_3
+                                    105 	.globl _P1_4
+                                    106 	.globl _P1_5
+                                    107 	.globl _P1_6
+                                    108 	.globl _P1_7
+                                    109 	.globl _IT0
+                                    110 	.globl _RFERRIF
+                                    111 	.globl _IT1
+                                    112 	.globl _URX0IF
+                                    113 	.globl _ADCIF
+                                    114 	.globl _URX1IF
+                                    115 	.globl _P0_0
+                                    116 	.globl _P0_1
+                                    117 	.globl _P0_2
+                                    118 	.globl _P0_3
+                                    119 	.globl _P0_4
+                                    120 	.globl _P0_5
+                                    121 	.globl _P0_6
+                                    122 	.globl _P0_7
+                                    123 	.globl _WDCTL
+                                    124 	.globl _U1GCR
+                                    125 	.globl _U1UCR
+                                    126 	.globl _U1BAUD
+                                    127 	.globl _U1DBUF
+                                    128 	.globl _U1CSR
+                                    129 	.globl _U0GCR
+                                    130 	.globl _U0UCR
+                                    131 	.globl _U0BAUD
+                                    132 	.globl _U0DBUF
+                                    133 	.globl _U0CSR
+                                    134 	.globl _TIMIF
+                                    135 	.globl _T4CC1
+                                    136 	.globl _T4CCTL1
+                                    137 	.globl _T4CC0
+                                    138 	.globl _T4CCTL0
+                                    139 	.globl _T4CTL
+                                    140 	.globl _T4CNT
+                                    141 	.globl _T3CC1
+                                    142 	.globl _T3CCTL1
+                                    143 	.globl _T3CC0
+                                    144 	.globl _T3CCTL0
+                                    145 	.globl _T3CTL
+                                    146 	.globl _T3CNT
+                                    147 	.globl _T2MSEL
+                                    148 	.globl _T2IRQM
+                                    149 	.globl _T2MOVF2
+                                    150 	.globl _T2MOVF1
+                                    151 	.globl _T2MOVF0
+                                    152 	.globl _T2M1
+                                    153 	.globl _T2M0
+                                    154 	.globl _T2IRQF
+                                    155 	.globl _T2EVTCFG
+                                    156 	.globl _T2CTRL
+                                    157 	.globl _T1STAT
+                                    158 	.globl _T1CCTL2
+                                    159 	.globl _T1CCTL1
+                                    160 	.globl _T1CCTL0
+                                    161 	.globl _T1CTL
+                                    162 	.globl _T1CNTH
+                                    163 	.globl _T1CNTL
+                                    164 	.globl _T1CC2H
+                                    165 	.globl _T1CC2L
+                                    166 	.globl _T1CC1H
+                                    167 	.globl _T1CC1L
+                                    168 	.globl _T1CC0H
+                                    169 	.globl _T1CC0L
+                                    170 	.globl _CLKCONSTA
+                                    171 	.globl _CLKCONCMD
+                                    172 	.globl _SLEEPSTA
+                                    173 	.globl _SLEEPCMD
+                                    174 	.globl _STLOAD
+                                    175 	.globl _ST2
+                                    176 	.globl _ST1
+                                    177 	.globl _ST0
+                                    178 	.globl _RFERRF
+                                    179 	.globl _RFIRQF0
+                                    180 	.globl _RFST
+                                    181 	.globl _RFD
+                                    182 	.globl _RFIRQF1
+                                    183 	.globl _PSBANK
+                                    184 	.globl _FMAP
+                                    185 	.globl _MEMCTR
+                                    186 	.globl __XPAGE
+                                    187 	.globl _MPAGE
+                                    188 	.globl _PMUX
+                                    189 	.globl _P2DIR
+                                    190 	.globl _P1DIR
+                                    191 	.globl _P0DIR
+                                    192 	.globl _P2INP
+                                    193 	.globl _P1INP
+                                    194 	.globl _P2SEL
+                                    195 	.globl _P1SEL
+                                    196 	.globl _P0SEL
+                                    197 	.globl _APCFG
+                                    198 	.globl _PERCFG
+                                    199 	.globl _P0INP
+                                    200 	.globl _P2IEN
+                                    201 	.globl _P1IEN
+                                    202 	.globl _P0IEN
+                                    203 	.globl _PICTL
+                                    204 	.globl _P2IFG
+                                    205 	.globl _P1IFG
+                                    206 	.globl _P0IFG
+                                    207 	.globl _DMAREQ
+                                    208 	.globl _DMAARM
+                                    209 	.globl _DMA0CFGH
+                                    210 	.globl _DMA0CFGL
+                                    211 	.globl _DMA1CFGH
+                                    212 	.globl _DMA1CFGL
+                                    213 	.globl _DMAIRQ
+                                    214 	.globl _ENCCS
+                                    215 	.globl _ENCDO
+                                    216 	.globl _ENCDI
+                                    217 	.globl _RNDH
+                                    218 	.globl _RNDL
+                                    219 	.globl _ADCH
+                                    220 	.globl _ADCL
+                                    221 	.globl _ADCCON3
+                                    222 	.globl _ADCCON2
+                                    223 	.globl _ADCCON1
+                                    224 	.globl _B
+                                    225 	.globl _IRCON2
+                                    226 	.globl _ACC
+                                    227 	.globl _PSW
+                                    228 	.globl _IRCON
+                                    229 	.globl _IP1
+                                    230 	.globl _IEN1
+                                    231 	.globl _IP0
+                                    232 	.globl _IEN0
+                                    233 	.globl _P2
+                                    234 	.globl _S1CON
+                                    235 	.globl _IEN2
+                                    236 	.globl _S0CON
+                                    237 	.globl _DPS
+                                    238 	.globl _P1
+                                    239 	.globl _TCON
+                                    240 	.globl _PCON
+                                    241 	.globl _DPH1
+                                    242 	.globl _DPL1
+                                    243 	.globl _DPH0
+                                    244 	.globl _DPL0
+                                    245 	.globl _SP
+                                    246 	.globl _P0
+                                    247 	.globl _X_IEEE_ADDR
+                                    248 	.globl _X_INFOPAGE
+                                    249 	.globl _X_P2DIR
+                                    250 	.globl _X_P1DIR
+                                    251 	.globl _X_P0DIR
+                                    252 	.globl _X_U1GCR
+                                    253 	.globl _X_U1UCR
+                                    254 	.globl _X_U1BAUD
+                                    255 	.globl _X_U1DBUF
+                                    256 	.globl _X_U1CSR
+                                    257 	.globl _X_P2INP
+                                    258 	.globl _X_P1INP
+                                    259 	.globl _X_P2SEL
+                                    260 	.globl _X_P1SEL
+                                    261 	.globl _X_P0SEL
+                                    262 	.globl _X_APCFG
+                                    263 	.globl _X_PERCFG
+                                    264 	.globl _X_T4CC1
+                                    265 	.globl _X_T4CCTL1
+                                    266 	.globl _X_T4CC0
+                                    267 	.globl _X_T4CCTL0
+                                    268 	.globl _X_T4CTL
+                                    269 	.globl _X_T4CNT
+                                    270 	.globl _X_RFIRQF0
+                                    271 	.globl _X_T1CCTL2
+                                    272 	.globl _X_T1CCTL1
+                                    273 	.globl _X_T1CCTL0
+                                    274 	.globl _X_T1CTL
+                                    275 	.globl _X_T1CNTH
+                                    276 	.globl _X_T1CNTL
+                                    277 	.globl _X_RFST
+                                    278 	.globl _X_T1CC2H
+                                    279 	.globl _X_T1CC2L
+                                    280 	.globl _X_T1CC1H
+                                    281 	.globl _X_T1CC1L
+                                    282 	.globl _X_T1CC0H
+                                    283 	.globl _X_T1CC0L
+                                    284 	.globl _X_RFD
+                                    285 	.globl _X_TIMIF
+                                    286 	.globl _X_DMAREQ
+                                    287 	.globl _X_DMAARM
+                                    288 	.globl _X_DMA0CFGH
+                                    289 	.globl _X_DMA0CFGL
+                                    290 	.globl _X_DMA1CFGH
+                                    291 	.globl _X_DMA1CFGL
+                                    292 	.globl _X_DMAIRQ
+                                    293 	.globl _X_T3CC1
+                                    294 	.globl _X_T3CCTL1
+                                    295 	.globl _X_T3CC0
+                                    296 	.globl _X_T3CCTL0
+                                    297 	.globl _X_T3CTL
+                                    298 	.globl _X_T3CNT
+                                    299 	.globl _X_WDCTL
+                                    300 	.globl _X_MEMCTR
+                                    301 	.globl _X_CLKCONCMD
+                                    302 	.globl _X_U0GCR
+                                    303 	.globl _X_U0UCR
+                                    304 	.globl _X_T2MSEL
+                                    305 	.globl _X_U0BAUD
+                                    306 	.globl _X_U0DBUF
+                                    307 	.globl _X_RFERRF
+                                    308 	.globl _X_SLEEPCMD
+                                    309 	.globl _X_RNDH
+                                    310 	.globl _X_RNDL
+                                    311 	.globl _X_ADCH
+                                    312 	.globl _X_ADCL
+                                    313 	.globl _X_ADCCON3
+                                    314 	.globl _X_ADCCON2
+                                    315 	.globl _X_ADCCON1
+                                    316 	.globl _X_ENCCS
+                                    317 	.globl _X_ENCDO
+                                    318 	.globl _X_ENCDI
+                                    319 	.globl _X_T1STAT
+                                    320 	.globl _X_PMUX
+                                    321 	.globl _X_STLOAD
+                                    322 	.globl _X_P2IEN
+                                    323 	.globl _X_P0IEN
+                                    324 	.globl _X_T2IRQM
+                                    325 	.globl _X_T2MOVF2
+                                    326 	.globl _X_T2MOVF1
+                                    327 	.globl _X_T2MOVF0
+                                    328 	.globl _X_T2M1
+                                    329 	.globl _X_T2M0
+                                    330 	.globl _X_T2IRQF
+                                    331 	.globl _X_P2
+                                    332 	.globl _X_PSBANK
+                                    333 	.globl _X_FMAP
+                                    334 	.globl _X_CLKCONSTA
+                                    335 	.globl _X_SLEEPSTA
+                                    336 	.globl _X_T2EVTCFG
+                                    337 	.globl _X_ST2
+                                    338 	.globl _X_ST1
+                                    339 	.globl _X_ST0
+                                    340 	.globl _X_T2CTRL
+                                    341 	.globl _X__XPAGE
+                                    342 	.globl _X_MPAGE
+                                    343 	.globl _X_RFIRQF1
+                                    344 	.globl _X_P1
+                                    345 	.globl _X_P0INP
+                                    346 	.globl _X_P1IEN
+                                    347 	.globl _X_PICTL
+                                    348 	.globl _X_P2IFG
+                                    349 	.globl _X_P1IFG
+                                    350 	.globl _X_P0IFG
+                                    351 	.globl _X_U0CSR
+                                    352 	.globl _X_P0
+                                    353 	.globl _USBF5
+                                    354 	.globl _USBF4
+                                    355 	.globl _USBF3
+                                    356 	.globl _USBF2
+                                    357 	.globl _USBF1
+                                    358 	.globl _USBF0
+                                    359 	.globl _USBCNTH
+                                    360 	.globl _USBCNTL
+                                    361 	.globl _USBCNT0
+                                    362 	.globl _USBCSOH
+                                    363 	.globl _USBCSOL
+                                    364 	.globl _USBMAXO
+                                    365 	.globl _USBCSIH
+                                    366 	.globl _USBCSIL
+                                    367 	.globl _USBCS0
+                                    368 	.globl _USBMAXI
+                                    369 	.globl _USBCTRL
+                                    370 	.globl _USBINDEX
+                                    371 	.globl _USBFRMH
+                                    372 	.globl _USBFRML
+                                    373 	.globl _USBCIE
+                                    374 	.globl _USBOIE
+                                    375 	.globl _USBIIE
+                                    376 	.globl _USBCIF
+                                    377 	.globl _USBOIF
+                                    378 	.globl _USBIIF
+                                    379 	.globl _USBPOW
+                                    380 	.globl _USBADDR
+                                    381 	.globl _CSPT
+                                    382 	.globl _CSPZ
+                                    383 	.globl _CSPY
+                                    384 	.globl _CSPX
+                                    385 	.globl _CSPSTAT
+                                    386 	.globl _CSPCTRL
+                                    387 	.globl _CSPPROG23
+                                    388 	.globl _CSPPROG22
+                                    389 	.globl _CSPPROG21
+                                    390 	.globl _CSPPROG20
+                                    391 	.globl _CSPPROG19
+                                    392 	.globl _CSPPROG18
+                                    393 	.globl _CSPPROG17
+                                    394 	.globl _CSPPROG16
+                                    395 	.globl _CSPPROG15
+                                    396 	.globl _CSPPROG14
+                                    397 	.globl _CSPPROG13
+                                    398 	.globl _CSPPROG12
+                                    399 	.globl _CSPPROG11
+                                    400 	.globl _CSPPROG10
+                                    401 	.globl _CSPPROG9
+                                    402 	.globl _CSPPROG8
+                                    403 	.globl _CSPPROG7
+                                    404 	.globl _CSPPROG6
+                                    405 	.globl _CSPPROG5
+                                    406 	.globl _CSPPROG4
+                                    407 	.globl _CSPPROG3
+                                    408 	.globl _CSPPROG2
+                                    409 	.globl _CSPPROG1
+                                    410 	.globl _CSPPROG0
+                                    411 	.globl _RFC_OBS_CTRL2
+                                    412 	.globl _RFC_OBS_CTRL1
+                                    413 	.globl _RFC_OBS_CTRL0
+                                    414 	.globl _TXFILTCFG
+                                    415 	.globl _PTEST1
+                                    416 	.globl _PTEST0
+                                    417 	.globl _ATEST
+                                    418 	.globl _DACTEST2
+                                    419 	.globl _DACTEST1
+                                    420 	.globl _DACTEST0
+                                    421 	.globl _MDMTEST1
+                                    422 	.globl _MDMTEST0
+                                    423 	.globl _ADCTEST2
+                                    424 	.globl _ADCTEST1
+                                    425 	.globl _ADCTEST0
+                                    426 	.globl _AGCCTRL3
+                                    427 	.globl _AGCCTRL2
+                                    428 	.globl _AGCCTRL1
+                                    429 	.globl _AGCCTRL0
+                                    430 	.globl _FSCAL3
+                                    431 	.globl _FSCAL2
+                                    432 	.globl _FSCAL1
+                                    433 	.globl _FSCAL0
+                                    434 	.globl _FSCTRL
+                                    435 	.globl _RXCTRL
+                                    436 	.globl _FREQEST
+                                    437 	.globl _MDMCTRL1
+                                    438 	.globl _MDMCTRL0
+                                    439 	.globl _RFRND
+                                    440 	.globl _RFERRM
+                                    441 	.globl _RFIRQM1
+                                    442 	.globl _RFIRQM0
+                                    443 	.globl _TXLAST_PTR
+                                    444 	.globl _TXFIRST_PTR
+                                    445 	.globl _RXP1_PTR
+                                    446 	.globl _RXLAST_PTR
+                                    447 	.globl _RXFIRST_PTR
+                                    448 	.globl _TXFIFOCNT
+                                    449 	.globl _RXFIFOCNT
+                                    450 	.globl _RXFIRST
+                                    451 	.globl _RSSISTAT
+                                    452 	.globl _RSSI
+                                    453 	.globl _CCACTRL1
+                                    454 	.globl _CCACTRL0
+                                    455 	.globl _FSMCTRL
+                                    456 	.globl _FIFOPCTRL
+                                    457 	.globl _FSMSTAT1
+                                    458 	.globl _FSMSTAT0
+                                    459 	.globl _TXCTRL
+                                    460 	.globl _TXPOWER
+                                    461 	.globl _FREQCTRL
+                                    462 	.globl _FREQTUNE
+                                    463 	.globl _RXMASKCLR
+                                    464 	.globl _RXMASKSET
+                                    465 	.globl _RXENABLE
+                                    466 	.globl _FRMCTRL1
+                                    467 	.globl _FRMCTRL0
+                                    468 	.globl _SRCEXTEN2
+                                    469 	.globl _SRCEXTEN1
+                                    470 	.globl _SRCEXTEN0
+                                    471 	.globl _SRCSHORTEN2
+                                    472 	.globl _SRCSHORTEN1
+                                    473 	.globl _SRCSHORTEN0
+                                    474 	.globl _SRCMATCH
+                                    475 	.globl _FRMFILT1
+                                    476 	.globl _FRMFILT0
+                                    477 	.globl _SHORT_ADDR1
+                                    478 	.globl _SHORT_ADDR0
+                                    479 	.globl _PAN_ID1
+                                    480 	.globl _PAN_ID0
+                                    481 	.globl _EXT_ADDR7
+                                    482 	.globl _EXT_ADDR6
+                                    483 	.globl _EXT_ADDR5
+                                    484 	.globl _EXT_ADDR4
+                                    485 	.globl _EXT_ADDR3
+                                    486 	.globl _EXT_ADDR2
+                                    487 	.globl _EXT_ADDR1
+                                    488 	.globl _EXT_ADDR0
+                                    489 	.globl _SRCSHORTPENDEN2
+                                    490 	.globl _SRCSHORTPENDEN1
+                                    491 	.globl _SRCSHORTPENDEN0
+                                    492 	.globl _SRCEXTPENDEN2
+                                    493 	.globl _SRCEXTPENDEN1
+                                    494 	.globl _SRCEXTPENDEN0
+                                    495 	.globl _SRCRESINDEX
+                                    496 	.globl _SRCRESMASK2
+                                    497 	.globl _SRCRESMASK1
+                                    498 	.globl _SRCRESMASK0
+                                    499 	.globl _SRC_ADDR_TABLE
+                                    500 	.globl _TXFIFO
+                                    501 	.globl _RXFIFO
+                                    502 	.globl _RFCORE_RAM
+                                    503 	.globl _CMPCTL
+                                    504 	.globl _OPAMPS
+                                    505 	.globl _OPAMPC
+                                    506 	.globl _STCV2
+                                    507 	.globl _STCV1
+                                    508 	.globl _STCV0
+                                    509 	.globl _STCS
+                                    510 	.globl _STCC
+                                    511 	.globl _T1CC4H
+                                    512 	.globl _T1CC4L
+                                    513 	.globl _T1CC3H
+                                    514 	.globl _T1CC3L
+                                    515 	.globl _XX_T1CC2H
+                                    516 	.globl _XX_T1CC2L
+                                    517 	.globl _XX_T1CC1H
+                                    518 	.globl _XX_T1CC1L
+                                    519 	.globl _XX_T1CC0H
+                                    520 	.globl _XX_T1CC0L
+                                    521 	.globl _T1CCTL4
+                                    522 	.globl _T1CCTL3
+                                    523 	.globl _XX_T1CCTL2
+                                    524 	.globl _XX_T1CCTL1
+                                    525 	.globl _XX_T1CCTL0
+                                    526 	.globl _CLD
+                                    527 	.globl _IRCTL
+                                    528 	.globl _CHIPINFO1
+                                    529 	.globl _CHIPINFO0
+                                    530 	.globl _FWDATA
+                                    531 	.globl _FADDRH
+                                    532 	.globl _FADDRL
+                                    533 	.globl _FCTL
+                                    534 	.globl _IVCTRL
+                                    535 	.globl _BATTMON
+                                    536 	.globl _SRCRC
+                                    537 	.globl _DBGDATA
+                                    538 	.globl _TESTREG0
+                                    539 	.globl _CHIPID
+                                    540 	.globl _CHVER
+                                    541 	.globl _OBSSEL5
+                                    542 	.globl _OBSSEL4
+                                    543 	.globl _OBSSEL3
+                                    544 	.globl _OBSSEL2
+                                    545 	.globl _OBSSEL1
+                                    546 	.globl _OBSSEL0
+                                    547 	.globl _I2CIO
+                                    548 	.globl _I2CWC
+                                    549 	.globl _I2CADDR
+                                    550 	.globl _I2CDATA
+                                    551 	.globl _I2CSTAT
+                                    552 	.globl _I2CCFG
+                                    553 	.globl _OPAMPMC
+                                    554 	.globl _MONMUX
+                                    555 	.globl _route_discovery_open
+                                    556 	.globl _route_discovery_close
+                                    557 	.globl _route_discovery_discover
+                                    558 ;--------------------------------------------------------
+                                    559 ; special function registers
+                                    560 ;--------------------------------------------------------
+                                    561 	.area RSEG    (ABS,DATA)
+      000000                        562 	.org 0x0000
+                           000080   563 _P0	=	0x0080
+                           000081   564 _SP	=	0x0081
+                           000082   565 _DPL0	=	0x0082
+                           000083   566 _DPH0	=	0x0083
+                           000084   567 _DPL1	=	0x0084
+                           000085   568 _DPH1	=	0x0085
+                           000087   569 _PCON	=	0x0087
+                           000088   570 _TCON	=	0x0088
+                           000090   571 _P1	=	0x0090
+                           000092   572 _DPS	=	0x0092
+                           000098   573 _S0CON	=	0x0098
+                           00009A   574 _IEN2	=	0x009a
+                           00009B   575 _S1CON	=	0x009b
+                           0000A0   576 _P2	=	0x00a0
+                           0000A8   577 _IEN0	=	0x00a8
+                           0000A9   578 _IP0	=	0x00a9
+                           0000B8   579 _IEN1	=	0x00b8
+                           0000B9   580 _IP1	=	0x00b9
+                           0000C0   581 _IRCON	=	0x00c0
+                           0000D0   582 _PSW	=	0x00d0
+                           0000E0   583 _ACC	=	0x00e0
+                           0000E8   584 _IRCON2	=	0x00e8
+                           0000F0   585 _B	=	0x00f0
+                           0000B4   586 _ADCCON1	=	0x00b4
+                           0000B5   587 _ADCCON2	=	0x00b5
+                           0000B6   588 _ADCCON3	=	0x00b6
+                           0000BA   589 _ADCL	=	0x00ba
+                           0000BB   590 _ADCH	=	0x00bb
+                           0000BC   591 _RNDL	=	0x00bc
+                           0000BD   592 _RNDH	=	0x00bd
+                           0000B1   593 _ENCDI	=	0x00b1
+                           0000B2   594 _ENCDO	=	0x00b2
+                           0000B3   595 _ENCCS	=	0x00b3
+                           0000D1   596 _DMAIRQ	=	0x00d1
+                           0000D2   597 _DMA1CFGL	=	0x00d2
+                           0000D3   598 _DMA1CFGH	=	0x00d3
+                           0000D4   599 _DMA0CFGL	=	0x00d4
+                           0000D5   600 _DMA0CFGH	=	0x00d5
+                           0000D6   601 _DMAARM	=	0x00d6
+                           0000D7   602 _DMAREQ	=	0x00d7
+                           000089   603 _P0IFG	=	0x0089
+                           00008A   604 _P1IFG	=	0x008a
+                           00008B   605 _P2IFG	=	0x008b
+                           00008C   606 _PICTL	=	0x008c
+                           0000AB   607 _P0IEN	=	0x00ab
+                           00008D   608 _P1IEN	=	0x008d
+                           0000AC   609 _P2IEN	=	0x00ac
+                           00008F   610 _P0INP	=	0x008f
+                           0000F1   611 _PERCFG	=	0x00f1
+                           0000F2   612 _APCFG	=	0x00f2
+                           0000F3   613 _P0SEL	=	0x00f3
+                           0000F4   614 _P1SEL	=	0x00f4
+                           0000F5   615 _P2SEL	=	0x00f5
+                           0000F6   616 _P1INP	=	0x00f6
+                           0000F7   617 _P2INP	=	0x00f7
+                           0000FD   618 _P0DIR	=	0x00fd
+                           0000FE   619 _P1DIR	=	0x00fe
+                           0000FF   620 _P2DIR	=	0x00ff
+                           0000AE   621 _PMUX	=	0x00ae
+                           000093   622 _MPAGE	=	0x0093
+                           000093   623 __XPAGE	=	0x0093
+                           0000C7   624 _MEMCTR	=	0x00c7
+                           00009F   625 _FMAP	=	0x009f
+                           00009F   626 _PSBANK	=	0x009f
+                           000091   627 _RFIRQF1	=	0x0091
+                           0000D9   628 _RFD	=	0x00d9
+                           0000E1   629 _RFST	=	0x00e1
+                           0000E9   630 _RFIRQF0	=	0x00e9
+                           0000BF   631 _RFERRF	=	0x00bf
+                           000095   632 _ST0	=	0x0095
+                           000096   633 _ST1	=	0x0096
+                           000097   634 _ST2	=	0x0097
+                           0000AD   635 _STLOAD	=	0x00ad
+                           0000BE   636 _SLEEPCMD	=	0x00be
+                           00009D   637 _SLEEPSTA	=	0x009d
+                           0000C6   638 _CLKCONCMD	=	0x00c6
+                           00009E   639 _CLKCONSTA	=	0x009e
+                           0000DA   640 _T1CC0L	=	0x00da
+                           0000DB   641 _T1CC0H	=	0x00db
+                           0000DC   642 _T1CC1L	=	0x00dc
+                           0000DD   643 _T1CC1H	=	0x00dd
+                           0000DE   644 _T1CC2L	=	0x00de
+                           0000DF   645 _T1CC2H	=	0x00df
+                           0000E2   646 _T1CNTL	=	0x00e2
+                           0000E3   647 _T1CNTH	=	0x00e3
+                           0000E4   648 _T1CTL	=	0x00e4
+                           0000E5   649 _T1CCTL0	=	0x00e5
+                           0000E6   650 _T1CCTL1	=	0x00e6
+                           0000E7   651 _T1CCTL2	=	0x00e7
+                           0000AF   652 _T1STAT	=	0x00af
+                           000094   653 _T2CTRL	=	0x0094
+                           00009C   654 _T2EVTCFG	=	0x009c
+                           0000A1   655 _T2IRQF	=	0x00a1
+                           0000A2   656 _T2M0	=	0x00a2
+                           0000A3   657 _T2M1	=	0x00a3
+                           0000A4   658 _T2MOVF0	=	0x00a4
+                           0000A5   659 _T2MOVF1	=	0x00a5
+                           0000A6   660 _T2MOVF2	=	0x00a6
+                           0000A7   661 _T2IRQM	=	0x00a7
+                           0000C3   662 _T2MSEL	=	0x00c3
+                           0000CA   663 _T3CNT	=	0x00ca
+                           0000CB   664 _T3CTL	=	0x00cb
+                           0000CC   665 _T3CCTL0	=	0x00cc
+                           0000CD   666 _T3CC0	=	0x00cd
+                           0000CE   667 _T3CCTL1	=	0x00ce
+                           0000CF   668 _T3CC1	=	0x00cf
+                           0000EA   669 _T4CNT	=	0x00ea
+                           0000EB   670 _T4CTL	=	0x00eb
+                           0000EC   671 _T4CCTL0	=	0x00ec
+                           0000ED   672 _T4CC0	=	0x00ed
+                           0000EE   673 _T4CCTL1	=	0x00ee
+                           0000EF   674 _T4CC1	=	0x00ef
+                           0000D8   675 _TIMIF	=	0x00d8
+                           000086   676 _U0CSR	=	0x0086
+                           0000C1   677 _U0DBUF	=	0x00c1
+                           0000C2   678 _U0BAUD	=	0x00c2
+                           0000C4   679 _U0UCR	=	0x00c4
+                           0000C5   680 _U0GCR	=	0x00c5
+                           0000F8   681 _U1CSR	=	0x00f8
+                           0000F9   682 _U1DBUF	=	0x00f9
+                           0000FA   683 _U1BAUD	=	0x00fa
+                           0000FB   684 _U1UCR	=	0x00fb
+                           0000FC   685 _U1GCR	=	0x00fc
+                           0000C9   686 _WDCTL	=	0x00c9
+                                    687 ;--------------------------------------------------------
+                                    688 ; special function bits
+                                    689 ;--------------------------------------------------------
+                                    690 	.area RSEG    (ABS,DATA)
+      000000                        691 	.org 0x0000
+                           000087   692 _P0_7	=	0x0087
+                           000086   693 _P0_6	=	0x0086
+                           000085   694 _P0_5	=	0x0085
+                           000084   695 _P0_4	=	0x0084
+                           000083   696 _P0_3	=	0x0083
+                           000082   697 _P0_2	=	0x0082
+                           000081   698 _P0_1	=	0x0081
+                           000080   699 _P0_0	=	0x0080
+                           00008F   700 _URX1IF	=	0x008f
+                           00008D   701 _ADCIF	=	0x008d
+                           00008B   702 _URX0IF	=	0x008b
+                           00008A   703 _IT1	=	0x008a
+                           000089   704 _RFERRIF	=	0x0089
+                           000088   705 _IT0	=	0x0088
+                           000097   706 _P1_7	=	0x0097
+                           000096   707 _P1_6	=	0x0096
+                           000095   708 _P1_5	=	0x0095
+                           000094   709 _P1_4	=	0x0094
+                           000093   710 _P1_3	=	0x0093
+                           000092   711 _P1_2	=	0x0092
+                           000091   712 _P1_1	=	0x0091
+                           000090   713 _P1_0	=	0x0090
+                           000099   714 _ENCIF_1	=	0x0099
+                           000098   715 _ENCIF_0	=	0x0098
+                           0000A7   716 _P2_7	=	0x00a7
+                           0000A6   717 _P2_6	=	0x00a6
+                           0000A5   718 _P2_5	=	0x00a5
+                           0000A4   719 _P2_4	=	0x00a4
+                           0000A3   720 _P2_3	=	0x00a3
+                           0000A2   721 _P2_2	=	0x00a2
+                           0000A1   722 _P2_1	=	0x00a1
+                           0000A0   723 _P2_0	=	0x00a0
+                           0000AF   724 _EA	=	0x00af
+                           0000AD   725 _STIE	=	0x00ad
+                           0000AC   726 _ENCIE	=	0x00ac
+                           0000AB   727 _URX1IE	=	0x00ab
+                           0000AA   728 _URX0IE	=	0x00aa
+                           0000A9   729 _ADCIE	=	0x00a9
+                           0000A8   730 _RFERRIE	=	0x00a8
+                           0000BD   731 _P0IE	=	0x00bd
+                           0000BC   732 _T4IE	=	0x00bc
+                           0000BB   733 _T3IE	=	0x00bb
+                           0000BA   734 _T2IE	=	0x00ba
+                           0000B9   735 _T1IE	=	0x00b9
+                           0000B8   736 _DMAIE	=	0x00b8
+                           0000C7   737 _STIF	=	0x00c7
+                           0000C5   738 _P0IF	=	0x00c5
+                           0000C4   739 _T4IF	=	0x00c4
+                           0000C3   740 _T3IF	=	0x00c3
+                           0000C2   741 _T2IF	=	0x00c2
+                           0000C1   742 _T1IF	=	0x00c1
+                           0000C0   743 _DMAIF	=	0x00c0
+                           0000D7   744 _CY	=	0x00d7
+                           0000D6   745 _AC	=	0x00d6
+                           0000D5   746 _F0	=	0x00d5
+                           0000D4   747 _RS1	=	0x00d4
+                           0000D3   748 _RS0	=	0x00d3
+                           0000D2   749 _OV	=	0x00d2
+                           0000D1   750 _F1	=	0x00d1
+                           0000D0   751 _P	=	0x00d0
+                           0000E7   752 _ACC_7	=	0x00e7
+                           0000E6   753 _ACC_6	=	0x00e6
+                           0000E5   754 _ACC_5	=	0x00e5
+                           0000E4   755 _ACC_4	=	0x00e4
+                           0000E3   756 _ACC_3	=	0x00e3
+                           0000E2   757 _ACC_2	=	0x00e2
+                           0000E1   758 _ACC_1	=	0x00e1
+                           0000E0   759 _ACC_0	=	0x00e0
+                           0000EC   760 _WDTIF	=	0x00ec
+                           0000EB   761 _P1IF	=	0x00eb
+                           0000EA   762 _UTX1IF	=	0x00ea
+                           0000E9   763 _UTX0IF	=	0x00e9
+                           0000E8   764 _P2IF	=	0x00e8
+                           0000F7   765 _B_7	=	0x00f7
+                           0000F6   766 _B_6	=	0x00f6
+                           0000F5   767 _B_5	=	0x00f5
+                           0000F4   768 _B_4	=	0x00f4
+                           0000F3   769 _B_3	=	0x00f3
+                           0000F2   770 _B_2	=	0x00f2
+                           0000F1   771 _B_1	=	0x00f1
+                           0000F0   772 _B_0	=	0x00f0
+                           0000DE   773 _OVFIM	=	0x00de
+                           0000DD   774 _T4CH1IF	=	0x00dd
+                           0000DC   775 _T4CH0IF	=	0x00dc
+                           0000DB   776 _T4OVFIF	=	0x00db
+                           0000DA   777 _T3CH1IF	=	0x00da
+                           0000D9   778 _T3CH0IF	=	0x00d9
+                           0000D8   779 _T3OVFIF	=	0x00d8
+                           0000FF   780 _MODE	=	0x00ff
+                           0000FE   781 _RE	=	0x00fe
+                           0000FD   782 _SLAVE	=	0x00fd
+                           0000FC   783 _FE	=	0x00fc
+                           0000FB   784 _ERR	=	0x00fb
+                           0000FA   785 _RX_BYTE	=	0x00fa
+                           0000F9   786 _TX_BYTE	=	0x00f9
+                           0000F8   787 _ACTIVE	=	0x00f8
+                                    788 ;--------------------------------------------------------
+                                    789 ; overlayable register banks
+                                    790 ;--------------------------------------------------------
+                                    791 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        792 	.ds 8
+                                    793 ;--------------------------------------------------------
+                                    794 ; internal ram data
+                                    795 ;--------------------------------------------------------
+                                    796 	.area DSEG    (DATA)
+                                    797 ;--------------------------------------------------------
+                                    798 ; overlayable items in internal ram 
+                                    799 ;--------------------------------------------------------
+                                    800 ;--------------------------------------------------------
+                                    801 ; indirectly addressable internal ram data
+                                    802 ;--------------------------------------------------------
+                                    803 	.area ISEG    (DATA)
+                                    804 ;--------------------------------------------------------
+                                    805 ; absolute internal ram data
+                                    806 ;--------------------------------------------------------
+                                    807 	.area IABS    (ABS,DATA)
+                                    808 	.area IABS    (ABS,DATA)
+                                    809 ;--------------------------------------------------------
+                                    810 ; bit data
+                                    811 ;--------------------------------------------------------
+                                    812 	.area BSEG    (BIT)
+                                    813 ;--------------------------------------------------------
+                                    814 ; paged external ram data
+                                    815 ;--------------------------------------------------------
+                                    816 	.area PSEG    (PAG,XDATA)
+                                    817 ;--------------------------------------------------------
+                                    818 ; external ram data
+                                    819 ;--------------------------------------------------------
+                                    820 	.area XSEG    (XDATA)
+                           0061A6   821 _MONMUX	=	0x61a6
+                           0061A6   822 _OPAMPMC	=	0x61a6
+                           006230   823 _I2CCFG	=	0x6230
+                           006231   824 _I2CSTAT	=	0x6231
+                           006232   825 _I2CDATA	=	0x6232
+                           006233   826 _I2CADDR	=	0x6233
+                           006234   827 _I2CWC	=	0x6234
+                           006235   828 _I2CIO	=	0x6235
+                           006243   829 _OBSSEL0	=	0x6243
+                           006244   830 _OBSSEL1	=	0x6244
+                           006245   831 _OBSSEL2	=	0x6245
+                           006246   832 _OBSSEL3	=	0x6246
+                           006247   833 _OBSSEL4	=	0x6247
+                           006248   834 _OBSSEL5	=	0x6248
+                           006249   835 _CHVER	=	0x6249
+                           00624A   836 _CHIPID	=	0x624a
+                           00624B   837 _TESTREG0	=	0x624b
+                           006260   838 _DBGDATA	=	0x6260
+                           006262   839 _SRCRC	=	0x6262
+                           006264   840 _BATTMON	=	0x6264
+                           006265   841 _IVCTRL	=	0x6265
+                           006270   842 _FCTL	=	0x6270
+                           006271   843 _FADDRL	=	0x6271
+                           006272   844 _FADDRH	=	0x6272
+                           006273   845 _FWDATA	=	0x6273
+                           006276   846 _CHIPINFO0	=	0x6276
+                           006277   847 _CHIPINFO1	=	0x6277
+                           006281   848 _IRCTL	=	0x6281
+                           006290   849 _CLD	=	0x6290
+                           0062A0   850 _XX_T1CCTL0	=	0x62a0
+                           0062A1   851 _XX_T1CCTL1	=	0x62a1
+                           0062A2   852 _XX_T1CCTL2	=	0x62a2
+                           0062A3   853 _T1CCTL3	=	0x62a3
+                           0062A4   854 _T1CCTL4	=	0x62a4
+                           0062A6   855 _XX_T1CC0L	=	0x62a6
+                           0062A7   856 _XX_T1CC0H	=	0x62a7
+                           0062A8   857 _XX_T1CC1L	=	0x62a8
+                           0062A9   858 _XX_T1CC1H	=	0x62a9
+                           0062AA   859 _XX_T1CC2L	=	0x62aa
+                           0062AB   860 _XX_T1CC2H	=	0x62ab
+                           0062AC   861 _T1CC3L	=	0x62ac
+                           0062AD   862 _T1CC3H	=	0x62ad
+                           0062AE   863 _T1CC4L	=	0x62ae
+                           0062AF   864 _T1CC4H	=	0x62af
+                           0062B0   865 _STCC	=	0x62b0
+                           0062B1   866 _STCS	=	0x62b1
+                           0062B2   867 _STCV0	=	0x62b2
+                           0062B3   868 _STCV1	=	0x62b3
+                           0062B4   869 _STCV2	=	0x62b4
+                           0062C0   870 _OPAMPC	=	0x62c0
+                           0062C1   871 _OPAMPS	=	0x62c1
+                           0062D0   872 _CMPCTL	=	0x62d0
+                           006000   873 _RFCORE_RAM	=	0x6000
+                           006000   874 _RXFIFO	=	0x6000
+                           006080   875 _TXFIFO	=	0x6080
+                           006100   876 _SRC_ADDR_TABLE	=	0x6100
+                           006160   877 _SRCRESMASK0	=	0x6160
+                           006161   878 _SRCRESMASK1	=	0x6161
+                           006162   879 _SRCRESMASK2	=	0x6162
+                           006163   880 _SRCRESINDEX	=	0x6163
+                           006164   881 _SRCEXTPENDEN0	=	0x6164
+                           006165   882 _SRCEXTPENDEN1	=	0x6165
+                           006166   883 _SRCEXTPENDEN2	=	0x6166
+                           006167   884 _SRCSHORTPENDEN0	=	0x6167
+                           006168   885 _SRCSHORTPENDEN1	=	0x6168
+                           006169   886 _SRCSHORTPENDEN2	=	0x6169
+                           00616A   887 _EXT_ADDR0	=	0x616a
+                           00616B   888 _EXT_ADDR1	=	0x616b
+                           00616C   889 _EXT_ADDR2	=	0x616c
+                           00616D   890 _EXT_ADDR3	=	0x616d
+                           00616E   891 _EXT_ADDR4	=	0x616e
+                           00616F   892 _EXT_ADDR5	=	0x616f
+                           006170   893 _EXT_ADDR6	=	0x6170
+                           006171   894 _EXT_ADDR7	=	0x6171
+                           006172   895 _PAN_ID0	=	0x6172
+                           006173   896 _PAN_ID1	=	0x6173
+                           006174   897 _SHORT_ADDR0	=	0x6174
+                           006175   898 _SHORT_ADDR1	=	0x6175
+                           006180   899 _FRMFILT0	=	0x6180
+                           006181   900 _FRMFILT1	=	0x6181
+                           006182   901 _SRCMATCH	=	0x6182
+                           006183   902 _SRCSHORTEN0	=	0x6183
+                           006184   903 _SRCSHORTEN1	=	0x6184
+                           006185   904 _SRCSHORTEN2	=	0x6185
+                           006186   905 _SRCEXTEN0	=	0x6186
+                           006187   906 _SRCEXTEN1	=	0x6187
+                           006188   907 _SRCEXTEN2	=	0x6188
+                           006189   908 _FRMCTRL0	=	0x6189
+                           00618A   909 _FRMCTRL1	=	0x618a
+                           00618B   910 _RXENABLE	=	0x618b
+                           00618C   911 _RXMASKSET	=	0x618c
+                           00618D   912 _RXMASKCLR	=	0x618d
+                           00618E   913 _FREQTUNE	=	0x618e
+                           00618F   914 _FREQCTRL	=	0x618f
+                           006190   915 _TXPOWER	=	0x6190
+                           006191   916 _TXCTRL	=	0x6191
+                           006192   917 _FSMSTAT0	=	0x6192
+                           006193   918 _FSMSTAT1	=	0x6193
+                           006194   919 _FIFOPCTRL	=	0x6194
+                           006195   920 _FSMCTRL	=	0x6195
+                           006196   921 _CCACTRL0	=	0x6196
+                           006197   922 _CCACTRL1	=	0x6197
+                           006198   923 _RSSI	=	0x6198
+                           006199   924 _RSSISTAT	=	0x6199
+                           00619A   925 _RXFIRST	=	0x619a
+                           00619B   926 _RXFIFOCNT	=	0x619b
+                           00619C   927 _TXFIFOCNT	=	0x619c
+                           00619D   928 _RXFIRST_PTR	=	0x619d
+                           00619E   929 _RXLAST_PTR	=	0x619e
+                           00619F   930 _RXP1_PTR	=	0x619f
+                           0061A1   931 _TXFIRST_PTR	=	0x61a1
+                           0061A2   932 _TXLAST_PTR	=	0x61a2
+                           0061A3   933 _RFIRQM0	=	0x61a3
+                           0061A4   934 _RFIRQM1	=	0x61a4
+                           0061A5   935 _RFERRM	=	0x61a5
+                           0061A7   936 _RFRND	=	0x61a7
+                           0061A8   937 _MDMCTRL0	=	0x61a8
+                           0061A9   938 _MDMCTRL1	=	0x61a9
+                           0061AA   939 _FREQEST	=	0x61aa
+                           0061AB   940 _RXCTRL	=	0x61ab
+                           0061AC   941 _FSCTRL	=	0x61ac
+                           0061AD   942 _FSCAL0	=	0x61ad
+                           0061AE   943 _FSCAL1	=	0x61ae
+                           0061AF   944 _FSCAL2	=	0x61af
+                           0061B0   945 _FSCAL3	=	0x61b0
+                           0061B1   946 _AGCCTRL0	=	0x61b1
+                           0061B2   947 _AGCCTRL1	=	0x61b2
+                           0061B3   948 _AGCCTRL2	=	0x61b3
+                           0061B4   949 _AGCCTRL3	=	0x61b4
+                           0061B5   950 _ADCTEST0	=	0x61b5
+                           0061B6   951 _ADCTEST1	=	0x61b6
+                           0061B7   952 _ADCTEST2	=	0x61b7
+                           0061B8   953 _MDMTEST0	=	0x61b8
+                           0061B9   954 _MDMTEST1	=	0x61b9
+                           0061BA   955 _DACTEST0	=	0x61ba
+                           0061BB   956 _DACTEST1	=	0x61bb
+                           0061BC   957 _DACTEST2	=	0x61bc
+                           0061BD   958 _ATEST	=	0x61bd
+                           0061BE   959 _PTEST0	=	0x61be
+                           0061BF   960 _PTEST1	=	0x61bf
+                           0061FA   961 _TXFILTCFG	=	0x61fa
+                           0061EB   962 _RFC_OBS_CTRL0	=	0x61eb
+                           0061EC   963 _RFC_OBS_CTRL1	=	0x61ec
+                           0061ED   964 _RFC_OBS_CTRL2	=	0x61ed
+                           0061C0   965 _CSPPROG0	=	0x61c0
+                           0061C1   966 _CSPPROG1	=	0x61c1
+                           0061C2   967 _CSPPROG2	=	0x61c2
+                           0061C3   968 _CSPPROG3	=	0x61c3
+                           0061C4   969 _CSPPROG4	=	0x61c4
+                           0061C5   970 _CSPPROG5	=	0x61c5
+                           0061C6   971 _CSPPROG6	=	0x61c6
+                           0061C7   972 _CSPPROG7	=	0x61c7
+                           0061C8   973 _CSPPROG8	=	0x61c8
+                           0061C9   974 _CSPPROG9	=	0x61c9
+                           0061CA   975 _CSPPROG10	=	0x61ca
+                           0061CB   976 _CSPPROG11	=	0x61cb
+                           0061CC   977 _CSPPROG12	=	0x61cc
+                           0061CD   978 _CSPPROG13	=	0x61cd
+                           0061CE   979 _CSPPROG14	=	0x61ce
+                           0061CF   980 _CSPPROG15	=	0x61cf
+                           0061D0   981 _CSPPROG16	=	0x61d0
+                           0061D1   982 _CSPPROG17	=	0x61d1
+                           0061D2   983 _CSPPROG18	=	0x61d2
+                           0061D3   984 _CSPPROG19	=	0x61d3
+                           0061D4   985 _CSPPROG20	=	0x61d4
+                           0061D5   986 _CSPPROG21	=	0x61d5
+                           0061D6   987 _CSPPROG22	=	0x61d6
+                           0061D7   988 _CSPPROG23	=	0x61d7
+                           0061E0   989 _CSPCTRL	=	0x61e0
+                           0061E1   990 _CSPSTAT	=	0x61e1
+                           0061E2   991 _CSPX	=	0x61e2
+                           0061E3   992 _CSPY	=	0x61e3
+                           0061E4   993 _CSPZ	=	0x61e4
+                           0061E5   994 _CSPT	=	0x61e5
+                           006200   995 _USBADDR	=	0x6200
+                           006201   996 _USBPOW	=	0x6201
+                           006202   997 _USBIIF	=	0x6202
+                           006204   998 _USBOIF	=	0x6204
+                           006206   999 _USBCIF	=	0x6206
+                           006207  1000 _USBIIE	=	0x6207
+                           006209  1001 _USBOIE	=	0x6209
+                           00620B  1002 _USBCIE	=	0x620b
+                           00620C  1003 _USBFRML	=	0x620c
+                           00620D  1004 _USBFRMH	=	0x620d
+                           00620E  1005 _USBINDEX	=	0x620e
+                           00620F  1006 _USBCTRL	=	0x620f
+                           006210  1007 _USBMAXI	=	0x6210
+                           006211  1008 _USBCS0	=	0x6211
+                           006211  1009 _USBCSIL	=	0x6211
+                           006212  1010 _USBCSIH	=	0x6212
+                           006213  1011 _USBMAXO	=	0x6213
+                           006214  1012 _USBCSOL	=	0x6214
+                           006215  1013 _USBCSOH	=	0x6215
+                           006216  1014 _USBCNT0	=	0x6216
+                           006216  1015 _USBCNTL	=	0x6216
+                           006217  1016 _USBCNTH	=	0x6217
+                           006220  1017 _USBF0	=	0x6220
+                           006222  1018 _USBF1	=	0x6222
+                           006224  1019 _USBF2	=	0x6224
+                           006226  1020 _USBF3	=	0x6226
+                           006228  1021 _USBF4	=	0x6228
+                           00622A  1022 _USBF5	=	0x622a
+                           007080  1023 _X_P0	=	0x7080
+                           007086  1024 _X_U0CSR	=	0x7086
+                           007089  1025 _X_P0IFG	=	0x7089
+                           00708A  1026 _X_P1IFG	=	0x708a
+                           00708B  1027 _X_P2IFG	=	0x708b
+                           00708C  1028 _X_PICTL	=	0x708c
+                           00708D  1029 _X_P1IEN	=	0x708d
+                           00708F  1030 _X_P0INP	=	0x708f
+                           007090  1031 _X_P1	=	0x7090
+                           007091  1032 _X_RFIRQF1	=	0x7091
+                           007093  1033 _X_MPAGE	=	0x7093
+                           007093  1034 _X__XPAGE	=	0x7093
+                           007094  1035 _X_T2CTRL	=	0x7094
+                           007095  1036 _X_ST0	=	0x7095
+                           007096  1037 _X_ST1	=	0x7096
+                           007097  1038 _X_ST2	=	0x7097
+                           00709C  1039 _X_T2EVTCFG	=	0x709c
+                           00709D  1040 _X_SLEEPSTA	=	0x709d
+                           00709E  1041 _X_CLKCONSTA	=	0x709e
+                           00709F  1042 _X_FMAP	=	0x709f
+                           00709F  1043 _X_PSBANK	=	0x709f
+                           0070A0  1044 _X_P2	=	0x70a0
+                           0070A1  1045 _X_T2IRQF	=	0x70a1
+                           0070A2  1046 _X_T2M0	=	0x70a2
+                           0070A3  1047 _X_T2M1	=	0x70a3
+                           0070A4  1048 _X_T2MOVF0	=	0x70a4
+                           0070A5  1049 _X_T2MOVF1	=	0x70a5
+                           0070A6  1050 _X_T2MOVF2	=	0x70a6
+                           0070A7  1051 _X_T2IRQM	=	0x70a7
+                           0070AB  1052 _X_P0IEN	=	0x70ab
+                           0070AC  1053 _X_P2IEN	=	0x70ac
+                           0070AD  1054 _X_STLOAD	=	0x70ad
+                           0070AE  1055 _X_PMUX	=	0x70ae
+                           0070AF  1056 _X_T1STAT	=	0x70af
+                           0070B1  1057 _X_ENCDI	=	0x70b1
+                           0070B2  1058 _X_ENCDO	=	0x70b2
+                           0070B3  1059 _X_ENCCS	=	0x70b3
+                           0070B4  1060 _X_ADCCON1	=	0x70b4
+                           0070B5  1061 _X_ADCCON2	=	0x70b5
+                           0070B6  1062 _X_ADCCON3	=	0x70b6
+                           0070BA  1063 _X_ADCL	=	0x70ba
+                           0070BB  1064 _X_ADCH	=	0x70bb
+                           0070BC  1065 _X_RNDL	=	0x70bc
+                           0070BD  1066 _X_RNDH	=	0x70bd
+                           0070BE  1067 _X_SLEEPCMD	=	0x70be
+                           0070BF  1068 _X_RFERRF	=	0x70bf
+                           0070C1  1069 _X_U0DBUF	=	0x70c1
+                           0070C2  1070 _X_U0BAUD	=	0x70c2
+                           0070C3  1071 _X_T2MSEL	=	0x70c3
+                           0070C4  1072 _X_U0UCR	=	0x70c4
+                           0070C5  1073 _X_U0GCR	=	0x70c5
+                           0070C6  1074 _X_CLKCONCMD	=	0x70c6
+                           0070C7  1075 _X_MEMCTR	=	0x70c7
+                           0070C9  1076 _X_WDCTL	=	0x70c9
+                           0070CA  1077 _X_T3CNT	=	0x70ca
+                           0070CB  1078 _X_T3CTL	=	0x70cb
+                           0070CC  1079 _X_T3CCTL0	=	0x70cc
+                           0070CD  1080 _X_T3CC0	=	0x70cd
+                           0070CE  1081 _X_T3CCTL1	=	0x70ce
+                           0070CF  1082 _X_T3CC1	=	0x70cf
+                           0070D1  1083 _X_DMAIRQ	=	0x70d1
+                           0070D2  1084 _X_DMA1CFGL	=	0x70d2
+                           0070D3  1085 _X_DMA1CFGH	=	0x70d3
+                           0070D4  1086 _X_DMA0CFGL	=	0x70d4
+                           0070D5  1087 _X_DMA0CFGH	=	0x70d5
+                           0070D6  1088 _X_DMAARM	=	0x70d6
+                           0070D7  1089 _X_DMAREQ	=	0x70d7
+                           0070D8  1090 _X_TIMIF	=	0x70d8
+                           0070D9  1091 _X_RFD	=	0x70d9
+                           0070DA  1092 _X_T1CC0L	=	0x70da
+                           0070DB  1093 _X_T1CC0H	=	0x70db
+                           0070DC  1094 _X_T1CC1L	=	0x70dc
+                           0070DD  1095 _X_T1CC1H	=	0x70dd
+                           0070DE  1096 _X_T1CC2L	=	0x70de
+                           0070DF  1097 _X_T1CC2H	=	0x70df
+                           0070E1  1098 _X_RFST	=	0x70e1
+                           0070E2  1099 _X_T1CNTL	=	0x70e2
+                           0070E3  1100 _X_T1CNTH	=	0x70e3
+                           0070E4  1101 _X_T1CTL	=	0x70e4
+                           0070E5  1102 _X_T1CCTL0	=	0x70e5
+                           0070E6  1103 _X_T1CCTL1	=	0x70e6
+                           0070E7  1104 _X_T1CCTL2	=	0x70e7
+                           0070E9  1105 _X_RFIRQF0	=	0x70e9
+                           0070EA  1106 _X_T4CNT	=	0x70ea
+                           0070EB  1107 _X_T4CTL	=	0x70eb
+                           0070EC  1108 _X_T4CCTL0	=	0x70ec
+                           0070ED  1109 _X_T4CC0	=	0x70ed
+                           0070EE  1110 _X_T4CCTL1	=	0x70ee
+                           0070EF  1111 _X_T4CC1	=	0x70ef
+                           0070F1  1112 _X_PERCFG	=	0x70f1
+                           0070F2  1113 _X_APCFG	=	0x70f2
+                           0070F3  1114 _X_P0SEL	=	0x70f3
+                           0070F4  1115 _X_P1SEL	=	0x70f4
+                           0070F5  1116 _X_P2SEL	=	0x70f5
+                           0070F6  1117 _X_P1INP	=	0x70f6
+                           0070F7  1118 _X_P2INP	=	0x70f7
+                           0070F8  1119 _X_U1CSR	=	0x70f8
+                           0070F9  1120 _X_U1DBUF	=	0x70f9
+                           0070FA  1121 _X_U1BAUD	=	0x70fa
+                           0070FB  1122 _X_U1UCR	=	0x70fb
+                           0070FC  1123 _X_U1GCR	=	0x70fc
+                           0070FD  1124 _X_P0DIR	=	0x70fd
+                           0070FE  1125 _X_P1DIR	=	0x70fe
+                           0070FF  1126 _X_P2DIR	=	0x70ff
+                           007800  1127 _X_INFOPAGE	=	0x7800
+                           00780C  1128 _X_IEEE_ADDR	=	0x780c
+      000000                       1129 _rrep_pending:
+      000000                       1130 	.ds 1
+                                   1131 ;--------------------------------------------------------
+                                   1132 ; absolute external ram data
+                                   1133 ;--------------------------------------------------------
+                                   1134 	.area XABS    (ABS,XDATA)
+                                   1135 ;--------------------------------------------------------
+                                   1136 ; external initialized ram data
+                                   1137 ;--------------------------------------------------------
+                                   1138 	.area XISEG   (XDATA)
+                                   1139 	.area HOME    (CODE)
+                                   1140 	.area GSINIT0 (CODE)
+                                   1141 	.area GSINIT1 (CODE)
+                                   1142 	.area GSINIT2 (CODE)
+                                   1143 	.area GSINIT3 (CODE)
+                                   1144 	.area GSINIT4 (CODE)
+                                   1145 	.area GSINIT5 (CODE)
+                                   1146 	.area GSINIT  (CODE)
+                                   1147 	.area GSFINAL (CODE)
+                                   1148 	.area CSEG    (CODE)
+                                   1149 ;--------------------------------------------------------
+                                   1150 ; global & static initialisations
+                                   1151 ;--------------------------------------------------------
+                                   1152 	.area HOME    (CODE)
+                                   1153 	.area GSINIT  (CODE)
+                                   1154 	.area GSFINAL (CODE)
+                                   1155 	.area GSINIT  (CODE)
+                                   1156 ;--------------------------------------------------------
+                                   1157 ; Home
+                                   1158 ;--------------------------------------------------------
+                                   1159 	.area HOME    (CODE)
+                                   1160 	.area HOME    (CODE)
+                                   1161 ;--------------------------------------------------------
+                                   1162 ; code
+                                   1163 ;--------------------------------------------------------
+                                   1164 	.area CSEG    (CODE)
+                                   1165 ;------------------------------------------------------------
+                                   1166 ;Allocation info for local variables in function 'send_rreq'
+                                   1167 ;------------------------------------------------------------
+                                   1168 ;dest                      Allocated to stack - sp -18
+                                   1169 ;c                         Allocated to stack - sp -13
+                                   1170 ;dest_copy                 Allocated to stack - sp -4
+                                   1171 ;msg                       Allocated to stack - sp -2
+                                   1172 ;sloc0                     Allocated to stack - sp -10
+                                   1173 ;sloc1                     Allocated to stack - sp -7
+                                   1174 ;------------------------------------------------------------
+                                   1175 ;	../contiki-sensinode/core/net/rime/route-discovery.c:83: send_rreq(struct route_discovery_conn *c, const rimeaddr_t *dest)
+                                   1176 ;	-----------------------------------------
+                                   1177 ;	 function send_rreq
+                                   1178 ;	-----------------------------------------
+      000000                       1179 _send_rreq:
+                           000007  1180 	ar7 = 0x07
+                           000006  1181 	ar6 = 0x06
+                           000005  1182 	ar5 = 0x05
+                           000004  1183 	ar4 = 0x04
+                           000003  1184 	ar3 = 0x03
+                           000002  1185 	ar2 = 0x02
+                           000001  1186 	ar1 = 0x01
+                           000000  1187 	ar0 = 0x00
+      000000 C0 82            [24] 1188 	push	dpl
+      000002 C0 83            [24] 1189 	push	dph
+      000004 C0 F0            [24] 1190 	push	b
+      000006 E5 81            [12] 1191 	mov	a,sp
+      000008 24 0B            [12] 1192 	add	a,#0x0B
+                                   1193 ;	../contiki-sensinode/core/net/rime/route-discovery.c:88: rimeaddr_copy(&dest_copy, dest);
+      00000A F5 81            [12] 1194 	mov	sp,a
+      00000C 24 FC            [12] 1195 	add	a,#0xFC
+      00000E FC               [12] 1196 	mov	r4,a
+      00000F FA               [12] 1197 	mov	r2,a
+      000010 7B 00            [12] 1198 	mov	r3,#0x00
+      000012 7F 40            [12] 1199 	mov	r7,#0x40
+      000014 C0 04            [24] 1200 	push	ar4
+      000016 E5 81            [12] 1201 	mov	a,sp
+      000018 24 ED            [12] 1202 	add	a,#0xed
+      00001A F8               [12] 1203 	mov	r0,a
+      00001B E6               [12] 1204 	mov	a,@r0
+      00001C C0 E0            [24] 1205 	push	acc
+      00001E 08               [12] 1206 	inc	r0
+      00001F E6               [12] 1207 	mov	a,@r0
+      000020 C0 E0            [24] 1208 	push	acc
+      000022 08               [12] 1209 	inc	r0
+      000023 E6               [12] 1210 	mov	a,@r0
+      000024 C0 E0            [24] 1211 	push	acc
+      000026 8A 82            [24] 1212 	mov	dpl,r2
+      000028 8B 83            [24] 1213 	mov	dph,r3
+      00002A 8F F0            [24] 1214 	mov	b,r7
+      00002C 12r00r00         [24] 1215 	lcall	_rimeaddr_copy
+      00002F 15 81            [12] 1216 	dec	sp
+      000031 15 81            [12] 1217 	dec	sp
+      000033 15 81            [12] 1218 	dec	sp
+      000035 D0 04            [24] 1219 	pop	ar4
+                                   1220 ;	../contiki-sensinode/core/net/rime/route-discovery.c:89: dest = &dest_copy;
+      000037 7F 00            [12] 1221 	mov	r7,#0x00
+      000039 7E 40            [12] 1222 	mov	r6,#0x40
+      00003B E5 81            [12] 1223 	mov	a,sp
+      00003D 24 EE            [12] 1224 	add	a,#0xee
+      00003F F8               [12] 1225 	mov	r0,a
+      000040 A6 04            [24] 1226 	mov	@r0,ar4
+      000042 08               [12] 1227 	inc	r0
+      000043 A6 07            [24] 1228 	mov	@r0,ar7
+      000045 08               [12] 1229 	inc	r0
+      000046 A6 06            [24] 1230 	mov	@r0,ar6
+                                   1231 ;	../contiki-sensinode/core/net/rime/route-discovery.c:91: packetbuf_clear();
+      000048 C0 07            [24] 1232 	push	ar7
+      00004A C0 06            [24] 1233 	push	ar6
+      00004C C0 04            [24] 1234 	push	ar4
+      00004E 12r00r00         [24] 1235 	lcall	_packetbuf_clear
+                                   1236 ;	../contiki-sensinode/core/net/rime/route-discovery.c:92: msg = packetbuf_dataptr();
+      000051 12r00r00         [24] 1237 	lcall	_packetbuf_dataptr
+      000054 AA 82            [24] 1238 	mov	r2,dpl
+      000056 AB 83            [24] 1239 	mov	r3,dph
+      000058 AD F0            [24] 1240 	mov	r5,b
+      00005A D0 04            [24] 1241 	pop	ar4
+      00005C D0 06            [24] 1242 	pop	ar6
+      00005E D0 07            [24] 1243 	pop	ar7
+      000060 A8 81            [24] 1244 	mov	r0,sp
+      000062 18               [12] 1245 	dec	r0
+      000063 18               [12] 1246 	dec	r0
+      000064 A6 02            [24] 1247 	mov	@r0,ar2
+      000066 08               [12] 1248 	inc	r0
+      000067 A6 03            [24] 1249 	mov	@r0,ar3
+      000069 08               [12] 1250 	inc	r0
+      00006A A6 05            [24] 1251 	mov	@r0,ar5
+                                   1252 ;	../contiki-sensinode/core/net/rime/route-discovery.c:93: packetbuf_set_datalen(sizeof(struct route_msg));
+      00006C 90 00 04         [24] 1253 	mov	dptr,#0x0004
+      00006F C0 07            [24] 1254 	push	ar7
+      000071 C0 06            [24] 1255 	push	ar6
+      000073 C0 04            [24] 1256 	push	ar4
+      000075 12r00r00         [24] 1257 	lcall	_packetbuf_set_datalen
+      000078 D0 04            [24] 1258 	pop	ar4
+      00007A D0 06            [24] 1259 	pop	ar6
+      00007C D0 07            [24] 1260 	pop	ar7
+                                   1261 ;	../contiki-sensinode/core/net/rime/route-discovery.c:95: msg->pad = 0;
+      00007E A8 81            [24] 1262 	mov	r0,sp
+      000080 18               [12] 1263 	dec	r0
+      000081 18               [12] 1264 	dec	r0
+      000082 74 03            [12] 1265 	mov	a,#0x03
+      000084 26               [12] 1266 	add	a,@r0
+      000085 FA               [12] 1267 	mov	r2,a
+      000086 E4               [12] 1268 	clr	a
+      000087 08               [12] 1269 	inc	r0
+      000088 36               [12] 1270 	addc	a,@r0
+      000089 FB               [12] 1271 	mov	r3,a
+      00008A 08               [12] 1272 	inc	r0
+      00008B 86 05            [24] 1273 	mov	ar5,@r0
+      00008D 8A 82            [24] 1274 	mov	dpl,r2
+      00008F 8B 83            [24] 1275 	mov	dph,r3
+      000091 8D F0            [24] 1276 	mov	b,r5
+      000093 E4               [12] 1277 	clr	a
+      000094 12r00r00         [24] 1278 	lcall	__gptrput
+                                   1279 ;	../contiki-sensinode/core/net/rime/route-discovery.c:96: msg->rreq_id = c->rreq_id;
+      000097 A8 81            [24] 1280 	mov	r0,sp
+      000099 18               [12] 1281 	dec	r0
+      00009A 18               [12] 1282 	dec	r0
+      00009B E5 81            [12] 1283 	mov	a,sp
+      00009D 24 F6            [12] 1284 	add	a,#0xf6
+      00009F F9               [12] 1285 	mov	r1,a
+      0000A0 74 02            [12] 1286 	mov	a,#0x02
+      0000A2 26               [12] 1287 	add	a,@r0
+      0000A3 F7               [12] 1288 	mov	@r1,a
+      0000A4 E4               [12] 1289 	clr	a
+      0000A5 08               [12] 1290 	inc	r0
+      0000A6 36               [12] 1291 	addc	a,@r0
+      0000A7 09               [12] 1292 	inc	r1
+      0000A8 F7               [12] 1293 	mov	@r1,a
+      0000A9 08               [12] 1294 	inc	r0
+      0000AA 09               [12] 1295 	inc	r1
+      0000AB E6               [12] 1296 	mov	a,@r0
+      0000AC F7               [12] 1297 	mov	@r1,a
+      0000AD E5 81            [12] 1298 	mov	a,sp
+      0000AF 24 F3            [12] 1299 	add	a,#0xf3
+      0000B1 F8               [12] 1300 	mov	r0,a
+      0000B2 E5 81            [12] 1301 	mov	a,sp
+      0000B4 24 F9            [12] 1302 	add	a,#0xf9
+      0000B6 F9               [12] 1303 	mov	r1,a
+      0000B7 74 60            [12] 1304 	mov	a,#0x60
+      0000B9 26               [12] 1305 	add	a,@r0
+      0000BA F7               [12] 1306 	mov	@r1,a
+      0000BB E4               [12] 1307 	clr	a
+      0000BC 08               [12] 1308 	inc	r0
+      0000BD 36               [12] 1309 	addc	a,@r0
+      0000BE 09               [12] 1310 	inc	r1
+      0000BF F7               [12] 1311 	mov	@r1,a
+      0000C0 08               [12] 1312 	inc	r0
+      0000C1 09               [12] 1313 	inc	r1
+      0000C2 E6               [12] 1314 	mov	a,@r0
+      0000C3 F7               [12] 1315 	mov	@r1,a
+      0000C4 E5 81            [12] 1316 	mov	a,sp
+      0000C6 24 F9            [12] 1317 	add	a,#0xf9
+      0000C8 F8               [12] 1318 	mov	r0,a
+      0000C9 86 82            [24] 1319 	mov	dpl,@r0
+      0000CB 08               [12] 1320 	inc	r0
+      0000CC 86 83            [24] 1321 	mov	dph,@r0
+      0000CE 08               [12] 1322 	inc	r0
+      0000CF 86 F0            [24] 1323 	mov	b,@r0
+      0000D1 12r00r00         [24] 1324 	lcall	__gptrget
+      0000D4 FB               [12] 1325 	mov	r3,a
+      0000D5 A3               [24] 1326 	inc	dptr
+      0000D6 12r00r00         [24] 1327 	lcall	__gptrget
+      0000D9 E5 81            [12] 1328 	mov	a,sp
+      0000DB 24 F6            [12] 1329 	add	a,#0xf6
+      0000DD F8               [12] 1330 	mov	r0,a
+      0000DE 86 82            [24] 1331 	mov	dpl,@r0
+      0000E0 08               [12] 1332 	inc	r0
+      0000E1 86 83            [24] 1333 	mov	dph,@r0
+      0000E3 08               [12] 1334 	inc	r0
+      0000E4 86 F0            [24] 1335 	mov	b,@r0
+      0000E6 EB               [12] 1336 	mov	a,r3
+      0000E7 12r00r00         [24] 1337 	lcall	__gptrput
+                                   1338 ;	../contiki-sensinode/core/net/rime/route-discovery.c:97: rimeaddr_copy(&msg->dest, dest);
+      0000EA C0 04            [24] 1339 	push	ar4
+      0000EC C0 07            [24] 1340 	push	ar7
+      0000EE C0 06            [24] 1341 	push	ar6
+      0000F0 E5 81            [12] 1342 	mov	a,sp
+      0000F2 24 FB            [12] 1343 	add	a,#0xfb
+      0000F4 F8               [12] 1344 	mov	r0,a
+      0000F5 86 82            [24] 1345 	mov	dpl,@r0
+      0000F7 08               [12] 1346 	inc	r0
+      0000F8 86 83            [24] 1347 	mov	dph,@r0
+      0000FA 08               [12] 1348 	inc	r0
+      0000FB 86 F0            [24] 1349 	mov	b,@r0
+      0000FD 12r00r00         [24] 1350 	lcall	_rimeaddr_copy
+      000100 15 81            [12] 1351 	dec	sp
+      000102 15 81            [12] 1352 	dec	sp
+      000104 15 81            [12] 1353 	dec	sp
+                                   1354 ;	../contiki-sensinode/core/net/rime/route-discovery.c:99: netflood_send(&c->rreqconn, c->rreq_id);
+      000106 E5 81            [12] 1355 	mov	a,sp
+      000108 24 F9            [12] 1356 	add	a,#0xf9
+      00010A F8               [12] 1357 	mov	r0,a
+      00010B 86 82            [24] 1358 	mov	dpl,@r0
+      00010D 08               [12] 1359 	inc	r0
+      00010E 86 83            [24] 1360 	mov	dph,@r0
+      000110 08               [12] 1361 	inc	r0
+      000111 86 F0            [24] 1362 	mov	b,@r0
+      000113 12r00r00         [24] 1363 	lcall	__gptrget
+      000116 FE               [12] 1364 	mov	r6,a
+      000117 A3               [24] 1365 	inc	dptr
+      000118 12r00r00         [24] 1366 	lcall	__gptrget
+      00011B C0 06            [24] 1367 	push	ar6
+      00011D E5 81            [12] 1368 	mov	a,sp
+      00011F 24 F2            [12] 1369 	add	a,#0xf2
+      000121 F8               [12] 1370 	mov	r0,a
+      000122 86 82            [24] 1371 	mov	dpl,@r0
+      000124 08               [12] 1372 	inc	r0
+      000125 86 83            [24] 1373 	mov	dph,@r0
+      000127 08               [12] 1374 	inc	r0
+      000128 86 F0            [24] 1375 	mov	b,@r0
+      00012A 12r00r00         [24] 1376 	lcall	_netflood_send
+      00012D 15 81            [12] 1377 	dec	sp
+                                   1378 ;	../contiki-sensinode/core/net/rime/route-discovery.c:100: c->rreq_id++;
+      00012F E5 81            [12] 1379 	mov	a,sp
+      000131 24 F3            [12] 1380 	add	a,#0xf3
+      000133 F8               [12] 1381 	mov	r0,a
+      000134 74 60            [12] 1382 	mov	a,#0x60
+      000136 26               [12] 1383 	add	a,@r0
+      000137 FD               [12] 1384 	mov	r5,a
+      000138 E4               [12] 1385 	clr	a
+      000139 08               [12] 1386 	inc	r0
+      00013A 36               [12] 1387 	addc	a,@r0
+      00013B FE               [12] 1388 	mov	r6,a
+      00013C 08               [12] 1389 	inc	r0
+      00013D 86 07            [24] 1390 	mov	ar7,@r0
+      00013F 8D 82            [24] 1391 	mov	dpl,r5
+      000141 8E 83            [24] 1392 	mov	dph,r6
+      000143 8F F0            [24] 1393 	mov	b,r7
+      000145 12r00r00         [24] 1394 	lcall	__gptrget
+      000148 FB               [12] 1395 	mov	r3,a
+      000149 A3               [24] 1396 	inc	dptr
+      00014A 12r00r00         [24] 1397 	lcall	__gptrget
+      00014D FC               [12] 1398 	mov	r4,a
+      00014E 0B               [12] 1399 	inc	r3
+      00014F BB 00 01         [24] 1400 	cjne	r3,#0x00,00103$
+      000152 0C               [12] 1401 	inc	r4
+      000153                       1402 00103$:
+      000153 8D 82            [24] 1403 	mov	dpl,r5
+      000155 8E 83            [24] 1404 	mov	dph,r6
+      000157 8F F0            [24] 1405 	mov	b,r7
+      000159 EB               [12] 1406 	mov	a,r3
+      00015A 12r00r00         [24] 1407 	lcall	__gptrput
+      00015D A3               [24] 1408 	inc	dptr
+      00015E EC               [12] 1409 	mov	a,r4
+      00015F 12r00r00         [24] 1410 	lcall	__gptrput
+      000162 E5 81            [12] 1411 	mov	a,sp
+      000164 24 F2            [12] 1412 	add	a,#0xF2
+      000166 F5 81            [12] 1413 	mov	sp,a
+      000168 22               [24] 1414 	ret
+                                   1415 ;------------------------------------------------------------
+                                   1416 ;Allocation info for local variables in function 'send_rrep'
+                                   1417 ;------------------------------------------------------------
+                                   1418 ;dest                      Allocated to stack - sp -12
+                                   1419 ;c                         Allocated to stack - sp -7
+                                   1420 ;rrepmsg                   Allocated to stack - sp -4
+                                   1421 ;rt                        Allocated to registers r5 r6 r7 
+                                   1422 ;saved_dest                Allocated to stack - sp -1
+                                   1423 ;------------------------------------------------------------
+                                   1424 ;	../contiki-sensinode/core/net/rime/route-discovery.c:104: send_rrep(struct route_discovery_conn *c, const rimeaddr_t *dest)
+                                   1425 ;	-----------------------------------------
+                                   1426 ;	 function send_rrep
+                                   1427 ;	-----------------------------------------
+      000169                       1428 _send_rrep:
+      000169 C0 82            [24] 1429 	push	dpl
+      00016B C0 83            [24] 1430 	push	dph
+      00016D C0 F0            [24] 1431 	push	b
+      00016F E5 81            [12] 1432 	mov	a,sp
+      000171 24 05            [12] 1433 	add	a,#0x05
+      000173 F5 81            [12] 1434 	mov	sp,a
+                                   1435 ;	../contiki-sensinode/core/net/rime/route-discovery.c:110: rimeaddr_copy(&saved_dest, dest);
+      000175 AC 81            [24] 1436 	mov	r4,sp
+      000177 1C               [12] 1437 	dec	r4
+      000178 8C 02            [24] 1438 	mov	ar2,r4
+      00017A 7B 00            [12] 1439 	mov	r3,#0x00
+      00017C 7F 40            [12] 1440 	mov	r7,#0x40
+      00017E C0 04            [24] 1441 	push	ar4
+      000180 E5 81            [12] 1442 	mov	a,sp
+      000182 24 F3            [12] 1443 	add	a,#0xf3
+      000184 F8               [12] 1444 	mov	r0,a
+      000185 E6               [12] 1445 	mov	a,@r0
+      000186 C0 E0            [24] 1446 	push	acc
+      000188 08               [12] 1447 	inc	r0
+      000189 E6               [12] 1448 	mov	a,@r0
+      00018A C0 E0            [24] 1449 	push	acc
+      00018C 08               [12] 1450 	inc	r0
+      00018D E6               [12] 1451 	mov	a,@r0
+      00018E C0 E0            [24] 1452 	push	acc
+      000190 8A 82            [24] 1453 	mov	dpl,r2
+      000192 8B 83            [24] 1454 	mov	dph,r3
+      000194 8F F0            [24] 1455 	mov	b,r7
+      000196 12r00r00         [24] 1456 	lcall	_rimeaddr_copy
+      000199 15 81            [12] 1457 	dec	sp
+      00019B 15 81            [12] 1458 	dec	sp
+      00019D 15 81            [12] 1459 	dec	sp
+                                   1460 ;	../contiki-sensinode/core/net/rime/route-discovery.c:112: packetbuf_clear();
+      00019F 12r00r00         [24] 1461 	lcall	_packetbuf_clear
+      0001A2 D0 04            [24] 1462 	pop	ar4
+                                   1463 ;	../contiki-sensinode/core/net/rime/route-discovery.c:113: dest = &saved_dest;
+      0001A4 7F 00            [12] 1464 	mov	r7,#0x00
+      0001A6 7E 40            [12] 1465 	mov	r6,#0x40
+      0001A8 E5 81            [12] 1466 	mov	a,sp
+      0001AA 24 F4            [12] 1467 	add	a,#0xf4
+      0001AC F8               [12] 1468 	mov	r0,a
+      0001AD A6 04            [24] 1469 	mov	@r0,ar4
+      0001AF 08               [12] 1470 	inc	r0
+      0001B0 A6 07            [24] 1471 	mov	@r0,ar7
+      0001B2 08               [12] 1472 	inc	r0
+      0001B3 A6 06            [24] 1473 	mov	@r0,ar6
+                                   1474 ;	../contiki-sensinode/core/net/rime/route-discovery.c:114: rrepmsg = packetbuf_dataptr();
+      0001B5 C0 07            [24] 1475 	push	ar7
+      0001B7 C0 06            [24] 1476 	push	ar6
+      0001B9 C0 04            [24] 1477 	push	ar4
+      0001BB 12r00r00         [24] 1478 	lcall	_packetbuf_dataptr
+      0001BE AA 82            [24] 1479 	mov	r2,dpl
+      0001C0 AB 83            [24] 1480 	mov	r3,dph
+      0001C2 AD F0            [24] 1481 	mov	r5,b
+      0001C4 D0 04            [24] 1482 	pop	ar4
+      0001C6 D0 06            [24] 1483 	pop	ar6
+      0001C8 D0 07            [24] 1484 	pop	ar7
+      0001CA E5 81            [12] 1485 	mov	a,sp
+      0001CC 24 FC            [12] 1486 	add	a,#0xfc
+      0001CE F8               [12] 1487 	mov	r0,a
+      0001CF A6 02            [24] 1488 	mov	@r0,ar2
+      0001D1 08               [12] 1489 	inc	r0
+      0001D2 A6 03            [24] 1490 	mov	@r0,ar3
+      0001D4 08               [12] 1491 	inc	r0
+      0001D5 A6 05            [24] 1492 	mov	@r0,ar5
+                                   1493 ;	../contiki-sensinode/core/net/rime/route-discovery.c:115: packetbuf_set_datalen(sizeof(struct rrep_hdr));
+      0001D7 90 00 06         [24] 1494 	mov	dptr,#0x0006
+      0001DA C0 07            [24] 1495 	push	ar7
+      0001DC C0 06            [24] 1496 	push	ar6
+      0001DE C0 04            [24] 1497 	push	ar4
+      0001E0 12r00r00         [24] 1498 	lcall	_packetbuf_set_datalen
+      0001E3 D0 04            [24] 1499 	pop	ar4
+      0001E5 D0 06            [24] 1500 	pop	ar6
+      0001E7 D0 07            [24] 1501 	pop	ar7
+                                   1502 ;	../contiki-sensinode/core/net/rime/route-discovery.c:116: rrepmsg->hops = 0;
+      0001E9 E5 81            [12] 1503 	mov	a,sp
+      0001EB 24 FC            [12] 1504 	add	a,#0xfc
+      0001ED F8               [12] 1505 	mov	r0,a
+      0001EE 74 01            [12] 1506 	mov	a,#0x01
+      0001F0 26               [12] 1507 	add	a,@r0
+      0001F1 FA               [12] 1508 	mov	r2,a
+      0001F2 E4               [12] 1509 	clr	a
+      0001F3 08               [12] 1510 	inc	r0
+      0001F4 36               [12] 1511 	addc	a,@r0
+      0001F5 FB               [12] 1512 	mov	r3,a
+      0001F6 08               [12] 1513 	inc	r0
+      0001F7 86 05            [24] 1514 	mov	ar5,@r0
+      0001F9 8A 82            [24] 1515 	mov	dpl,r2
+      0001FB 8B 83            [24] 1516 	mov	dph,r3
+      0001FD 8D F0            [24] 1517 	mov	b,r5
+      0001FF E4               [12] 1518 	clr	a
+      000200 12r00r00         [24] 1519 	lcall	__gptrput
+                                   1520 ;	../contiki-sensinode/core/net/rime/route-discovery.c:117: rimeaddr_copy(&rrepmsg->dest, dest);
+      000203 E5 81            [12] 1521 	mov	a,sp
+      000205 24 FC            [12] 1522 	add	a,#0xfc
+      000207 F8               [12] 1523 	mov	r0,a
+      000208 74 02            [12] 1524 	mov	a,#0x02
+      00020A 26               [12] 1525 	add	a,@r0
+      00020B FA               [12] 1526 	mov	r2,a
+      00020C E4               [12] 1527 	clr	a
+      00020D 08               [12] 1528 	inc	r0
+      00020E 36               [12] 1529 	addc	a,@r0
+      00020F FB               [12] 1530 	mov	r3,a
+      000210 08               [12] 1531 	inc	r0
+      000211 86 05            [24] 1532 	mov	ar5,@r0
+      000213 C0 07            [24] 1533 	push	ar7
+      000215 C0 06            [24] 1534 	push	ar6
+      000217 C0 04            [24] 1535 	push	ar4
+      000219 C0 04            [24] 1536 	push	ar4
+      00021B C0 07            [24] 1537 	push	ar7
+      00021D C0 06            [24] 1538 	push	ar6
+      00021F 8A 82            [24] 1539 	mov	dpl,r2
+      000221 8B 83            [24] 1540 	mov	dph,r3
+      000223 8D F0            [24] 1541 	mov	b,r5
+      000225 12r00r00         [24] 1542 	lcall	_rimeaddr_copy
+      000228 15 81            [12] 1543 	dec	sp
+      00022A 15 81            [12] 1544 	dec	sp
+      00022C 15 81            [12] 1545 	dec	sp
+      00022E D0 04            [24] 1546 	pop	ar4
+      000230 D0 06            [24] 1547 	pop	ar6
+      000232 D0 07            [24] 1548 	pop	ar7
+                                   1549 ;	../contiki-sensinode/core/net/rime/route-discovery.c:118: rimeaddr_copy(&rrepmsg->originator, &rimeaddr_node_addr);
+      000234 E5 81            [12] 1550 	mov	a,sp
+      000236 24 FC            [12] 1551 	add	a,#0xfc
+      000238 F8               [12] 1552 	mov	r0,a
+      000239 74 04            [12] 1553 	mov	a,#0x04
+      00023B 26               [12] 1554 	add	a,@r0
+      00023C FA               [12] 1555 	mov	r2,a
+      00023D E4               [12] 1556 	clr	a
+      00023E 08               [12] 1557 	inc	r0
+      00023F 36               [12] 1558 	addc	a,@r0
+      000240 FB               [12] 1559 	mov	r3,a
+      000241 08               [12] 1560 	inc	r0
+      000242 86 05            [24] 1561 	mov	ar5,@r0
+      000244 C0 07            [24] 1562 	push	ar7
+      000246 C0 06            [24] 1563 	push	ar6
+      000248 C0 04            [24] 1564 	push	ar4
+      00024A 74r00            [12] 1565 	mov	a,#_rimeaddr_node_addr
+      00024C C0 E0            [24] 1566 	push	acc
+      00024E 74s00            [12] 1567 	mov	a,#(_rimeaddr_node_addr >> 8)
+      000250 C0 E0            [24] 1568 	push	acc
+      000252 E4               [12] 1569 	clr	a
+      000253 C0 E0            [24] 1570 	push	acc
+      000255 8A 82            [24] 1571 	mov	dpl,r2
+      000257 8B 83            [24] 1572 	mov	dph,r3
+      000259 8D F0            [24] 1573 	mov	b,r5
+      00025B 12r00r00         [24] 1574 	lcall	_rimeaddr_copy
+      00025E 15 81            [12] 1575 	dec	sp
+      000260 15 81            [12] 1576 	dec	sp
+      000262 15 81            [12] 1577 	dec	sp
+      000264 D0 04            [24] 1578 	pop	ar4
+      000266 D0 06            [24] 1579 	pop	ar6
+      000268 D0 07            [24] 1580 	pop	ar7
+                                   1581 ;	../contiki-sensinode/core/net/rime/route-discovery.c:119: rt = route_lookup(dest);
+      00026A 8C 82            [24] 1582 	mov	dpl,r4
+      00026C 8F 83            [24] 1583 	mov	dph,r7
+      00026E 8E F0            [24] 1584 	mov	b,r6
+      000270 12r00r00         [24] 1585 	lcall	_route_lookup
+      000273 AD 82            [24] 1586 	mov	r5,dpl
+      000275 AE 83            [24] 1587 	mov	r6,dph
+      000277 AF F0            [24] 1588 	mov	r7,b
+                                   1589 ;	../contiki-sensinode/core/net/rime/route-discovery.c:120: if(rt != NULL) {
+      000279 ED               [12] 1590 	mov	a,r5
+      00027A 4E               [12] 1591 	orl	a,r6
+      00027B 60 2C            [24] 1592 	jz	00103$
+                                   1593 ;	../contiki-sensinode/core/net/rime/route-discovery.c:125: unicast_send(&c->rrepconn, &rt->nexthop);
+      00027D 74 05            [12] 1594 	mov	a,#0x05
+      00027F 2D               [12] 1595 	add	a,r5
+      000280 FD               [12] 1596 	mov	r5,a
+      000281 E4               [12] 1597 	clr	a
+      000282 3E               [12] 1598 	addc	a,r6
+      000283 FE               [12] 1599 	mov	r6,a
+      000284 E5 81            [12] 1600 	mov	a,sp
+      000286 24 F9            [12] 1601 	add	a,#0xf9
+      000288 F8               [12] 1602 	mov	r0,a
+      000289 74 35            [12] 1603 	mov	a,#0x35
+      00028B 26               [12] 1604 	add	a,@r0
+      00028C FA               [12] 1605 	mov	r2,a
+      00028D E4               [12] 1606 	clr	a
+      00028E 08               [12] 1607 	inc	r0
+      00028F 36               [12] 1608 	addc	a,@r0
+      000290 FB               [12] 1609 	mov	r3,a
+      000291 08               [12] 1610 	inc	r0
+      000292 86 04            [24] 1611 	mov	ar4,@r0
+      000294 C0 05            [24] 1612 	push	ar5
+      000296 C0 06            [24] 1613 	push	ar6
+      000298 C0 07            [24] 1614 	push	ar7
+      00029A 8A 82            [24] 1615 	mov	dpl,r2
+      00029C 8B 83            [24] 1616 	mov	dph,r3
+      00029E 8C F0            [24] 1617 	mov	b,r4
+      0002A0 12r00r00         [24] 1618 	lcall	_unicast_send
+      0002A3 15 81            [12] 1619 	dec	sp
+      0002A5 15 81            [12] 1620 	dec	sp
+      0002A7 15 81            [12] 1621 	dec	sp
+      0002A9                       1622 00103$:
+      0002A9 E5 81            [12] 1623 	mov	a,sp
+      0002AB 24 F8            [12] 1624 	add	a,#0xF8
+      0002AD F5 81            [12] 1625 	mov	sp,a
+      0002AF 22               [24] 1626 	ret
+                                   1627 ;------------------------------------------------------------
+                                   1628 ;Allocation info for local variables in function 'insert_route'
+                                   1629 ;------------------------------------------------------------
+                                   1630 ;last_hop                  Allocated to stack - sp -4
+                                   1631 ;hops                      Allocated to stack - sp -5
+                                   1632 ;originator                Allocated to registers r5 r6 r7 
+                                   1633 ;------------------------------------------------------------
+                                   1634 ;	../contiki-sensinode/core/net/rime/route-discovery.c:134: insert_route(const rimeaddr_t *originator, const rimeaddr_t *last_hop,
+                                   1635 ;	-----------------------------------------
+                                   1636 ;	 function insert_route
+                                   1637 ;	-----------------------------------------
+      0002B0                       1638 _insert_route:
+      0002B0 AD 82            [24] 1639 	mov	r5,dpl
+      0002B2 AE 83            [24] 1640 	mov	r6,dph
+      0002B4 AF F0            [24] 1641 	mov	r7,b
+                                   1642 ;	../contiki-sensinode/core/net/rime/route-discovery.c:143: route_add(originator, last_hop, hops, 0);
+      0002B6 E4               [12] 1643 	clr	a
+      0002B7 C0 E0            [24] 1644 	push	acc
+      0002B9 E5 81            [12] 1645 	mov	a,sp
+      0002BB 24 FA            [12] 1646 	add	a,#0xfa
+      0002BD F8               [12] 1647 	mov	r0,a
+      0002BE E6               [12] 1648 	mov	a,@r0
+      0002BF C0 E0            [24] 1649 	push	acc
+      0002C1 E5 81            [12] 1650 	mov	a,sp
+      0002C3 24 FA            [12] 1651 	add	a,#0xfa
+      0002C5 F8               [12] 1652 	mov	r0,a
+      0002C6 E6               [12] 1653 	mov	a,@r0
+      0002C7 C0 E0            [24] 1654 	push	acc
+      0002C9 08               [12] 1655 	inc	r0
+      0002CA E6               [12] 1656 	mov	a,@r0
+      0002CB C0 E0            [24] 1657 	push	acc
+      0002CD 08               [12] 1658 	inc	r0
+      0002CE E6               [12] 1659 	mov	a,@r0
+      0002CF C0 E0            [24] 1660 	push	acc
+      0002D1 8D 82            [24] 1661 	mov	dpl,r5
+      0002D3 8E 83            [24] 1662 	mov	dph,r6
+      0002D5 8F F0            [24] 1663 	mov	b,r7
+      0002D7 12r00r00         [24] 1664 	lcall	_route_add
+      0002DA E5 81            [12] 1665 	mov	a,sp
+      0002DC 24 FB            [12] 1666 	add	a,#0xfb
+      0002DE F5 81            [12] 1667 	mov	sp,a
+      0002E0 22               [24] 1668 	ret
+                                   1669 ;------------------------------------------------------------
+                                   1670 ;Allocation info for local variables in function 'rrep_packet_received'
+                                   1671 ;------------------------------------------------------------
+                                   1672 ;from                      Allocated to stack - sp -21
+                                   1673 ;uc                        Allocated to registers r5 r6 r7 
+                                   1674 ;msg                       Allocated to stack - sp -12
+                                   1675 ;rt                        Allocated to stack - sp -9
+                                   1676 ;dest                      Allocated to stack - sp -6
+                                   1677 ;c                         Allocated to stack - sp -4
+                                   1678 ;originator                Allocated to stack - sp -1
+                                   1679 ;sloc0                     Allocated to stack - sp -16
+                                   1680 ;sloc1                     Allocated to stack - sp +1
+                                   1681 ;sloc2                     Allocated to stack - sp -15
+                                   1682 ;------------------------------------------------------------
+                                   1683 ;	../contiki-sensinode/core/net/rime/route-discovery.c:163: rrep_packet_received(struct unicast_conn *uc, const rimeaddr_t *from)
+                                   1684 ;	-----------------------------------------
+                                   1685 ;	 function rrep_packet_received
+                                   1686 ;	-----------------------------------------
+      0002E1                       1687 _rrep_packet_received:
+      0002E1 E5 81            [12] 1688 	mov	a,sp
+      0002E3 24 11            [12] 1689 	add	a,#0x11
+      0002E5 F5 81            [12] 1690 	mov	sp,a
+      0002E7 AD 82            [24] 1691 	mov	r5,dpl
+      0002E9 AE 83            [24] 1692 	mov	r6,dph
+      0002EB AF F0            [24] 1693 	mov	r7,b
+                                   1694 ;	../contiki-sensinode/core/net/rime/route-discovery.c:165: struct rrep_hdr *msg = packetbuf_dataptr();
+      0002ED C0 07            [24] 1695 	push	ar7
+      0002EF C0 06            [24] 1696 	push	ar6
+      0002F1 C0 05            [24] 1697 	push	ar5
+      0002F3 12r00r00         [24] 1698 	lcall	_packetbuf_dataptr
+      0002F6 AA 82            [24] 1699 	mov	r2,dpl
+      0002F8 AB 83            [24] 1700 	mov	r3,dph
+      0002FA AC F0            [24] 1701 	mov	r4,b
+      0002FC D0 05            [24] 1702 	pop	ar5
+      0002FE D0 06            [24] 1703 	pop	ar6
+      000300 D0 07            [24] 1704 	pop	ar7
+      000302 E5 81            [12] 1705 	mov	a,sp
+      000304 24 F4            [12] 1706 	add	a,#0xf4
+      000306 F8               [12] 1707 	mov	r0,a
+      000307 A6 02            [24] 1708 	mov	@r0,ar2
+      000309 08               [12] 1709 	inc	r0
+      00030A A6 03            [24] 1710 	mov	@r0,ar3
+      00030C 08               [12] 1711 	inc	r0
+      00030D A6 04            [24] 1712 	mov	@r0,ar4
+                                   1713 ;	../contiki-sensinode/core/net/rime/route-discovery.c:168: struct route_discovery_conn *c = (struct route_discovery_conn *)
+      00030F ED               [12] 1714 	mov	a,r5
+      000310 24 CB            [12] 1715 	add	a,#0xCB
+      000312 FD               [12] 1716 	mov	r5,a
+      000313 EE               [12] 1717 	mov	a,r6
+      000314 34 FF            [12] 1718 	addc	a,#0xFF
+      000316 FE               [12] 1719 	mov	r6,a
+      000317 E5 81            [12] 1720 	mov	a,sp
+      000319 24 FC            [12] 1721 	add	a,#0xfc
+      00031B F8               [12] 1722 	mov	r0,a
+      00031C A6 05            [24] 1723 	mov	@r0,ar5
+      00031E 08               [12] 1724 	inc	r0
+      00031F A6 06            [24] 1725 	mov	@r0,ar6
+      000321 08               [12] 1726 	inc	r0
+      000322 A6 07            [24] 1727 	mov	@r0,ar7
+                                   1728 ;	../contiki-sensinode/core/net/rime/route-discovery.c:183: insert_route(&msg->originator, from, msg->hops);
+      000324 E5 81            [12] 1729 	mov	a,sp
+      000326 24 F4            [12] 1730 	add	a,#0xf4
+      000328 F8               [12] 1731 	mov	r0,a
+      000329 74 01            [12] 1732 	mov	a,#0x01
+      00032B 26               [12] 1733 	add	a,@r0
+      00032C FD               [12] 1734 	mov	r5,a
+      00032D E4               [12] 1735 	clr	a
+      00032E 08               [12] 1736 	inc	r0
+      00032F 36               [12] 1737 	addc	a,@r0
+      000330 FE               [12] 1738 	mov	r6,a
+      000331 08               [12] 1739 	inc	r0
+      000332 86 07            [24] 1740 	mov	ar7,@r0
+      000334 8D 82            [24] 1741 	mov	dpl,r5
+      000336 8E 83            [24] 1742 	mov	dph,r6
+      000338 8F F0            [24] 1743 	mov	b,r7
+      00033A E5 81            [12] 1744 	mov	a,sp
+      00033C 24 F0            [12] 1745 	add	a,#0xf0
+      00033E F8               [12] 1746 	mov	r0,a
+      00033F 12r00r00         [24] 1747 	lcall	__gptrget
+      000342 F6               [12] 1748 	mov	@r0,a
+      000343 E5 81            [12] 1749 	mov	a,sp
+      000345 24 F4            [12] 1750 	add	a,#0xf4
+      000347 F8               [12] 1751 	mov	r0,a
+      000348 74 04            [12] 1752 	mov	a,#0x04
+      00034A 26               [12] 1753 	add	a,@r0
+      00034B FA               [12] 1754 	mov	r2,a
+      00034C E4               [12] 1755 	clr	a
+      00034D 08               [12] 1756 	inc	r0
+      00034E 36               [12] 1757 	addc	a,@r0
+      00034F FB               [12] 1758 	mov	r3,a
+      000350 08               [12] 1759 	inc	r0
+      000351 86 04            [24] 1760 	mov	ar4,@r0
+      000353 C0 07            [24] 1761 	push	ar7
+      000355 C0 06            [24] 1762 	push	ar6
+      000357 C0 05            [24] 1763 	push	ar5
+      000359 E5 81            [12] 1764 	mov	a,sp
+      00035B 24 ED            [12] 1765 	add	a,#0xed
+      00035D F8               [12] 1766 	mov	r0,a
+      00035E E6               [12] 1767 	mov	a,@r0
+      00035F C0 E0            [24] 1768 	push	acc
+      000361 E5 81            [12] 1769 	mov	a,sp
+      000363 24 E7            [12] 1770 	add	a,#0xe7
+      000365 F8               [12] 1771 	mov	r0,a
+      000366 E6               [12] 1772 	mov	a,@r0
+      000367 C0 E0            [24] 1773 	push	acc
+      000369 08               [12] 1774 	inc	r0
+      00036A E6               [12] 1775 	mov	a,@r0
+      00036B C0 E0            [24] 1776 	push	acc
+      00036D 08               [12] 1777 	inc	r0
+      00036E E6               [12] 1778 	mov	a,@r0
+      00036F C0 E0            [24] 1779 	push	acc
+      000371 8A 82            [24] 1780 	mov	dpl,r2
+      000373 8B 83            [24] 1781 	mov	dph,r3
+      000375 8C F0            [24] 1782 	mov	b,r4
+      000377 12r02rB0         [24] 1783 	lcall	_insert_route
+      00037A E5 81            [12] 1784 	mov	a,sp
+      00037C 24 FC            [12] 1785 	add	a,#0xfc
+      00037E F5 81            [12] 1786 	mov	sp,a
+      000380 D0 05            [24] 1787 	pop	ar5
+      000382 D0 06            [24] 1788 	pop	ar6
+      000384 D0 07            [24] 1789 	pop	ar7
+                                   1790 ;	../contiki-sensinode/core/net/rime/route-discovery.c:185: if(rimeaddr_cmp(&msg->dest, &rimeaddr_node_addr)) {
+      000386 E5 81            [12] 1791 	mov	a,sp
+      000388 24 F4            [12] 1792 	add	a,#0xf4
+      00038A F8               [12] 1793 	mov	r0,a
+      00038B 74 02            [12] 1794 	mov	a,#0x02
+      00038D 26               [12] 1795 	add	a,@r0
+      00038E FA               [12] 1796 	mov	r2,a
+      00038F E4               [12] 1797 	clr	a
+      000390 08               [12] 1798 	inc	r0
+      000391 36               [12] 1799 	addc	a,@r0
+      000392 FB               [12] 1800 	mov	r3,a
+      000393 08               [12] 1801 	inc	r0
+      000394 86 04            [24] 1802 	mov	ar4,@r0
+      000396 C0 07            [24] 1803 	push	ar7
+      000398 C0 06            [24] 1804 	push	ar6
+      00039A C0 05            [24] 1805 	push	ar5
+      00039C 74r00            [12] 1806 	mov	a,#_rimeaddr_node_addr
+      00039E C0 E0            [24] 1807 	push	acc
+      0003A0 74s00            [12] 1808 	mov	a,#(_rimeaddr_node_addr >> 8)
+      0003A2 C0 E0            [24] 1809 	push	acc
+      0003A4 E4               [12] 1810 	clr	a
+      0003A5 C0 E0            [24] 1811 	push	acc
+      0003A7 8A 82            [24] 1812 	mov	dpl,r2
+      0003A9 8B 83            [24] 1813 	mov	dph,r3
+      0003AB 8C F0            [24] 1814 	mov	b,r4
+      0003AD 12r00r00         [24] 1815 	lcall	_rimeaddr_cmp
+      0003B0 AB 82            [24] 1816 	mov	r3,dpl
+      0003B2 AC 83            [24] 1817 	mov	r4,dph
+      0003B4 15 81            [12] 1818 	dec	sp
+      0003B6 15 81            [12] 1819 	dec	sp
+      0003B8 15 81            [12] 1820 	dec	sp
+      0003BA D0 05            [24] 1821 	pop	ar5
+      0003BC D0 06            [24] 1822 	pop	ar6
+      0003BE D0 07            [24] 1823 	pop	ar7
+      0003C0 EB               [12] 1824 	mov	a,r3
+      0003C1 4C               [12] 1825 	orl	a,r4
+      0003C2 70 03            [24] 1826 	jnz	00119$
+      0003C4 02r04rD1         [24] 1827 	ljmp	00106$
+      0003C7                       1828 00119$:
+                                   1829 ;	../contiki-sensinode/core/net/rime/route-discovery.c:187: rrep_pending = 0;
+      0003C7 90r00r00         [24] 1830 	mov	dptr,#_rrep_pending
+      0003CA E4               [12] 1831 	clr	a
+      0003CB F0               [24] 1832 	movx	@dptr,a
+                                   1833 ;	../contiki-sensinode/core/net/rime/route-discovery.c:188: ctimer_stop(&c->t);
+      0003CC E5 81            [12] 1834 	mov	a,sp
+      0003CE 24 FC            [12] 1835 	add	a,#0xfc
+      0003D0 F8               [12] 1836 	mov	r0,a
+      0003D1 74 47            [12] 1837 	mov	a,#0x47
+      0003D3 26               [12] 1838 	add	a,@r0
+      0003D4 FA               [12] 1839 	mov	r2,a
+      0003D5 E4               [12] 1840 	clr	a
+      0003D6 08               [12] 1841 	inc	r0
+      0003D7 36               [12] 1842 	addc	a,@r0
+      0003D8 FB               [12] 1843 	mov	r3,a
+      0003D9 08               [12] 1844 	inc	r0
+      0003DA 86 04            [24] 1845 	mov	ar4,@r0
+      0003DC 8A 82            [24] 1846 	mov	dpl,r2
+      0003DE 8B 83            [24] 1847 	mov	dph,r3
+      0003E0 8C F0            [24] 1848 	mov	b,r4
+      0003E2 12r00r00         [24] 1849 	lcall	_ctimer_stop
+                                   1850 ;	../contiki-sensinode/core/net/rime/route-discovery.c:189: if(c->cb->new_route) {
+      0003E5 E5 81            [12] 1851 	mov	a,sp
+      0003E7 24 FC            [12] 1852 	add	a,#0xfc
+      0003E9 F8               [12] 1853 	mov	r0,a
+      0003EA 74 62            [12] 1854 	mov	a,#0x62
+      0003EC 26               [12] 1855 	add	a,@r0
+      0003ED FF               [12] 1856 	mov	r7,a
+      0003EE E4               [12] 1857 	clr	a
+      0003EF 08               [12] 1858 	inc	r0
+      0003F0 36               [12] 1859 	addc	a,@r0
+      0003F1 FE               [12] 1860 	mov	r6,a
+      0003F2 08               [12] 1861 	inc	r0
+      0003F3 86 05            [24] 1862 	mov	ar5,@r0
+      0003F5 8F 82            [24] 1863 	mov	dpl,r7
+      0003F7 8E 83            [24] 1864 	mov	dph,r6
+      0003F9 8D F0            [24] 1865 	mov	b,r5
+      0003FB 12r00r00         [24] 1866 	lcall	__gptrget
+      0003FE FA               [12] 1867 	mov	r2,a
+      0003FF A3               [24] 1868 	inc	dptr
+      000400 12r00r00         [24] 1869 	lcall	__gptrget
+      000403 FB               [12] 1870 	mov	r3,a
+      000404 A3               [24] 1871 	inc	dptr
+      000405 12r00r00         [24] 1872 	lcall	__gptrget
+      000408 FC               [12] 1873 	mov	r4,a
+      000409 8A 82            [24] 1874 	mov	dpl,r2
+      00040B 8B 83            [24] 1875 	mov	dph,r3
+      00040D 8C F0            [24] 1876 	mov	b,r4
+      00040F 12r00r00         [24] 1877 	lcall	__gptrget
+      000412 FA               [12] 1878 	mov	r2,a
+      000413 A3               [24] 1879 	inc	dptr
+      000414 12r00r00         [24] 1880 	lcall	__gptrget
+      000417 FB               [12] 1881 	mov	r3,a
+      000418 4A               [12] 1882 	orl	a,r2
+      000419 70 03            [24] 1883 	jnz	00120$
+      00041B 02r05r97         [24] 1884 	ljmp	00108$
+      00041E                       1885 00120$:
+                                   1886 ;	../contiki-sensinode/core/net/rime/route-discovery.c:195: rimeaddr_copy(&originator, &msg->originator);
+      00041E E5 81            [12] 1887 	mov	a,sp
+      000420 24 F4            [12] 1888 	add	a,#0xf4
+      000422 F8               [12] 1889 	mov	r0,a
+      000423 E5 81            [12] 1890 	mov	a,sp
+      000425 24 F1            [12] 1891 	add	a,#0xf1
+      000427 F9               [12] 1892 	mov	r1,a
+      000428 74 04            [12] 1893 	mov	a,#0x04
+      00042A 26               [12] 1894 	add	a,@r0
+      00042B F7               [12] 1895 	mov	@r1,a
+      00042C E4               [12] 1896 	clr	a
+      00042D 08               [12] 1897 	inc	r0
+      00042E 36               [12] 1898 	addc	a,@r0
+      00042F 09               [12] 1899 	inc	r1
+      000430 F7               [12] 1900 	mov	@r1,a
+      000431 08               [12] 1901 	inc	r0
+      000432 09               [12] 1902 	inc	r1
+      000433 E6               [12] 1903 	mov	a,@r0
+      000434 F7               [12] 1904 	mov	@r1,a
+      000435 E5 81            [12] 1905 	mov	a,sp
+      000437 24 F0            [12] 1906 	add	a,#0xf0
+      000439 F8               [12] 1907 	mov	r0,a
+      00043A A6 81            [24] 1908 	mov	@r0,sp
+      00043C 16               [12] 1909 	dec	@r0
+      00043D E5 81            [12] 1910 	mov	a,sp
+      00043F 24 F0            [12] 1911 	add	a,#0xf0
+      000441 F8               [12] 1912 	mov	r0,a
+      000442 86 02            [24] 1913 	mov	ar2,@r0
+      000444 7B 00            [12] 1914 	mov	r3,#0x00
+      000446 7C 40            [12] 1915 	mov	r4,#0x40
+      000448 C0 07            [24] 1916 	push	ar7
+      00044A C0 06            [24] 1917 	push	ar6
+      00044C C0 05            [24] 1918 	push	ar5
+      00044E E5 81            [12] 1919 	mov	a,sp
+      000450 24 EE            [12] 1920 	add	a,#0xee
+      000452 F8               [12] 1921 	mov	r0,a
+      000453 E6               [12] 1922 	mov	a,@r0
+      000454 C0 E0            [24] 1923 	push	acc
+      000456 08               [12] 1924 	inc	r0
+      000457 E6               [12] 1925 	mov	a,@r0
+      000458 C0 E0            [24] 1926 	push	acc
+      00045A 08               [12] 1927 	inc	r0
+      00045B E6               [12] 1928 	mov	a,@r0
+      00045C C0 E0            [24] 1929 	push	acc
+      00045E 8A 82            [24] 1930 	mov	dpl,r2
+      000460 8B 83            [24] 1931 	mov	dph,r3
+      000462 8C F0            [24] 1932 	mov	b,r4
+      000464 12r00r00         [24] 1933 	lcall	_rimeaddr_copy
+      000467 15 81            [12] 1934 	dec	sp
+      000469 15 81            [12] 1935 	dec	sp
+      00046B 15 81            [12] 1936 	dec	sp
+      00046D D0 05            [24] 1937 	pop	ar5
+      00046F D0 06            [24] 1938 	pop	ar6
+      000471 D0 07            [24] 1939 	pop	ar7
+                                   1940 ;	../contiki-sensinode/core/net/rime/route-discovery.c:196: c->cb->new_route(c, &originator);
+      000473 8F 82            [24] 1941 	mov	dpl,r7
+      000475 8E 83            [24] 1942 	mov	dph,r6
+      000477 8D F0            [24] 1943 	mov	b,r5
+      000479 12r00r00         [24] 1944 	lcall	__gptrget
+      00047C FA               [12] 1945 	mov	r2,a
+      00047D A3               [24] 1946 	inc	dptr
+      00047E 12r00r00         [24] 1947 	lcall	__gptrget
+      000481 FB               [12] 1948 	mov	r3,a
+      000482 A3               [24] 1949 	inc	dptr
+      000483 12r00r00         [24] 1950 	lcall	__gptrget
+      000486 FC               [12] 1951 	mov	r4,a
+      000487 8A 82            [24] 1952 	mov	dpl,r2
+      000489 8B 83            [24] 1953 	mov	dph,r3
+      00048B 8C F0            [24] 1954 	mov	b,r4
+      00048D 12r00r00         [24] 1955 	lcall	__gptrget
+      000490 FF               [12] 1956 	mov	r7,a
+      000491 A3               [24] 1957 	inc	dptr
+      000492 12r00r00         [24] 1958 	lcall	__gptrget
+      000495 FE               [12] 1959 	mov	r6,a
+      000496 E5 81            [12] 1960 	mov	a,sp
+      000498 24 F0            [12] 1961 	add	a,#0xf0
+      00049A F8               [12] 1962 	mov	r0,a
+      00049B 86 04            [24] 1963 	mov	ar4,@r0
+      00049D 8C 02            [24] 1964 	mov	ar2,r4
+      00049F 7B 00            [12] 1965 	mov	r3,#0x00
+      0004A1 7C 40            [12] 1966 	mov	r4,#0x40
+      0004A3 C0 07            [24] 1967 	push	ar7
+      0004A5 C0 06            [24] 1968 	push	ar6
+      0004A7 C0 02            [24] 1969 	push	ar2
+      0004A9 C0 03            [24] 1970 	push	ar3
+      0004AB C0 04            [24] 1971 	push	ar4
+      0004AD 12r04rB2         [24] 1972 	lcall	00121$
+      0004B0 80 12            [24] 1973 	sjmp	00122$
+      0004B2                       1974 00121$:
+      0004B2 C0 07            [24] 1975 	push	ar7
+      0004B4 C0 06            [24] 1976 	push	ar6
+      0004B6 E5 81            [12] 1977 	mov	a,sp
+      0004B8 24 F3            [12] 1978 	add	a,#0xf3
+      0004BA F8               [12] 1979 	mov	r0,a
+      0004BB 86 82            [24] 1980 	mov	dpl,@r0
+      0004BD 08               [12] 1981 	inc	r0
+      0004BE 86 83            [24] 1982 	mov	dph,@r0
+      0004C0 08               [12] 1983 	inc	r0
+      0004C1 86 F0            [24] 1984 	mov	b,@r0
+      0004C3 22               [24] 1985 	ret
+      0004C4                       1986 00122$:
+      0004C4 15 81            [12] 1987 	dec	sp
+      0004C6 15 81            [12] 1988 	dec	sp
+      0004C8 15 81            [12] 1989 	dec	sp
+      0004CA D0 06            [24] 1990 	pop	ar6
+      0004CC D0 07            [24] 1991 	pop	ar7
+      0004CE 02r05r97         [24] 1992 	ljmp	00108$
+      0004D1                       1993 00106$:
+                                   1994 ;	../contiki-sensinode/core/net/rime/route-discovery.c:200: rimeaddr_copy(&dest, &msg->dest);
+      0004D1 C0 05            [24] 1995 	push	ar5
+      0004D3 C0 06            [24] 1996 	push	ar6
+      0004D5 C0 07            [24] 1997 	push	ar7
+      0004D7 E5 81            [12] 1998 	mov	a,sp
+      0004D9 24 F1            [12] 1999 	add	a,#0xf1
+      0004DB F8               [12] 2000 	mov	r0,a
+      0004DC 74 02            [12] 2001 	mov	a,#0x02
+      0004DE 26               [12] 2002 	add	a,@r0
+      0004DF FA               [12] 2003 	mov	r2,a
+      0004E0 E4               [12] 2004 	clr	a
+      0004E1 08               [12] 2005 	inc	r0
+      0004E2 36               [12] 2006 	addc	a,@r0
+      0004E3 FB               [12] 2007 	mov	r3,a
+      0004E4 08               [12] 2008 	inc	r0
+      0004E5 86 04            [24] 2009 	mov	ar4,@r0
+      0004E7 E5 81            [12] 2010 	mov	a,sp
+      0004E9 24 F7            [12] 2011 	add	a,#0xF7
+      0004EB FF               [12] 2012 	mov	r7,a
+      0004EC 7E 00            [12] 2013 	mov	r6,#0x00
+      0004EE 7D 40            [12] 2014 	mov	r5,#0x40
+      0004F0 C0 07            [24] 2015 	push	ar7
+      0004F2 C0 06            [24] 2016 	push	ar6
+      0004F4 C0 05            [24] 2017 	push	ar5
+      0004F6 C0 02            [24] 2018 	push	ar2
+      0004F8 C0 03            [24] 2019 	push	ar3
+      0004FA C0 04            [24] 2020 	push	ar4
+      0004FC 8F 82            [24] 2021 	mov	dpl,r7
+      0004FE 8E 83            [24] 2022 	mov	dph,r6
+      000500 8D F0            [24] 2023 	mov	b,r5
+      000502 12r00r00         [24] 2024 	lcall	_rimeaddr_copy
+      000505 15 81            [12] 2025 	dec	sp
+      000507 15 81            [12] 2026 	dec	sp
+      000509 15 81            [12] 2027 	dec	sp
+      00050B D0 05            [24] 2028 	pop	ar5
+      00050D D0 06            [24] 2029 	pop	ar6
+      00050F D0 07            [24] 2030 	pop	ar7
+                                   2031 ;	../contiki-sensinode/core/net/rime/route-discovery.c:202: rt = route_lookup(&msg->dest);
+      000511 E5 81            [12] 2032 	mov	a,sp
+      000513 24 F1            [12] 2033 	add	a,#0xf1
+      000515 F8               [12] 2034 	mov	r0,a
+      000516 74 02            [12] 2035 	mov	a,#0x02
+      000518 26               [12] 2036 	add	a,@r0
+      000519 FD               [12] 2037 	mov	r5,a
+      00051A E4               [12] 2038 	clr	a
+      00051B 08               [12] 2039 	inc	r0
+      00051C 36               [12] 2040 	addc	a,@r0
+      00051D FE               [12] 2041 	mov	r6,a
+      00051E 08               [12] 2042 	inc	r0
+      00051F 86 07            [24] 2043 	mov	ar7,@r0
+      000521 8D 82            [24] 2044 	mov	dpl,r5
+      000523 8E 83            [24] 2045 	mov	dph,r6
+      000525 8F F0            [24] 2046 	mov	b,r7
+      000527 12r00r00         [24] 2047 	lcall	_route_lookup
+      00052A AD 82            [24] 2048 	mov	r5,dpl
+      00052C AE 83            [24] 2049 	mov	r6,dph
+      00052E AF F0            [24] 2050 	mov	r7,b
+      000530 E5 81            [12] 2051 	mov	a,sp
+      000532 24 F4            [12] 2052 	add	a,#0xf4
+      000534 F8               [12] 2053 	mov	r0,a
+      000535 A6 05            [24] 2054 	mov	@r0,ar5
+      000537 08               [12] 2055 	inc	r0
+      000538 A6 06            [24] 2056 	mov	@r0,ar6
+      00053A 08               [12] 2057 	inc	r0
+      00053B A6 07            [24] 2058 	mov	@r0,ar7
+                                   2059 ;	../contiki-sensinode/core/net/rime/route-discovery.c:203: if(rt != NULL) {
+      00053D D0 07            [24] 2060 	pop	ar7
+      00053F D0 06            [24] 2061 	pop	ar6
+      000541 D0 05            [24] 2062 	pop	ar5
+      000543 E5 81            [12] 2063 	mov	a,sp
+      000545 24 F7            [12] 2064 	add	a,#0xf7
+      000547 F8               [12] 2065 	mov	r0,a
+      000548 E6               [12] 2066 	mov	a,@r0
+      000549 08               [12] 2067 	inc	r0
+      00054A 46               [12] 2068 	orl	a,@r0
+      00054B 60 4A            [24] 2069 	jz	00108$
+                                   2070 ;	../contiki-sensinode/core/net/rime/route-discovery.c:205: msg->hops++;
+      00054D 8D 82            [24] 2071 	mov	dpl,r5
+      00054F 8E 83            [24] 2072 	mov	dph,r6
+      000551 8F F0            [24] 2073 	mov	b,r7
+      000553 12r00r00         [24] 2074 	lcall	__gptrget
+      000556 FC               [12] 2075 	mov	r4,a
+      000557 0C               [12] 2076 	inc	r4
+      000558 8D 82            [24] 2077 	mov	dpl,r5
+      00055A 8E 83            [24] 2078 	mov	dph,r6
+      00055C 8F F0            [24] 2079 	mov	b,r7
+      00055E EC               [12] 2080 	mov	a,r4
+      00055F 12r00r00         [24] 2081 	lcall	__gptrput
+                                   2082 ;	../contiki-sensinode/core/net/rime/route-discovery.c:206: unicast_send(&c->rrepconn, &rt->nexthop);
+      000562 E5 81            [12] 2083 	mov	a,sp
+      000564 24 F7            [12] 2084 	add	a,#0xf7
+      000566 F8               [12] 2085 	mov	r0,a
+      000567 74 05            [12] 2086 	mov	a,#0x05
+      000569 26               [12] 2087 	add	a,@r0
+      00056A FD               [12] 2088 	mov	r5,a
+      00056B E4               [12] 2089 	clr	a
+      00056C 08               [12] 2090 	inc	r0
+      00056D 36               [12] 2091 	addc	a,@r0
+      00056E FE               [12] 2092 	mov	r6,a
+      00056F 08               [12] 2093 	inc	r0
+      000570 86 07            [24] 2094 	mov	ar7,@r0
+      000572 E5 81            [12] 2095 	mov	a,sp
+      000574 24 FC            [12] 2096 	add	a,#0xfc
+      000576 F8               [12] 2097 	mov	r0,a
+      000577 74 35            [12] 2098 	mov	a,#0x35
+      000579 26               [12] 2099 	add	a,@r0
+      00057A FA               [12] 2100 	mov	r2,a
+      00057B E4               [12] 2101 	clr	a
+      00057C 08               [12] 2102 	inc	r0
+      00057D 36               [12] 2103 	addc	a,@r0
+      00057E FB               [12] 2104 	mov	r3,a
+      00057F 08               [12] 2105 	inc	r0
+      000580 86 04            [24] 2106 	mov	ar4,@r0
+      000582 C0 05            [24] 2107 	push	ar5
+      000584 C0 06            [24] 2108 	push	ar6
+      000586 C0 07            [24] 2109 	push	ar7
+      000588 8A 82            [24] 2110 	mov	dpl,r2
+      00058A 8B 83            [24] 2111 	mov	dph,r3
+      00058C 8C F0            [24] 2112 	mov	b,r4
+      00058E 12r00r00         [24] 2113 	lcall	_unicast_send
+      000591 15 81            [12] 2114 	dec	sp
+      000593 15 81            [12] 2115 	dec	sp
+      000595 15 81            [12] 2116 	dec	sp
+      000597                       2117 00108$:
+      000597 E5 81            [12] 2118 	mov	a,sp
+      000599 24 EF            [12] 2119 	add	a,#0xEF
+      00059B F5 81            [12] 2120 	mov	sp,a
+      00059D 22               [24] 2121 	ret
+                                   2122 ;------------------------------------------------------------
+                                   2123 ;Allocation info for local variables in function 'rreq_packet_received'
+                                   2124 ;------------------------------------------------------------
+                                   2125 ;from                      Allocated to stack - sp -7
+                                   2126 ;originator                Allocated to stack - sp -10
+                                   2127 ;seqno                     Allocated to stack - sp -11
+                                   2128 ;hops                      Allocated to stack - sp -12
+                                   2129 ;nf                        Allocated to registers r5 r6 r7 
+                                   2130 ;msg                       Allocated to stack - sp -2
+                                   2131 ;c                         Allocated to registers r5 r6 r7 
+                                   2132 ;------------------------------------------------------------
+                                   2133 ;	../contiki-sensinode/core/net/rime/route-discovery.c:214: rreq_packet_received(struct netflood_conn *nf, const rimeaddr_t *from,
+                                   2134 ;	-----------------------------------------
+                                   2135 ;	 function rreq_packet_received
+                                   2136 ;	-----------------------------------------
+      00059E                       2137 _rreq_packet_received:
+      00059E 05 81            [12] 2138 	inc	sp
+      0005A0 05 81            [12] 2139 	inc	sp
+      0005A2 05 81            [12] 2140 	inc	sp
+      0005A4 AD 82            [24] 2141 	mov	r5,dpl
+      0005A6 AE 83            [24] 2142 	mov	r6,dph
+      0005A8 AF F0            [24] 2143 	mov	r7,b
+                                   2144 ;	../contiki-sensinode/core/net/rime/route-discovery.c:217: struct route_msg *msg = packetbuf_dataptr();
+      0005AA C0 07            [24] 2145 	push	ar7
+      0005AC C0 06            [24] 2146 	push	ar6
+      0005AE C0 05            [24] 2147 	push	ar5
+      0005B0 12r00r00         [24] 2148 	lcall	_packetbuf_dataptr
+      0005B3 AA 82            [24] 2149 	mov	r2,dpl
+      0005B5 AB 83            [24] 2150 	mov	r3,dph
+      0005B7 AC F0            [24] 2151 	mov	r4,b
+      0005B9 D0 05            [24] 2152 	pop	ar5
+      0005BB D0 06            [24] 2153 	pop	ar6
+      0005BD D0 07            [24] 2154 	pop	ar7
+      0005BF A8 81            [24] 2155 	mov	r0,sp
+      0005C1 18               [12] 2156 	dec	r0
+      0005C2 18               [12] 2157 	dec	r0
+      0005C3 A6 02            [24] 2158 	mov	@r0,ar2
+      0005C5 08               [12] 2159 	inc	r0
+      0005C6 A6 03            [24] 2160 	mov	@r0,ar3
+      0005C8 08               [12] 2161 	inc	r0
+      0005C9 A6 04            [24] 2162 	mov	@r0,ar4
+                                   2163 ;	../contiki-sensinode/core/net/rime/route-discovery.c:218: struct route_discovery_conn *c = (struct route_discovery_conn *)
+                                   2164 ;	../contiki-sensinode/core/net/rime/route-discovery.c:229: if(!(rimeaddr_cmp(&c->last_rreq_originator, originator) &&
+      0005CB 74 5C            [12] 2165 	mov	a,#0x5C
+      0005CD 2D               [12] 2166 	add	a,r5
+      0005CE FA               [12] 2167 	mov	r2,a
+      0005CF E4               [12] 2168 	clr	a
+      0005D0 3E               [12] 2169 	addc	a,r6
+      0005D1 FB               [12] 2170 	mov	r3,a
+      0005D2 8F 04            [24] 2171 	mov	ar4,r7
+      0005D4 C0 07            [24] 2172 	push	ar7
+      0005D6 C0 06            [24] 2173 	push	ar6
+      0005D8 C0 05            [24] 2174 	push	ar5
+      0005DA E5 81            [12] 2175 	mov	a,sp
+      0005DC 24 F3            [12] 2176 	add	a,#0xf3
+      0005DE F8               [12] 2177 	mov	r0,a
+      0005DF E6               [12] 2178 	mov	a,@r0
+      0005E0 C0 E0            [24] 2179 	push	acc
+      0005E2 08               [12] 2180 	inc	r0
+      0005E3 E6               [12] 2181 	mov	a,@r0
+      0005E4 C0 E0            [24] 2182 	push	acc
+      0005E6 08               [12] 2183 	inc	r0
+      0005E7 E6               [12] 2184 	mov	a,@r0
+      0005E8 C0 E0            [24] 2185 	push	acc
+      0005EA 8A 82            [24] 2186 	mov	dpl,r2
+      0005EC 8B 83            [24] 2187 	mov	dph,r3
+      0005EE 8C F0            [24] 2188 	mov	b,r4
+      0005F0 12r00r00         [24] 2189 	lcall	_rimeaddr_cmp
+      0005F3 AB 82            [24] 2190 	mov	r3,dpl
+      0005F5 AC 83            [24] 2191 	mov	r4,dph
+      0005F7 15 81            [12] 2192 	dec	sp
+      0005F9 15 81            [12] 2193 	dec	sp
+      0005FB 15 81            [12] 2194 	dec	sp
+      0005FD D0 05            [24] 2195 	pop	ar5
+      0005FF D0 06            [24] 2196 	pop	ar6
+      000601 D0 07            [24] 2197 	pop	ar7
+      000603 EB               [12] 2198 	mov	a,r3
+      000604 4C               [12] 2199 	orl	a,r4
+      000605 60 51            [24] 2200 	jz	00104$
+                                   2201 ;	../contiki-sensinode/core/net/rime/route-discovery.c:230: c->last_rreq_id == msg->rreq_id)) {
+      000607 74 5E            [12] 2202 	mov	a,#0x5E
+      000609 2D               [12] 2203 	add	a,r5
+      00060A FA               [12] 2204 	mov	r2,a
+      00060B E4               [12] 2205 	clr	a
+      00060C 3E               [12] 2206 	addc	a,r6
+      00060D FB               [12] 2207 	mov	r3,a
+      00060E 8F 04            [24] 2208 	mov	ar4,r7
+      000610 8A 82            [24] 2209 	mov	dpl,r2
+      000612 8B 83            [24] 2210 	mov	dph,r3
+      000614 8C F0            [24] 2211 	mov	b,r4
+      000616 12r00r00         [24] 2212 	lcall	__gptrget
+      000619 FA               [12] 2213 	mov	r2,a
+      00061A A3               [24] 2214 	inc	dptr
+      00061B 12r00r00         [24] 2215 	lcall	__gptrget
+      00061E FB               [12] 2216 	mov	r3,a
+      00061F C0 05            [24] 2217 	push	ar5
+      000621 C0 06            [24] 2218 	push	ar6
+      000623 C0 07            [24] 2219 	push	ar7
+      000625 E5 81            [12] 2220 	mov	a,sp
+      000627 24 FB            [12] 2221 	add	a,#0xfb
+      000629 F8               [12] 2222 	mov	r0,a
+      00062A 74 02            [12] 2223 	mov	a,#0x02
+      00062C 26               [12] 2224 	add	a,@r0
+      00062D FC               [12] 2225 	mov	r4,a
+      00062E E4               [12] 2226 	clr	a
+      00062F 08               [12] 2227 	inc	r0
+      000630 36               [12] 2228 	addc	a,@r0
+      000631 FE               [12] 2229 	mov	r6,a
+      000632 08               [12] 2230 	inc	r0
+      000633 86 07            [24] 2231 	mov	ar7,@r0
+      000635 8C 82            [24] 2232 	mov	dpl,r4
+      000637 8E 83            [24] 2233 	mov	dph,r6
+      000639 8F F0            [24] 2234 	mov	b,r7
+      00063B 12r00r00         [24] 2235 	lcall	__gptrget
+      00063E FC               [12] 2236 	mov	r4,a
+      00063F 7F 00            [12] 2237 	mov	r7,#0x00
+      000641 EA               [12] 2238 	mov	a,r2
+      000642 B5 04 0D         [24] 2239 	cjne	a,ar4,00116$
+      000645 EB               [12] 2240 	mov	a,r3
+      000646 B5 07 09         [24] 2241 	cjne	a,ar7,00116$
+      000649 D0 07            [24] 2242 	pop	ar7
+      00064B D0 06            [24] 2243 	pop	ar6
+      00064D D0 05            [24] 2244 	pop	ar5
+      00064F 02r07r8A         [24] 2245 	ljmp	00105$
+      000652                       2246 00116$:
+      000652 D0 07            [24] 2247 	pop	ar7
+      000654 D0 06            [24] 2248 	pop	ar6
+      000656 D0 05            [24] 2249 	pop	ar5
+      000658                       2250 00104$:
+                                   2251 ;	../contiki-sensinode/core/net/rime/route-discovery.c:238: rimeaddr_copy(&c->last_rreq_originator, originator);
+      000658 74 5C            [12] 2252 	mov	a,#0x5C
+      00065A 2D               [12] 2253 	add	a,r5
+      00065B FA               [12] 2254 	mov	r2,a
+      00065C E4               [12] 2255 	clr	a
+      00065D 3E               [12] 2256 	addc	a,r6
+      00065E FB               [12] 2257 	mov	r3,a
+      00065F 8F 04            [24] 2258 	mov	ar4,r7
+      000661 C0 07            [24] 2259 	push	ar7
+      000663 C0 06            [24] 2260 	push	ar6
+      000665 C0 05            [24] 2261 	push	ar5
+      000667 E5 81            [12] 2262 	mov	a,sp
+      000669 24 F3            [12] 2263 	add	a,#0xf3
+      00066B F8               [12] 2264 	mov	r0,a
+      00066C E6               [12] 2265 	mov	a,@r0
+      00066D C0 E0            [24] 2266 	push	acc
+      00066F 08               [12] 2267 	inc	r0
+      000670 E6               [12] 2268 	mov	a,@r0
+      000671 C0 E0            [24] 2269 	push	acc
+      000673 08               [12] 2270 	inc	r0
+      000674 E6               [12] 2271 	mov	a,@r0
+      000675 C0 E0            [24] 2272 	push	acc
+      000677 8A 82            [24] 2273 	mov	dpl,r2
+      000679 8B 83            [24] 2274 	mov	dph,r3
+      00067B 8C F0            [24] 2275 	mov	b,r4
+      00067D 12r00r00         [24] 2276 	lcall	_rimeaddr_copy
+      000680 15 81            [12] 2277 	dec	sp
+      000682 15 81            [12] 2278 	dec	sp
+      000684 15 81            [12] 2279 	dec	sp
+      000686 D0 05            [24] 2280 	pop	ar5
+      000688 D0 06            [24] 2281 	pop	ar6
+      00068A D0 07            [24] 2282 	pop	ar7
+                                   2283 ;	../contiki-sensinode/core/net/rime/route-discovery.c:239: c->last_rreq_id = msg->rreq_id;
+      00068C 74 5E            [12] 2284 	mov	a,#0x5E
+      00068E 2D               [12] 2285 	add	a,r5
+      00068F FA               [12] 2286 	mov	r2,a
+      000690 E4               [12] 2287 	clr	a
+      000691 3E               [12] 2288 	addc	a,r6
+      000692 FB               [12] 2289 	mov	r3,a
+      000693 8F 04            [24] 2290 	mov	ar4,r7
+      000695 C0 05            [24] 2291 	push	ar5
+      000697 C0 06            [24] 2292 	push	ar6
+      000699 C0 07            [24] 2293 	push	ar7
+      00069B E5 81            [12] 2294 	mov	a,sp
+      00069D 24 FB            [12] 2295 	add	a,#0xfb
+      00069F F8               [12] 2296 	mov	r0,a
+      0006A0 74 02            [12] 2297 	mov	a,#0x02
+      0006A2 26               [12] 2298 	add	a,@r0
+      0006A3 FD               [12] 2299 	mov	r5,a
+      0006A4 E4               [12] 2300 	clr	a
+      0006A5 08               [12] 2301 	inc	r0
+      0006A6 36               [12] 2302 	addc	a,@r0
+      0006A7 FE               [12] 2303 	mov	r6,a
+      0006A8 08               [12] 2304 	inc	r0
+      0006A9 86 07            [24] 2305 	mov	ar7,@r0
+      0006AB 8D 82            [24] 2306 	mov	dpl,r5
+      0006AD 8E 83            [24] 2307 	mov	dph,r6
+      0006AF 8F F0            [24] 2308 	mov	b,r7
+      0006B1 12r00r00         [24] 2309 	lcall	__gptrget
+      0006B4 FD               [12] 2310 	mov	r5,a
+      0006B5 7F 00            [12] 2311 	mov	r7,#0x00
+      0006B7 8A 82            [24] 2312 	mov	dpl,r2
+      0006B9 8B 83            [24] 2313 	mov	dph,r3
+      0006BB 8C F0            [24] 2314 	mov	b,r4
+      0006BD ED               [12] 2315 	mov	a,r5
+      0006BE 12r00r00         [24] 2316 	lcall	__gptrput
+      0006C1 A3               [24] 2317 	inc	dptr
+      0006C2 EF               [12] 2318 	mov	a,r7
+      0006C3 12r00r00         [24] 2319 	lcall	__gptrput
+                                   2320 ;	../contiki-sensinode/core/net/rime/route-discovery.c:241: if(rimeaddr_cmp(&msg->dest, &rimeaddr_node_addr)) {
+      0006C6 C0 05            [24] 2321 	push	ar5
+      0006C8 74r00            [12] 2322 	mov	a,#_rimeaddr_node_addr
+      0006CA C0 E0            [24] 2323 	push	acc
+      0006CC 74s00            [12] 2324 	mov	a,#(_rimeaddr_node_addr >> 8)
+      0006CE C0 E0            [24] 2325 	push	acc
+      0006D0 E4               [12] 2326 	clr	a
+      0006D1 C0 E0            [24] 2327 	push	acc
+      0006D3 E5 81            [12] 2328 	mov	a,sp
+      0006D5 24 F7            [12] 2329 	add	a,#0xf7
+      0006D7 F8               [12] 2330 	mov	r0,a
+      0006D8 86 82            [24] 2331 	mov	dpl,@r0
+      0006DA 08               [12] 2332 	inc	r0
+      0006DB 86 83            [24] 2333 	mov	dph,@r0
+      0006DD 08               [12] 2334 	inc	r0
+      0006DE 86 F0            [24] 2335 	mov	b,@r0
+      0006E0 12r00r00         [24] 2336 	lcall	_rimeaddr_cmp
+      0006E3 AE 82            [24] 2337 	mov	r6,dpl
+      0006E5 AF 83            [24] 2338 	mov	r7,dph
+      0006E7 15 81            [12] 2339 	dec	sp
+      0006E9 15 81            [12] 2340 	dec	sp
+      0006EB 15 81            [12] 2341 	dec	sp
+      0006ED D0 05            [24] 2342 	pop	ar5
+      0006EF EE               [12] 2343 	mov	a,r6
+      0006F0 4F               [12] 2344 	orl	a,r7
+      0006F1 D0 07            [24] 2345 	pop	ar7
+      0006F3 D0 06            [24] 2346 	pop	ar6
+      0006F5 D0 05            [24] 2347 	pop	ar5
+      0006F7 60 5E            [24] 2348 	jz	00102$
+                                   2349 ;	../contiki-sensinode/core/net/rime/route-discovery.c:250: insert_route(originator, from, hops);
+      0006F9 C0 07            [24] 2350 	push	ar7
+      0006FB C0 06            [24] 2351 	push	ar6
+      0006FD C0 05            [24] 2352 	push	ar5
+      0006FF E5 81            [12] 2353 	mov	a,sp
+      000701 24 F1            [12] 2354 	add	a,#0xf1
+      000703 F8               [12] 2355 	mov	r0,a
+      000704 E6               [12] 2356 	mov	a,@r0
+      000705 C0 E0            [24] 2357 	push	acc
+      000707 E5 81            [12] 2358 	mov	a,sp
+      000709 24 F5            [12] 2359 	add	a,#0xf5
+      00070B F8               [12] 2360 	mov	r0,a
+      00070C E6               [12] 2361 	mov	a,@r0
+      00070D C0 E0            [24] 2362 	push	acc
+      00070F 08               [12] 2363 	inc	r0
+      000710 E6               [12] 2364 	mov	a,@r0
+      000711 C0 E0            [24] 2365 	push	acc
+      000713 08               [12] 2366 	inc	r0
+      000714 E6               [12] 2367 	mov	a,@r0
+      000715 C0 E0            [24] 2368 	push	acc
+      000717 E5 81            [12] 2369 	mov	a,sp
+      000719 24 EF            [12] 2370 	add	a,#0xef
+      00071B F8               [12] 2371 	mov	r0,a
+      00071C 86 82            [24] 2372 	mov	dpl,@r0
+      00071E 08               [12] 2373 	inc	r0
+      00071F 86 83            [24] 2374 	mov	dph,@r0
+      000721 08               [12] 2375 	inc	r0
+      000722 86 F0            [24] 2376 	mov	b,@r0
+      000724 12r02rB0         [24] 2377 	lcall	_insert_route
+      000727 E5 81            [12] 2378 	mov	a,sp
+      000729 24 FC            [12] 2379 	add	a,#0xfc
+      00072B F5 81            [12] 2380 	mov	sp,a
+      00072D D0 05            [24] 2381 	pop	ar5
+      00072F D0 06            [24] 2382 	pop	ar6
+      000731 D0 07            [24] 2383 	pop	ar7
+                                   2384 ;	../contiki-sensinode/core/net/rime/route-discovery.c:253: send_rrep(c, originator);
+      000733 E5 81            [12] 2385 	mov	a,sp
+      000735 24 F6            [12] 2386 	add	a,#0xf6
+      000737 F8               [12] 2387 	mov	r0,a
+      000738 E6               [12] 2388 	mov	a,@r0
+      000739 C0 E0            [24] 2389 	push	acc
+      00073B 08               [12] 2390 	inc	r0
+      00073C E6               [12] 2391 	mov	a,@r0
+      00073D C0 E0            [24] 2392 	push	acc
+      00073F 08               [12] 2393 	inc	r0
+      000740 E6               [12] 2394 	mov	a,@r0
+      000741 C0 E0            [24] 2395 	push	acc
+      000743 8D 82            [24] 2396 	mov	dpl,r5
+      000745 8E 83            [24] 2397 	mov	dph,r6
+      000747 8F F0            [24] 2398 	mov	b,r7
+      000749 12r01r69         [24] 2399 	lcall	_send_rrep
+      00074C 15 81            [12] 2400 	dec	sp
+      00074E 15 81            [12] 2401 	dec	sp
+      000750 15 81            [12] 2402 	dec	sp
+                                   2403 ;	../contiki-sensinode/core/net/rime/route-discovery.c:254: return 0; /* Don't continue to flood the rreq packet. */
+      000752 90 00 00         [24] 2404 	mov	dptr,#0x0000
+      000755 80 36            [24] 2405 	sjmp	00107$
+      000757                       2406 00102$:
+                                   2407 ;	../contiki-sensinode/core/net/rime/route-discovery.c:262: insert_route(originator, from, hops);
+      000757 E5 81            [12] 2408 	mov	a,sp
+      000759 24 F4            [12] 2409 	add	a,#0xf4
+      00075B F8               [12] 2410 	mov	r0,a
+      00075C E6               [12] 2411 	mov	a,@r0
+      00075D C0 E0            [24] 2412 	push	acc
+      00075F E5 81            [12] 2413 	mov	a,sp
+      000761 24 F8            [12] 2414 	add	a,#0xf8
+      000763 F8               [12] 2415 	mov	r0,a
+      000764 E6               [12] 2416 	mov	a,@r0
+      000765 C0 E0            [24] 2417 	push	acc
+      000767 08               [12] 2418 	inc	r0
+      000768 E6               [12] 2419 	mov	a,@r0
+      000769 C0 E0            [24] 2420 	push	acc
+      00076B 08               [12] 2421 	inc	r0
+      00076C E6               [12] 2422 	mov	a,@r0
+      00076D C0 E0            [24] 2423 	push	acc
+      00076F E5 81            [12] 2424 	mov	a,sp
+      000771 24 F2            [12] 2425 	add	a,#0xf2
+      000773 F8               [12] 2426 	mov	r0,a
+      000774 86 82            [24] 2427 	mov	dpl,@r0
+      000776 08               [12] 2428 	inc	r0
+      000777 86 83            [24] 2429 	mov	dph,@r0
+      000779 08               [12] 2430 	inc	r0
+      00077A 86 F0            [24] 2431 	mov	b,@r0
+      00077C 12r02rB0         [24] 2432 	lcall	_insert_route
+      00077F E5 81            [12] 2433 	mov	a,sp
+      000781 24 FC            [12] 2434 	add	a,#0xfc
+      000783 F5 81            [12] 2435 	mov	sp,a
+                                   2436 ;	../contiki-sensinode/core/net/rime/route-discovery.c:265: return 1;
+      000785 90 00 01         [24] 2437 	mov	dptr,#0x0001
+      000788 80 03            [24] 2438 	sjmp	00107$
+      00078A                       2439 00105$:
+                                   2440 ;	../contiki-sensinode/core/net/rime/route-discovery.c:267: return 0; /* Don't forward packet. */
+      00078A 90 00 00         [24] 2441 	mov	dptr,#0x0000
+      00078D                       2442 00107$:
+      00078D 15 81            [12] 2443 	dec	sp
+      00078F 15 81            [12] 2444 	dec	sp
+      000791 15 81            [12] 2445 	dec	sp
+      000793 22               [24] 2446 	ret
+                                   2447 ;------------------------------------------------------------
+                                   2448 ;Allocation info for local variables in function 'route_discovery_open'
+                                   2449 ;------------------------------------------------------------
+                                   2450 ;time                      Allocated to stack - sp -6
+                                   2451 ;channels                  Allocated to stack - sp -8
+                                   2452 ;callbacks                 Allocated to stack - sp -11
+                                   2453 ;c                         Allocated to stack - sp -2
+                                   2454 ;------------------------------------------------------------
+                                   2455 ;	../contiki-sensinode/core/net/rime/route-discovery.c:274: route_discovery_open(struct route_discovery_conn *c,
+                                   2456 ;	-----------------------------------------
+                                   2457 ;	 function route_discovery_open
+                                   2458 ;	-----------------------------------------
+      000794                       2459 _route_discovery_open:
+      000794 C0 82            [24] 2460 	push	dpl
+      000796 C0 83            [24] 2461 	push	dph
+      000798 C0 F0            [24] 2462 	push	b
+                                   2463 ;	../contiki-sensinode/core/net/rime/route-discovery.c:279: netflood_open(&c->rreqconn, time, channels + 0, &rreq_callbacks);
+      00079A 74r04            [12] 2464 	mov	a,#_rreq_callbacks
+      00079C C0 E0            [24] 2465 	push	acc
+      00079E 74s00            [12] 2466 	mov	a,#(_rreq_callbacks >> 8)
+      0007A0 C0 E0            [24] 2467 	push	acc
+      0007A2 74 80            [12] 2468 	mov	a,#0x80
+      0007A4 C0 E0            [24] 2469 	push	acc
+      0007A6 E5 81            [12] 2470 	mov	a,sp
+      0007A8 24 F5            [12] 2471 	add	a,#0xf5
+      0007AA F8               [12] 2472 	mov	r0,a
+      0007AB E6               [12] 2473 	mov	a,@r0
+      0007AC C0 E0            [24] 2474 	push	acc
+      0007AE 08               [12] 2475 	inc	r0
+      0007AF E6               [12] 2476 	mov	a,@r0
+      0007B0 C0 E0            [24] 2477 	push	acc
+      0007B2 E5 81            [12] 2478 	mov	a,sp
+      0007B4 24 F5            [12] 2479 	add	a,#0xf5
+      0007B6 F8               [12] 2480 	mov	r0,a
+      0007B7 E6               [12] 2481 	mov	a,@r0
+      0007B8 C0 E0            [24] 2482 	push	acc
+      0007BA 08               [12] 2483 	inc	r0
+      0007BB E6               [12] 2484 	mov	a,@r0
+      0007BC C0 E0            [24] 2485 	push	acc
+      0007BE E5 81            [12] 2486 	mov	a,sp
+      0007C0 24 F7            [12] 2487 	add	a,#0xf7
+      0007C2 F8               [12] 2488 	mov	r0,a
+      0007C3 86 82            [24] 2489 	mov	dpl,@r0
+      0007C5 08               [12] 2490 	inc	r0
+      0007C6 86 83            [24] 2491 	mov	dph,@r0
+      0007C8 08               [12] 2492 	inc	r0
+      0007C9 86 F0            [24] 2493 	mov	b,@r0
+      0007CB 12r00r00         [24] 2494 	lcall	_netflood_open
+      0007CE E5 81            [12] 2495 	mov	a,sp
+      0007D0 24 F9            [12] 2496 	add	a,#0xf9
+                                   2497 ;	../contiki-sensinode/core/net/rime/route-discovery.c:280: unicast_open(&c->rrepconn, channels + 1, &rrep_callbacks);
+      0007D2 F5 81            [12] 2498 	mov	sp,a
+      0007D4 24 F8            [12] 2499 	add	a,#0xf8
+      0007D6 F8               [12] 2500 	mov	r0,a
+      0007D7 74 01            [12] 2501 	mov	a,#0x01
+      0007D9 26               [12] 2502 	add	a,@r0
+      0007DA FB               [12] 2503 	mov	r3,a
+      0007DB E4               [12] 2504 	clr	a
+      0007DC 08               [12] 2505 	inc	r0
+      0007DD 36               [12] 2506 	addc	a,@r0
+      0007DE FC               [12] 2507 	mov	r4,a
+      0007DF A8 81            [24] 2508 	mov	r0,sp
+      0007E1 18               [12] 2509 	dec	r0
+      0007E2 18               [12] 2510 	dec	r0
+      0007E3 74 35            [12] 2511 	mov	a,#0x35
+      0007E5 26               [12] 2512 	add	a,@r0
+      0007E6 FA               [12] 2513 	mov	r2,a
+      0007E7 E4               [12] 2514 	clr	a
+      0007E8 08               [12] 2515 	inc	r0
+      0007E9 36               [12] 2516 	addc	a,@r0
+      0007EA FE               [12] 2517 	mov	r6,a
+      0007EB 08               [12] 2518 	inc	r0
+      0007EC 86 07            [24] 2519 	mov	ar7,@r0
+      0007EE 74r00            [12] 2520 	mov	a,#_rrep_callbacks
+      0007F0 C0 E0            [24] 2521 	push	acc
+      0007F2 74s00            [12] 2522 	mov	a,#(_rrep_callbacks >> 8)
+      0007F4 C0 E0            [24] 2523 	push	acc
+      0007F6 74 80            [12] 2524 	mov	a,#0x80
+      0007F8 C0 E0            [24] 2525 	push	acc
+      0007FA C0 03            [24] 2526 	push	ar3
+      0007FC C0 04            [24] 2527 	push	ar4
+      0007FE 8A 82            [24] 2528 	mov	dpl,r2
+      000800 8E 83            [24] 2529 	mov	dph,r6
+      000802 8F F0            [24] 2530 	mov	b,r7
+      000804 12r00r00         [24] 2531 	lcall	_unicast_open
+      000807 E5 81            [12] 2532 	mov	a,sp
+      000809 24 FB            [12] 2533 	add	a,#0xfb
+      00080B F5 81            [12] 2534 	mov	sp,a
+                                   2535 ;	../contiki-sensinode/core/net/rime/route-discovery.c:281: c->cb = callbacks;
+      00080D A8 81            [24] 2536 	mov	r0,sp
+      00080F 18               [12] 2537 	dec	r0
+      000810 18               [12] 2538 	dec	r0
+      000811 74 62            [12] 2539 	mov	a,#0x62
+      000813 26               [12] 2540 	add	a,@r0
+      000814 FD               [12] 2541 	mov	r5,a
+      000815 E4               [12] 2542 	clr	a
+      000816 08               [12] 2543 	inc	r0
+      000817 36               [12] 2544 	addc	a,@r0
+      000818 FE               [12] 2545 	mov	r6,a
+      000819 08               [12] 2546 	inc	r0
+      00081A 86 07            [24] 2547 	mov	ar7,@r0
+      00081C 8D 82            [24] 2548 	mov	dpl,r5
+      00081E 8E 83            [24] 2549 	mov	dph,r6
+      000820 8F F0            [24] 2550 	mov	b,r7
+      000822 E5 81            [12] 2551 	mov	a,sp
+      000824 24 F5            [12] 2552 	add	a,#0xf5
+      000826 F8               [12] 2553 	mov	r0,a
+      000827 E6               [12] 2554 	mov	a,@r0
+      000828 12r00r00         [24] 2555 	lcall	__gptrput
+      00082B A3               [24] 2556 	inc	dptr
+      00082C 08               [12] 2557 	inc	r0
+      00082D E6               [12] 2558 	mov	a,@r0
+      00082E 12r00r00         [24] 2559 	lcall	__gptrput
+      000831 A3               [24] 2560 	inc	dptr
+      000832 08               [12] 2561 	inc	r0
+      000833 E6               [12] 2562 	mov	a,@r0
+      000834 12r00r00         [24] 2563 	lcall	__gptrput
+      000837 15 81            [12] 2564 	dec	sp
+      000839 15 81            [12] 2565 	dec	sp
+      00083B 15 81            [12] 2566 	dec	sp
+      00083D 22               [24] 2567 	ret
+                                   2568 ;------------------------------------------------------------
+                                   2569 ;Allocation info for local variables in function 'route_discovery_close'
+                                   2570 ;------------------------------------------------------------
+                                   2571 ;c                         Allocated to registers r5 r6 r7 
+                                   2572 ;------------------------------------------------------------
+                                   2573 ;	../contiki-sensinode/core/net/rime/route-discovery.c:285: route_discovery_close(struct route_discovery_conn *c)
+                                   2574 ;	-----------------------------------------
+                                   2575 ;	 function route_discovery_close
+                                   2576 ;	-----------------------------------------
+      00083E                       2577 _route_discovery_close:
+      00083E AD 82            [24] 2578 	mov	r5,dpl
+      000840 AE 83            [24] 2579 	mov	r6,dph
+      000842 AF F0            [24] 2580 	mov	r7,b
+                                   2581 ;	../contiki-sensinode/core/net/rime/route-discovery.c:287: unicast_close(&c->rrepconn);
+      000844 74 35            [12] 2582 	mov	a,#0x35
+      000846 2D               [12] 2583 	add	a,r5
+      000847 FA               [12] 2584 	mov	r2,a
+      000848 E4               [12] 2585 	clr	a
+      000849 3E               [12] 2586 	addc	a,r6
+      00084A FB               [12] 2587 	mov	r3,a
+      00084B 8F 04            [24] 2588 	mov	ar4,r7
+      00084D 8A 82            [24] 2589 	mov	dpl,r2
+      00084F 8B 83            [24] 2590 	mov	dph,r3
+      000851 8C F0            [24] 2591 	mov	b,r4
+      000853 C0 07            [24] 2592 	push	ar7
+      000855 C0 06            [24] 2593 	push	ar6
+      000857 C0 05            [24] 2594 	push	ar5
+      000859 12r00r00         [24] 2595 	lcall	_unicast_close
+      00085C D0 05            [24] 2596 	pop	ar5
+      00085E D0 06            [24] 2597 	pop	ar6
+      000860 D0 07            [24] 2598 	pop	ar7
+                                   2599 ;	../contiki-sensinode/core/net/rime/route-discovery.c:288: netflood_close(&c->rreqconn);
+      000862 8D 82            [24] 2600 	mov	dpl,r5
+      000864 8E 83            [24] 2601 	mov	dph,r6
+      000866 8F F0            [24] 2602 	mov	b,r7
+      000868 C0 07            [24] 2603 	push	ar7
+      00086A C0 06            [24] 2604 	push	ar6
+      00086C C0 05            [24] 2605 	push	ar5
+      00086E 12r00r00         [24] 2606 	lcall	_netflood_close
+      000871 D0 05            [24] 2607 	pop	ar5
+      000873 D0 06            [24] 2608 	pop	ar6
+      000875 D0 07            [24] 2609 	pop	ar7
+                                   2610 ;	../contiki-sensinode/core/net/rime/route-discovery.c:289: ctimer_stop(&c->t);
+      000877 74 47            [12] 2611 	mov	a,#0x47
+      000879 2D               [12] 2612 	add	a,r5
+      00087A FD               [12] 2613 	mov	r5,a
+      00087B E4               [12] 2614 	clr	a
+      00087C 3E               [12] 2615 	addc	a,r6
+      00087D FE               [12] 2616 	mov	r6,a
+      00087E 8D 82            [24] 2617 	mov	dpl,r5
+      000880 8E 83            [24] 2618 	mov	dph,r6
+      000882 8F F0            [24] 2619 	mov	b,r7
+      000884 02r00r00         [24] 2620 	ljmp	_ctimer_stop
+                                   2621 ;------------------------------------------------------------
+                                   2622 ;Allocation info for local variables in function 'timeout_handler'
+                                   2623 ;------------------------------------------------------------
+                                   2624 ;ptr                       Allocated to registers r5 r6 r7 
+                                   2625 ;c                         Allocated to registers r5 r6 r7 
+                                   2626 ;------------------------------------------------------------
+                                   2627 ;	../contiki-sensinode/core/net/rime/route-discovery.c:293: timeout_handler(void *ptr)
+                                   2628 ;	-----------------------------------------
+                                   2629 ;	 function timeout_handler
+                                   2630 ;	-----------------------------------------
+      000887                       2631 _timeout_handler:
+      000887 AD 82            [24] 2632 	mov	r5,dpl
+      000889 AE 83            [24] 2633 	mov	r6,dph
+      00088B AF F0            [24] 2634 	mov	r7,b
+                                   2635 ;	../contiki-sensinode/core/net/rime/route-discovery.c:295: struct route_discovery_conn *c = ptr;
+                                   2636 ;	../contiki-sensinode/core/net/rime/route-discovery.c:297: rrep_pending = 0;
+      00088D 90r00r00         [24] 2637 	mov	dptr,#_rrep_pending
+      000890 E4               [12] 2638 	clr	a
+      000891 F0               [24] 2639 	movx	@dptr,a
+                                   2640 ;	../contiki-sensinode/core/net/rime/route-discovery.c:298: if(c->cb->timedout) {
+      000892 74 62            [12] 2641 	mov	a,#0x62
+      000894 2D               [12] 2642 	add	a,r5
+      000895 FA               [12] 2643 	mov	r2,a
+      000896 E4               [12] 2644 	clr	a
+      000897 3E               [12] 2645 	addc	a,r6
+      000898 FB               [12] 2646 	mov	r3,a
+      000899 8F 04            [24] 2647 	mov	ar4,r7
+      00089B 8A 82            [24] 2648 	mov	dpl,r2
+      00089D 8B 83            [24] 2649 	mov	dph,r3
+      00089F 8C F0            [24] 2650 	mov	b,r4
+      0008A1 12r00r00         [24] 2651 	lcall	__gptrget
+      0008A4 FA               [12] 2652 	mov	r2,a
+      0008A5 A3               [24] 2653 	inc	dptr
+      0008A6 12r00r00         [24] 2654 	lcall	__gptrget
+      0008A9 FB               [12] 2655 	mov	r3,a
+      0008AA A3               [24] 2656 	inc	dptr
+      0008AB 12r00r00         [24] 2657 	lcall	__gptrget
+      0008AE FC               [12] 2658 	mov	r4,a
+      0008AF 74 02            [12] 2659 	mov	a,#0x02
+      0008B1 2A               [12] 2660 	add	a,r2
+      0008B2 FA               [12] 2661 	mov	r2,a
+      0008B3 E4               [12] 2662 	clr	a
+      0008B4 3B               [12] 2663 	addc	a,r3
+      0008B5 FB               [12] 2664 	mov	r3,a
+      0008B6 8A 82            [24] 2665 	mov	dpl,r2
+      0008B8 8B 83            [24] 2666 	mov	dph,r3
+      0008BA 8C F0            [24] 2667 	mov	b,r4
+      0008BC 12r00r00         [24] 2668 	lcall	__gptrget
+      0008BF FB               [12] 2669 	mov	r3,a
+      0008C0 A3               [24] 2670 	inc	dptr
+      0008C1 12r00r00         [24] 2671 	lcall	__gptrget
+      0008C4 FC               [12] 2672 	mov	r4,a
+      0008C5 4B               [12] 2673 	orl	a,r3
+      0008C6 60 18            [24] 2674 	jz	00103$
+                                   2675 ;	../contiki-sensinode/core/net/rime/route-discovery.c:299: c->cb->timedout(c);
+      0008C8 C0 04            [24] 2676 	push	ar4
+      0008CA C0 03            [24] 2677 	push	ar3
+      0008CC 12r08rD1         [24] 2678 	lcall	00109$
+      0008CF 80 0B            [24] 2679 	sjmp	00110$
+      0008D1                       2680 00109$:
+      0008D1 C0 03            [24] 2681 	push	ar3
+      0008D3 C0 04            [24] 2682 	push	ar4
+      0008D5 8D 82            [24] 2683 	mov	dpl,r5
+      0008D7 8E 83            [24] 2684 	mov	dph,r6
+      0008D9 8F F0            [24] 2685 	mov	b,r7
+      0008DB 22               [24] 2686 	ret
+      0008DC                       2687 00110$:
+      0008DC D0 03            [24] 2688 	pop	ar3
+      0008DE D0 04            [24] 2689 	pop	ar4
+      0008E0                       2690 00103$:
+      0008E0 22               [24] 2691 	ret
+                                   2692 ;------------------------------------------------------------
+                                   2693 ;Allocation info for local variables in function 'route_discovery_discover'
+                                   2694 ;------------------------------------------------------------
+                                   2695 ;addr                      Allocated to stack - sp -7
+                                   2696 ;timeout                   Allocated to stack - sp -9
+                                   2697 ;c                         Allocated to stack - sp -2
+                                   2698 ;------------------------------------------------------------
+                                   2699 ;	../contiki-sensinode/core/net/rime/route-discovery.c:304: route_discovery_discover(struct route_discovery_conn *c, const rimeaddr_t *addr,
+                                   2700 ;	-----------------------------------------
+                                   2701 ;	 function route_discovery_discover
+                                   2702 ;	-----------------------------------------
+      0008E1                       2703 _route_discovery_discover:
+      0008E1 C0 82            [24] 2704 	push	dpl
+      0008E3 C0 83            [24] 2705 	push	dph
+      0008E5 C0 F0            [24] 2706 	push	b
+                                   2707 ;	../contiki-sensinode/core/net/rime/route-discovery.c:307: if(rrep_pending) {
+      0008E7 90r00r00         [24] 2708 	mov	dptr,#_rrep_pending
+      0008EA E0               [24] 2709 	movx	a,@dptr
+      0008EB FC               [12] 2710 	mov	r4,a
+      0008EC 60 05            [24] 2711 	jz	00102$
+                                   2712 ;	../contiki-sensinode/core/net/rime/route-discovery.c:309: return 0;
+      0008EE 90 00 00         [24] 2713 	mov	dptr,#0x0000
+      0008F1 80 73            [24] 2714 	sjmp	00103$
+      0008F3                       2715 00102$:
+                                   2716 ;	../contiki-sensinode/core/net/rime/route-discovery.c:313: ctimer_set(&c->t, timeout, timeout_handler, c);
+      0008F3 A8 81            [24] 2717 	mov	r0,sp
+      0008F5 18               [12] 2718 	dec	r0
+      0008F6 18               [12] 2719 	dec	r0
+      0008F7 86 02            [24] 2720 	mov	ar2,@r0
+      0008F9 08               [12] 2721 	inc	r0
+      0008FA 86 03            [24] 2722 	mov	ar3,@r0
+      0008FC 08               [12] 2723 	inc	r0
+      0008FD 86 04            [24] 2724 	mov	ar4,@r0
+      0008FF A8 81            [24] 2725 	mov	r0,sp
+      000901 18               [12] 2726 	dec	r0
+      000902 18               [12] 2727 	dec	r0
+      000903 74 47            [12] 2728 	mov	a,#0x47
+      000905 26               [12] 2729 	add	a,@r0
+      000906 FD               [12] 2730 	mov	r5,a
+      000907 E4               [12] 2731 	clr	a
+      000908 08               [12] 2732 	inc	r0
+      000909 36               [12] 2733 	addc	a,@r0
+      00090A FE               [12] 2734 	mov	r6,a
+      00090B 08               [12] 2735 	inc	r0
+      00090C 86 07            [24] 2736 	mov	ar7,@r0
+      00090E C0 02            [24] 2737 	push	ar2
+      000910 C0 03            [24] 2738 	push	ar3
+      000912 C0 04            [24] 2739 	push	ar4
+      000914 74r87            [12] 2740 	mov	a,#_timeout_handler
+      000916 C0 E0            [24] 2741 	push	acc
+      000918 74s08            [12] 2742 	mov	a,#(_timeout_handler >> 8)
+      00091A C0 E0            [24] 2743 	push	acc
+      00091C E5 81            [12] 2744 	mov	a,sp
+      00091E 24 F2            [12] 2745 	add	a,#0xf2
+      000920 F8               [12] 2746 	mov	r0,a
+      000921 E6               [12] 2747 	mov	a,@r0
+      000922 C0 E0            [24] 2748 	push	acc
+      000924 08               [12] 2749 	inc	r0
+      000925 E6               [12] 2750 	mov	a,@r0
+      000926 C0 E0            [24] 2751 	push	acc
+      000928 8D 82            [24] 2752 	mov	dpl,r5
+      00092A 8E 83            [24] 2753 	mov	dph,r6
+      00092C 8F F0            [24] 2754 	mov	b,r7
+      00092E 12r00r00         [24] 2755 	lcall	_ctimer_set
+      000931 E5 81            [12] 2756 	mov	a,sp
+      000933 24 F9            [12] 2757 	add	a,#0xf9
+      000935 F5 81            [12] 2758 	mov	sp,a
+                                   2759 ;	../contiki-sensinode/core/net/rime/route-discovery.c:314: rrep_pending = 1;
+      000937 90r00r00         [24] 2760 	mov	dptr,#_rrep_pending
+      00093A 74 01            [12] 2761 	mov	a,#0x01
+      00093C F0               [24] 2762 	movx	@dptr,a
+                                   2763 ;	../contiki-sensinode/core/net/rime/route-discovery.c:315: send_rreq(c, addr);
+      00093D E5 81            [12] 2764 	mov	a,sp
+      00093F 24 F9            [12] 2765 	add	a,#0xf9
+      000941 F8               [12] 2766 	mov	r0,a
+      000942 E6               [12] 2767 	mov	a,@r0
+      000943 C0 E0            [24] 2768 	push	acc
+      000945 08               [12] 2769 	inc	r0
+      000946 E6               [12] 2770 	mov	a,@r0
+      000947 C0 E0            [24] 2771 	push	acc
+      000949 08               [12] 2772 	inc	r0
+      00094A E6               [12] 2773 	mov	a,@r0
+      00094B C0 E0            [24] 2774 	push	acc
+      00094D E5 81            [12] 2775 	mov	a,sp
+      00094F 24 FB            [12] 2776 	add	a,#0xfb
+      000951 F8               [12] 2777 	mov	r0,a
+      000952 86 82            [24] 2778 	mov	dpl,@r0
+      000954 08               [12] 2779 	inc	r0
+      000955 86 83            [24] 2780 	mov	dph,@r0
+      000957 08               [12] 2781 	inc	r0
+      000958 86 F0            [24] 2782 	mov	b,@r0
+      00095A 12r00r00         [24] 2783 	lcall	_send_rreq
+      00095D 15 81            [12] 2784 	dec	sp
+      00095F 15 81            [12] 2785 	dec	sp
+      000961 15 81            [12] 2786 	dec	sp
+                                   2787 ;	../contiki-sensinode/core/net/rime/route-discovery.c:316: return 1;
+      000963 90 00 01         [24] 2788 	mov	dptr,#0x0001
+      000966                       2789 00103$:
+      000966 15 81            [12] 2790 	dec	sp
+      000968 15 81            [12] 2791 	dec	sp
+      00096A 15 81            [12] 2792 	dec	sp
+      00096C 22               [24] 2793 	ret
+                                   2794 	.area CSEG    (CODE)
+                                   2795 	.area CONST   (CODE)
+      000000                       2796 _rrep_callbacks:
+      000000rE1s02                 2797 	.byte _rrep_packet_received,(_rrep_packet_received >> 8)
+      000002 00 00                 2798 	.byte #0x00,#0x00
+      000004                       2799 _rreq_callbacks:
+      000004r9Es05                 2800 	.byte _rreq_packet_received,(_rreq_packet_received >> 8)
+      000006 00 00                 2801 	.byte #0x00,#0x00
+      000008 00 00                 2802 	.byte #0x00,#0x00
+                                   2803 	.area XINIT   (CODE)
+                                   2804 	.area CABS    (ABS,CODE)

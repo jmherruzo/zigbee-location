@@ -1,0 +1,666 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Oct 24 2015) (Linux)
+                                      4 ; This file was generated Sun Oct 25 01:52:09 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module mmem
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _memmove
+                                     13 	.globl _list_remove
+                                     14 	.globl _list_add
+                                     15 	.globl _list_init
+                                     16 	.globl _avail_memory
+                                     17 	.globl _mmem_alloc
+                                     18 	.globl _mmem_free
+                                     19 	.globl _mmem_init
+                                     20 ;--------------------------------------------------------
+                                     21 ; special function registers
+                                     22 ;--------------------------------------------------------
+                                     23 	.area RSEG    (ABS,DATA)
+      000000                         24 	.org 0x0000
+                                     25 ;--------------------------------------------------------
+                                     26 ; special function bits
+                                     27 ;--------------------------------------------------------
+                                     28 	.area RSEG    (ABS,DATA)
+      000000                         29 	.org 0x0000
+                                     30 ;--------------------------------------------------------
+                                     31 ; overlayable register banks
+                                     32 ;--------------------------------------------------------
+                                     33 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         34 	.ds 8
+                                     35 ;--------------------------------------------------------
+                                     36 ; internal ram data
+                                     37 ;--------------------------------------------------------
+                                     38 	.area DSEG    (DATA)
+                                     39 ;--------------------------------------------------------
+                                     40 ; overlayable items in internal ram 
+                                     41 ;--------------------------------------------------------
+                                     42 ;--------------------------------------------------------
+                                     43 ; indirectly addressable internal ram data
+                                     44 ;--------------------------------------------------------
+                                     45 	.area ISEG    (DATA)
+                                     46 ;--------------------------------------------------------
+                                     47 ; absolute internal ram data
+                                     48 ;--------------------------------------------------------
+                                     49 	.area IABS    (ABS,DATA)
+                                     50 	.area IABS    (ABS,DATA)
+                                     51 ;--------------------------------------------------------
+                                     52 ; bit data
+                                     53 ;--------------------------------------------------------
+                                     54 	.area BSEG    (BIT)
+                                     55 ;--------------------------------------------------------
+                                     56 ; paged external ram data
+                                     57 ;--------------------------------------------------------
+                                     58 	.area PSEG    (PAG,XDATA)
+                                     59 ;--------------------------------------------------------
+                                     60 ; external ram data
+                                     61 ;--------------------------------------------------------
+                                     62 	.area XSEG    (XDATA)
+      000000                         63 _avail_memory::
+      000000                         64 	.ds 2
+      000002                         65 _memory:
+      000002                         66 	.ds 4096
+                                     67 ;--------------------------------------------------------
+                                     68 ; absolute external ram data
+                                     69 ;--------------------------------------------------------
+                                     70 	.area XABS    (ABS,XDATA)
+                                     71 ;--------------------------------------------------------
+                                     72 ; external initialized ram data
+                                     73 ;--------------------------------------------------------
+                                     74 	.area XISEG   (XDATA)
+      000000                         75 _mmemlist_list:
+      000000                         76 	.ds 3
+      000003                         77 _mmemlist:
+      000003                         78 	.ds 3
+                                     79 	.area HOME    (CODE)
+                                     80 	.area GSINIT0 (CODE)
+                                     81 	.area GSINIT1 (CODE)
+                                     82 	.area GSINIT2 (CODE)
+                                     83 	.area GSINIT3 (CODE)
+                                     84 	.area GSINIT4 (CODE)
+                                     85 	.area GSINIT5 (CODE)
+                                     86 	.area GSINIT  (CODE)
+                                     87 	.area GSFINAL (CODE)
+                                     88 	.area CSEG    (CODE)
+                                     89 ;--------------------------------------------------------
+                                     90 ; global & static initialisations
+                                     91 ;--------------------------------------------------------
+                                     92 	.area HOME    (CODE)
+                                     93 	.area GSINIT  (CODE)
+                                     94 	.area GSFINAL (CODE)
+                                     95 	.area GSINIT  (CODE)
+                                     96 ;--------------------------------------------------------
+                                     97 ; Home
+                                     98 ;--------------------------------------------------------
+                                     99 	.area HOME    (CODE)
+                                    100 	.area HOME    (CODE)
+                                    101 ;--------------------------------------------------------
+                                    102 ; code
+                                    103 ;--------------------------------------------------------
+                                    104 	.area CSEG    (CODE)
+                                    105 ;------------------------------------------------------------
+                                    106 ;Allocation info for local variables in function 'mmem_alloc'
+                                    107 ;------------------------------------------------------------
+                                    108 ;size                      Allocated to stack - sp -6
+                                    109 ;m                         Allocated to stack - sp -2
+                                    110 ;------------------------------------------------------------
+                                    111 ;	../contiki-sensinode/core/lib/mmem.c:83: mmem_alloc(struct mmem *m, unsigned int size)
+                                    112 ;	-----------------------------------------
+                                    113 ;	 function mmem_alloc
+                                    114 ;	-----------------------------------------
+      000000                        115 _mmem_alloc:
+                           000007   116 	ar7 = 0x07
+                           000006   117 	ar6 = 0x06
+                           000005   118 	ar5 = 0x05
+                           000004   119 	ar4 = 0x04
+                           000003   120 	ar3 = 0x03
+                           000002   121 	ar2 = 0x02
+                           000001   122 	ar1 = 0x01
+                           000000   123 	ar0 = 0x00
+      000000 C0 82            [24]  124 	push	dpl
+      000002 C0 83            [24]  125 	push	dph
+      000004 C0 F0            [24]  126 	push	b
+                                    127 ;	../contiki-sensinode/core/lib/mmem.c:86: if(avail_memory < size) {
+      000006 90r00r00         [24]  128 	mov	dptr,#_avail_memory
+      000009 E0               [24]  129 	movx	a,@dptr
+      00000A FB               [12]  130 	mov	r3,a
+      00000B A3               [24]  131 	inc	dptr
+      00000C E0               [24]  132 	movx	a,@dptr
+      00000D FC               [12]  133 	mov	r4,a
+      00000E E5 81            [12]  134 	mov	a,sp
+      000010 24 FA            [12]  135 	add	a,#0xfa
+      000012 F8               [12]  136 	mov	r0,a
+      000013 C3               [12]  137 	clr	c
+      000014 EB               [12]  138 	mov	a,r3
+      000015 96               [12]  139 	subb	a,@r0
+      000016 EC               [12]  140 	mov	a,r4
+      000017 08               [12]  141 	inc	r0
+      000018 96               [12]  142 	subb	a,@r0
+      000019 50 06            [24]  143 	jnc	00102$
+                                    144 ;	../contiki-sensinode/core/lib/mmem.c:87: return 0;
+      00001B 90 00 00         [24]  145 	mov	dptr,#0x0000
+      00001E 02r00rCA         [24]  146 	ljmp	00103$
+      000021                        147 00102$:
+                                    148 ;	../contiki-sensinode/core/lib/mmem.c:92: list_add(mmemlist, m);
+      000021 A8 81            [24]  149 	mov	r0,sp
+      000023 18               [12]  150 	dec	r0
+      000024 18               [12]  151 	dec	r0
+      000025 86 02            [24]  152 	mov	ar2,@r0
+      000027 08               [12]  153 	inc	r0
+      000028 86 03            [24]  154 	mov	ar3,@r0
+      00002A 08               [12]  155 	inc	r0
+      00002B 86 04            [24]  156 	mov	ar4,@r0
+      00002D 90r00r03         [24]  157 	mov	dptr,#_mmemlist
+      000030 E0               [24]  158 	movx	a,@dptr
+      000031 FD               [12]  159 	mov	r5,a
+      000032 A3               [24]  160 	inc	dptr
+      000033 E0               [24]  161 	movx	a,@dptr
+      000034 FE               [12]  162 	mov	r6,a
+      000035 A3               [24]  163 	inc	dptr
+      000036 E0               [24]  164 	movx	a,@dptr
+      000037 FF               [12]  165 	mov	r7,a
+      000038 C0 02            [24]  166 	push	ar2
+      00003A C0 03            [24]  167 	push	ar3
+      00003C C0 04            [24]  168 	push	ar4
+      00003E 8D 82            [24]  169 	mov	dpl,r5
+      000040 8E 83            [24]  170 	mov	dph,r6
+      000042 8F F0            [24]  171 	mov	b,r7
+      000044 12r00r00         [24]  172 	lcall	_list_add
+      000047 15 81            [12]  173 	dec	sp
+      000049 15 81            [12]  174 	dec	sp
+      00004B 15 81            [12]  175 	dec	sp
+                                    176 ;	../contiki-sensinode/core/lib/mmem.c:96: m->ptr = &memory[MMEM_SIZE - avail_memory];
+      00004D A8 81            [24]  177 	mov	r0,sp
+      00004F 18               [12]  178 	dec	r0
+      000050 18               [12]  179 	dec	r0
+      000051 74 05            [12]  180 	mov	a,#0x05
+      000053 26               [12]  181 	add	a,@r0
+      000054 FD               [12]  182 	mov	r5,a
+      000055 E4               [12]  183 	clr	a
+      000056 08               [12]  184 	inc	r0
+      000057 36               [12]  185 	addc	a,@r0
+      000058 FE               [12]  186 	mov	r6,a
+      000059 08               [12]  187 	inc	r0
+      00005A 86 07            [24]  188 	mov	ar7,@r0
+      00005C 90r00r00         [24]  189 	mov	dptr,#_avail_memory
+      00005F E0               [24]  190 	movx	a,@dptr
+      000060 FB               [12]  191 	mov	r3,a
+      000061 A3               [24]  192 	inc	dptr
+      000062 E0               [24]  193 	movx	a,@dptr
+      000063 FC               [12]  194 	mov	r4,a
+      000064 E4               [12]  195 	clr	a
+      000065 C3               [12]  196 	clr	c
+      000066 9B               [12]  197 	subb	a,r3
+      000067 FB               [12]  198 	mov	r3,a
+      000068 74 10            [12]  199 	mov	a,#0x10
+      00006A 9C               [12]  200 	subb	a,r4
+      00006B FC               [12]  201 	mov	r4,a
+      00006C EB               [12]  202 	mov	a,r3
+      00006D 24r02            [12]  203 	add	a,#_memory
+      00006F FB               [12]  204 	mov	r3,a
+      000070 EC               [12]  205 	mov	a,r4
+      000071 34s00            [12]  206 	addc	a,#(_memory >> 8)
+      000073 FC               [12]  207 	mov	r4,a
+      000074 7A 00            [12]  208 	mov	r2,#0x00
+      000076 8D 82            [24]  209 	mov	dpl,r5
+      000078 8E 83            [24]  210 	mov	dph,r6
+      00007A 8F F0            [24]  211 	mov	b,r7
+      00007C EB               [12]  212 	mov	a,r3
+      00007D 12r00r00         [24]  213 	lcall	__gptrput
+      000080 A3               [24]  214 	inc	dptr
+      000081 EC               [12]  215 	mov	a,r4
+      000082 12r00r00         [24]  216 	lcall	__gptrput
+      000085 A3               [24]  217 	inc	dptr
+      000086 EA               [12]  218 	mov	a,r2
+      000087 12r00r00         [24]  219 	lcall	__gptrput
+                                    220 ;	../contiki-sensinode/core/lib/mmem.c:99: m->size = size;
+      00008A A8 81            [24]  221 	mov	r0,sp
+      00008C 18               [12]  222 	dec	r0
+      00008D 18               [12]  223 	dec	r0
+      00008E 74 03            [12]  224 	mov	a,#0x03
+      000090 26               [12]  225 	add	a,@r0
+      000091 FD               [12]  226 	mov	r5,a
+      000092 E4               [12]  227 	clr	a
+      000093 08               [12]  228 	inc	r0
+      000094 36               [12]  229 	addc	a,@r0
+      000095 FE               [12]  230 	mov	r6,a
+      000096 08               [12]  231 	inc	r0
+      000097 86 07            [24]  232 	mov	ar7,@r0
+      000099 8D 82            [24]  233 	mov	dpl,r5
+      00009B 8E 83            [24]  234 	mov	dph,r6
+      00009D 8F F0            [24]  235 	mov	b,r7
+      00009F E5 81            [12]  236 	mov	a,sp
+      0000A1 24 FA            [12]  237 	add	a,#0xfa
+      0000A3 F8               [12]  238 	mov	r0,a
+      0000A4 E6               [12]  239 	mov	a,@r0
+      0000A5 12r00r00         [24]  240 	lcall	__gptrput
+      0000A8 A3               [24]  241 	inc	dptr
+      0000A9 08               [12]  242 	inc	r0
+      0000AA E6               [12]  243 	mov	a,@r0
+      0000AB 12r00r00         [24]  244 	lcall	__gptrput
+                                    245 ;	../contiki-sensinode/core/lib/mmem.c:102: avail_memory -= size;
+      0000AE 90r00r00         [24]  246 	mov	dptr,#_avail_memory
+      0000B1 E0               [24]  247 	movx	a,@dptr
+      0000B2 FE               [12]  248 	mov	r6,a
+      0000B3 A3               [24]  249 	inc	dptr
+      0000B4 E0               [24]  250 	movx	a,@dptr
+      0000B5 FF               [12]  251 	mov	r7,a
+      0000B6 E5 81            [12]  252 	mov	a,sp
+      0000B8 24 FA            [12]  253 	add	a,#0xfa
+      0000BA F8               [12]  254 	mov	r0,a
+      0000BB 90r00r00         [24]  255 	mov	dptr,#_avail_memory
+      0000BE EE               [12]  256 	mov	a,r6
+      0000BF C3               [12]  257 	clr	c
+      0000C0 96               [12]  258 	subb	a,@r0
+      0000C1 F0               [24]  259 	movx	@dptr,a
+      0000C2 EF               [12]  260 	mov	a,r7
+      0000C3 08               [12]  261 	inc	r0
+      0000C4 96               [12]  262 	subb	a,@r0
+      0000C5 A3               [24]  263 	inc	dptr
+      0000C6 F0               [24]  264 	movx	@dptr,a
+                                    265 ;	../contiki-sensinode/core/lib/mmem.c:106: return 1;
+      0000C7 90 00 01         [24]  266 	mov	dptr,#0x0001
+      0000CA                        267 00103$:
+      0000CA 15 81            [12]  268 	dec	sp
+      0000CC 15 81            [12]  269 	dec	sp
+      0000CE 15 81            [12]  270 	dec	sp
+      0000D0 22               [24]  271 	ret
+                                    272 ;------------------------------------------------------------
+                                    273 ;Allocation info for local variables in function 'mmem_free'
+                                    274 ;------------------------------------------------------------
+                                    275 ;m                         Allocated to stack - sp -13
+                                    276 ;n                         Allocated to stack - sp -2
+                                    277 ;sloc0                     Allocated to stack - sp -10
+                                    278 ;sloc1                     Allocated to stack - sp -8
+                                    279 ;sloc2                     Allocated to stack - sp -5
+                                    280 ;------------------------------------------------------------
+                                    281 ;	../contiki-sensinode/core/lib/mmem.c:119: mmem_free(struct mmem *m)
+                                    282 ;	-----------------------------------------
+                                    283 ;	 function mmem_free
+                                    284 ;	-----------------------------------------
+      0000D1                        285 _mmem_free:
+      0000D1 C0 82            [24]  286 	push	dpl
+      0000D3 C0 83            [24]  287 	push	dph
+      0000D5 C0 F0            [24]  288 	push	b
+      0000D7 E5 81            [12]  289 	mov	a,sp
+      0000D9 24 0B            [12]  290 	add	a,#0x0B
+                                    291 ;	../contiki-sensinode/core/lib/mmem.c:123: if(m->next != NULL) {
+      0000DB F5 81            [12]  292 	mov	sp,a
+      0000DD 24 F3            [12]  293 	add	a,#0xf3
+      0000DF F8               [12]  294 	mov	r0,a
+      0000E0 86 82            [24]  295 	mov	dpl,@r0
+      0000E2 08               [12]  296 	inc	r0
+      0000E3 86 83            [24]  297 	mov	dph,@r0
+      0000E5 08               [12]  298 	inc	r0
+      0000E6 86 F0            [24]  299 	mov	b,@r0
+      0000E8 12r00r00         [24]  300 	lcall	__gptrget
+      0000EB FA               [12]  301 	mov	r2,a
+      0000EC A3               [24]  302 	inc	dptr
+      0000ED 12r00r00         [24]  303 	lcall	__gptrget
+      0000F0 FB               [12]  304 	mov	r3,a
+      0000F1 A3               [24]  305 	inc	dptr
+      0000F2 12r00r00         [24]  306 	lcall	__gptrget
+      0000F5 FC               [12]  307 	mov	r4,a
+      0000F6 EA               [12]  308 	mov	a,r2
+      0000F7 4B               [12]  309 	orl	a,r3
+      0000F8 70 03            [24]  310 	jnz	00118$
+      0000FA 02r02r70         [24]  311 	ljmp	00103$
+      0000FD                        312 00118$:
+                                    313 ;	../contiki-sensinode/core/lib/mmem.c:127: &memory[MMEM_SIZE - avail_memory] - (char *)m->next->ptr);
+      0000FD 90r00r00         [24]  314 	mov	dptr,#_avail_memory
+      000100 E0               [24]  315 	movx	a,@dptr
+      000101 FE               [12]  316 	mov	r6,a
+      000102 A3               [24]  317 	inc	dptr
+      000103 E0               [24]  318 	movx	a,@dptr
+      000104 FF               [12]  319 	mov	r7,a
+      000105 E4               [12]  320 	clr	a
+      000106 C3               [12]  321 	clr	c
+      000107 9E               [12]  322 	subb	a,r6
+      000108 FE               [12]  323 	mov	r6,a
+      000109 74 10            [12]  324 	mov	a,#0x10
+      00010B 9F               [12]  325 	subb	a,r7
+      00010C FF               [12]  326 	mov	r7,a
+      00010D E5 81            [12]  327 	mov	a,sp
+      00010F 24 F6            [12]  328 	add	a,#0xf6
+      000111 F8               [12]  329 	mov	r0,a
+      000112 EE               [12]  330 	mov	a,r6
+      000113 24r02            [12]  331 	add	a,#_memory
+      000115 F6               [12]  332 	mov	@r0,a
+      000116 EF               [12]  333 	mov	a,r7
+      000117 34s00            [12]  334 	addc	a,#(_memory >> 8)
+      000119 08               [12]  335 	inc	r0
+      00011A F6               [12]  336 	mov	@r0,a
+      00011B 74 05            [12]  337 	mov	a,#0x05
+      00011D 2A               [12]  338 	add	a,r2
+      00011E FA               [12]  339 	mov	r2,a
+      00011F E4               [12]  340 	clr	a
+      000120 3B               [12]  341 	addc	a,r3
+      000121 FB               [12]  342 	mov	r3,a
+      000122 8A 82            [24]  343 	mov	dpl,r2
+      000124 8B 83            [24]  344 	mov	dph,r3
+      000126 8C F0            [24]  345 	mov	b,r4
+      000128 12r00r00         [24]  346 	lcall	__gptrget
+      00012B FA               [12]  347 	mov	r2,a
+      00012C A3               [24]  348 	inc	dptr
+      00012D 12r00r00         [24]  349 	lcall	__gptrget
+      000130 FB               [12]  350 	mov	r3,a
+      000131 A3               [24]  351 	inc	dptr
+      000132 12r00r00         [24]  352 	lcall	__gptrget
+      000135 FC               [12]  353 	mov	r4,a
+      000136 8A 05            [24]  354 	mov	ar5,r2
+      000138 8B 06            [24]  355 	mov	ar6,r3
+      00013A 8C 07            [24]  356 	mov	ar7,r4
+      00013C E5 81            [12]  357 	mov	a,sp
+      00013E 24 F6            [12]  358 	add	a,#0xf6
+      000140 F8               [12]  359 	mov	r0,a
+      000141 E6               [12]  360 	mov	a,@r0
+      000142 C3               [12]  361 	clr	c
+      000143 9D               [12]  362 	subb	a,r5
+      000144 F6               [12]  363 	mov	@r0,a
+      000145 08               [12]  364 	inc	r0
+      000146 E6               [12]  365 	mov	a,@r0
+      000147 9E               [12]  366 	subb	a,r6
+      000148 F6               [12]  367 	mov	@r0,a
+                                    368 ;	../contiki-sensinode/core/lib/mmem.c:126: memmove(m->ptr, m->next->ptr,
+      000149 E5 81            [12]  369 	mov	a,sp
+      00014B 24 F3            [12]  370 	add	a,#0xf3
+      00014D F8               [12]  371 	mov	r0,a
+      00014E 74 05            [12]  372 	mov	a,#0x05
+      000150 26               [12]  373 	add	a,@r0
+      000151 FD               [12]  374 	mov	r5,a
+      000152 E4               [12]  375 	clr	a
+      000153 08               [12]  376 	inc	r0
+      000154 36               [12]  377 	addc	a,@r0
+      000155 FE               [12]  378 	mov	r6,a
+      000156 08               [12]  379 	inc	r0
+      000157 86 07            [24]  380 	mov	ar7,@r0
+      000159 8D 82            [24]  381 	mov	dpl,r5
+      00015B 8E 83            [24]  382 	mov	dph,r6
+      00015D 8F F0            [24]  383 	mov	b,r7
+      00015F 12r00r00         [24]  384 	lcall	__gptrget
+      000162 FD               [12]  385 	mov	r5,a
+      000163 A3               [24]  386 	inc	dptr
+      000164 12r00r00         [24]  387 	lcall	__gptrget
+      000167 FE               [12]  388 	mov	r6,a
+      000168 A3               [24]  389 	inc	dptr
+      000169 12r00r00         [24]  390 	lcall	__gptrget
+      00016C FF               [12]  391 	mov	r7,a
+      00016D E5 81            [12]  392 	mov	a,sp
+      00016F 24 F6            [12]  393 	add	a,#0xf6
+      000171 F8               [12]  394 	mov	r0,a
+      000172 E6               [12]  395 	mov	a,@r0
+      000173 C0 E0            [24]  396 	push	acc
+      000175 08               [12]  397 	inc	r0
+      000176 E6               [12]  398 	mov	a,@r0
+      000177 C0 E0            [24]  399 	push	acc
+      000179 C0 02            [24]  400 	push	ar2
+      00017B C0 03            [24]  401 	push	ar3
+      00017D C0 04            [24]  402 	push	ar4
+      00017F 8D 82            [24]  403 	mov	dpl,r5
+      000181 8E 83            [24]  404 	mov	dph,r6
+      000183 8F F0            [24]  405 	mov	b,r7
+      000185 12r00r00         [24]  406 	lcall	_memmove
+      000188 E5 81            [12]  407 	mov	a,sp
+      00018A 24 FB            [12]  408 	add	a,#0xfb
+                                    409 ;	../contiki-sensinode/core/lib/mmem.c:131: for(n = m->next; n != NULL; n = n->next) {
+      00018C F5 81            [12]  410 	mov	sp,a
+      00018E 24 F3            [12]  411 	add	a,#0xf3
+      000190 F8               [12]  412 	mov	r0,a
+      000191 86 82            [24]  413 	mov	dpl,@r0
+      000193 08               [12]  414 	inc	r0
+      000194 86 83            [24]  415 	mov	dph,@r0
+      000196 08               [12]  416 	inc	r0
+      000197 86 F0            [24]  417 	mov	b,@r0
+      000199 A9 81            [24]  418 	mov	r1,sp
+      00019B 19               [12]  419 	dec	r1
+      00019C 19               [12]  420 	dec	r1
+      00019D 12r00r00         [24]  421 	lcall	__gptrget
+      0001A0 F7               [12]  422 	mov	@r1,a
+      0001A1 A3               [24]  423 	inc	dptr
+      0001A2 12r00r00         [24]  424 	lcall	__gptrget
+      0001A5 09               [12]  425 	inc	r1
+      0001A6 F7               [12]  426 	mov	@r1,a
+      0001A7 A3               [24]  427 	inc	dptr
+      0001A8 12r00r00         [24]  428 	lcall	__gptrget
+      0001AB 09               [12]  429 	inc	r1
+      0001AC F7               [12]  430 	mov	@r1,a
+      0001AD E5 81            [12]  431 	mov	a,sp
+      0001AF 24 F3            [12]  432 	add	a,#0xf3
+      0001B1 F8               [12]  433 	mov	r0,a
+      0001B2 E5 81            [12]  434 	mov	a,sp
+      0001B4 24 F8            [12]  435 	add	a,#0xf8
+      0001B6 F9               [12]  436 	mov	r1,a
+      0001B7 74 03            [12]  437 	mov	a,#0x03
+      0001B9 26               [12]  438 	add	a,@r0
+      0001BA F7               [12]  439 	mov	@r1,a
+      0001BB E4               [12]  440 	clr	a
+      0001BC 08               [12]  441 	inc	r0
+      0001BD 36               [12]  442 	addc	a,@r0
+      0001BE 09               [12]  443 	inc	r1
+      0001BF F7               [12]  444 	mov	@r1,a
+      0001C0 08               [12]  445 	inc	r0
+      0001C1 09               [12]  446 	inc	r1
+      0001C2 E6               [12]  447 	mov	a,@r0
+      0001C3 F7               [12]  448 	mov	@r1,a
+      0001C4                        449 00105$:
+      0001C4 A8 81            [24]  450 	mov	r0,sp
+      0001C6 18               [12]  451 	dec	r0
+      0001C7 18               [12]  452 	dec	r0
+      0001C8 E4               [12]  453 	clr	a
+      0001C9 C0 E0            [24]  454 	push	acc
+      0001CB C0 E0            [24]  455 	push	acc
+      0001CD C0 E0            [24]  456 	push	acc
+      0001CF 86 82            [24]  457 	mov	dpl,@r0
+      0001D1 08               [12]  458 	inc	r0
+      0001D2 86 83            [24]  459 	mov	dph,@r0
+      0001D4 08               [12]  460 	inc	r0
+      0001D5 86 F0            [24]  461 	mov	b,@r0
+      0001D7 12r00r00         [24]  462 	lcall	___gptr_cmp
+      0001DA 15 81            [12]  463 	dec	sp
+      0001DC 15 81            [12]  464 	dec	sp
+      0001DE 15 81            [12]  465 	dec	sp
+      0001E0 70 03            [24]  466 	jnz	00119$
+      0001E2 02r02r70         [24]  467 	ljmp	00103$
+      0001E5                        468 00119$:
+                                    469 ;	../contiki-sensinode/core/lib/mmem.c:132: n->ptr = (void *)((char *)n->ptr - m->size);
+      0001E5 A8 81            [24]  470 	mov	r0,sp
+      0001E7 18               [12]  471 	dec	r0
+      0001E8 18               [12]  472 	dec	r0
+      0001E9 74 05            [12]  473 	mov	a,#0x05
+      0001EB 26               [12]  474 	add	a,@r0
+      0001EC FD               [12]  475 	mov	r5,a
+      0001ED E4               [12]  476 	clr	a
+      0001EE 08               [12]  477 	inc	r0
+      0001EF 36               [12]  478 	addc	a,@r0
+      0001F0 FE               [12]  479 	mov	r6,a
+      0001F1 08               [12]  480 	inc	r0
+      0001F2 86 07            [24]  481 	mov	ar7,@r0
+      0001F4 8D 82            [24]  482 	mov	dpl,r5
+      0001F6 8E 83            [24]  483 	mov	dph,r6
+      0001F8 8F F0            [24]  484 	mov	b,r7
+      0001FA 12r00r00         [24]  485 	lcall	__gptrget
+      0001FD FA               [12]  486 	mov	r2,a
+      0001FE A3               [24]  487 	inc	dptr
+      0001FF 12r00r00         [24]  488 	lcall	__gptrget
+      000202 FB               [12]  489 	mov	r3,a
+      000203 A3               [24]  490 	inc	dptr
+      000204 12r00r00         [24]  491 	lcall	__gptrget
+      000207 FC               [12]  492 	mov	r4,a
+      000208 E5 81            [12]  493 	mov	a,sp
+      00020A 24 FB            [12]  494 	add	a,#0xfb
+      00020C F8               [12]  495 	mov	r0,a
+      00020D A6 02            [24]  496 	mov	@r0,ar2
+      00020F 08               [12]  497 	inc	r0
+      000210 A6 03            [24]  498 	mov	@r0,ar3
+      000212 08               [12]  499 	inc	r0
+      000213 A6 04            [24]  500 	mov	@r0,ar4
+      000215 E5 81            [12]  501 	mov	a,sp
+      000217 24 F8            [12]  502 	add	a,#0xf8
+      000219 F8               [12]  503 	mov	r0,a
+      00021A 86 82            [24]  504 	mov	dpl,@r0
+      00021C 08               [12]  505 	inc	r0
+      00021D 86 83            [24]  506 	mov	dph,@r0
+      00021F 08               [12]  507 	inc	r0
+      000220 86 F0            [24]  508 	mov	b,@r0
+      000222 12r00r00         [24]  509 	lcall	__gptrget
+      000225 FB               [12]  510 	mov	r3,a
+      000226 A3               [24]  511 	inc	dptr
+      000227 12r00r00         [24]  512 	lcall	__gptrget
+      00022A FC               [12]  513 	mov	r4,a
+      00022B E5 81            [12]  514 	mov	a,sp
+      00022D 24 FB            [12]  515 	add	a,#0xfb
+      00022F F8               [12]  516 	mov	r0,a
+      000230 E6               [12]  517 	mov	a,@r0
+      000231 C3               [12]  518 	clr	c
+      000232 9B               [12]  519 	subb	a,r3
+      000233 FB               [12]  520 	mov	r3,a
+      000234 08               [12]  521 	inc	r0
+      000235 E6               [12]  522 	mov	a,@r0
+      000236 9C               [12]  523 	subb	a,r4
+      000237 FC               [12]  524 	mov	r4,a
+      000238 08               [12]  525 	inc	r0
+      000239 86 02            [24]  526 	mov	ar2,@r0
+      00023B 8D 82            [24]  527 	mov	dpl,r5
+      00023D 8E 83            [24]  528 	mov	dph,r6
+      00023F 8F F0            [24]  529 	mov	b,r7
+      000241 EB               [12]  530 	mov	a,r3
+      000242 12r00r00         [24]  531 	lcall	__gptrput
+      000245 A3               [24]  532 	inc	dptr
+      000246 EC               [12]  533 	mov	a,r4
+      000247 12r00r00         [24]  534 	lcall	__gptrput
+      00024A A3               [24]  535 	inc	dptr
+      00024B EA               [12]  536 	mov	a,r2
+      00024C 12r00r00         [24]  537 	lcall	__gptrput
+                                    538 ;	../contiki-sensinode/core/lib/mmem.c:131: for(n = m->next; n != NULL; n = n->next) {
+      00024F A8 81            [24]  539 	mov	r0,sp
+      000251 18               [12]  540 	dec	r0
+      000252 18               [12]  541 	dec	r0
+      000253 86 82            [24]  542 	mov	dpl,@r0
+      000255 08               [12]  543 	inc	r0
+      000256 86 83            [24]  544 	mov	dph,@r0
+      000258 08               [12]  545 	inc	r0
+      000259 86 F0            [24]  546 	mov	b,@r0
+      00025B 12r00r00         [24]  547 	lcall	__gptrget
+      00025E 18               [12]  548 	dec	r0
+      00025F 18               [12]  549 	dec	r0
+      000260 F6               [12]  550 	mov	@r0,a
+      000261 A3               [24]  551 	inc	dptr
+      000262 12r00r00         [24]  552 	lcall	__gptrget
+      000265 08               [12]  553 	inc	r0
+      000266 F6               [12]  554 	mov	@r0,a
+      000267 A3               [24]  555 	inc	dptr
+      000268 12r00r00         [24]  556 	lcall	__gptrget
+      00026B 08               [12]  557 	inc	r0
+      00026C F6               [12]  558 	mov	@r0,a
+      00026D 02r01rC4         [24]  559 	ljmp	00105$
+      000270                        560 00103$:
+                                    561 ;	../contiki-sensinode/core/lib/mmem.c:136: avail_memory += m->size;
+      000270 E5 81            [12]  562 	mov	a,sp
+      000272 24 F3            [12]  563 	add	a,#0xf3
+      000274 F8               [12]  564 	mov	r0,a
+      000275 74 03            [12]  565 	mov	a,#0x03
+      000277 26               [12]  566 	add	a,@r0
+      000278 FD               [12]  567 	mov	r5,a
+      000279 E4               [12]  568 	clr	a
+      00027A 08               [12]  569 	inc	r0
+      00027B 36               [12]  570 	addc	a,@r0
+      00027C FE               [12]  571 	mov	r6,a
+      00027D 08               [12]  572 	inc	r0
+      00027E 86 07            [24]  573 	mov	ar7,@r0
+      000280 8D 82            [24]  574 	mov	dpl,r5
+      000282 8E 83            [24]  575 	mov	dph,r6
+      000284 8F F0            [24]  576 	mov	b,r7
+      000286 12r00r00         [24]  577 	lcall	__gptrget
+      000289 FD               [12]  578 	mov	r5,a
+      00028A A3               [24]  579 	inc	dptr
+      00028B 12r00r00         [24]  580 	lcall	__gptrget
+      00028E FE               [12]  581 	mov	r6,a
+      00028F 90r00r00         [24]  582 	mov	dptr,#_avail_memory
+      000292 E0               [24]  583 	movx	a,@dptr
+      000293 FC               [12]  584 	mov	r4,a
+      000294 A3               [24]  585 	inc	dptr
+      000295 E0               [24]  586 	movx	a,@dptr
+      000296 FF               [12]  587 	mov	r7,a
+      000297 90r00r00         [24]  588 	mov	dptr,#_avail_memory
+      00029A ED               [12]  589 	mov	a,r5
+      00029B 2C               [12]  590 	add	a,r4
+      00029C F0               [24]  591 	movx	@dptr,a
+      00029D EE               [12]  592 	mov	a,r6
+      00029E 3F               [12]  593 	addc	a,r7
+      00029F A3               [24]  594 	inc	dptr
+      0002A0 F0               [24]  595 	movx	@dptr,a
+                                    596 ;	../contiki-sensinode/core/lib/mmem.c:139: list_remove(mmemlist, m);
+      0002A1 E5 81            [12]  597 	mov	a,sp
+      0002A3 24 F3            [12]  598 	add	a,#0xf3
+      0002A5 F8               [12]  599 	mov	r0,a
+      0002A6 86 05            [24]  600 	mov	ar5,@r0
+      0002A8 08               [12]  601 	inc	r0
+      0002A9 86 06            [24]  602 	mov	ar6,@r0
+      0002AB 08               [12]  603 	inc	r0
+      0002AC 86 07            [24]  604 	mov	ar7,@r0
+      0002AE 90r00r03         [24]  605 	mov	dptr,#_mmemlist
+      0002B1 E0               [24]  606 	movx	a,@dptr
+      0002B2 FA               [12]  607 	mov	r2,a
+      0002B3 A3               [24]  608 	inc	dptr
+      0002B4 E0               [24]  609 	movx	a,@dptr
+      0002B5 FB               [12]  610 	mov	r3,a
+      0002B6 A3               [24]  611 	inc	dptr
+      0002B7 E0               [24]  612 	movx	a,@dptr
+      0002B8 FC               [12]  613 	mov	r4,a
+      0002B9 C0 05            [24]  614 	push	ar5
+      0002BB C0 06            [24]  615 	push	ar6
+      0002BD C0 07            [24]  616 	push	ar7
+      0002BF 8A 82            [24]  617 	mov	dpl,r2
+      0002C1 8B 83            [24]  618 	mov	dph,r3
+      0002C3 8C F0            [24]  619 	mov	b,r4
+      0002C5 12r00r00         [24]  620 	lcall	_list_remove
+      0002C8 15 81            [12]  621 	dec	sp
+      0002CA 15 81            [12]  622 	dec	sp
+      0002CC 15 81            [12]  623 	dec	sp
+      0002CE E5 81            [12]  624 	mov	a,sp
+      0002D0 24 F2            [12]  625 	add	a,#0xF2
+      0002D2 F5 81            [12]  626 	mov	sp,a
+      0002D4 22               [24]  627 	ret
+                                    628 ;------------------------------------------------------------
+                                    629 ;Allocation info for local variables in function 'mmem_init'
+                                    630 ;------------------------------------------------------------
+                                    631 ;	../contiki-sensinode/core/lib/mmem.c:152: mmem_init(void)
+                                    632 ;	-----------------------------------------
+                                    633 ;	 function mmem_init
+                                    634 ;	-----------------------------------------
+      0002D5                        635 _mmem_init:
+                                    636 ;	../contiki-sensinode/core/lib/mmem.c:154: list_init(mmemlist);
+      0002D5 90r00r03         [24]  637 	mov	dptr,#_mmemlist
+      0002D8 E0               [24]  638 	movx	a,@dptr
+      0002D9 FD               [12]  639 	mov	r5,a
+      0002DA A3               [24]  640 	inc	dptr
+      0002DB E0               [24]  641 	movx	a,@dptr
+      0002DC FE               [12]  642 	mov	r6,a
+      0002DD A3               [24]  643 	inc	dptr
+      0002DE E0               [24]  644 	movx	a,@dptr
+      0002DF FF               [12]  645 	mov	r7,a
+      0002E0 8D 82            [24]  646 	mov	dpl,r5
+      0002E2 8E 83            [24]  647 	mov	dph,r6
+      0002E4 8F F0            [24]  648 	mov	b,r7
+      0002E6 12r00r00         [24]  649 	lcall	_list_init
+                                    650 ;	../contiki-sensinode/core/lib/mmem.c:155: avail_memory = MMEM_SIZE;
+      0002E9 90r00r00         [24]  651 	mov	dptr,#_avail_memory
+      0002EC E4               [12]  652 	clr	a
+      0002ED F0               [24]  653 	movx	@dptr,a
+      0002EE 74 10            [12]  654 	mov	a,#0x10
+      0002F0 A3               [24]  655 	inc	dptr
+      0002F1 F0               [24]  656 	movx	@dptr,a
+      0002F2 22               [24]  657 	ret
+                                    658 	.area CSEG    (CODE)
+                                    659 	.area CONST   (CODE)
+                                    660 	.area XINIT   (CODE)
+      000000                        661 __xinit__mmemlist_list:
+                                    662 ; generic printIvalPtr
+      000000 00 00 00               663 	.byte #0x00,#0x00,#0x00
+      000003                        664 __xinit__mmemlist:
+      000003r00s00 00               665 	.byte _mmemlist_list,(_mmemlist_list >> 8),#0x00
+                                    666 	.area CABS    (ABS,CODE)

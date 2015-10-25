@@ -1,0 +1,256 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Oct 24 2015) (Linux)
+                                      4 ; This file was generated Sun Oct 25 01:52:21 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module nullradio
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _nullradio_driver
+                                     13 ;--------------------------------------------------------
+                                     14 ; special function registers
+                                     15 ;--------------------------------------------------------
+                                     16 	.area RSEG    (ABS,DATA)
+      000000                         17 	.org 0x0000
+                                     18 ;--------------------------------------------------------
+                                     19 ; special function bits
+                                     20 ;--------------------------------------------------------
+                                     21 	.area RSEG    (ABS,DATA)
+      000000                         22 	.org 0x0000
+                                     23 ;--------------------------------------------------------
+                                     24 ; overlayable register banks
+                                     25 ;--------------------------------------------------------
+                                     26 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         27 	.ds 8
+                                     28 ;--------------------------------------------------------
+                                     29 ; internal ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area DSEG    (DATA)
+                                     32 ;--------------------------------------------------------
+                                     33 ; overlayable items in internal ram 
+                                     34 ;--------------------------------------------------------
+                                     35 ;--------------------------------------------------------
+                                     36 ; indirectly addressable internal ram data
+                                     37 ;--------------------------------------------------------
+                                     38 	.area ISEG    (DATA)
+                                     39 ;--------------------------------------------------------
+                                     40 ; absolute internal ram data
+                                     41 ;--------------------------------------------------------
+                                     42 	.area IABS    (ABS,DATA)
+                                     43 	.area IABS    (ABS,DATA)
+                                     44 ;--------------------------------------------------------
+                                     45 ; bit data
+                                     46 ;--------------------------------------------------------
+                                     47 	.area BSEG    (BIT)
+                                     48 ;--------------------------------------------------------
+                                     49 ; paged external ram data
+                                     50 ;--------------------------------------------------------
+                                     51 	.area PSEG    (PAG,XDATA)
+                                     52 ;--------------------------------------------------------
+                                     53 ; external ram data
+                                     54 ;--------------------------------------------------------
+                                     55 	.area XSEG    (XDATA)
+                                     56 ;--------------------------------------------------------
+                                     57 ; absolute external ram data
+                                     58 ;--------------------------------------------------------
+                                     59 	.area XABS    (ABS,XDATA)
+                                     60 ;--------------------------------------------------------
+                                     61 ; external initialized ram data
+                                     62 ;--------------------------------------------------------
+                                     63 	.area XISEG   (XDATA)
+                                     64 	.area HOME    (CODE)
+                                     65 	.area GSINIT0 (CODE)
+                                     66 	.area GSINIT1 (CODE)
+                                     67 	.area GSINIT2 (CODE)
+                                     68 	.area GSINIT3 (CODE)
+                                     69 	.area GSINIT4 (CODE)
+                                     70 	.area GSINIT5 (CODE)
+                                     71 	.area GSINIT  (CODE)
+                                     72 	.area GSFINAL (CODE)
+                                     73 	.area CSEG    (CODE)
+                                     74 ;--------------------------------------------------------
+                                     75 ; global & static initialisations
+                                     76 ;--------------------------------------------------------
+                                     77 	.area HOME    (CODE)
+                                     78 	.area GSINIT  (CODE)
+                                     79 	.area GSFINAL (CODE)
+                                     80 	.area GSINIT  (CODE)
+                                     81 ;--------------------------------------------------------
+                                     82 ; Home
+                                     83 ;--------------------------------------------------------
+                                     84 	.area HOME    (CODE)
+                                     85 	.area HOME    (CODE)
+                                     86 ;--------------------------------------------------------
+                                     87 ; code
+                                     88 ;--------------------------------------------------------
+                                     89 	.area CSEG    (CODE)
+                                     90 ;------------------------------------------------------------
+                                     91 ;Allocation info for local variables in function 'init'
+                                     92 ;------------------------------------------------------------
+                                     93 ;	../contiki-sensinode/core/dev/nullradio.c:6: init(void)
+                                     94 ;	-----------------------------------------
+                                     95 ;	 function init
+                                     96 ;	-----------------------------------------
+      000000                         97 _init:
+                           000007    98 	ar7 = 0x07
+                           000006    99 	ar6 = 0x06
+                           000005   100 	ar5 = 0x05
+                           000004   101 	ar4 = 0x04
+                           000003   102 	ar3 = 0x03
+                           000002   103 	ar2 = 0x02
+                           000001   104 	ar1 = 0x01
+                           000000   105 	ar0 = 0x00
+                                    106 ;	../contiki-sensinode/core/dev/nullradio.c:8: return 0;
+      000000 90 00 00         [24]  107 	mov	dptr,#0x0000
+      000003 22               [24]  108 	ret
+                                    109 ;------------------------------------------------------------
+                                    110 ;Allocation info for local variables in function 'prepare'
+                                    111 ;------------------------------------------------------------
+                                    112 ;payload_len               Allocated to stack - sp -3
+                                    113 ;payload                   Allocated to registers 
+                                    114 ;------------------------------------------------------------
+                                    115 ;	../contiki-sensinode/core/dev/nullradio.c:12: prepare(const void *payload, unsigned short payload_len)
+                                    116 ;	-----------------------------------------
+                                    117 ;	 function prepare
+                                    118 ;	-----------------------------------------
+      000004                        119 _prepare:
+                                    120 ;	../contiki-sensinode/core/dev/nullradio.c:14: return 1;
+      000004 90 00 01         [24]  121 	mov	dptr,#0x0001
+      000007 22               [24]  122 	ret
+                                    123 ;------------------------------------------------------------
+                                    124 ;Allocation info for local variables in function 'transmit'
+                                    125 ;------------------------------------------------------------
+                                    126 ;transmit_len              Allocated to registers 
+                                    127 ;------------------------------------------------------------
+                                    128 ;	../contiki-sensinode/core/dev/nullradio.c:18: transmit(unsigned short transmit_len)
+                                    129 ;	-----------------------------------------
+                                    130 ;	 function transmit
+                                    131 ;	-----------------------------------------
+      000008                        132 _transmit:
+                                    133 ;	../contiki-sensinode/core/dev/nullradio.c:20: return RADIO_TX_OK;
+      000008 90 00 00         [24]  134 	mov	dptr,#0x0000
+      00000B 22               [24]  135 	ret
+                                    136 ;------------------------------------------------------------
+                                    137 ;Allocation info for local variables in function 'send'
+                                    138 ;------------------------------------------------------------
+                                    139 ;payload_len               Allocated to stack - sp -3
+                                    140 ;payload                   Allocated to registers r5 r6 r7 
+                                    141 ;------------------------------------------------------------
+                                    142 ;	../contiki-sensinode/core/dev/nullradio.c:24: send(const void *payload, unsigned short payload_len)
+                                    143 ;	-----------------------------------------
+                                    144 ;	 function send
+                                    145 ;	-----------------------------------------
+      00000C                        146 _send:
+      00000C AD 82            [24]  147 	mov	r5,dpl
+      00000E AE 83            [24]  148 	mov	r6,dph
+      000010 AF F0            [24]  149 	mov	r7,b
+                                    150 ;	../contiki-sensinode/core/dev/nullradio.c:26: prepare(payload, payload_len);
+      000012 E5 81            [12]  151 	mov	a,sp
+      000014 24 FD            [12]  152 	add	a,#0xfd
+      000016 F8               [12]  153 	mov	r0,a
+      000017 E6               [12]  154 	mov	a,@r0
+      000018 C0 E0            [24]  155 	push	acc
+      00001A 08               [12]  156 	inc	r0
+      00001B E6               [12]  157 	mov	a,@r0
+      00001C C0 E0            [24]  158 	push	acc
+      00001E 8D 82            [24]  159 	mov	dpl,r5
+      000020 8E 83            [24]  160 	mov	dph,r6
+      000022 8F F0            [24]  161 	mov	b,r7
+      000024 12r00r04         [24]  162 	lcall	_prepare
+      000027 15 81            [12]  163 	dec	sp
+      000029 15 81            [12]  164 	dec	sp
+                                    165 ;	../contiki-sensinode/core/dev/nullradio.c:27: return transmit(payload_len);
+      00002B E5 81            [12]  166 	mov	a,sp
+      00002D 24 FD            [12]  167 	add	a,#0xfd
+      00002F F8               [12]  168 	mov	r0,a
+      000030 86 82            [24]  169 	mov	dpl,@r0
+      000032 08               [12]  170 	inc	r0
+      000033 86 83            [24]  171 	mov	dph,@r0
+      000035 02r00r08         [24]  172 	ljmp	_transmit
+                                    173 ;------------------------------------------------------------
+                                    174 ;Allocation info for local variables in function 'read'
+                                    175 ;------------------------------------------------------------
+                                    176 ;buf_len                   Allocated to stack - sp -3
+                                    177 ;buf                       Allocated to registers 
+                                    178 ;------------------------------------------------------------
+                                    179 ;	../contiki-sensinode/core/dev/nullradio.c:31: read(void *buf, unsigned short buf_len)
+                                    180 ;	-----------------------------------------
+                                    181 ;	 function read
+                                    182 ;	-----------------------------------------
+      000038                        183 _read:
+                                    184 ;	../contiki-sensinode/core/dev/nullradio.c:33: return 0;
+      000038 90 00 00         [24]  185 	mov	dptr,#0x0000
+      00003B 22               [24]  186 	ret
+                                    187 ;------------------------------------------------------------
+                                    188 ;Allocation info for local variables in function 'channel_clear'
+                                    189 ;------------------------------------------------------------
+                                    190 ;	../contiki-sensinode/core/dev/nullradio.c:37: channel_clear(void)
+                                    191 ;	-----------------------------------------
+                                    192 ;	 function channel_clear
+                                    193 ;	-----------------------------------------
+      00003C                        194 _channel_clear:
+                                    195 ;	../contiki-sensinode/core/dev/nullradio.c:39: return 1;
+      00003C 90 00 01         [24]  196 	mov	dptr,#0x0001
+      00003F 22               [24]  197 	ret
+                                    198 ;------------------------------------------------------------
+                                    199 ;Allocation info for local variables in function 'receiving_packet'
+                                    200 ;------------------------------------------------------------
+                                    201 ;	../contiki-sensinode/core/dev/nullradio.c:43: receiving_packet(void)
+                                    202 ;	-----------------------------------------
+                                    203 ;	 function receiving_packet
+                                    204 ;	-----------------------------------------
+      000040                        205 _receiving_packet:
+                                    206 ;	../contiki-sensinode/core/dev/nullradio.c:45: return 0;
+      000040 90 00 00         [24]  207 	mov	dptr,#0x0000
+      000043 22               [24]  208 	ret
+                                    209 ;------------------------------------------------------------
+                                    210 ;Allocation info for local variables in function 'pending_packet'
+                                    211 ;------------------------------------------------------------
+                                    212 ;	../contiki-sensinode/core/dev/nullradio.c:49: pending_packet(void)
+                                    213 ;	-----------------------------------------
+                                    214 ;	 function pending_packet
+                                    215 ;	-----------------------------------------
+      000044                        216 _pending_packet:
+                                    217 ;	../contiki-sensinode/core/dev/nullradio.c:51: return 0;
+      000044 90 00 00         [24]  218 	mov	dptr,#0x0000
+      000047 22               [24]  219 	ret
+                                    220 ;------------------------------------------------------------
+                                    221 ;Allocation info for local variables in function 'on'
+                                    222 ;------------------------------------------------------------
+                                    223 ;	../contiki-sensinode/core/dev/nullradio.c:55: on(void)
+                                    224 ;	-----------------------------------------
+                                    225 ;	 function on
+                                    226 ;	-----------------------------------------
+      000048                        227 _on:
+                                    228 ;	../contiki-sensinode/core/dev/nullradio.c:57: return 0;
+      000048 90 00 00         [24]  229 	mov	dptr,#0x0000
+      00004B 22               [24]  230 	ret
+                                    231 ;------------------------------------------------------------
+                                    232 ;Allocation info for local variables in function 'off'
+                                    233 ;------------------------------------------------------------
+                                    234 ;	../contiki-sensinode/core/dev/nullradio.c:61: off(void)
+                                    235 ;	-----------------------------------------
+                                    236 ;	 function off
+                                    237 ;	-----------------------------------------
+      00004C                        238 _off:
+                                    239 ;	../contiki-sensinode/core/dev/nullradio.c:63: return 0;
+      00004C 90 00 00         [24]  240 	mov	dptr,#0x0000
+      00004F 22               [24]  241 	ret
+                                    242 	.area CSEG    (CODE)
+                                    243 	.area CONST   (CODE)
+      000000                        244 _nullradio_driver:
+      000000r00s00                  245 	.byte _init,(_init >> 8)
+      000002r04s00                  246 	.byte _prepare,(_prepare >> 8)
+      000004r08s00                  247 	.byte _transmit,(_transmit >> 8)
+      000006r0Cs00                  248 	.byte _send,(_send >> 8)
+      000008r38s00                  249 	.byte _read,(_read >> 8)
+      00000Ar3Cs00                  250 	.byte _channel_clear,(_channel_clear >> 8)
+      00000Cr40s00                  251 	.byte _receiving_packet,(_receiving_packet >> 8)
+      00000Er44s00                  252 	.byte _pending_packet,(_pending_packet >> 8)
+      000010r48s00                  253 	.byte _on,(_on >> 8)
+      000012r4Cs00                  254 	.byte _off,(_off >> 8)
+                                    255 	.area XINIT   (CODE)
+                                    256 	.area CABS    (ABS,CODE)

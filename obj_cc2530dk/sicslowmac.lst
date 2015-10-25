@@ -1,0 +1,1061 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Oct 24 2015) (Linux)
+                                      4 ; This file was generated Sun Oct 25 01:52:06 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module sicslowmac
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _sicslowmac_driver
+                                     13 	.globl _send_list
+                                     14 	.globl _random_rand
+                                     15 	.globl _queuebuf_to_packetbuf
+                                     16 	.globl _packetbuf_addr
+                                     17 	.globl _packetbuf_set_addr
+                                     18 	.globl _packetbuf_attr
+                                     19 	.globl _packetbuf_hdrreduce
+                                     20 	.globl _packetbuf_hdralloc
+                                     21 	.globl _packetbuf_totlen
+                                     22 	.globl _packetbuf_datalen
+                                     23 	.globl _packetbuf_hdrptr
+                                     24 	.globl _packetbuf_dataptr
+                                     25 	.globl _frame802154_parse
+                                     26 	.globl _frame802154_create
+                                     27 	.globl _frame802154_hdrlen
+                                     28 	.globl _rimeaddr_cmp
+                                     29 	.globl _rimeaddr_copy
+                                     30 	.globl _memset
+                                     31 ;--------------------------------------------------------
+                                     32 ; special function registers
+                                     33 ;--------------------------------------------------------
+                                     34 	.area RSEG    (ABS,DATA)
+      000000                         35 	.org 0x0000
+                                     36 ;--------------------------------------------------------
+                                     37 ; special function bits
+                                     38 ;--------------------------------------------------------
+                                     39 	.area RSEG    (ABS,DATA)
+      000000                         40 	.org 0x0000
+                                     41 ;--------------------------------------------------------
+                                     42 ; overlayable register banks
+                                     43 ;--------------------------------------------------------
+                                     44 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         45 	.ds 8
+                                     46 ;--------------------------------------------------------
+                                     47 ; internal ram data
+                                     48 ;--------------------------------------------------------
+                                     49 	.area DSEG    (DATA)
+                                     50 ;--------------------------------------------------------
+                                     51 ; overlayable items in internal ram 
+                                     52 ;--------------------------------------------------------
+                                     53 ;--------------------------------------------------------
+                                     54 ; indirectly addressable internal ram data
+                                     55 ;--------------------------------------------------------
+                                     56 	.area ISEG    (DATA)
+                                     57 ;--------------------------------------------------------
+                                     58 ; absolute internal ram data
+                                     59 ;--------------------------------------------------------
+                                     60 	.area IABS    (ABS,DATA)
+                                     61 	.area IABS    (ABS,DATA)
+                                     62 ;--------------------------------------------------------
+                                     63 ; bit data
+                                     64 ;--------------------------------------------------------
+                                     65 	.area BSEG    (BIT)
+                                     66 ;--------------------------------------------------------
+                                     67 ; paged external ram data
+                                     68 ;--------------------------------------------------------
+                                     69 	.area PSEG    (PAG,XDATA)
+                                     70 ;--------------------------------------------------------
+                                     71 ; external ram data
+                                     72 ;--------------------------------------------------------
+                                     73 	.area XSEG    (XDATA)
+      000000                         74 _mac_dsn:
+      000000                         75 	.ds 1
+                                     76 ;--------------------------------------------------------
+                                     77 ; absolute external ram data
+                                     78 ;--------------------------------------------------------
+                                     79 	.area XABS    (ABS,XDATA)
+                                     80 ;--------------------------------------------------------
+                                     81 ; external initialized ram data
+                                     82 ;--------------------------------------------------------
+                                     83 	.area XISEG   (XDATA)
+      000000                         84 _mac_dst_pan_id:
+      000000                         85 	.ds 2
+      000002                         86 _mac_src_pan_id:
+      000002                         87 	.ds 2
+                                     88 	.area HOME    (CODE)
+                                     89 	.area GSINIT0 (CODE)
+                                     90 	.area GSINIT1 (CODE)
+                                     91 	.area GSINIT2 (CODE)
+                                     92 	.area GSINIT3 (CODE)
+                                     93 	.area GSINIT4 (CODE)
+                                     94 	.area GSINIT5 (CODE)
+                                     95 	.area GSINIT  (CODE)
+                                     96 	.area GSFINAL (CODE)
+                                     97 	.area CSEG    (CODE)
+                                     98 ;--------------------------------------------------------
+                                     99 ; global & static initialisations
+                                    100 ;--------------------------------------------------------
+                                    101 	.area HOME    (CODE)
+                                    102 	.area GSINIT  (CODE)
+                                    103 	.area GSFINAL (CODE)
+                                    104 	.area GSINIT  (CODE)
+                                    105 ;--------------------------------------------------------
+                                    106 ; Home
+                                    107 ;--------------------------------------------------------
+                                    108 	.area HOME    (CODE)
+                                    109 	.area HOME    (CODE)
+                                    110 ;--------------------------------------------------------
+                                    111 ; code
+                                    112 ;--------------------------------------------------------
+                                    113 	.area CSEG    (CODE)
+                                    114 ;------------------------------------------------------------
+                                    115 ;Allocation info for local variables in function 'is_broadcast_addr'
+                                    116 ;------------------------------------------------------------
+                                    117 ;addr                      Allocated to stack - sp -4
+                                    118 ;mode                      Allocated to registers r7 
+                                    119 ;i                         Allocated to registers 
+                                    120 ;------------------------------------------------------------
+                                    121 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:85: is_broadcast_addr(uint8_t mode, uint8_t *addr)
+                                    122 ;	-----------------------------------------
+                                    123 ;	 function is_broadcast_addr
+                                    124 ;	-----------------------------------------
+      000000                        125 _is_broadcast_addr:
+                           000007   126 	ar7 = 0x07
+                           000006   127 	ar6 = 0x06
+                           000005   128 	ar5 = 0x05
+                           000004   129 	ar4 = 0x04
+                           000003   130 	ar3 = 0x03
+                           000002   131 	ar2 = 0x02
+                           000001   132 	ar1 = 0x01
+                           000000   133 	ar0 = 0x00
+      000000 AF 82            [24]  134 	mov	r7,dpl
+                                    135 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:87: int i = mode == FRAME802154_SHORTADDRMODE ? 2 : 8;
+      000002 BF 02 04         [24]  136 	cjne	r7,#0x02,00108$
+      000005 7F 02            [12]  137 	mov	r7,#0x02
+      000007 80 02            [24]  138 	sjmp	00109$
+      000009                        139 00108$:
+      000009 7F 08            [12]  140 	mov	r7,#0x08
+      00000B                        141 00109$:
+      00000B 8F 06            [24]  142 	mov	ar6,r7
+      00000D 7F 00            [12]  143 	mov	r7,#0x00
+                                    144 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:88: while(i-- > 0) {
+      00000F                        145 00103$:
+      00000F 8E 04            [24]  146 	mov	ar4,r6
+      000011 8F 05            [24]  147 	mov	ar5,r7
+      000013 1E               [12]  148 	dec	r6
+      000014 BE FF 01         [24]  149 	cjne	r6,#0xFF,00124$
+      000017 1F               [12]  150 	dec	r7
+      000018                        151 00124$:
+      000018 C3               [12]  152 	clr	c
+      000019 E4               [12]  153 	clr	a
+      00001A 9C               [12]  154 	subb	a,r4
+      00001B 74 80            [12]  155 	mov	a,#(0x00 ^ 0x80)
+      00001D 8D F0            [24]  156 	mov	b,r5
+      00001F 63 F0 80         [24]  157 	xrl	b,#0x80
+      000022 95 F0            [12]  158 	subb	a,b
+      000024 50 22            [24]  159 	jnc	00105$
+                                    160 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:89: if(addr[i] != 0xff) {
+      000026 E5 81            [12]  161 	mov	a,sp
+      000028 24 FC            [12]  162 	add	a,#0xfc
+      00002A F8               [12]  163 	mov	r0,a
+      00002B EE               [12]  164 	mov	a,r6
+      00002C 26               [12]  165 	add	a,@r0
+      00002D FB               [12]  166 	mov	r3,a
+      00002E EF               [12]  167 	mov	a,r7
+      00002F 08               [12]  168 	inc	r0
+      000030 36               [12]  169 	addc	a,@r0
+      000031 FC               [12]  170 	mov	r4,a
+      000032 08               [12]  171 	inc	r0
+      000033 86 05            [24]  172 	mov	ar5,@r0
+      000035 8B 82            [24]  173 	mov	dpl,r3
+      000037 8C 83            [24]  174 	mov	dph,r4
+      000039 8D F0            [24]  175 	mov	b,r5
+      00003B 12r00r00         [24]  176 	lcall	__gptrget
+      00003E FB               [12]  177 	mov	r3,a
+      00003F BB FF 02         [24]  178 	cjne	r3,#0xFF,00126$
+      000042 80 CB            [24]  179 	sjmp	00103$
+      000044                        180 00126$:
+                                    181 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:90: return 0;
+      000044 90 00 00         [24]  182 	mov	dptr,#0x0000
+      000047 22               [24]  183 	ret
+      000048                        184 00105$:
+                                    185 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:93: return 1;
+      000048 90 00 01         [24]  186 	mov	dptr,#0x0001
+      00004B 22               [24]  187 	ret
+                                    188 ;------------------------------------------------------------
+                                    189 ;Allocation info for local variables in function 'send_packet'
+                                    190 ;------------------------------------------------------------
+                                    191 ;ptr                       Allocated to stack - sp -58
+                                    192 ;sent                      Allocated to stack - sp -53
+                                    193 ;params                    Allocated to stack - sp -48
+                                    194 ;len                       Allocated to stack - sp -49
+                                    195 ;ret                       Allocated to registers r6 r7 
+                                    196 ;sloc0                     Allocated to stack - sp -51
+                                    197 ;------------------------------------------------------------
+                                    198 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:97: send_packet(mac_callback_t sent, void *ptr)
+                                    199 ;	-----------------------------------------
+                                    200 ;	 function send_packet
+                                    201 ;	-----------------------------------------
+      00004C                        202 _send_packet:
+      00004C C0 82            [24]  203 	push	dpl
+      00004E C0 83            [24]  204 	push	dph
+      000050 E5 81            [12]  205 	mov	a,sp
+      000052 24 34            [12]  206 	add	a,#0x34
+                                    207 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:103: memset(&params, 0, sizeof(params));
+      000054 F5 81            [12]  208 	mov	sp,a
+      000056 24 D0            [12]  209 	add	a,#0xD0
+      000058 F9               [12]  210 	mov	r1,a
+      000059 FB               [12]  211 	mov	r3,a
+      00005A 7C 00            [12]  212 	mov	r4,#0x00
+      00005C 7D 40            [12]  213 	mov	r5,#0x40
+      00005E C0 01            [24]  214 	push	ar1
+      000060 74 31            [12]  215 	mov	a,#0x31
+      000062 C0 E0            [24]  216 	push	acc
+      000064 E4               [12]  217 	clr	a
+      000065 C0 E0            [24]  218 	push	acc
+      000067 C0 E0            [24]  219 	push	acc
+      000069 8B 82            [24]  220 	mov	dpl,r3
+      00006B 8C 83            [24]  221 	mov	dph,r4
+      00006D 8D F0            [24]  222 	mov	b,r5
+      00006F 12r00r00         [24]  223 	lcall	_memset
+      000072 15 81            [12]  224 	dec	sp
+      000074 15 81            [12]  225 	dec	sp
+      000076 15 81            [12]  226 	dec	sp
+      000078 D0 01            [24]  227 	pop	ar1
+                                    228 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:106: params.fcf.frame_type = FRAME802154_DATAFRAME;
+      00007A 77 01            [12]  229 	mov	@r1,#0x01
+                                    230 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:107: params.fcf.security_enabled = 0;
+      00007C E9               [12]  231 	mov	a,r1
+      00007D 04               [12]  232 	inc	a
+      00007E F8               [12]  233 	mov	r0,a
+      00007F 76 00            [12]  234 	mov	@r0,#0x00
+                                    235 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:108: params.fcf.frame_pending = 0;
+      000081 74 02            [12]  236 	mov	a,#0x02
+      000083 29               [12]  237 	add	a,r1
+      000084 F8               [12]  238 	mov	r0,a
+      000085 76 00            [12]  239 	mov	@r0,#0x00
+                                    240 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:109: params.fcf.ack_required = packetbuf_attr(PACKETBUF_ATTR_RELIABLE);
+      000087 74 03            [12]  241 	mov	a,#0x03
+      000089 29               [12]  242 	add	a,r1
+      00008A F8               [12]  243 	mov	r0,a
+      00008B 75 82 0C         [24]  244 	mov	dpl,#0x0C
+      00008E C0 01            [24]  245 	push	ar1
+      000090 C0 00            [24]  246 	push	ar0
+      000092 12r00r00         [24]  247 	lcall	_packetbuf_attr
+      000095 AC 82            [24]  248 	mov	r4,dpl
+      000097 D0 00            [24]  249 	pop	ar0
+      000099 D0 01            [24]  250 	pop	ar1
+      00009B A6 04            [24]  251 	mov	@r0,ar4
+                                    252 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:110: params.fcf.panid_compression = 0;
+      00009D 74 04            [12]  253 	mov	a,#0x04
+      00009F 29               [12]  254 	add	a,r1
+      0000A0 F8               [12]  255 	mov	r0,a
+      0000A1 76 00            [12]  256 	mov	@r0,#0x00
+                                    257 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:113: params.fcf.frame_version = FRAME802154_IEEE802154_2003;
+      0000A3 74 06            [12]  258 	mov	a,#0x06
+      0000A5 29               [12]  259 	add	a,r1
+      0000A6 F8               [12]  260 	mov	r0,a
+      0000A7 76 00            [12]  261 	mov	@r0,#0x00
+                                    262 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:116: params.seq = mac_dsn++;
+      0000A9 74 08            [12]  263 	mov	a,#0x08
+      0000AB 29               [12]  264 	add	a,r1
+      0000AC F8               [12]  265 	mov	r0,a
+      0000AD 90r00r00         [24]  266 	mov	dptr,#_mac_dsn
+      0000B0 E0               [24]  267 	movx	a,@dptr
+      0000B1 FD               [12]  268 	mov	r5,a
+      0000B2 04               [12]  269 	inc	a
+      0000B3 F0               [24]  270 	movx	@dptr,a
+      0000B4 A6 05            [24]  271 	mov	@r0,ar5
+                                    272 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:123: params.fcf.src_addr_mode = FRAME802154_LONGADDRMODE;
+      0000B6 74 07            [12]  273 	mov	a,#0x07
+      0000B8 29               [12]  274 	add	a,r1
+      0000B9 F8               [12]  275 	mov	r0,a
+      0000BA 76 03            [12]  276 	mov	@r0,#0x03
+                                    277 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:124: params.dest_pid = mac_dst_pan_id;
+      0000BC 74 09            [12]  278 	mov	a,#0x09
+      0000BE 29               [12]  279 	add	a,r1
+      0000BF F8               [12]  280 	mov	r0,a
+      0000C0 90r00r00         [24]  281 	mov	dptr,#_mac_dst_pan_id
+      0000C3 E0               [24]  282 	movx	a,@dptr
+      0000C4 FC               [12]  283 	mov	r4,a
+      0000C5 A3               [24]  284 	inc	dptr
+      0000C6 E0               [24]  285 	movx	a,@dptr
+      0000C7 FD               [12]  286 	mov	r5,a
+      0000C8 A6 04            [24]  287 	mov	@r0,ar4
+      0000CA 08               [12]  288 	inc	r0
+      0000CB A6 05            [24]  289 	mov	@r0,ar5
+                                    290 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:130: if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER), &rimeaddr_null)) {
+      0000CD 75 82 19         [24]  291 	mov	dpl,#0x19
+      0000D0 C0 01            [24]  292 	push	ar1
+      0000D2 12r00r00         [24]  293 	lcall	_packetbuf_addr
+      0000D5 AB 82            [24]  294 	mov	r3,dpl
+      0000D7 AC 83            [24]  295 	mov	r4,dph
+      0000D9 AD F0            [24]  296 	mov	r5,b
+      0000DB 74r00            [12]  297 	mov	a,#_rimeaddr_null
+      0000DD C0 E0            [24]  298 	push	acc
+      0000DF 74s00            [12]  299 	mov	a,#(_rimeaddr_null >> 8)
+      0000E1 C0 E0            [24]  300 	push	acc
+      0000E3 74 80            [12]  301 	mov	a,#0x80
+      0000E5 C0 E0            [24]  302 	push	acc
+      0000E7 8B 82            [24]  303 	mov	dpl,r3
+      0000E9 8C 83            [24]  304 	mov	dph,r4
+      0000EB 8D F0            [24]  305 	mov	b,r5
+      0000ED 12r00r00         [24]  306 	lcall	_rimeaddr_cmp
+      0000F0 AC 82            [24]  307 	mov	r4,dpl
+      0000F2 AD 83            [24]  308 	mov	r5,dph
+      0000F4 15 81            [12]  309 	dec	sp
+      0000F6 15 81            [12]  310 	dec	sp
+      0000F8 15 81            [12]  311 	dec	sp
+      0000FA D0 01            [24]  312 	pop	ar1
+      0000FC EC               [12]  313 	mov	a,r4
+      0000FD 4D               [12]  314 	orl	a,r5
+      0000FE 60 14            [24]  315 	jz	00102$
+                                    316 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:132: params.fcf.dest_addr_mode = FRAME802154_SHORTADDRMODE;
+      000100 74 05            [12]  317 	mov	a,#0x05
+      000102 29               [12]  318 	add	a,r1
+      000103 F8               [12]  319 	mov	r0,a
+      000104 76 02            [12]  320 	mov	@r0,#0x02
+                                    321 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:133: params.dest_addr[0] = 0xFF;
+      000106 74 0B            [12]  322 	mov	a,#0x0B
+      000108 29               [12]  323 	add	a,r1
+      000109 F8               [12]  324 	mov	r0,a
+      00010A 76 FF            [12]  325 	mov	@r0,#0xFF
+                                    326 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:134: params.dest_addr[1] = 0xFF;
+      00010C 74 0C            [12]  327 	mov	a,#0x0C
+      00010E 29               [12]  328 	add	a,r1
+      00010F F8               [12]  329 	mov	r0,a
+      000110 76 FF            [12]  330 	mov	@r0,#0xFF
+      000112 80 37            [24]  331 	sjmp	00103$
+      000114                        332 00102$:
+                                    333 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:138: packetbuf_addr(PACKETBUF_ADDR_RECEIVER));
+      000114 75 82 19         [24]  334 	mov	dpl,#0x19
+      000117 C0 01            [24]  335 	push	ar1
+      000119 12r00r00         [24]  336 	lcall	_packetbuf_addr
+      00011C AB 82            [24]  337 	mov	r3,dpl
+      00011E AC 83            [24]  338 	mov	r4,dph
+      000120 AD F0            [24]  339 	mov	r5,b
+      000122 D0 01            [24]  340 	pop	ar1
+                                    341 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:137: rimeaddr_copy((rimeaddr_t *)&params.dest_addr,
+      000124 74 0B            [12]  342 	mov	a,#0x0B
+      000126 29               [12]  343 	add	a,r1
+      000127 FA               [12]  344 	mov	r2,a
+      000128 7E 00            [12]  345 	mov	r6,#0x00
+      00012A 7F 40            [12]  346 	mov	r7,#0x40
+      00012C C0 01            [24]  347 	push	ar1
+      00012E C0 03            [24]  348 	push	ar3
+      000130 C0 04            [24]  349 	push	ar4
+      000132 C0 05            [24]  350 	push	ar5
+      000134 8A 82            [24]  351 	mov	dpl,r2
+      000136 8E 83            [24]  352 	mov	dph,r6
+      000138 8F F0            [24]  353 	mov	b,r7
+      00013A 12r00r00         [24]  354 	lcall	_rimeaddr_copy
+      00013D 15 81            [12]  355 	dec	sp
+      00013F 15 81            [12]  356 	dec	sp
+      000141 15 81            [12]  357 	dec	sp
+      000143 D0 01            [24]  358 	pop	ar1
+                                    359 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:139: params.fcf.dest_addr_mode = FRAME802154_LONGADDRMODE;
+      000145 74 05            [12]  360 	mov	a,#0x05
+      000147 29               [12]  361 	add	a,r1
+      000148 F8               [12]  362 	mov	r0,a
+      000149 76 03            [12]  363 	mov	@r0,#0x03
+                                    364 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:171: }
+                                    365 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:139: params.fcf.dest_addr_mode = FRAME802154_LONGADDRMODE;
+      00014B                        366 00103$:
+                                    367 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:143: params.src_pid = mac_src_pan_id;
+      00014B 74 13            [12]  368 	mov	a,#0x13
+      00014D 29               [12]  369 	add	a,r1
+      00014E F8               [12]  370 	mov	r0,a
+      00014F 90r00r02         [24]  371 	mov	dptr,#_mac_src_pan_id
+      000152 E0               [24]  372 	movx	a,@dptr
+      000153 FC               [12]  373 	mov	r4,a
+      000154 A3               [24]  374 	inc	dptr
+      000155 E0               [24]  375 	movx	a,@dptr
+      000156 FD               [12]  376 	mov	r5,a
+      000157 A6 04            [24]  377 	mov	@r0,ar4
+      000159 08               [12]  378 	inc	r0
+      00015A A6 05            [24]  379 	mov	@r0,ar5
+                                    380 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:149: rimeaddr_copy((rimeaddr_t *)&params.src_addr, &rimeaddr_node_addr);
+      00015C 74 15            [12]  381 	mov	a,#0x15
+      00015E 29               [12]  382 	add	a,r1
+      00015F FD               [12]  383 	mov	r5,a
+      000160 7C 00            [12]  384 	mov	r4,#0x00
+      000162 7B 40            [12]  385 	mov	r3,#0x40
+      000164 C0 01            [24]  386 	push	ar1
+      000166 74r00            [12]  387 	mov	a,#_rimeaddr_node_addr
+      000168 C0 E0            [24]  388 	push	acc
+      00016A 74s00            [12]  389 	mov	a,#(_rimeaddr_node_addr >> 8)
+      00016C C0 E0            [24]  390 	push	acc
+      00016E E4               [12]  391 	clr	a
+      00016F C0 E0            [24]  392 	push	acc
+      000171 8D 82            [24]  393 	mov	dpl,r5
+      000173 8C 83            [24]  394 	mov	dph,r4
+      000175 8B F0            [24]  395 	mov	b,r3
+      000177 12r00r00         [24]  396 	lcall	_rimeaddr_copy
+      00017A 15 81            [12]  397 	dec	sp
+      00017C 15 81            [12]  398 	dec	sp
+      00017E 15 81            [12]  399 	dec	sp
+      000180 D0 01            [24]  400 	pop	ar1
+                                    401 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:151: params.payload = packetbuf_dataptr();
+      000182 74 2D            [12]  402 	mov	a,#0x2D
+      000184 29               [12]  403 	add	a,r1
+      000185 F8               [12]  404 	mov	r0,a
+      000186 C0 01            [24]  405 	push	ar1
+      000188 C0 00            [24]  406 	push	ar0
+      00018A 12r00r00         [24]  407 	lcall	_packetbuf_dataptr
+      00018D AB 82            [24]  408 	mov	r3,dpl
+      00018F AC 83            [24]  409 	mov	r4,dph
+      000191 AD F0            [24]  410 	mov	r5,b
+      000193 D0 00            [24]  411 	pop	ar0
+      000195 D0 01            [24]  412 	pop	ar1
+      000197 A6 03            [24]  413 	mov	@r0,ar3
+      000199 08               [12]  414 	inc	r0
+      00019A A6 04            [24]  415 	mov	@r0,ar4
+      00019C 08               [12]  416 	inc	r0
+      00019D A6 05            [24]  417 	mov	@r0,ar5
+                                    418 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:152: params.payload_len = packetbuf_datalen();
+      00019F 74 30            [12]  419 	mov	a,#0x30
+      0001A1 29               [12]  420 	add	a,r1
+      0001A2 F8               [12]  421 	mov	r0,a
+      0001A3 C0 01            [24]  422 	push	ar1
+      0001A5 C0 00            [24]  423 	push	ar0
+      0001A7 12r00r00         [24]  424 	lcall	_packetbuf_datalen
+      0001AA AC 82            [24]  425 	mov	r4,dpl
+      0001AC D0 00            [24]  426 	pop	ar0
+      0001AE D0 01            [24]  427 	pop	ar1
+      0001B0 A6 04            [24]  428 	mov	@r0,ar4
+                                    429 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:153: len = frame802154_hdrlen(&params);
+      0001B2 89 05            [24]  430 	mov	ar5,r1
+      0001B4 7C 00            [12]  431 	mov	r4,#0x00
+      0001B6 7B 40            [12]  432 	mov	r3,#0x40
+      0001B8 8D 82            [24]  433 	mov	dpl,r5
+      0001BA 8C 83            [24]  434 	mov	dph,r4
+      0001BC 8B F0            [24]  435 	mov	b,r3
+      0001BE C0 01            [24]  436 	push	ar1
+      0001C0 12r00r00         [24]  437 	lcall	_frame802154_hdrlen
+      0001C3 AD 82            [24]  438 	mov	r5,dpl
+      0001C5 D0 01            [24]  439 	pop	ar1
+      0001C7 E5 81            [12]  440 	mov	a,sp
+      0001C9 24 CF            [12]  441 	add	a,#0xcf
+      0001CB F8               [12]  442 	mov	r0,a
+      0001CC A6 05            [24]  443 	mov	@r0,ar5
+                                    444 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:154: if(packetbuf_hdralloc(len)) {
+      0001CE E5 81            [12]  445 	mov	a,sp
+      0001D0 24 CF            [12]  446 	add	a,#0xcf
+      0001D2 F8               [12]  447 	mov	r0,a
+      0001D3 86 03            [24]  448 	mov	ar3,@r0
+      0001D5 7C 00            [12]  449 	mov	r4,#0x00
+      0001D7 8B 82            [24]  450 	mov	dpl,r3
+      0001D9 8C 83            [24]  451 	mov	dph,r4
+      0001DB C0 01            [24]  452 	push	ar1
+      0001DD 12r00r00         [24]  453 	lcall	_packetbuf_hdralloc
+      0001E0 E5 82            [12]  454 	mov	a,dpl
+      0001E2 85 83 F0         [24]  455 	mov	b,dph
+      0001E5 D0 01            [24]  456 	pop	ar1
+      0001E7 45 F0            [12]  457 	orl	a,b
+      0001E9 70 03            [24]  458 	jnz	00129$
+      0001EB 02r02rEA         [24]  459 	ljmp	00111$
+      0001EE                        460 00129$:
+                                    461 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:156: frame802154_create(&params, packetbuf_hdrptr(), len);
+      0001EE C0 01            [24]  462 	push	ar1
+      0001F0 12r00r00         [24]  463 	lcall	_packetbuf_hdrptr
+      0001F3 AA 82            [24]  464 	mov	r2,dpl
+      0001F5 AB 83            [24]  465 	mov	r3,dph
+      0001F7 AC F0            [24]  466 	mov	r4,b
+      0001F9 D0 01            [24]  467 	pop	ar1
+      0001FB 89 05            [24]  468 	mov	ar5,r1
+      0001FD 7E 00            [12]  469 	mov	r6,#0x00
+      0001FF 7F 40            [12]  470 	mov	r7,#0x40
+      000201 E5 81            [12]  471 	mov	a,sp
+      000203 24 CF            [12]  472 	add	a,#0xcf
+      000205 F8               [12]  473 	mov	r0,a
+      000206 E6               [12]  474 	mov	a,@r0
+      000207 C0 E0            [24]  475 	push	acc
+      000209 C0 02            [24]  476 	push	ar2
+      00020B C0 03            [24]  477 	push	ar3
+      00020D C0 04            [24]  478 	push	ar4
+      00020F 8D 82            [24]  479 	mov	dpl,r5
+      000211 8E 83            [24]  480 	mov	dph,r6
+      000213 8F F0            [24]  481 	mov	b,r7
+      000215 12r00r00         [24]  482 	lcall	_frame802154_create
+      000218 E5 81            [12]  483 	mov	a,sp
+      00021A 24 FC            [12]  484 	add	a,#0xfc
+      00021C F5 81            [12]  485 	mov	sp,a
+                                    486 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:162: ret = NETSTACK_RADIO.send(packetbuf_hdrptr(), packetbuf_totlen());
+      00021E 90r00r06         [24]  487 	mov	dptr,#(_cc2530_rf_driver + 0x0006)
+      000221 E4               [12]  488 	clr	a
+      000222 93               [24]  489 	movc	a,@a+dptr
+      000223 FE               [12]  490 	mov	r6,a
+      000224 A3               [24]  491 	inc	dptr
+      000225 E4               [12]  492 	clr	a
+      000226 93               [24]  493 	movc	a,@a+dptr
+      000227 FF               [12]  494 	mov	r7,a
+      000228 C0 07            [24]  495 	push	ar7
+      00022A C0 06            [24]  496 	push	ar6
+      00022C 12r00r00         [24]  497 	lcall	_packetbuf_totlen
+      00022F C8               [12]  498 	xch	a,r0
+      000230 E5 81            [12]  499 	mov	a,sp
+      000232 24 CB            [12]  500 	add	a,#0xcb
+      000234 C8               [12]  501 	xch	a,r0
+      000235 A6 82            [24]  502 	mov	@r0,dpl
+      000237 08               [12]  503 	inc	r0
+      000238 A6 83            [24]  504 	mov	@r0,dph
+      00023A 12r00r00         [24]  505 	lcall	_packetbuf_hdrptr
+      00023D AA 82            [24]  506 	mov	r2,dpl
+      00023F AB 83            [24]  507 	mov	r3,dph
+      000241 AD F0            [24]  508 	mov	r5,b
+      000243 D0 06            [24]  509 	pop	ar6
+      000245 D0 07            [24]  510 	pop	ar7
+      000247 E5 81            [12]  511 	mov	a,sp
+      000249 24 CD            [12]  512 	add	a,#0xcd
+      00024B F8               [12]  513 	mov	r0,a
+      00024C E6               [12]  514 	mov	a,@r0
+      00024D C0 E0            [24]  515 	push	acc
+      00024F 08               [12]  516 	inc	r0
+      000250 E6               [12]  517 	mov	a,@r0
+      000251 C0 E0            [24]  518 	push	acc
+      000253 12r02r58         [24]  519 	lcall	00130$
+      000256 80 0B            [24]  520 	sjmp	00131$
+      000258                        521 00130$:
+      000258 C0 06            [24]  522 	push	ar6
+      00025A C0 07            [24]  523 	push	ar7
+      00025C 8A 82            [24]  524 	mov	dpl,r2
+      00025E 8B 83            [24]  525 	mov	dph,r3
+      000260 8D F0            [24]  526 	mov	b,r5
+      000262 22               [24]  527 	ret
+      000263                        528 00131$:
+      000263 AE 82            [24]  529 	mov	r6,dpl
+      000265 AF 83            [24]  530 	mov	r7,dph
+      000267 15 81            [12]  531 	dec	sp
+      000269 15 81            [12]  532 	dec	sp
+                                    533 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:163: if(sent) {
+      00026B E5 81            [12]  534 	mov	a,sp
+      00026D 24 CB            [12]  535 	add	a,#0xcb
+      00026F F8               [12]  536 	mov	r0,a
+      000270 E6               [12]  537 	mov	a,@r0
+      000271 08               [12]  538 	inc	r0
+      000272 46               [12]  539 	orl	a,@r0
+      000273 60 75            [24]  540 	jz	00111$
+                                    541 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:164: switch(ret) {
+      000275 BE 00 05         [24]  542 	cjne	r6,#0x00,00133$
+      000278 BF 00 02         [24]  543 	cjne	r7,#0x00,00133$
+      00027B 80 08            [24]  544 	sjmp	00104$
+      00027D                        545 00133$:
+                                    546 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:165: case RADIO_TX_OK:
+      00027D BE 01 6A         [24]  547 	cjne	r6,#0x01,00111$
+      000280 BF 00 67         [24]  548 	cjne	r7,#0x00,00111$
+      000283 80 32            [24]  549 	sjmp	00105$
+      000285                        550 00104$:
+                                    551 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:166: sent(ptr, MAC_TX_OK, 1);
+      000285 74 01            [12]  552 	mov	a,#0x01
+      000287 C0 E0            [24]  553 	push	acc
+      000289 E4               [12]  554 	clr	a
+      00028A C0 E0            [24]  555 	push	acc
+      00028C C0 E0            [24]  556 	push	acc
+      00028E C0 E0            [24]  557 	push	acc
+      000290 12r02r95         [24]  558 	lcall	00135$
+      000293 80 1A            [24]  559 	sjmp	00136$
+      000295                        560 00135$:
+      000295 E5 81            [12]  561 	mov	a,sp
+      000297 24 C5            [12]  562 	add	a,#0xc5
+      000299 F8               [12]  563 	mov	r0,a
+      00029A E6               [12]  564 	mov	a,@r0
+      00029B C0 E0            [24]  565 	push	acc
+      00029D 08               [12]  566 	inc	r0
+      00029E E6               [12]  567 	mov	a,@r0
+      00029F C0 E0            [24]  568 	push	acc
+      0002A1 E5 81            [12]  569 	mov	a,sp
+      0002A3 24 BE            [12]  570 	add	a,#0xbe
+      0002A5 F8               [12]  571 	mov	r0,a
+      0002A6 86 82            [24]  572 	mov	dpl,@r0
+      0002A8 08               [12]  573 	inc	r0
+      0002A9 86 83            [24]  574 	mov	dph,@r0
+      0002AB 08               [12]  575 	inc	r0
+      0002AC 86 F0            [24]  576 	mov	b,@r0
+      0002AE 22               [24]  577 	ret
+      0002AF                        578 00136$:
+      0002AF E5 81            [12]  579 	mov	a,sp
+      0002B1 24 FC            [12]  580 	add	a,#0xfc
+      0002B3 F5 81            [12]  581 	mov	sp,a
+                                    582 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:167: break;
+                                    583 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:168: case RADIO_TX_ERR:
+      0002B5 80 33            [24]  584 	sjmp	00111$
+      0002B7                        585 00105$:
+                                    586 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:169: sent(ptr, MAC_TX_ERR, 1);
+      0002B7 74 01            [12]  587 	mov	a,#0x01
+      0002B9 C0 E0            [24]  588 	push	acc
+      0002BB E4               [12]  589 	clr	a
+      0002BC C0 E0            [24]  590 	push	acc
+      0002BE 74 04            [12]  591 	mov	a,#0x04
+      0002C0 C0 E0            [24]  592 	push	acc
+      0002C2 E4               [12]  593 	clr	a
+      0002C3 C0 E0            [24]  594 	push	acc
+      0002C5 12r02rCA         [24]  595 	lcall	00137$
+      0002C8 80 1A            [24]  596 	sjmp	00138$
+      0002CA                        597 00137$:
+      0002CA E5 81            [12]  598 	mov	a,sp
+      0002CC 24 C5            [12]  599 	add	a,#0xc5
+      0002CE F8               [12]  600 	mov	r0,a
+      0002CF E6               [12]  601 	mov	a,@r0
+      0002D0 C0 E0            [24]  602 	push	acc
+      0002D2 08               [12]  603 	inc	r0
+      0002D3 E6               [12]  604 	mov	a,@r0
+      0002D4 C0 E0            [24]  605 	push	acc
+      0002D6 E5 81            [12]  606 	mov	a,sp
+      0002D8 24 BE            [12]  607 	add	a,#0xbe
+      0002DA F8               [12]  608 	mov	r0,a
+      0002DB 86 82            [24]  609 	mov	dpl,@r0
+      0002DD 08               [12]  610 	inc	r0
+      0002DE 86 83            [24]  611 	mov	dph,@r0
+      0002E0 08               [12]  612 	inc	r0
+      0002E1 86 F0            [24]  613 	mov	b,@r0
+      0002E3 22               [24]  614 	ret
+      0002E4                        615 00138$:
+      0002E4 E5 81            [12]  616 	mov	a,sp
+      0002E6 24 FC            [12]  617 	add	a,#0xfc
+      0002E8 F5 81            [12]  618 	mov	sp,a
+                                    619 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:171: }
+      0002EA                        620 00111$:
+      0002EA E5 81            [12]  621 	mov	a,sp
+      0002EC 24 CA            [12]  622 	add	a,#0xCA
+      0002EE F5 81            [12]  623 	mov	sp,a
+      0002F0 22               [24]  624 	ret
+                                    625 ;------------------------------------------------------------
+                                    626 ;Allocation info for local variables in function 'send_list'
+                                    627 ;------------------------------------------------------------
+                                    628 ;ptr                       Allocated to stack - sp -4
+                                    629 ;buf_list                  Allocated to stack - sp -7
+                                    630 ;sent                      Allocated to registers r6 r7 
+                                    631 ;------------------------------------------------------------
+                                    632 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:179: send_list(mac_callback_t sent, void *ptr, struct rdc_buf_list *buf_list)
+                                    633 ;	-----------------------------------------
+                                    634 ;	 function send_list
+                                    635 ;	-----------------------------------------
+      0002F1                        636 _send_list:
+      0002F1 AE 82            [24]  637 	mov	r6,dpl
+      0002F3 AF 83            [24]  638 	mov	r7,dph
+                                    639 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:181: if(buf_list != NULL) {
+      0002F5 E5 81            [12]  640 	mov	a,sp
+      0002F7 24 F9            [12]  641 	add	a,#0xf9
+      0002F9 F8               [12]  642 	mov	r0,a
+      0002FA E6               [12]  643 	mov	a,@r0
+      0002FB 08               [12]  644 	inc	r0
+      0002FC 46               [12]  645 	orl	a,@r0
+      0002FD 60 56            [24]  646 	jz	00103$
+                                    647 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:182: queuebuf_to_packetbuf(buf_list->buf);
+      0002FF E5 81            [12]  648 	mov	a,sp
+      000301 24 F9            [12]  649 	add	a,#0xf9
+      000303 F8               [12]  650 	mov	r0,a
+      000304 86 03            [24]  651 	mov	ar3,@r0
+      000306 08               [12]  652 	inc	r0
+      000307 86 04            [24]  653 	mov	ar4,@r0
+      000309 08               [12]  654 	inc	r0
+      00030A 86 05            [24]  655 	mov	ar5,@r0
+      00030C 74 03            [12]  656 	mov	a,#0x03
+      00030E 2B               [12]  657 	add	a,r3
+      00030F FB               [12]  658 	mov	r3,a
+      000310 E4               [12]  659 	clr	a
+      000311 3C               [12]  660 	addc	a,r4
+      000312 FC               [12]  661 	mov	r4,a
+      000313 8B 82            [24]  662 	mov	dpl,r3
+      000315 8C 83            [24]  663 	mov	dph,r4
+      000317 8D F0            [24]  664 	mov	b,r5
+      000319 12r00r00         [24]  665 	lcall	__gptrget
+      00031C FB               [12]  666 	mov	r3,a
+      00031D A3               [24]  667 	inc	dptr
+      00031E 12r00r00         [24]  668 	lcall	__gptrget
+      000321 FC               [12]  669 	mov	r4,a
+      000322 A3               [24]  670 	inc	dptr
+      000323 12r00r00         [24]  671 	lcall	__gptrget
+      000326 FD               [12]  672 	mov	r5,a
+      000327 8B 82            [24]  673 	mov	dpl,r3
+      000329 8C 83            [24]  674 	mov	dph,r4
+      00032B 8D F0            [24]  675 	mov	b,r5
+      00032D C0 07            [24]  676 	push	ar7
+      00032F C0 06            [24]  677 	push	ar6
+      000331 12r00r00         [24]  678 	lcall	_queuebuf_to_packetbuf
+      000334 D0 06            [24]  679 	pop	ar6
+      000336 D0 07            [24]  680 	pop	ar7
+                                    681 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:183: send_packet(sent, ptr);
+      000338 E5 81            [12]  682 	mov	a,sp
+      00033A 24 FC            [12]  683 	add	a,#0xfc
+      00033C F8               [12]  684 	mov	r0,a
+      00033D E6               [12]  685 	mov	a,@r0
+      00033E C0 E0            [24]  686 	push	acc
+      000340 08               [12]  687 	inc	r0
+      000341 E6               [12]  688 	mov	a,@r0
+      000342 C0 E0            [24]  689 	push	acc
+      000344 08               [12]  690 	inc	r0
+      000345 E6               [12]  691 	mov	a,@r0
+      000346 C0 E0            [24]  692 	push	acc
+      000348 8E 82            [24]  693 	mov	dpl,r6
+      00034A 8F 83            [24]  694 	mov	dph,r7
+      00034C 12r00r4C         [24]  695 	lcall	_send_packet
+      00034F 15 81            [12]  696 	dec	sp
+      000351 15 81            [12]  697 	dec	sp
+      000353 15 81            [12]  698 	dec	sp
+      000355                        699 00103$:
+      000355 22               [24]  700 	ret
+                                    701 ;------------------------------------------------------------
+                                    702 ;Allocation info for local variables in function 'input_packet'
+                                    703 ;------------------------------------------------------------
+                                    704 ;frame                     Allocated to stack - sp -48
+                                    705 ;len                       Allocated to registers r3 r2 
+                                    706 ;sloc0                     Allocated to stack - sp -52
+                                    707 ;sloc1                     Allocated to stack - sp -51
+                                    708 ;------------------------------------------------------------
+                                    709 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:188: input_packet(void)
+                                    710 ;	-----------------------------------------
+                                    711 ;	 function input_packet
+                                    712 ;	-----------------------------------------
+      000356                        713 _input_packet:
+      000356 E5 81            [12]  714 	mov	a,sp
+      000358 24 35            [12]  715 	add	a,#0x35
+      00035A F5 81            [12]  716 	mov	sp,a
+                                    717 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:193: len = packetbuf_datalen();
+      00035C 12r00r00         [24]  718 	lcall	_packetbuf_datalen
+      00035F AE 82            [24]  719 	mov	r6,dpl
+      000361 AF 83            [24]  720 	mov	r7,dph
+      000363 8E 03            [24]  721 	mov	ar3,r6
+      000365 8F 02            [24]  722 	mov	ar2,r7
+                                    723 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:195: if(frame802154_parse(packetbuf_dataptr(), len, &frame) &&
+      000367 E5 81            [12]  724 	mov	a,sp
+      000369 24 D0            [12]  725 	add	a,#0xD0
+      00036B FD               [12]  726 	mov	r5,a
+      00036C E5 81            [12]  727 	mov	a,sp
+      00036E 24 CD            [12]  728 	add	a,#0xcd
+      000370 F8               [12]  729 	mov	r0,a
+      000371 A6 05            [24]  730 	mov	@r0,ar5
+      000373 08               [12]  731 	inc	r0
+      000374 76 00            [12]  732 	mov	@r0,#0x00
+      000376 08               [12]  733 	inc	r0
+      000377 76 40            [12]  734 	mov	@r0,#0x40
+      000379 E5 81            [12]  735 	mov	a,sp
+      00037B 24 CC            [12]  736 	add	a,#0xcc
+      00037D F8               [12]  737 	mov	r0,a
+      00037E A6 03            [24]  738 	mov	@r0,ar3
+      000380 C0 05            [24]  739 	push	ar5
+      000382 C0 03            [24]  740 	push	ar3
+      000384 C0 02            [24]  741 	push	ar2
+      000386 12r00r00         [24]  742 	lcall	_packetbuf_dataptr
+      000389 AC 82            [24]  743 	mov	r4,dpl
+      00038B AE 83            [24]  744 	mov	r6,dph
+      00038D AF F0            [24]  745 	mov	r7,b
+      00038F E5 81            [12]  746 	mov	a,sp
+      000391 24 CA            [12]  747 	add	a,#0xca
+      000393 F8               [12]  748 	mov	r0,a
+      000394 E6               [12]  749 	mov	a,@r0
+      000395 C0 E0            [24]  750 	push	acc
+      000397 08               [12]  751 	inc	r0
+      000398 E6               [12]  752 	mov	a,@r0
+      000399 C0 E0            [24]  753 	push	acc
+      00039B 08               [12]  754 	inc	r0
+      00039C E6               [12]  755 	mov	a,@r0
+      00039D C0 E0            [24]  756 	push	acc
+      00039F E5 81            [12]  757 	mov	a,sp
+      0003A1 24 C6            [12]  758 	add	a,#0xc6
+      0003A3 F8               [12]  759 	mov	r0,a
+      0003A4 E6               [12]  760 	mov	a,@r0
+      0003A5 C0 E0            [24]  761 	push	acc
+      0003A7 8C 82            [24]  762 	mov	dpl,r4
+      0003A9 8E 83            [24]  763 	mov	dph,r6
+      0003AB 8F F0            [24]  764 	mov	b,r7
+      0003AD 12r00r00         [24]  765 	lcall	_frame802154_parse
+      0003B0 AF 82            [24]  766 	mov	r7,dpl
+      0003B2 E5 81            [12]  767 	mov	a,sp
+      0003B4 24 FC            [12]  768 	add	a,#0xfc
+      0003B6 F5 81            [12]  769 	mov	sp,a
+      0003B8 D0 02            [24]  770 	pop	ar2
+      0003BA D0 03            [24]  771 	pop	ar3
+      0003BC D0 05            [24]  772 	pop	ar5
+      0003BE EF               [12]  773 	mov	a,r7
+      0003BF 70 03            [24]  774 	jnz	00136$
+      0003C1 02r04rBF         [24]  775 	ljmp	00113$
+      0003C4                        776 00136$:
+                                    777 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:196: packetbuf_hdrreduce(len - frame.payload_len)) {
+      0003C4 74 30            [12]  778 	mov	a,#0x30
+      0003C6 2D               [12]  779 	add	a,r5
+      0003C7 F9               [12]  780 	mov	r1,a
+      0003C8 87 07            [24]  781 	mov	ar7,@r1
+      0003CA 7E 00            [12]  782 	mov	r6,#0x00
+      0003CC EB               [12]  783 	mov	a,r3
+      0003CD C3               [12]  784 	clr	c
+      0003CE 9F               [12]  785 	subb	a,r7
+      0003CF FF               [12]  786 	mov	r7,a
+      0003D0 EA               [12]  787 	mov	a,r2
+      0003D1 9E               [12]  788 	subb	a,r6
+      0003D2 FE               [12]  789 	mov	r6,a
+      0003D3 8F 82            [24]  790 	mov	dpl,r7
+      0003D5 8E 83            [24]  791 	mov	dph,r6
+      0003D7 C0 05            [24]  792 	push	ar5
+      0003D9 12r00r00         [24]  793 	lcall	_packetbuf_hdrreduce
+      0003DC E5 82            [12]  794 	mov	a,dpl
+      0003DE 85 83 F0         [24]  795 	mov	b,dph
+      0003E1 D0 05            [24]  796 	pop	ar5
+      0003E3 45 F0            [12]  797 	orl	a,b
+      0003E5 70 03            [24]  798 	jnz	00137$
+      0003E7 02r04rBF         [24]  799 	ljmp	00113$
+      0003EA                        800 00137$:
+                                    801 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:197: if(frame.fcf.dest_addr_mode) {
+      0003EA 74 05            [12]  802 	mov	a,#0x05
+      0003EC 2D               [12]  803 	add	a,r5
+      0003ED F9               [12]  804 	mov	r1,a
+      0003EE E7               [12]  805 	mov	a,@r1
+      0003EF FF               [12]  806 	mov	r7,a
+      0003F0 70 03            [24]  807 	jnz	00138$
+      0003F2 02r04r8C         [24]  808 	ljmp	00109$
+      0003F5                        809 00138$:
+                                    810 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:198: if(frame.dest_pid != mac_src_pan_id &&
+      0003F5 74 09            [12]  811 	mov	a,#0x09
+      0003F7 2D               [12]  812 	add	a,r5
+      0003F8 F9               [12]  813 	mov	r1,a
+      0003F9 87 04            [24]  814 	mov	ar4,@r1
+      0003FB 09               [12]  815 	inc	r1
+      0003FC 87 06            [24]  816 	mov	ar6,@r1
+      0003FE 90r00r02         [24]  817 	mov	dptr,#_mac_src_pan_id
+      000401 E0               [24]  818 	movx	a,@dptr
+      000402 FA               [12]  819 	mov	r2,a
+      000403 A3               [24]  820 	inc	dptr
+      000404 E0               [24]  821 	movx	a,@dptr
+      000405 FB               [12]  822 	mov	r3,a
+      000406 EC               [12]  823 	mov	a,r4
+      000407 B5 02 06         [24]  824 	cjne	a,ar2,00139$
+      00040A EE               [12]  825 	mov	a,r6
+      00040B B5 03 02         [24]  826 	cjne	a,ar3,00139$
+      00040E 80 0B            [24]  827 	sjmp	00102$
+      000410                        828 00139$:
+                                    829 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:199: frame.dest_pid != FRAME802154_BROADCASTPANDID) {
+      000410 BC FF 05         [24]  830 	cjne	r4,#0xFF,00140$
+      000413 BE FF 02         [24]  831 	cjne	r6,#0xFF,00140$
+      000416 80 03            [24]  832 	sjmp	00102$
+      000418                        833 00140$:
+                                    834 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:202: return;
+      000418 02r04rBF         [24]  835 	ljmp	00113$
+      00041B                        836 00102$:
+                                    837 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:204: if(!is_broadcast_addr(frame.fcf.dest_addr_mode, frame.dest_addr)) {
+      00041B 74 0B            [12]  838 	mov	a,#0x0B
+      00041D 2D               [12]  839 	add	a,r5
+      00041E FE               [12]  840 	mov	r6,a
+      00041F 7C 00            [12]  841 	mov	r4,#0x00
+      000421 7B 40            [12]  842 	mov	r3,#0x40
+      000423 C0 05            [24]  843 	push	ar5
+      000425 C0 06            [24]  844 	push	ar6
+      000427 C0 04            [24]  845 	push	ar4
+      000429 C0 03            [24]  846 	push	ar3
+      00042B 8F 82            [24]  847 	mov	dpl,r7
+      00042D 12r00r00         [24]  848 	lcall	_is_broadcast_addr
+      000430 AE 82            [24]  849 	mov	r6,dpl
+      000432 AF 83            [24]  850 	mov	r7,dph
+      000434 15 81            [12]  851 	dec	sp
+      000436 15 81            [12]  852 	dec	sp
+      000438 15 81            [12]  853 	dec	sp
+      00043A D0 05            [24]  854 	pop	ar5
+      00043C EE               [12]  855 	mov	a,r6
+      00043D 4F               [12]  856 	orl	a,r7
+      00043E 70 4C            [24]  857 	jnz	00109$
+                                    858 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:205: packetbuf_set_addr(PACKETBUF_ADDR_RECEIVER, (rimeaddr_t *)&frame.dest_addr);
+      000440 74 0B            [12]  859 	mov	a,#0x0B
+      000442 2D               [12]  860 	add	a,r5
+      000443 FF               [12]  861 	mov	r7,a
+      000444 7E 00            [12]  862 	mov	r6,#0x00
+      000446 7C 40            [12]  863 	mov	r4,#0x40
+      000448 C0 05            [24]  864 	push	ar5
+      00044A C0 07            [24]  865 	push	ar7
+      00044C C0 06            [24]  866 	push	ar6
+      00044E C0 04            [24]  867 	push	ar4
+      000450 75 82 19         [24]  868 	mov	dpl,#0x19
+      000453 12r00r00         [24]  869 	lcall	_packetbuf_set_addr
+      000456 15 81            [12]  870 	dec	sp
+      000458 15 81            [12]  871 	dec	sp
+      00045A 15 81            [12]  872 	dec	sp
+                                    873 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:207: &rimeaddr_node_addr)) {
+                                    874 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:206: if(!rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+      00045C 75 82 19         [24]  875 	mov	dpl,#0x19
+      00045F 12r00r00         [24]  876 	lcall	_packetbuf_addr
+      000462 AC 82            [24]  877 	mov	r4,dpl
+      000464 AE 83            [24]  878 	mov	r6,dph
+      000466 AF F0            [24]  879 	mov	r7,b
+      000468 74r00            [12]  880 	mov	a,#_rimeaddr_node_addr
+      00046A C0 E0            [24]  881 	push	acc
+      00046C 74s00            [12]  882 	mov	a,#(_rimeaddr_node_addr >> 8)
+      00046E C0 E0            [24]  883 	push	acc
+      000470 E4               [12]  884 	clr	a
+      000471 C0 E0            [24]  885 	push	acc
+      000473 8C 82            [24]  886 	mov	dpl,r4
+      000475 8E 83            [24]  887 	mov	dph,r6
+      000477 8F F0            [24]  888 	mov	b,r7
+      000479 12r00r00         [24]  889 	lcall	_rimeaddr_cmp
+      00047C AE 82            [24]  890 	mov	r6,dpl
+      00047E AF 83            [24]  891 	mov	r7,dph
+      000480 15 81            [12]  892 	dec	sp
+      000482 15 81            [12]  893 	dec	sp
+      000484 15 81            [12]  894 	dec	sp
+      000486 D0 05            [24]  895 	pop	ar5
+      000488 EE               [12]  896 	mov	a,r6
+      000489 4F               [12]  897 	orl	a,r7
+                                    898 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:210: return;
+      00048A 60 33            [24]  899 	jz	00113$
+      00048C                        900 00109$:
+                                    901 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:214: packetbuf_set_addr(PACKETBUF_ADDR_SENDER, (rimeaddr_t *)&frame.src_addr);
+      00048C 74 15            [12]  902 	mov	a,#0x15
+      00048E 2D               [12]  903 	add	a,r5
+      00048F FD               [12]  904 	mov	r5,a
+      000490 7F 00            [12]  905 	mov	r7,#0x00
+      000492 7E 40            [12]  906 	mov	r6,#0x40
+      000494 C0 05            [24]  907 	push	ar5
+      000496 C0 07            [24]  908 	push	ar7
+      000498 C0 06            [24]  909 	push	ar6
+      00049A 75 82 18         [24]  910 	mov	dpl,#0x18
+      00049D 12r00r00         [24]  911 	lcall	_packetbuf_set_addr
+      0004A0 15 81            [12]  912 	dec	sp
+      0004A2 15 81            [12]  913 	dec	sp
+      0004A4 15 81            [12]  914 	dec	sp
+                                    915 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:220: NETSTACK_MAC.input();
+      0004A6 90r00r07         [24]  916 	mov	dptr,#(_csma_driver + 0x0007)
+      0004A9 E4               [12]  917 	clr	a
+      0004AA 93               [24]  918 	movc	a,@a+dptr
+      0004AB FE               [12]  919 	mov	r6,a
+      0004AC A3               [24]  920 	inc	dptr
+      0004AD E4               [12]  921 	clr	a
+      0004AE 93               [24]  922 	movc	a,@a+dptr
+      0004AF FF               [12]  923 	mov	r7,a
+      0004B0 C0 07            [24]  924 	push	ar7
+      0004B2 C0 06            [24]  925 	push	ar6
+      0004B4 8E 82            [24]  926 	mov	dpl,r6
+      0004B6 8F 83            [24]  927 	mov	dph,r7
+      0004B8 12r00r00         [24]  928 	lcall	__sdcc_call_dptr
+      0004BB D0 06            [24]  929 	pop	ar6
+      0004BD D0 07            [24]  930 	pop	ar7
+      0004BF                        931 00113$:
+      0004BF E5 81            [12]  932 	mov	a,sp
+      0004C1 24 CB            [12]  933 	add	a,#0xCB
+      0004C3 F5 81            [12]  934 	mov	sp,a
+      0004C5 22               [24]  935 	ret
+                                    936 ;------------------------------------------------------------
+                                    937 ;Allocation info for local variables in function 'on'
+                                    938 ;------------------------------------------------------------
+                                    939 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:227: on(void)
+                                    940 ;	-----------------------------------------
+                                    941 ;	 function on
+                                    942 ;	-----------------------------------------
+      0004C6                        943 _on:
+                                    944 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:229: return NETSTACK_RADIO.on();
+      0004C6 90r00r10         [24]  945 	mov	dptr,#(_cc2530_rf_driver + 0x0010)
+      0004C9 E4               [12]  946 	clr	a
+      0004CA 93               [24]  947 	movc	a,@a+dptr
+      0004CB FE               [12]  948 	mov	r6,a
+      0004CC A3               [24]  949 	inc	dptr
+      0004CD E4               [12]  950 	clr	a
+      0004CE 93               [24]  951 	movc	a,@a+dptr
+      0004CF FF               [12]  952 	mov	r7,a
+      0004D0 8E 82            [24]  953 	mov	dpl,r6
+      0004D2 8F 83            [24]  954 	mov	dph,r7
+      0004D4 02r00r00         [24]  955 	ljmp	__sdcc_call_dptr
+                                    956 ;------------------------------------------------------------
+                                    957 ;Allocation info for local variables in function 'off'
+                                    958 ;------------------------------------------------------------
+                                    959 ;keep_radio_on             Allocated to registers r6 r7 
+                                    960 ;------------------------------------------------------------
+                                    961 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:233: off(int keep_radio_on)
+                                    962 ;	-----------------------------------------
+                                    963 ;	 function off
+                                    964 ;	-----------------------------------------
+      0004D7                        965 _off:
+      0004D7 AE 82            [24]  966 	mov	r6,dpl
+      0004D9 AF 83            [24]  967 	mov	r7,dph
+                                    968 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:235: if(keep_radio_on) {
+      0004DB EE               [12]  969 	mov	a,r6
+      0004DC 4F               [12]  970 	orl	a,r7
+      0004DD 60 11            [24]  971 	jz	00102$
+                                    972 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:236: return NETSTACK_RADIO.on();
+      0004DF 90r00r10         [24]  973 	mov	dptr,#(_cc2530_rf_driver + 0x0010)
+      0004E2 E4               [12]  974 	clr	a
+      0004E3 93               [24]  975 	movc	a,@a+dptr
+      0004E4 FE               [12]  976 	mov	r6,a
+      0004E5 A3               [24]  977 	inc	dptr
+      0004E6 E4               [12]  978 	clr	a
+      0004E7 93               [24]  979 	movc	a,@a+dptr
+      0004E8 FF               [12]  980 	mov	r7,a
+      0004E9 8E 82            [24]  981 	mov	dpl,r6
+      0004EB 8F 83            [24]  982 	mov	dph,r7
+      0004ED 02r00r00         [24]  983 	ljmp	__sdcc_call_dptr
+      0004F0                        984 00102$:
+                                    985 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:238: return NETSTACK_RADIO.off();
+      0004F0 90r00r12         [24]  986 	mov	dptr,#(_cc2530_rf_driver + 0x0012)
+      0004F3 E4               [12]  987 	clr	a
+      0004F4 93               [24]  988 	movc	a,@a+dptr
+      0004F5 FE               [12]  989 	mov	r6,a
+      0004F6 A3               [24]  990 	inc	dptr
+      0004F7 E4               [12]  991 	clr	a
+      0004F8 93               [24]  992 	movc	a,@a+dptr
+      0004F9 FF               [12]  993 	mov	r7,a
+      0004FA 8E 82            [24]  994 	mov	dpl,r6
+      0004FC 8F 83            [24]  995 	mov	dph,r7
+      0004FE 02r00r00         [24]  996 	ljmp	__sdcc_call_dptr
+                                    997 ;------------------------------------------------------------
+                                    998 ;Allocation info for local variables in function 'init'
+                                    999 ;------------------------------------------------------------
+                                   1000 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:243: init(void)
+                                   1001 ;	-----------------------------------------
+                                   1002 ;	 function init
+                                   1003 ;	-----------------------------------------
+      000501                       1004 _init:
+                                   1005 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:245: mac_dsn = random_rand() % 256;
+      000501 12r00r00         [24] 1006 	lcall	_random_rand
+      000504 E5 82            [12] 1007 	mov	a,dpl
+      000506 85 83 F0         [24] 1008 	mov	b,dph
+      000509 FE               [12] 1009 	mov	r6,a
+      00050A 90r00r00         [24] 1010 	mov	dptr,#_mac_dsn
+      00050D EE               [12] 1011 	mov	a,r6
+      00050E F0               [24] 1012 	movx	@dptr,a
+                                   1013 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:247: NETSTACK_RADIO.on();
+      00050F 90r00r10         [24] 1014 	mov	dptr,#(_cc2530_rf_driver + 0x0010)
+      000512 E4               [12] 1015 	clr	a
+      000513 93               [24] 1016 	movc	a,@a+dptr
+      000514 FE               [12] 1017 	mov	r6,a
+      000515 A3               [24] 1018 	inc	dptr
+      000516 E4               [12] 1019 	clr	a
+      000517 93               [24] 1020 	movc	a,@a+dptr
+      000518 FF               [12] 1021 	mov	r7,a
+      000519 C0 07            [24] 1022 	push	ar7
+      00051B C0 06            [24] 1023 	push	ar6
+      00051D 8E 82            [24] 1024 	mov	dpl,r6
+      00051F 8F 83            [24] 1025 	mov	dph,r7
+      000521 12r00r00         [24] 1026 	lcall	__sdcc_call_dptr
+      000524 D0 06            [24] 1027 	pop	ar6
+      000526 D0 07            [24] 1028 	pop	ar7
+      000528 22               [24] 1029 	ret
+                                   1030 ;------------------------------------------------------------
+                                   1031 ;Allocation info for local variables in function 'channel_check_interval'
+                                   1032 ;------------------------------------------------------------
+                                   1033 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:251: channel_check_interval(void)
+                                   1034 ;	-----------------------------------------
+                                   1035 ;	 function channel_check_interval
+                                   1036 ;	-----------------------------------------
+      000529                       1037 _channel_check_interval:
+                                   1038 ;	../contiki-sensinode/core/net/mac/sicslowmac.c:253: return 0;
+      000529 90 00 00         [24] 1039 	mov	dptr,#0x0000
+      00052C 22               [24] 1040 	ret
+                                   1041 	.area CSEG    (CODE)
+                                   1042 	.area CONST   (CODE)
+      000000                       1043 _sicslowmac_driver:
+      000000r11s00 80              1044 	.byte __str_0,(__str_0 >> 8),#0x80
+      000003r01s05                 1045 	.byte _init,(_init >> 8)
+      000005r4Cs00                 1046 	.byte _send_packet,(_send_packet >> 8)
+      000007rF1s02                 1047 	.byte _send_list,(_send_list >> 8)
+      000009r56s03                 1048 	.byte _input_packet,(_input_packet >> 8)
+      00000BrC6s04                 1049 	.byte _on,(_on >> 8)
+      00000DrD7s04                 1050 	.byte _off,(_off >> 8)
+      00000Fr29s05                 1051 	.byte _channel_check_interval,(_channel_check_interval >> 8)
+      000011                       1052 __str_0:
+      000011 73 69 63 73 6C 6F 77  1053 	.ascii "sicslowmac"
+             6D 61 63
+      00001B 00                    1054 	.db 0x00
+                                   1055 	.area XINIT   (CODE)
+      000000                       1056 __xinit__mac_dst_pan_id:
+      000000 49 54                 1057 	.byte #0x49,#0x54	; 21577
+      000002                       1058 __xinit__mac_src_pan_id:
+      000002 49 54                 1059 	.byte #0x49,#0x54	; 21577
+                                   1060 	.area CABS    (ABS,CODE)

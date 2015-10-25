@@ -1,0 +1,1009 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Oct 24 2015) (Linux)
+                                      4 ; This file was generated Sun Oct 25 01:51:58 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module announcement
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _list_item_next
+                                     13 	.globl _list_remove
+                                     14 	.globl _list_add
+                                     15 	.globl _list_head
+                                     16 	.globl _list_init
+                                     17 	.globl _announcement_init
+                                     18 	.globl _announcement_register
+                                     19 	.globl _announcement_remove
+                                     20 	.globl _announcement_remove_value
+                                     21 	.globl _announcement_set_value
+                                     22 	.globl _announcement_bump
+                                     23 	.globl _announcement_listen
+                                     24 	.globl _announcement_register_listen_callback
+                                     25 	.globl _announcement_register_observer_callback
+                                     26 	.globl _announcement_list
+                                     27 	.globl _announcement_heard
+                                     28 ;--------------------------------------------------------
+                                     29 ; special function registers
+                                     30 ;--------------------------------------------------------
+                                     31 	.area RSEG    (ABS,DATA)
+      000000                         32 	.org 0x0000
+                                     33 ;--------------------------------------------------------
+                                     34 ; special function bits
+                                     35 ;--------------------------------------------------------
+                                     36 	.area RSEG    (ABS,DATA)
+      000000                         37 	.org 0x0000
+                                     38 ;--------------------------------------------------------
+                                     39 ; overlayable register banks
+                                     40 ;--------------------------------------------------------
+                                     41 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         42 	.ds 8
+                                     43 ;--------------------------------------------------------
+                                     44 ; internal ram data
+                                     45 ;--------------------------------------------------------
+                                     46 	.area DSEG    (DATA)
+                                     47 ;--------------------------------------------------------
+                                     48 ; overlayable items in internal ram 
+                                     49 ;--------------------------------------------------------
+                                     50 ;--------------------------------------------------------
+                                     51 ; indirectly addressable internal ram data
+                                     52 ;--------------------------------------------------------
+                                     53 	.area ISEG    (DATA)
+                                     54 ;--------------------------------------------------------
+                                     55 ; absolute internal ram data
+                                     56 ;--------------------------------------------------------
+                                     57 	.area IABS    (ABS,DATA)
+                                     58 	.area IABS    (ABS,DATA)
+                                     59 ;--------------------------------------------------------
+                                     60 ; bit data
+                                     61 ;--------------------------------------------------------
+                                     62 	.area BSEG    (BIT)
+                                     63 ;--------------------------------------------------------
+                                     64 ; paged external ram data
+                                     65 ;--------------------------------------------------------
+                                     66 	.area PSEG    (PAG,XDATA)
+                                     67 ;--------------------------------------------------------
+                                     68 ; external ram data
+                                     69 ;--------------------------------------------------------
+                                     70 	.area XSEG    (XDATA)
+      000000                         71 _listen_callback:
+      000000                         72 	.ds 2
+      000002                         73 _observer_callback:
+      000002                         74 	.ds 2
+                                     75 ;--------------------------------------------------------
+                                     76 ; absolute external ram data
+                                     77 ;--------------------------------------------------------
+                                     78 	.area XABS    (ABS,XDATA)
+                                     79 ;--------------------------------------------------------
+                                     80 ; external initialized ram data
+                                     81 ;--------------------------------------------------------
+                                     82 	.area XISEG   (XDATA)
+      000000                         83 _announcements_list:
+      000000                         84 	.ds 3
+      000003                         85 _announcements:
+      000003                         86 	.ds 3
+                                     87 	.area HOME    (CODE)
+                                     88 	.area GSINIT0 (CODE)
+                                     89 	.area GSINIT1 (CODE)
+                                     90 	.area GSINIT2 (CODE)
+                                     91 	.area GSINIT3 (CODE)
+                                     92 	.area GSINIT4 (CODE)
+                                     93 	.area GSINIT5 (CODE)
+                                     94 	.area GSINIT  (CODE)
+                                     95 	.area GSFINAL (CODE)
+                                     96 	.area CSEG    (CODE)
+                                     97 ;--------------------------------------------------------
+                                     98 ; global & static initialisations
+                                     99 ;--------------------------------------------------------
+                                    100 	.area HOME    (CODE)
+                                    101 	.area GSINIT  (CODE)
+                                    102 	.area GSFINAL (CODE)
+                                    103 	.area GSINIT  (CODE)
+                                    104 ;--------------------------------------------------------
+                                    105 ; Home
+                                    106 ;--------------------------------------------------------
+                                    107 	.area HOME    (CODE)
+                                    108 	.area HOME    (CODE)
+                                    109 ;--------------------------------------------------------
+                                    110 ; code
+                                    111 ;--------------------------------------------------------
+                                    112 	.area CSEG    (CODE)
+                                    113 ;------------------------------------------------------------
+                                    114 ;Allocation info for local variables in function 'announcement_init'
+                                    115 ;------------------------------------------------------------
+                                    116 ;	../contiki-sensinode/core/net/rime/announcement.c:56: announcement_init(void)
+                                    117 ;	-----------------------------------------
+                                    118 ;	 function announcement_init
+                                    119 ;	-----------------------------------------
+      000000                        120 _announcement_init:
+                           000007   121 	ar7 = 0x07
+                           000006   122 	ar6 = 0x06
+                           000005   123 	ar5 = 0x05
+                           000004   124 	ar4 = 0x04
+                           000003   125 	ar3 = 0x03
+                           000002   126 	ar2 = 0x02
+                           000001   127 	ar1 = 0x01
+                           000000   128 	ar0 = 0x00
+                                    129 ;	../contiki-sensinode/core/net/rime/announcement.c:58: list_init(announcements);
+      000000 90r00r03         [24]  130 	mov	dptr,#_announcements
+      000003 E0               [24]  131 	movx	a,@dptr
+      000004 FD               [12]  132 	mov	r5,a
+      000005 A3               [24]  133 	inc	dptr
+      000006 E0               [24]  134 	movx	a,@dptr
+      000007 FE               [12]  135 	mov	r6,a
+      000008 A3               [24]  136 	inc	dptr
+      000009 E0               [24]  137 	movx	a,@dptr
+      00000A FF               [12]  138 	mov	r7,a
+      00000B 8D 82            [24]  139 	mov	dpl,r5
+      00000D 8E 83            [24]  140 	mov	dph,r6
+      00000F 8F F0            [24]  141 	mov	b,r7
+      000011 02r00r00         [24]  142 	ljmp	_list_init
+                                    143 ;------------------------------------------------------------
+                                    144 ;Allocation info for local variables in function 'announcement_register'
+                                    145 ;------------------------------------------------------------
+                                    146 ;id                        Allocated to stack - sp -12
+                                    147 ;callback                  Allocated to stack - sp -14
+                                    148 ;a                         Allocated to stack - sp -8
+                                    149 ;sloc0                     Allocated to stack - sp -5
+                                    150 ;sloc1                     Allocated to stack - sp -2
+                                    151 ;------------------------------------------------------------
+                                    152 ;	../contiki-sensinode/core/net/rime/announcement.c:62: announcement_register(struct announcement *a, uint16_t id,
+                                    153 ;	-----------------------------------------
+                                    154 ;	 function announcement_register
+                                    155 ;	-----------------------------------------
+      000014                        156 _announcement_register:
+      000014 C0 82            [24]  157 	push	dpl
+      000016 C0 83            [24]  158 	push	dph
+      000018 C0 F0            [24]  159 	push	b
+      00001A E5 81            [12]  160 	mov	a,sp
+      00001C 24 06            [12]  161 	add	a,#0x06
+                                    162 ;	../contiki-sensinode/core/net/rime/announcement.c:65: a->id = id;
+      00001E F5 81            [12]  163 	mov	sp,a
+      000020 24 F8            [12]  164 	add	a,#0xf8
+      000022 F8               [12]  165 	mov	r0,a
+      000023 74 03            [12]  166 	mov	a,#0x03
+      000025 26               [12]  167 	add	a,@r0
+      000026 FA               [12]  168 	mov	r2,a
+      000027 E4               [12]  169 	clr	a
+      000028 08               [12]  170 	inc	r0
+      000029 36               [12]  171 	addc	a,@r0
+      00002A FB               [12]  172 	mov	r3,a
+      00002B 08               [12]  173 	inc	r0
+      00002C 86 04            [24]  174 	mov	ar4,@r0
+      00002E 8A 82            [24]  175 	mov	dpl,r2
+      000030 8B 83            [24]  176 	mov	dph,r3
+      000032 8C F0            [24]  177 	mov	b,r4
+      000034 E5 81            [12]  178 	mov	a,sp
+      000036 24 F4            [12]  179 	add	a,#0xf4
+      000038 F8               [12]  180 	mov	r0,a
+      000039 E6               [12]  181 	mov	a,@r0
+      00003A 12r00r00         [24]  182 	lcall	__gptrput
+      00003D A3               [24]  183 	inc	dptr
+      00003E 08               [12]  184 	inc	r0
+      00003F E6               [12]  185 	mov	a,@r0
+      000040 12r00r00         [24]  186 	lcall	__gptrput
+                                    187 ;	../contiki-sensinode/core/net/rime/announcement.c:66: a->has_value = 0;
+      000043 E5 81            [12]  188 	mov	a,sp
+      000045 24 F8            [12]  189 	add	a,#0xf8
+      000047 F8               [12]  190 	mov	r0,a
+      000048 E5 81            [12]  191 	mov	a,sp
+      00004A 24 FB            [12]  192 	add	a,#0xfb
+      00004C F9               [12]  193 	mov	r1,a
+      00004D 74 09            [12]  194 	mov	a,#0x09
+      00004F 26               [12]  195 	add	a,@r0
+      000050 F7               [12]  196 	mov	@r1,a
+      000051 E4               [12]  197 	clr	a
+      000052 08               [12]  198 	inc	r0
+      000053 36               [12]  199 	addc	a,@r0
+      000054 09               [12]  200 	inc	r1
+      000055 F7               [12]  201 	mov	@r1,a
+      000056 08               [12]  202 	inc	r0
+      000057 09               [12]  203 	inc	r1
+      000058 E6               [12]  204 	mov	a,@r0
+      000059 F7               [12]  205 	mov	@r1,a
+      00005A E5 81            [12]  206 	mov	a,sp
+      00005C 24 FB            [12]  207 	add	a,#0xfb
+      00005E F8               [12]  208 	mov	r0,a
+      00005F 86 82            [24]  209 	mov	dpl,@r0
+      000061 08               [12]  210 	inc	r0
+      000062 86 83            [24]  211 	mov	dph,@r0
+      000064 08               [12]  212 	inc	r0
+      000065 86 F0            [24]  213 	mov	b,@r0
+      000067 E4               [12]  214 	clr	a
+      000068 12r00r00         [24]  215 	lcall	__gptrput
+                                    216 ;	../contiki-sensinode/core/net/rime/announcement.c:67: a->callback = callback;
+      00006B E5 81            [12]  217 	mov	a,sp
+      00006D 24 F8            [12]  218 	add	a,#0xf8
+      00006F F8               [12]  219 	mov	r0,a
+      000070 74 07            [12]  220 	mov	a,#0x07
+      000072 26               [12]  221 	add	a,@r0
+      000073 FD               [12]  222 	mov	r5,a
+      000074 E4               [12]  223 	clr	a
+      000075 08               [12]  224 	inc	r0
+      000076 36               [12]  225 	addc	a,@r0
+      000077 FE               [12]  226 	mov	r6,a
+      000078 08               [12]  227 	inc	r0
+      000079 86 07            [24]  228 	mov	ar7,@r0
+      00007B 8D 82            [24]  229 	mov	dpl,r5
+      00007D 8E 83            [24]  230 	mov	dph,r6
+      00007F 8F F0            [24]  231 	mov	b,r7
+      000081 E5 81            [12]  232 	mov	a,sp
+      000083 24 F2            [12]  233 	add	a,#0xf2
+      000085 F8               [12]  234 	mov	r0,a
+      000086 E6               [12]  235 	mov	a,@r0
+      000087 12r00r00         [24]  236 	lcall	__gptrput
+      00008A A3               [24]  237 	inc	dptr
+      00008B 08               [12]  238 	inc	r0
+      00008C E6               [12]  239 	mov	a,@r0
+      00008D 12r00r00         [24]  240 	lcall	__gptrput
+                                    241 ;	../contiki-sensinode/core/net/rime/announcement.c:68: list_add(announcements, a);
+      000090 E5 81            [12]  242 	mov	a,sp
+      000092 24 F8            [12]  243 	add	a,#0xf8
+      000094 F8               [12]  244 	mov	r0,a
+      000095 A9 81            [24]  245 	mov	r1,sp
+      000097 19               [12]  246 	dec	r1
+      000098 19               [12]  247 	dec	r1
+      000099 E6               [12]  248 	mov	a,@r0
+      00009A F7               [12]  249 	mov	@r1,a
+      00009B 08               [12]  250 	inc	r0
+      00009C 09               [12]  251 	inc	r1
+      00009D E6               [12]  252 	mov	a,@r0
+      00009E F7               [12]  253 	mov	@r1,a
+      00009F 08               [12]  254 	inc	r0
+      0000A0 09               [12]  255 	inc	r1
+      0000A1 E6               [12]  256 	mov	a,@r0
+      0000A2 F7               [12]  257 	mov	@r1,a
+      0000A3 90r00r03         [24]  258 	mov	dptr,#_announcements
+      0000A6 E0               [24]  259 	movx	a,@dptr
+      0000A7 FD               [12]  260 	mov	r5,a
+      0000A8 A3               [24]  261 	inc	dptr
+      0000A9 E0               [24]  262 	movx	a,@dptr
+      0000AA FE               [12]  263 	mov	r6,a
+      0000AB A3               [24]  264 	inc	dptr
+      0000AC E0               [24]  265 	movx	a,@dptr
+      0000AD FF               [12]  266 	mov	r7,a
+      0000AE C0 04            [24]  267 	push	ar4
+      0000B0 C0 03            [24]  268 	push	ar3
+      0000B2 C0 02            [24]  269 	push	ar2
+      0000B4 E5 81            [12]  270 	mov	a,sp
+      0000B6 24 FB            [12]  271 	add	a,#0xfb
+      0000B8 F8               [12]  272 	mov	r0,a
+      0000B9 E6               [12]  273 	mov	a,@r0
+      0000BA C0 E0            [24]  274 	push	acc
+      0000BC 08               [12]  275 	inc	r0
+      0000BD E6               [12]  276 	mov	a,@r0
+      0000BE C0 E0            [24]  277 	push	acc
+      0000C0 08               [12]  278 	inc	r0
+      0000C1 E6               [12]  279 	mov	a,@r0
+      0000C2 C0 E0            [24]  280 	push	acc
+      0000C4 8D 82            [24]  281 	mov	dpl,r5
+      0000C6 8E 83            [24]  282 	mov	dph,r6
+      0000C8 8F F0            [24]  283 	mov	b,r7
+      0000CA 12r00r00         [24]  284 	lcall	_list_add
+      0000CD 15 81            [12]  285 	dec	sp
+      0000CF 15 81            [12]  286 	dec	sp
+      0000D1 15 81            [12]  287 	dec	sp
+      0000D3 D0 02            [24]  288 	pop	ar2
+      0000D5 D0 03            [24]  289 	pop	ar3
+      0000D7 D0 04            [24]  290 	pop	ar4
+                                    291 ;	../contiki-sensinode/core/net/rime/announcement.c:69: if(observer_callback) {
+      0000D9 90r00r02         [24]  292 	mov	dptr,#_observer_callback
+      0000DC E0               [24]  293 	movx	a,@dptr
+      0000DD FE               [12]  294 	mov	r6,a
+      0000DE A3               [24]  295 	inc	dptr
+      0000DF E0               [24]  296 	movx	a,@dptr
+      0000E0 FF               [12]  297 	mov	r7,a
+      0000E1 4E               [12]  298 	orl	a,r6
+      0000E2 60 68            [24]  299 	jz	00103$
+                                    300 ;	../contiki-sensinode/core/net/rime/announcement.c:71: a->value, 0, ANNOUNCEMENT_BUMP);
+      0000E4 E5 81            [12]  301 	mov	a,sp
+      0000E6 24 F8            [12]  302 	add	a,#0xf8
+      0000E8 F8               [12]  303 	mov	r0,a
+      0000E9 74 05            [12]  304 	mov	a,#0x05
+      0000EB 26               [12]  305 	add	a,@r0
+      0000EC FD               [12]  306 	mov	r5,a
+      0000ED E4               [12]  307 	clr	a
+      0000EE 08               [12]  308 	inc	r0
+      0000EF 36               [12]  309 	addc	a,@r0
+      0000F0 FE               [12]  310 	mov	r6,a
+      0000F1 08               [12]  311 	inc	r0
+      0000F2 86 07            [24]  312 	mov	ar7,@r0
+      0000F4 8D 82            [24]  313 	mov	dpl,r5
+      0000F6 8E 83            [24]  314 	mov	dph,r6
+      0000F8 8F F0            [24]  315 	mov	b,r7
+      0000FA 12r00r00         [24]  316 	lcall	__gptrget
+      0000FD FD               [12]  317 	mov	r5,a
+      0000FE A3               [24]  318 	inc	dptr
+      0000FF 12r00r00         [24]  319 	lcall	__gptrget
+      000102 FE               [12]  320 	mov	r6,a
+                                    321 ;	../contiki-sensinode/core/net/rime/announcement.c:70: observer_callback(a->id, a->has_value,
+      000103 E5 81            [12]  322 	mov	a,sp
+      000105 24 FB            [12]  323 	add	a,#0xfb
+      000107 F8               [12]  324 	mov	r0,a
+      000108 86 82            [24]  325 	mov	dpl,@r0
+      00010A 08               [12]  326 	inc	r0
+      00010B 86 83            [24]  327 	mov	dph,@r0
+      00010D 08               [12]  328 	inc	r0
+      00010E 86 F0            [24]  329 	mov	b,@r0
+      000110 12r00r00         [24]  330 	lcall	__gptrget
+      000113 FF               [12]  331 	mov	r7,a
+      000114 8A 82            [24]  332 	mov	dpl,r2
+      000116 8B 83            [24]  333 	mov	dph,r3
+      000118 8C F0            [24]  334 	mov	b,r4
+      00011A 12r00r00         [24]  335 	lcall	__gptrget
+      00011D FA               [12]  336 	mov	r2,a
+      00011E A3               [24]  337 	inc	dptr
+      00011F 12r00r00         [24]  338 	lcall	__gptrget
+      000122 FB               [12]  339 	mov	r3,a
+      000123 74 01            [12]  340 	mov	a,#0x01
+      000125 C0 E0            [24]  341 	push	acc
+      000127 E4               [12]  342 	clr	a
+      000128 C0 E0            [24]  343 	push	acc
+      00012A C0 E0            [24]  344 	push	acc
+      00012C C0 05            [24]  345 	push	ar5
+      00012E C0 06            [24]  346 	push	ar6
+      000130 C0 07            [24]  347 	push	ar7
+      000132 12r01r37         [24]  348 	lcall	00109$
+      000135 80 0F            [24]  349 	sjmp	00110$
+      000137                        350 00109$:
+      000137 90r00r02         [24]  351 	mov	dptr,#_observer_callback
+      00013A E0               [24]  352 	movx	a,@dptr
+      00013B C0 E0            [24]  353 	push	acc
+      00013D A3               [24]  354 	inc	dptr
+      00013E E0               [24]  355 	movx	a,@dptr
+      00013F C0 E0            [24]  356 	push	acc
+      000141 8A 82            [24]  357 	mov	dpl,r2
+      000143 8B 83            [24]  358 	mov	dph,r3
+      000145 22               [24]  359 	ret
+      000146                        360 00110$:
+      000146 E5 81            [12]  361 	mov	a,sp
+      000148 24 FA            [12]  362 	add	a,#0xfa
+      00014A F5 81            [12]  363 	mov	sp,a
+      00014C                        364 00103$:
+      00014C E5 81            [12]  365 	mov	a,sp
+      00014E 24 F7            [12]  366 	add	a,#0xF7
+      000150 F5 81            [12]  367 	mov	sp,a
+      000152 22               [24]  368 	ret
+                                    369 ;------------------------------------------------------------
+                                    370 ;Allocation info for local variables in function 'announcement_remove'
+                                    371 ;------------------------------------------------------------
+                                    372 ;a                         Allocated to registers r5 r6 r7 
+                                    373 ;------------------------------------------------------------
+                                    374 ;	../contiki-sensinode/core/net/rime/announcement.c:76: announcement_remove(struct announcement *a)
+                                    375 ;	-----------------------------------------
+                                    376 ;	 function announcement_remove
+                                    377 ;	-----------------------------------------
+      000153                        378 _announcement_remove:
+      000153 AD 82            [24]  379 	mov	r5,dpl
+      000155 AE 83            [24]  380 	mov	r6,dph
+      000157 AF F0            [24]  381 	mov	r7,b
+                                    382 ;	../contiki-sensinode/core/net/rime/announcement.c:78: list_remove(announcements, a);
+      000159 90r00r03         [24]  383 	mov	dptr,#_announcements
+      00015C E0               [24]  384 	movx	a,@dptr
+      00015D FA               [12]  385 	mov	r2,a
+      00015E A3               [24]  386 	inc	dptr
+      00015F E0               [24]  387 	movx	a,@dptr
+      000160 FB               [12]  388 	mov	r3,a
+      000161 A3               [24]  389 	inc	dptr
+      000162 E0               [24]  390 	movx	a,@dptr
+      000163 FC               [12]  391 	mov	r4,a
+      000164 C0 05            [24]  392 	push	ar5
+      000166 C0 06            [24]  393 	push	ar6
+      000168 C0 07            [24]  394 	push	ar7
+      00016A 8A 82            [24]  395 	mov	dpl,r2
+      00016C 8B 83            [24]  396 	mov	dph,r3
+      00016E 8C F0            [24]  397 	mov	b,r4
+      000170 12r00r00         [24]  398 	lcall	_list_remove
+      000173 15 81            [12]  399 	dec	sp
+      000175 15 81            [12]  400 	dec	sp
+      000177 15 81            [12]  401 	dec	sp
+      000179 22               [24]  402 	ret
+                                    403 ;------------------------------------------------------------
+                                    404 ;Allocation info for local variables in function 'announcement_remove_value'
+                                    405 ;------------------------------------------------------------
+                                    406 ;a                         Allocated to registers r5 r6 r7 
+                                    407 ;------------------------------------------------------------
+                                    408 ;	../contiki-sensinode/core/net/rime/announcement.c:82: announcement_remove_value(struct announcement *a)
+                                    409 ;	-----------------------------------------
+                                    410 ;	 function announcement_remove_value
+                                    411 ;	-----------------------------------------
+      00017A                        412 _announcement_remove_value:
+      00017A AD 82            [24]  413 	mov	r5,dpl
+      00017C AE 83            [24]  414 	mov	r6,dph
+      00017E AF F0            [24]  415 	mov	r7,b
+                                    416 ;	../contiki-sensinode/core/net/rime/announcement.c:84: a->has_value = 0;
+      000180 74 09            [12]  417 	mov	a,#0x09
+      000182 2D               [12]  418 	add	a,r5
+      000183 FA               [12]  419 	mov	r2,a
+      000184 E4               [12]  420 	clr	a
+      000185 3E               [12]  421 	addc	a,r6
+      000186 FB               [12]  422 	mov	r3,a
+      000187 8F 04            [24]  423 	mov	ar4,r7
+      000189 8A 82            [24]  424 	mov	dpl,r2
+      00018B 8B 83            [24]  425 	mov	dph,r3
+      00018D 8C F0            [24]  426 	mov	b,r4
+      00018F E4               [12]  427 	clr	a
+      000190 12r00r00         [24]  428 	lcall	__gptrput
+                                    429 ;	../contiki-sensinode/core/net/rime/announcement.c:85: if(observer_callback) {
+      000193 90r00r02         [24]  430 	mov	dptr,#_observer_callback
+      000196 E0               [24]  431 	movx	a,@dptr
+      000197 FB               [12]  432 	mov	r3,a
+      000198 A3               [24]  433 	inc	dptr
+      000199 E0               [24]  434 	movx	a,@dptr
+      00019A FC               [12]  435 	mov	r4,a
+      00019B 4B               [12]  436 	orl	a,r3
+      00019C 60 3D            [24]  437 	jz	00103$
+                                    438 ;	../contiki-sensinode/core/net/rime/announcement.c:86: observer_callback(a->id, 0, 0, 0, ANNOUNCEMENT_NOBUMP);
+      00019E 74 03            [12]  439 	mov	a,#0x03
+      0001A0 2D               [12]  440 	add	a,r5
+      0001A1 FD               [12]  441 	mov	r5,a
+      0001A2 E4               [12]  442 	clr	a
+      0001A3 3E               [12]  443 	addc	a,r6
+      0001A4 FE               [12]  444 	mov	r6,a
+      0001A5 8D 82            [24]  445 	mov	dpl,r5
+      0001A7 8E 83            [24]  446 	mov	dph,r6
+      0001A9 8F F0            [24]  447 	mov	b,r7
+      0001AB 12r00r00         [24]  448 	lcall	__gptrget
+      0001AE FD               [12]  449 	mov	r5,a
+      0001AF A3               [24]  450 	inc	dptr
+      0001B0 12r00r00         [24]  451 	lcall	__gptrget
+      0001B3 FE               [12]  452 	mov	r6,a
+      0001B4 E4               [12]  453 	clr	a
+      0001B5 C0 E0            [24]  454 	push	acc
+      0001B7 C0 E0            [24]  455 	push	acc
+      0001B9 C0 E0            [24]  456 	push	acc
+      0001BB C0 E0            [24]  457 	push	acc
+      0001BD C0 E0            [24]  458 	push	acc
+      0001BF C0 E0            [24]  459 	push	acc
+      0001C1 12r01rC6         [24]  460 	lcall	00109$
+      0001C4 80 0F            [24]  461 	sjmp	00110$
+      0001C6                        462 00109$:
+      0001C6 90r00r02         [24]  463 	mov	dptr,#_observer_callback
+      0001C9 E0               [24]  464 	movx	a,@dptr
+      0001CA C0 E0            [24]  465 	push	acc
+      0001CC A3               [24]  466 	inc	dptr
+      0001CD E0               [24]  467 	movx	a,@dptr
+      0001CE C0 E0            [24]  468 	push	acc
+      0001D0 8D 82            [24]  469 	mov	dpl,r5
+      0001D2 8E 83            [24]  470 	mov	dph,r6
+      0001D4 22               [24]  471 	ret
+      0001D5                        472 00110$:
+      0001D5 E5 81            [12]  473 	mov	a,sp
+      0001D7 24 FA            [12]  474 	add	a,#0xfa
+      0001D9 F5 81            [12]  475 	mov	sp,a
+      0001DB                        476 00103$:
+      0001DB 22               [24]  477 	ret
+                                    478 ;------------------------------------------------------------
+                                    479 ;Allocation info for local variables in function 'announcement_set_value'
+                                    480 ;------------------------------------------------------------
+                                    481 ;value                     Allocated to stack - sp -8
+                                    482 ;a                         Allocated to registers r5 r6 r7 
+                                    483 ;oldvalue                  Allocated to stack - sp -1
+                                    484 ;sloc0                     Allocated to stack - sp -4
+                                    485 ;------------------------------------------------------------
+                                    486 ;	../contiki-sensinode/core/net/rime/announcement.c:92: announcement_set_value(struct announcement *a, uint16_t value)
+                                    487 ;	-----------------------------------------
+                                    488 ;	 function announcement_set_value
+                                    489 ;	-----------------------------------------
+      0001DC                        490 _announcement_set_value:
+      0001DC E5 81            [12]  491 	mov	a,sp
+      0001DE 24 05            [12]  492 	add	a,#0x05
+      0001E0 F5 81            [12]  493 	mov	sp,a
+      0001E2 AD 82            [24]  494 	mov	r5,dpl
+      0001E4 AE 83            [24]  495 	mov	r6,dph
+      0001E6 AF F0            [24]  496 	mov	r7,b
+                                    497 ;	../contiki-sensinode/core/net/rime/announcement.c:94: uint16_t oldvalue = a->value;
+      0001E8 74 05            [12]  498 	mov	a,#0x05
+      0001EA 2D               [12]  499 	add	a,r5
+      0001EB FA               [12]  500 	mov	r2,a
+      0001EC E4               [12]  501 	clr	a
+      0001ED 3E               [12]  502 	addc	a,r6
+      0001EE FB               [12]  503 	mov	r3,a
+      0001EF 8F 04            [24]  504 	mov	ar4,r7
+      0001F1 8A 82            [24]  505 	mov	dpl,r2
+      0001F3 8B 83            [24]  506 	mov	dph,r3
+      0001F5 8C F0            [24]  507 	mov	b,r4
+      0001F7 A8 81            [24]  508 	mov	r0,sp
+      0001F9 18               [12]  509 	dec	r0
+      0001FA 12r00r00         [24]  510 	lcall	__gptrget
+      0001FD F6               [12]  511 	mov	@r0,a
+      0001FE A3               [24]  512 	inc	dptr
+      0001FF 12r00r00         [24]  513 	lcall	__gptrget
+      000202 08               [12]  514 	inc	r0
+      000203 F6               [12]  515 	mov	@r0,a
+                                    516 ;	../contiki-sensinode/core/net/rime/announcement.c:96: a->has_value = 1;
+      000204 E5 81            [12]  517 	mov	a,sp
+      000206 24 FC            [12]  518 	add	a,#0xfc
+      000208 F8               [12]  519 	mov	r0,a
+      000209 74 09            [12]  520 	mov	a,#0x09
+      00020B 2D               [12]  521 	add	a,r5
+      00020C F6               [12]  522 	mov	@r0,a
+      00020D E4               [12]  523 	clr	a
+      00020E 3E               [12]  524 	addc	a,r6
+      00020F 08               [12]  525 	inc	r0
+      000210 F6               [12]  526 	mov	@r0,a
+      000211 08               [12]  527 	inc	r0
+      000212 A6 07            [24]  528 	mov	@r0,ar7
+      000214 E5 81            [12]  529 	mov	a,sp
+      000216 24 FC            [12]  530 	add	a,#0xfc
+      000218 F8               [12]  531 	mov	r0,a
+      000219 86 82            [24]  532 	mov	dpl,@r0
+      00021B 08               [12]  533 	inc	r0
+      00021C 86 83            [24]  534 	mov	dph,@r0
+      00021E 08               [12]  535 	inc	r0
+      00021F 86 F0            [24]  536 	mov	b,@r0
+      000221 74 01            [12]  537 	mov	a,#0x01
+      000223 12r00r00         [24]  538 	lcall	__gptrput
+                                    539 ;	../contiki-sensinode/core/net/rime/announcement.c:97: a->value = value;
+      000226 8A 82            [24]  540 	mov	dpl,r2
+      000228 8B 83            [24]  541 	mov	dph,r3
+      00022A 8C F0            [24]  542 	mov	b,r4
+      00022C E5 81            [12]  543 	mov	a,sp
+      00022E 24 F8            [12]  544 	add	a,#0xf8
+      000230 F8               [12]  545 	mov	r0,a
+      000231 E6               [12]  546 	mov	a,@r0
+      000232 12r00r00         [24]  547 	lcall	__gptrput
+      000235 A3               [24]  548 	inc	dptr
+      000236 08               [12]  549 	inc	r0
+      000237 E6               [12]  550 	mov	a,@r0
+      000238 12r00r00         [24]  551 	lcall	__gptrput
+                                    552 ;	../contiki-sensinode/core/net/rime/announcement.c:98: if(observer_callback) {
+      00023B 90r00r02         [24]  553 	mov	dptr,#_observer_callback
+      00023E E0               [24]  554 	movx	a,@dptr
+      00023F FB               [12]  555 	mov	r3,a
+      000240 A3               [24]  556 	inc	dptr
+      000241 E0               [24]  557 	movx	a,@dptr
+      000242 FC               [12]  558 	mov	r4,a
+      000243 4B               [12]  559 	orl	a,r3
+      000244 60 5D            [24]  560 	jz	00103$
+                                    561 ;	../contiki-sensinode/core/net/rime/announcement.c:99: observer_callback(a->id, a->has_value,
+      000246 E5 81            [12]  562 	mov	a,sp
+      000248 24 FC            [12]  563 	add	a,#0xfc
+      00024A F8               [12]  564 	mov	r0,a
+      00024B 86 82            [24]  565 	mov	dpl,@r0
+      00024D 08               [12]  566 	inc	r0
+      00024E 86 83            [24]  567 	mov	dph,@r0
+      000250 08               [12]  568 	inc	r0
+      000251 86 F0            [24]  569 	mov	b,@r0
+      000253 12r00r00         [24]  570 	lcall	__gptrget
+      000256 FC               [12]  571 	mov	r4,a
+      000257 74 03            [12]  572 	mov	a,#0x03
+      000259 2D               [12]  573 	add	a,r5
+      00025A FD               [12]  574 	mov	r5,a
+      00025B E4               [12]  575 	clr	a
+      00025C 3E               [12]  576 	addc	a,r6
+      00025D FE               [12]  577 	mov	r6,a
+      00025E 8D 82            [24]  578 	mov	dpl,r5
+      000260 8E 83            [24]  579 	mov	dph,r6
+      000262 8F F0            [24]  580 	mov	b,r7
+      000264 12r00r00         [24]  581 	lcall	__gptrget
+      000267 FD               [12]  582 	mov	r5,a
+      000268 A3               [24]  583 	inc	dptr
+      000269 12r00r00         [24]  584 	lcall	__gptrget
+      00026C FE               [12]  585 	mov	r6,a
+      00026D E4               [12]  586 	clr	a
+      00026E C0 E0            [24]  587 	push	acc
+      000270 A8 81            [24]  588 	mov	r0,sp
+      000272 18               [12]  589 	dec	r0
+      000273 18               [12]  590 	dec	r0
+      000274 E6               [12]  591 	mov	a,@r0
+      000275 C0 E0            [24]  592 	push	acc
+      000277 08               [12]  593 	inc	r0
+      000278 E6               [12]  594 	mov	a,@r0
+      000279 C0 E0            [24]  595 	push	acc
+      00027B E5 81            [12]  596 	mov	a,sp
+      00027D 24 F5            [12]  597 	add	a,#0xf5
+      00027F F8               [12]  598 	mov	r0,a
+      000280 E6               [12]  599 	mov	a,@r0
+      000281 C0 E0            [24]  600 	push	acc
+      000283 08               [12]  601 	inc	r0
+      000284 E6               [12]  602 	mov	a,@r0
+      000285 C0 E0            [24]  603 	push	acc
+      000287 C0 04            [24]  604 	push	ar4
+      000289 12r02r8E         [24]  605 	lcall	00109$
+      00028C 80 0F            [24]  606 	sjmp	00110$
+      00028E                        607 00109$:
+      00028E 90r00r02         [24]  608 	mov	dptr,#_observer_callback
+      000291 E0               [24]  609 	movx	a,@dptr
+      000292 C0 E0            [24]  610 	push	acc
+      000294 A3               [24]  611 	inc	dptr
+      000295 E0               [24]  612 	movx	a,@dptr
+      000296 C0 E0            [24]  613 	push	acc
+      000298 8D 82            [24]  614 	mov	dpl,r5
+      00029A 8E 83            [24]  615 	mov	dph,r6
+      00029C 22               [24]  616 	ret
+      00029D                        617 00110$:
+      00029D E5 81            [12]  618 	mov	a,sp
+      00029F 24 FA            [12]  619 	add	a,#0xfa
+      0002A1 F5 81            [12]  620 	mov	sp,a
+      0002A3                        621 00103$:
+      0002A3 E5 81            [12]  622 	mov	a,sp
+      0002A5 24 FB            [12]  623 	add	a,#0xFB
+      0002A7 F5 81            [12]  624 	mov	sp,a
+      0002A9 22               [24]  625 	ret
+                                    626 ;------------------------------------------------------------
+                                    627 ;Allocation info for local variables in function 'announcement_bump'
+                                    628 ;------------------------------------------------------------
+                                    629 ;a                         Allocated to registers r5 r6 r7 
+                                    630 ;------------------------------------------------------------
+                                    631 ;	../contiki-sensinode/core/net/rime/announcement.c:105: announcement_bump(struct announcement *a)
+                                    632 ;	-----------------------------------------
+                                    633 ;	 function announcement_bump
+                                    634 ;	-----------------------------------------
+      0002AA                        635 _announcement_bump:
+      0002AA AD 82            [24]  636 	mov	r5,dpl
+      0002AC AE 83            [24]  637 	mov	r6,dph
+      0002AE AF F0            [24]  638 	mov	r7,b
+                                    639 ;	../contiki-sensinode/core/net/rime/announcement.c:107: if(observer_callback) {
+      0002B0 90r00r02         [24]  640 	mov	dptr,#_observer_callback
+      0002B3 E0               [24]  641 	movx	a,@dptr
+      0002B4 FB               [12]  642 	mov	r3,a
+      0002B5 A3               [24]  643 	inc	dptr
+      0002B6 E0               [24]  644 	movx	a,@dptr
+      0002B7 FC               [12]  645 	mov	r4,a
+      0002B8 4B               [12]  646 	orl	a,r3
+      0002B9 60 69            [24]  647 	jz	00103$
+                                    648 ;	../contiki-sensinode/core/net/rime/announcement.c:109: a->value, a->value, ANNOUNCEMENT_BUMP);
+      0002BB 74 05            [12]  649 	mov	a,#0x05
+      0002BD 2D               [12]  650 	add	a,r5
+      0002BE FA               [12]  651 	mov	r2,a
+      0002BF E4               [12]  652 	clr	a
+      0002C0 3E               [12]  653 	addc	a,r6
+      0002C1 FB               [12]  654 	mov	r3,a
+      0002C2 8F 04            [24]  655 	mov	ar4,r7
+      0002C4 8A 82            [24]  656 	mov	dpl,r2
+      0002C6 8B 83            [24]  657 	mov	dph,r3
+      0002C8 8C F0            [24]  658 	mov	b,r4
+      0002CA 12r00r00         [24]  659 	lcall	__gptrget
+      0002CD FA               [12]  660 	mov	r2,a
+      0002CE A3               [24]  661 	inc	dptr
+      0002CF 12r00r00         [24]  662 	lcall	__gptrget
+      0002D2 FB               [12]  663 	mov	r3,a
+                                    664 ;	../contiki-sensinode/core/net/rime/announcement.c:108: observer_callback(a->id, a->has_value,
+      0002D3 74 09            [12]  665 	mov	a,#0x09
+      0002D5 2D               [12]  666 	add	a,r5
+      0002D6 F8               [12]  667 	mov	r0,a
+      0002D7 E4               [12]  668 	clr	a
+      0002D8 3E               [12]  669 	addc	a,r6
+      0002D9 F9               [12]  670 	mov	r1,a
+      0002DA 8F 04            [24]  671 	mov	ar4,r7
+      0002DC 88 82            [24]  672 	mov	dpl,r0
+      0002DE 89 83            [24]  673 	mov	dph,r1
+      0002E0 8C F0            [24]  674 	mov	b,r4
+      0002E2 12r00r00         [24]  675 	lcall	__gptrget
+      0002E5 F8               [12]  676 	mov	r0,a
+      0002E6 74 03            [12]  677 	mov	a,#0x03
+      0002E8 2D               [12]  678 	add	a,r5
+      0002E9 FD               [12]  679 	mov	r5,a
+      0002EA E4               [12]  680 	clr	a
+      0002EB 3E               [12]  681 	addc	a,r6
+      0002EC FE               [12]  682 	mov	r6,a
+      0002ED 8D 82            [24]  683 	mov	dpl,r5
+      0002EF 8E 83            [24]  684 	mov	dph,r6
+      0002F1 8F F0            [24]  685 	mov	b,r7
+      0002F3 12r00r00         [24]  686 	lcall	__gptrget
+      0002F6 FD               [12]  687 	mov	r5,a
+      0002F7 A3               [24]  688 	inc	dptr
+      0002F8 12r00r00         [24]  689 	lcall	__gptrget
+      0002FB FE               [12]  690 	mov	r6,a
+      0002FC 74 01            [12]  691 	mov	a,#0x01
+      0002FE C0 E0            [24]  692 	push	acc
+      000300 C0 02            [24]  693 	push	ar2
+      000302 C0 03            [24]  694 	push	ar3
+      000304 C0 02            [24]  695 	push	ar2
+      000306 C0 03            [24]  696 	push	ar3
+      000308 C0 00            [24]  697 	push	ar0
+      00030A 12r03r0F         [24]  698 	lcall	00109$
+      00030D 80 0F            [24]  699 	sjmp	00110$
+      00030F                        700 00109$:
+      00030F 90r00r02         [24]  701 	mov	dptr,#_observer_callback
+      000312 E0               [24]  702 	movx	a,@dptr
+      000313 C0 E0            [24]  703 	push	acc
+      000315 A3               [24]  704 	inc	dptr
+      000316 E0               [24]  705 	movx	a,@dptr
+      000317 C0 E0            [24]  706 	push	acc
+      000319 8D 82            [24]  707 	mov	dpl,r5
+      00031B 8E 83            [24]  708 	mov	dph,r6
+      00031D 22               [24]  709 	ret
+      00031E                        710 00110$:
+      00031E E5 81            [12]  711 	mov	a,sp
+      000320 24 FA            [12]  712 	add	a,#0xfa
+      000322 F5 81            [12]  713 	mov	sp,a
+      000324                        714 00103$:
+      000324 22               [24]  715 	ret
+                                    716 ;------------------------------------------------------------
+                                    717 ;Allocation info for local variables in function 'announcement_listen'
+                                    718 ;------------------------------------------------------------
+                                    719 ;time                      Allocated to registers r6 r7 
+                                    720 ;------------------------------------------------------------
+                                    721 ;	../contiki-sensinode/core/net/rime/announcement.c:114: announcement_listen(int time)
+                                    722 ;	-----------------------------------------
+                                    723 ;	 function announcement_listen
+                                    724 ;	-----------------------------------------
+      000325                        725 _announcement_listen:
+      000325 AE 82            [24]  726 	mov	r6,dpl
+      000327 AF 83            [24]  727 	mov	r7,dph
+                                    728 ;	../contiki-sensinode/core/net/rime/announcement.c:116: if(listen_callback) {
+      000329 90r00r00         [24]  729 	mov	dptr,#_listen_callback
+      00032C E0               [24]  730 	movx	a,@dptr
+      00032D FC               [12]  731 	mov	r4,a
+      00032E A3               [24]  732 	inc	dptr
+      00032F E0               [24]  733 	movx	a,@dptr
+      000330 FD               [12]  734 	mov	r5,a
+      000331 4C               [12]  735 	orl	a,r4
+      000332 60 14            [24]  736 	jz	00103$
+                                    737 ;	../contiki-sensinode/core/net/rime/announcement.c:117: listen_callback(time);
+      000334 12r03r39         [24]  738 	lcall	00109$
+      000337 80 0F            [24]  739 	sjmp	00110$
+      000339                        740 00109$:
+      000339 90r00r00         [24]  741 	mov	dptr,#_listen_callback
+      00033C E0               [24]  742 	movx	a,@dptr
+      00033D C0 E0            [24]  743 	push	acc
+      00033F A3               [24]  744 	inc	dptr
+      000340 E0               [24]  745 	movx	a,@dptr
+      000341 C0 E0            [24]  746 	push	acc
+      000343 8E 82            [24]  747 	mov	dpl,r6
+      000345 8F 83            [24]  748 	mov	dph,r7
+      000347 22               [24]  749 	ret
+      000348                        750 00110$:
+      000348                        751 00103$:
+      000348 22               [24]  752 	ret
+                                    753 ;------------------------------------------------------------
+                                    754 ;Allocation info for local variables in function 'announcement_register_listen_callback'
+                                    755 ;------------------------------------------------------------
+                                    756 ;callback                  Allocated to registers 
+                                    757 ;------------------------------------------------------------
+                                    758 ;	../contiki-sensinode/core/net/rime/announcement.c:122: announcement_register_listen_callback(void (*callback)(int time))
+                                    759 ;	-----------------------------------------
+                                    760 ;	 function announcement_register_listen_callback
+                                    761 ;	-----------------------------------------
+      000349                        762 _announcement_register_listen_callback:
+      000349 AF 83            [24]  763 	mov	r7,dph
+      00034B E5 82            [12]  764 	mov	a,dpl
+      00034D 90r00r00         [24]  765 	mov	dptr,#_listen_callback
+      000350 F0               [24]  766 	movx	@dptr,a
+      000351 EF               [12]  767 	mov	a,r7
+      000352 A3               [24]  768 	inc	dptr
+      000353 F0               [24]  769 	movx	@dptr,a
+                                    770 ;	../contiki-sensinode/core/net/rime/announcement.c:124: listen_callback = callback;
+      000354 22               [24]  771 	ret
+                                    772 ;------------------------------------------------------------
+                                    773 ;Allocation info for local variables in function 'announcement_register_observer_callback'
+                                    774 ;------------------------------------------------------------
+                                    775 ;callback                  Allocated to registers 
+                                    776 ;------------------------------------------------------------
+                                    777 ;	../contiki-sensinode/core/net/rime/announcement.c:128: announcement_register_observer_callback(announcement_observer callback)
+                                    778 ;	-----------------------------------------
+                                    779 ;	 function announcement_register_observer_callback
+                                    780 ;	-----------------------------------------
+      000355                        781 _announcement_register_observer_callback:
+      000355 AF 83            [24]  782 	mov	r7,dph
+      000357 E5 82            [12]  783 	mov	a,dpl
+      000359 90r00r02         [24]  784 	mov	dptr,#_observer_callback
+      00035C F0               [24]  785 	movx	@dptr,a
+      00035D EF               [12]  786 	mov	a,r7
+      00035E A3               [24]  787 	inc	dptr
+      00035F F0               [24]  788 	movx	@dptr,a
+                                    789 ;	../contiki-sensinode/core/net/rime/announcement.c:130: observer_callback = callback;
+      000360 22               [24]  790 	ret
+                                    791 ;------------------------------------------------------------
+                                    792 ;Allocation info for local variables in function 'announcement_list'
+                                    793 ;------------------------------------------------------------
+                                    794 ;	../contiki-sensinode/core/net/rime/announcement.c:134: announcement_list(void)
+                                    795 ;	-----------------------------------------
+                                    796 ;	 function announcement_list
+                                    797 ;	-----------------------------------------
+      000361                        798 _announcement_list:
+                                    799 ;	../contiki-sensinode/core/net/rime/announcement.c:136: return list_head(announcements);
+      000361 90r00r03         [24]  800 	mov	dptr,#_announcements
+      000364 E0               [24]  801 	movx	a,@dptr
+      000365 FD               [12]  802 	mov	r5,a
+      000366 A3               [24]  803 	inc	dptr
+      000367 E0               [24]  804 	movx	a,@dptr
+      000368 FE               [12]  805 	mov	r6,a
+      000369 A3               [24]  806 	inc	dptr
+      00036A E0               [24]  807 	movx	a,@dptr
+      00036B FF               [12]  808 	mov	r7,a
+      00036C 8D 82            [24]  809 	mov	dpl,r5
+      00036E 8E 83            [24]  810 	mov	dph,r6
+      000370 8F F0            [24]  811 	mov	b,r7
+      000372 02r00r00         [24]  812 	ljmp	_list_head
+                                    813 ;------------------------------------------------------------
+                                    814 ;Allocation info for local variables in function 'announcement_heard'
+                                    815 ;------------------------------------------------------------
+                                    816 ;id                        Allocated to stack - sp -5
+                                    817 ;value                     Allocated to stack - sp -7
+                                    818 ;from                      Allocated to registers r5 r6 r7 
+                                    819 ;a                         Allocated to registers r2 r3 r4 
+                                    820 ;sloc0                     Allocated to stack - sp -1
+                                    821 ;------------------------------------------------------------
+                                    822 ;	../contiki-sensinode/core/net/rime/announcement.c:140: announcement_heard(const rimeaddr_t *from, uint16_t id, uint16_t value)
+                                    823 ;	-----------------------------------------
+                                    824 ;	 function announcement_heard
+                                    825 ;	-----------------------------------------
+      000375                        826 _announcement_heard:
+      000375 05 81            [12]  827 	inc	sp
+      000377 05 81            [12]  828 	inc	sp
+      000379 AD 82            [24]  829 	mov	r5,dpl
+      00037B AE 83            [24]  830 	mov	r6,dph
+      00037D AF F0            [24]  831 	mov	r7,b
+                                    832 ;	../contiki-sensinode/core/net/rime/announcement.c:143: for(a = list_head(announcements); a != NULL; a = list_item_next(a)) {
+      00037F 90r00r03         [24]  833 	mov	dptr,#_announcements
+      000382 E0               [24]  834 	movx	a,@dptr
+      000383 FA               [12]  835 	mov	r2,a
+      000384 A3               [24]  836 	inc	dptr
+      000385 E0               [24]  837 	movx	a,@dptr
+      000386 FB               [12]  838 	mov	r3,a
+      000387 A3               [24]  839 	inc	dptr
+      000388 E0               [24]  840 	movx	a,@dptr
+      000389 FC               [12]  841 	mov	r4,a
+      00038A 8A 82            [24]  842 	mov	dpl,r2
+      00038C 8B 83            [24]  843 	mov	dph,r3
+      00038E 8C F0            [24]  844 	mov	b,r4
+      000390 C0 07            [24]  845 	push	ar7
+      000392 C0 06            [24]  846 	push	ar6
+      000394 C0 05            [24]  847 	push	ar5
+      000396 12r00r00         [24]  848 	lcall	_list_head
+      000399 AA 82            [24]  849 	mov	r2,dpl
+      00039B AB 83            [24]  850 	mov	r3,dph
+      00039D AC F0            [24]  851 	mov	r4,b
+      00039F D0 05            [24]  852 	pop	ar5
+      0003A1 D0 06            [24]  853 	pop	ar6
+      0003A3 D0 07            [24]  854 	pop	ar7
+      0003A5                        855 00107$:
+      0003A5 E4               [12]  856 	clr	a
+      0003A6 C0 E0            [24]  857 	push	acc
+      0003A8 C0 E0            [24]  858 	push	acc
+      0003AA C0 E0            [24]  859 	push	acc
+      0003AC 8A 82            [24]  860 	mov	dpl,r2
+      0003AE 8B 83            [24]  861 	mov	dph,r3
+      0003B0 8C F0            [24]  862 	mov	b,r4
+      0003B2 12r00r00         [24]  863 	lcall	___gptr_cmp
+      0003B5 15 81            [12]  864 	dec	sp
+      0003B7 15 81            [12]  865 	dec	sp
+      0003B9 15 81            [12]  866 	dec	sp
+      0003BB 70 03            [24]  867 	jnz	00123$
+      0003BD 02r04r8A         [24]  868 	ljmp	00109$
+      0003C0                        869 00123$:
+                                    870 ;	../contiki-sensinode/core/net/rime/announcement.c:144: if(a->id == id) {
+      0003C0 C0 05            [24]  871 	push	ar5
+      0003C2 C0 06            [24]  872 	push	ar6
+      0003C4 C0 07            [24]  873 	push	ar7
+      0003C6 74 03            [12]  874 	mov	a,#0x03
+      0003C8 2A               [12]  875 	add	a,r2
+      0003C9 FD               [12]  876 	mov	r5,a
+      0003CA E4               [12]  877 	clr	a
+      0003CB 3B               [12]  878 	addc	a,r3
+      0003CC FE               [12]  879 	mov	r6,a
+      0003CD 8C 07            [24]  880 	mov	ar7,r4
+      0003CF 8D 82            [24]  881 	mov	dpl,r5
+      0003D1 8E 83            [24]  882 	mov	dph,r6
+      0003D3 8F F0            [24]  883 	mov	b,r7
+      0003D5 12r00r00         [24]  884 	lcall	__gptrget
+      0003D8 FD               [12]  885 	mov	r5,a
+      0003D9 A3               [24]  886 	inc	dptr
+      0003DA 12r00r00         [24]  887 	lcall	__gptrget
+      0003DD FE               [12]  888 	mov	r6,a
+      0003DE E5 81            [12]  889 	mov	a,sp
+      0003E0 24 F8            [12]  890 	add	a,#0xf8
+      0003E2 F8               [12]  891 	mov	r0,a
+      0003E3 E6               [12]  892 	mov	a,@r0
+      0003E4 B5 05 07         [24]  893 	cjne	a,ar5,00124$
+      0003E7 08               [12]  894 	inc	r0
+      0003E8 E6               [12]  895 	mov	a,@r0
+      0003E9 B5 06 02         [24]  896 	cjne	a,ar6,00124$
+      0003EC 80 08            [24]  897 	sjmp	00125$
+      0003EE                        898 00124$:
+      0003EE D0 07            [24]  899 	pop	ar7
+      0003F0 D0 06            [24]  900 	pop	ar6
+      0003F2 D0 05            [24]  901 	pop	ar5
+      0003F4 80 6A            [24]  902 	sjmp	00108$
+      0003F6                        903 00125$:
+                                    904 ;	../contiki-sensinode/core/net/rime/announcement.c:145: if(a->callback != NULL) {
+      0003F6 74 07            [12]  905 	mov	a,#0x07
+      0003F8 2A               [12]  906 	add	a,r2
+      0003F9 FD               [12]  907 	mov	r5,a
+      0003FA E4               [12]  908 	clr	a
+      0003FB 3B               [12]  909 	addc	a,r3
+      0003FC FE               [12]  910 	mov	r6,a
+      0003FD 8C 07            [24]  911 	mov	ar7,r4
+      0003FF 8D 82            [24]  912 	mov	dpl,r5
+      000401 8E 83            [24]  913 	mov	dph,r6
+      000403 8F F0            [24]  914 	mov	b,r7
+      000405 E5 81            [12]  915 	mov	a,sp
+      000407 24 FC            [12]  916 	add	a,#0xfc
+      000409 F8               [12]  917 	mov	r0,a
+      00040A 12r00r00         [24]  918 	lcall	__gptrget
+      00040D F6               [12]  919 	mov	@r0,a
+      00040E A3               [24]  920 	inc	dptr
+      00040F 12r00r00         [24]  921 	lcall	__gptrget
+      000412 08               [12]  922 	inc	r0
+      000413 F6               [12]  923 	mov	@r0,a
+      000414 D0 07            [24]  924 	pop	ar7
+      000416 D0 06            [24]  925 	pop	ar6
+      000418 D0 05            [24]  926 	pop	ar5
+      00041A A8 81            [24]  927 	mov	r0,sp
+      00041C 18               [12]  928 	dec	r0
+      00041D E6               [12]  929 	mov	a,@r0
+      00041E 08               [12]  930 	inc	r0
+      00041F 46               [12]  931 	orl	a,@r0
+      000420 60 3C            [24]  932 	jz	00102$
+                                    933 ;	../contiki-sensinode/core/net/rime/announcement.c:146: a->callback(a, from, id, value);
+      000422 E5 81            [12]  934 	mov	a,sp
+      000424 24 F9            [12]  935 	add	a,#0xf9
+      000426 F8               [12]  936 	mov	r0,a
+      000427 E6               [12]  937 	mov	a,@r0
+      000428 C0 E0            [24]  938 	push	acc
+      00042A 08               [12]  939 	inc	r0
+      00042B E6               [12]  940 	mov	a,@r0
+      00042C C0 E0            [24]  941 	push	acc
+      00042E E5 81            [12]  942 	mov	a,sp
+      000430 24 F9            [12]  943 	add	a,#0xf9
+      000432 F8               [12]  944 	mov	r0,a
+      000433 E6               [12]  945 	mov	a,@r0
+      000434 C0 E0            [24]  946 	push	acc
+      000436 08               [12]  947 	inc	r0
+      000437 E6               [12]  948 	mov	a,@r0
+      000438 C0 E0            [24]  949 	push	acc
+      00043A C0 05            [24]  950 	push	ar5
+      00043C C0 06            [24]  951 	push	ar6
+      00043E C0 07            [24]  952 	push	ar7
+      000440 12r04r45         [24]  953 	lcall	00127$
+      000443 80 13            [24]  954 	sjmp	00128$
+      000445                        955 00127$:
+      000445 E5 81            [12]  956 	mov	a,sp
+      000447 24 F6            [12]  957 	add	a,#0xf6
+      000449 F8               [12]  958 	mov	r0,a
+      00044A E6               [12]  959 	mov	a,@r0
+      00044B C0 E0            [24]  960 	push	acc
+      00044D 08               [12]  961 	inc	r0
+      00044E E6               [12]  962 	mov	a,@r0
+      00044F C0 E0            [24]  963 	push	acc
+      000451 8A 82            [24]  964 	mov	dpl,r2
+      000453 8B 83            [24]  965 	mov	dph,r3
+      000455 8C F0            [24]  966 	mov	b,r4
+      000457 22               [24]  967 	ret
+      000458                        968 00128$:
+      000458 E5 81            [12]  969 	mov	a,sp
+      00045A 24 F9            [12]  970 	add	a,#0xf9
+      00045C F5 81            [12]  971 	mov	sp,a
+      00045E                        972 00102$:
+                                    973 ;	../contiki-sensinode/core/net/rime/announcement.c:148: return;
+      00045E 80 2A            [24]  974 	sjmp	00109$
+      000460                        975 00108$:
+                                    976 ;	../contiki-sensinode/core/net/rime/announcement.c:143: for(a = list_head(announcements); a != NULL; a = list_item_next(a)) {
+      000460 C0 05            [24]  977 	push	ar5
+      000462 C0 06            [24]  978 	push	ar6
+      000464 C0 07            [24]  979 	push	ar7
+      000466 8A 05            [24]  980 	mov	ar5,r2
+      000468 8B 06            [24]  981 	mov	ar6,r3
+      00046A 8C 07            [24]  982 	mov	ar7,r4
+      00046C 8D 82            [24]  983 	mov	dpl,r5
+      00046E 8E 83            [24]  984 	mov	dph,r6
+      000470 8F F0            [24]  985 	mov	b,r7
+      000472 12r00r00         [24]  986 	lcall	_list_item_next
+      000475 AD 82            [24]  987 	mov	r5,dpl
+      000477 AE 83            [24]  988 	mov	r6,dph
+      000479 AF F0            [24]  989 	mov	r7,b
+      00047B 8D 02            [24]  990 	mov	ar2,r5
+      00047D 8E 03            [24]  991 	mov	ar3,r6
+      00047F 8F 04            [24]  992 	mov	ar4,r7
+      000481 D0 07            [24]  993 	pop	ar7
+      000483 D0 06            [24]  994 	pop	ar6
+      000485 D0 05            [24]  995 	pop	ar5
+      000487 02r03rA5         [24]  996 	ljmp	00107$
+      00048A                        997 00109$:
+      00048A 15 81            [12]  998 	dec	sp
+      00048C 15 81            [12]  999 	dec	sp
+      00048E 22               [24] 1000 	ret
+                                   1001 	.area CSEG    (CODE)
+                                   1002 	.area CONST   (CODE)
+                                   1003 	.area XINIT   (CODE)
+      000000                       1004 __xinit__announcements_list:
+                                   1005 ; generic printIvalPtr
+      000000 00 00 00              1006 	.byte #0x00,#0x00,#0x00
+      000003                       1007 __xinit__announcements:
+      000003r00s00 00              1008 	.byte _announcements_list,(_announcements_list >> 8),#0x00
+                                   1009 	.area CABS    (ABS,CODE)

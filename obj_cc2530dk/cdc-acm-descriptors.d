@@ -1,0 +1,33 @@
+obj_cc2530dk/cdc-acm-descriptors.rel: \
+ ../contiki-sensinode/cpu/cc253x/usb/cdc-acm-descriptors.c \
+ ../contiki-sensinode/cpu/cc253x/usb/common/descriptors.h \
+ ../contiki-sensinode/cpu/cc253x/usb/common/usb.h \
+ ../contiki-sensinode/platform/cc2530dk/./contiki-conf.h \
+ ../contiki-sensinode/cpu/cc253x/./8051def.h \
+ ../contiki-sensinode/core/./dev/watchdog.h \
+ ../contiki-sensinode/core/./sys/cc.h \
+ ../contiki-sensinode/platform/cc2530dk/./models.h \
+ ../contiki-sensinode/cpu/cc253x/usb/common/cdc-acm/cdc.h \
+ ../contiki-sensinode/cpu/cc253x/usb/common/usb.h \
+ ../contiki-sensinode/cpu/cc253x/usb/common/usb-arch.h \
+ ../contiki-sensinode/cpu/cc253x/usb/common/usb-api.h \
+ ../contiki-sensinode/core/./sys/process.h \
+ ../contiki-sensinode/core/./sys/pt.h \
+ ../contiki-sensinode/core/./sys/lc.h \
+ ../contiki-sensinode/core/./sys/lc-switch.h
+ ../contiki-sensinode/cpu/cc253x/usb/cdc-acm-descriptors.c :
+ ../contiki-sensinode/cpu/cc253x/usb/common/descriptors.h :
+ ../contiki-sensinode/cpu/cc253x/usb/common/usb.h :
+ ../contiki-sensinode/platform/cc2530dk/./contiki-conf.h :
+ ../contiki-sensinode/cpu/cc253x/./8051def.h :
+ ../contiki-sensinode/core/./dev/watchdog.h :
+ ../contiki-sensinode/core/./sys/cc.h :
+ ../contiki-sensinode/platform/cc2530dk/./models.h :
+ ../contiki-sensinode/cpu/cc253x/usb/common/cdc-acm/cdc.h :
+ ../contiki-sensinode/cpu/cc253x/usb/common/usb.h :
+ ../contiki-sensinode/cpu/cc253x/usb/common/usb-arch.h :
+ ../contiki-sensinode/cpu/cc253x/usb/common/usb-api.h :
+ ../contiki-sensinode/core/./sys/process.h :
+ ../contiki-sensinode/core/./sys/pt.h :
+ ../contiki-sensinode/core/./sys/lc.h :
+ ../contiki-sensinode/core/./sys/lc-switch.h :

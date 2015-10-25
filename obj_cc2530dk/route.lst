@@ -1,0 +1,1400 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Oct 24 2015) (Linux)
+                                      4 ; This file was generated Sun Oct 25 01:52:01 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module route
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _rimeaddr_cmp
+                                     13 	.globl _rimeaddr_copy
+                                     14 	.globl _ctimer_set
+                                     15 	.globl _memb_free
+                                     16 	.globl _memb_alloc
+                                     17 	.globl _memb_init
+                                     18 	.globl _list_item_next
+                                     19 	.globl _list_remove
+                                     20 	.globl _list_chop
+                                     21 	.globl _list_push
+                                     22 	.globl _list_pop
+                                     23 	.globl _list_head
+                                     24 	.globl _list_init
+                                     25 	.globl _route_init
+                                     26 	.globl _route_add
+                                     27 	.globl _route_lookup
+                                     28 	.globl _route_refresh
+                                     29 	.globl _route_decay
+                                     30 	.globl _route_remove
+                                     31 	.globl _route_flush_all
+                                     32 	.globl _route_set_lifetime
+                                     33 	.globl _route_num
+                                     34 	.globl _route_get
+                                     35 ;--------------------------------------------------------
+                                     36 ; special function registers
+                                     37 ;--------------------------------------------------------
+                                     38 	.area RSEG    (ABS,DATA)
+      000000                         39 	.org 0x0000
+                                     40 ;--------------------------------------------------------
+                                     41 ; special function bits
+                                     42 ;--------------------------------------------------------
+                                     43 	.area RSEG    (ABS,DATA)
+      000000                         44 	.org 0x0000
+                                     45 ;--------------------------------------------------------
+                                     46 ; overlayable register banks
+                                     47 ;--------------------------------------------------------
+                                     48 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         49 	.ds 8
+                                     50 ;--------------------------------------------------------
+                                     51 ; internal ram data
+                                     52 ;--------------------------------------------------------
+                                     53 	.area DSEG    (DATA)
+                                     54 ;--------------------------------------------------------
+                                     55 ; overlayable items in internal ram 
+                                     56 ;--------------------------------------------------------
+                                     57 ;--------------------------------------------------------
+                                     58 ; indirectly addressable internal ram data
+                                     59 ;--------------------------------------------------------
+                                     60 	.area ISEG    (DATA)
+                                     61 ;--------------------------------------------------------
+                                     62 ; absolute internal ram data
+                                     63 ;--------------------------------------------------------
+                                     64 	.area IABS    (ABS,DATA)
+                                     65 	.area IABS    (ABS,DATA)
+                                     66 ;--------------------------------------------------------
+                                     67 ; bit data
+                                     68 ;--------------------------------------------------------
+                                     69 	.area BSEG    (BIT)
+                                     70 ;--------------------------------------------------------
+                                     71 ; paged external ram data
+                                     72 ;--------------------------------------------------------
+                                     73 	.area PSEG    (PAG,XDATA)
+                                     74 ;--------------------------------------------------------
+                                     75 ; external ram data
+                                     76 ;--------------------------------------------------------
+                                     77 	.area XSEG    (XDATA)
+      000000                         78 _route_mem_memb_count:
+      000000                         79 	.ds 8
+      000008                         80 _route_mem_memb_mem:
+      000008                         81 	.ds 96
+      000068                         82 _t:
+      000068                         83 	.ds 21
+                                     84 ;--------------------------------------------------------
+                                     85 ; absolute external ram data
+                                     86 ;--------------------------------------------------------
+                                     87 	.area XABS    (ABS,XDATA)
+                                     88 ;--------------------------------------------------------
+                                     89 ; external initialized ram data
+                                     90 ;--------------------------------------------------------
+                                     91 	.area XISEG   (XDATA)
+      000000                         92 _route_table_list:
+      000000                         93 	.ds 3
+      000003                         94 _route_table:
+      000003                         95 	.ds 3
+      000006                         96 _route_mem:
+      000006                         97 	.ds 10
+      000010                         98 _max_time:
+      000010                         99 	.ds 2
+                                    100 	.area HOME    (CODE)
+                                    101 	.area GSINIT0 (CODE)
+                                    102 	.area GSINIT1 (CODE)
+                                    103 	.area GSINIT2 (CODE)
+                                    104 	.area GSINIT3 (CODE)
+                                    105 	.area GSINIT4 (CODE)
+                                    106 	.area GSINIT5 (CODE)
+                                    107 	.area GSINIT  (CODE)
+                                    108 	.area GSFINAL (CODE)
+                                    109 	.area CSEG    (CODE)
+                                    110 ;--------------------------------------------------------
+                                    111 ; global & static initialisations
+                                    112 ;--------------------------------------------------------
+                                    113 	.area HOME    (CODE)
+                                    114 	.area GSINIT  (CODE)
+                                    115 	.area GSFINAL (CODE)
+                                    116 	.area GSINIT  (CODE)
+                                    117 ;--------------------------------------------------------
+                                    118 ; Home
+                                    119 ;--------------------------------------------------------
+                                    120 	.area HOME    (CODE)
+                                    121 	.area HOME    (CODE)
+                                    122 ;--------------------------------------------------------
+                                    123 ; code
+                                    124 ;--------------------------------------------------------
+                                    125 	.area CSEG    (CODE)
+                                    126 ;------------------------------------------------------------
+                                    127 ;Allocation info for local variables in function 'periodic'
+                                    128 ;------------------------------------------------------------
+                                    129 ;ptr                       Allocated to registers 
+                                    130 ;e                         Allocated to stack - sp -2
+                                    131 ;------------------------------------------------------------
+                                    132 ;	../contiki-sensinode/core/net/rime/route.c:92: periodic(void *ptr)
+                                    133 ;	-----------------------------------------
+                                    134 ;	 function periodic
+                                    135 ;	-----------------------------------------
+      000000                        136 _periodic:
+                           000007   137 	ar7 = 0x07
+                           000006   138 	ar6 = 0x06
+                           000005   139 	ar5 = 0x05
+                           000004   140 	ar4 = 0x04
+                           000003   141 	ar3 = 0x03
+                           000002   142 	ar2 = 0x02
+                           000001   143 	ar1 = 0x01
+                           000000   144 	ar0 = 0x00
+      000000 05 81            [12]  145 	inc	sp
+      000002 05 81            [12]  146 	inc	sp
+      000004 05 81            [12]  147 	inc	sp
+                                    148 ;	../contiki-sensinode/core/net/rime/route.c:96: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      000006 90r00r03         [24]  149 	mov	dptr,#_route_table
+      000009 E0               [24]  150 	movx	a,@dptr
+      00000A FD               [12]  151 	mov	r5,a
+      00000B A3               [24]  152 	inc	dptr
+      00000C E0               [24]  153 	movx	a,@dptr
+      00000D FE               [12]  154 	mov	r6,a
+      00000E A3               [24]  155 	inc	dptr
+      00000F E0               [24]  156 	movx	a,@dptr
+      000010 FF               [12]  157 	mov	r7,a
+      000011 8D 82            [24]  158 	mov	dpl,r5
+      000013 8E 83            [24]  159 	mov	dph,r6
+      000015 8F F0            [24]  160 	mov	b,r7
+      000017 12r00r00         [24]  161 	lcall	_list_head
+      00001A AD 82            [24]  162 	mov	r5,dpl
+      00001C AE 83            [24]  163 	mov	r6,dph
+      00001E AF F0            [24]  164 	mov	r7,b
+      000020 A8 81            [24]  165 	mov	r0,sp
+      000022 18               [12]  166 	dec	r0
+      000023 18               [12]  167 	dec	r0
+      000024 A6 05            [24]  168 	mov	@r0,ar5
+      000026 08               [12]  169 	inc	r0
+      000027 A6 06            [24]  170 	mov	@r0,ar6
+      000029 08               [12]  171 	inc	r0
+      00002A A6 07            [24]  172 	mov	@r0,ar7
+      00002C                        173 00105$:
+      00002C A8 81            [24]  174 	mov	r0,sp
+      00002E 18               [12]  175 	dec	r0
+      00002F 18               [12]  176 	dec	r0
+      000030 E4               [12]  177 	clr	a
+      000031 C0 E0            [24]  178 	push	acc
+      000033 C0 E0            [24]  179 	push	acc
+      000035 C0 E0            [24]  180 	push	acc
+      000037 86 82            [24]  181 	mov	dpl,@r0
+      000039 08               [12]  182 	inc	r0
+      00003A 86 83            [24]  183 	mov	dph,@r0
+      00003C 08               [12]  184 	inc	r0
+      00003D 86 F0            [24]  185 	mov	b,@r0
+      00003F 12r00r00         [24]  186 	lcall	___gptr_cmp
+      000042 15 81            [12]  187 	dec	sp
+      000044 15 81            [12]  188 	dec	sp
+      000046 15 81            [12]  189 	dec	sp
+      000048 70 03            [24]  190 	jnz	00118$
+      00004A 02r01r01         [24]  191 	ljmp	00103$
+      00004D                        192 00118$:
+                                    193 ;	../contiki-sensinode/core/net/rime/route.c:97: e->time++;
+      00004D A8 81            [24]  194 	mov	r0,sp
+      00004F 18               [12]  195 	dec	r0
+      000050 18               [12]  196 	dec	r0
+      000051 74 09            [12]  197 	mov	a,#0x09
+      000053 26               [12]  198 	add	a,@r0
+      000054 FA               [12]  199 	mov	r2,a
+      000055 E4               [12]  200 	clr	a
+      000056 08               [12]  201 	inc	r0
+      000057 36               [12]  202 	addc	a,@r0
+      000058 FB               [12]  203 	mov	r3,a
+      000059 08               [12]  204 	inc	r0
+      00005A 86 04            [24]  205 	mov	ar4,@r0
+      00005C 8A 82            [24]  206 	mov	dpl,r2
+      00005E 8B 83            [24]  207 	mov	dph,r3
+      000060 8C F0            [24]  208 	mov	b,r4
+      000062 12r00r00         [24]  209 	lcall	__gptrget
+      000065 FF               [12]  210 	mov	r7,a
+      000066 0F               [12]  211 	inc	r7
+      000067 8A 82            [24]  212 	mov	dpl,r2
+      000069 8B 83            [24]  213 	mov	dph,r3
+      00006B 8C F0            [24]  214 	mov	b,r4
+      00006D EF               [12]  215 	mov	a,r7
+      00006E 12r00r00         [24]  216 	lcall	__gptrput
+                                    217 ;	../contiki-sensinode/core/net/rime/route.c:98: if(e->time >= max_time) {
+      000071 90r00r10         [24]  218 	mov	dptr,#_max_time
+      000074 E0               [24]  219 	movx	a,@dptr
+      000075 FD               [12]  220 	mov	r5,a
+      000076 A3               [24]  221 	inc	dptr
+      000077 E0               [24]  222 	movx	a,@dptr
+      000078 FE               [12]  223 	mov	r6,a
+      000079 7C 00            [12]  224 	mov	r4,#0x00
+      00007B C3               [12]  225 	clr	c
+      00007C EF               [12]  226 	mov	a,r7
+      00007D 9D               [12]  227 	subb	a,r5
+      00007E EC               [12]  228 	mov	a,r4
+      00007F 64 80            [12]  229 	xrl	a,#0x80
+      000081 8E F0            [24]  230 	mov	b,r6
+      000083 63 F0 80         [24]  231 	xrl	b,#0x80
+      000086 95 F0            [12]  232 	subb	a,b
+      000088 40 4D            [24]  233 	jc	00106$
+                                    234 ;	../contiki-sensinode/core/net/rime/route.c:103: list_remove(route_table, e);
+      00008A A8 81            [24]  235 	mov	r0,sp
+      00008C 18               [12]  236 	dec	r0
+      00008D 18               [12]  237 	dec	r0
+      00008E 86 02            [24]  238 	mov	ar2,@r0
+      000090 08               [12]  239 	inc	r0
+      000091 86 03            [24]  240 	mov	ar3,@r0
+      000093 08               [12]  241 	inc	r0
+      000094 86 04            [24]  242 	mov	ar4,@r0
+      000096 90r00r03         [24]  243 	mov	dptr,#_route_table
+      000099 E0               [24]  244 	movx	a,@dptr
+      00009A FD               [12]  245 	mov	r5,a
+      00009B A3               [24]  246 	inc	dptr
+      00009C E0               [24]  247 	movx	a,@dptr
+      00009D FE               [12]  248 	mov	r6,a
+      00009E A3               [24]  249 	inc	dptr
+      00009F E0               [24]  250 	movx	a,@dptr
+      0000A0 FF               [12]  251 	mov	r7,a
+      0000A1 C0 02            [24]  252 	push	ar2
+      0000A3 C0 03            [24]  253 	push	ar3
+      0000A5 C0 04            [24]  254 	push	ar4
+      0000A7 8D 82            [24]  255 	mov	dpl,r5
+      0000A9 8E 83            [24]  256 	mov	dph,r6
+      0000AB 8F F0            [24]  257 	mov	b,r7
+      0000AD 12r00r00         [24]  258 	lcall	_list_remove
+      0000B0 15 81            [12]  259 	dec	sp
+      0000B2 15 81            [12]  260 	dec	sp
+      0000B4 15 81            [12]  261 	dec	sp
+                                    262 ;	../contiki-sensinode/core/net/rime/route.c:104: memb_free(&route_mem, e);
+      0000B6 A8 81            [24]  263 	mov	r0,sp
+      0000B8 18               [12]  264 	dec	r0
+      0000B9 18               [12]  265 	dec	r0
+      0000BA 86 05            [24]  266 	mov	ar5,@r0
+      0000BC 08               [12]  267 	inc	r0
+      0000BD 86 06            [24]  268 	mov	ar6,@r0
+      0000BF 08               [12]  269 	inc	r0
+      0000C0 86 07            [24]  270 	mov	ar7,@r0
+      0000C2 C0 05            [24]  271 	push	ar5
+      0000C4 C0 06            [24]  272 	push	ar6
+      0000C6 C0 07            [24]  273 	push	ar7
+      0000C8 90r00r06         [24]  274 	mov	dptr,#_route_mem
+      0000CB 75 F0 00         [24]  275 	mov	b,#0x00
+      0000CE 12r00r00         [24]  276 	lcall	_memb_free
+      0000D1 15 81            [12]  277 	dec	sp
+      0000D3 15 81            [12]  278 	dec	sp
+      0000D5 15 81            [12]  279 	dec	sp
+      0000D7                        280 00106$:
+                                    281 ;	../contiki-sensinode/core/net/rime/route.c:96: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      0000D7 A8 81            [24]  282 	mov	r0,sp
+      0000D9 18               [12]  283 	dec	r0
+      0000DA 18               [12]  284 	dec	r0
+      0000DB 86 05            [24]  285 	mov	ar5,@r0
+      0000DD 08               [12]  286 	inc	r0
+      0000DE 86 06            [24]  287 	mov	ar6,@r0
+      0000E0 08               [12]  288 	inc	r0
+      0000E1 86 07            [24]  289 	mov	ar7,@r0
+      0000E3 8D 82            [24]  290 	mov	dpl,r5
+      0000E5 8E 83            [24]  291 	mov	dph,r6
+      0000E7 8F F0            [24]  292 	mov	b,r7
+      0000E9 12r00r00         [24]  293 	lcall	_list_item_next
+      0000EC AD 82            [24]  294 	mov	r5,dpl
+      0000EE AE 83            [24]  295 	mov	r6,dph
+      0000F0 AF F0            [24]  296 	mov	r7,b
+      0000F2 A8 81            [24]  297 	mov	r0,sp
+      0000F4 18               [12]  298 	dec	r0
+      0000F5 18               [12]  299 	dec	r0
+      0000F6 A6 05            [24]  300 	mov	@r0,ar5
+      0000F8 08               [12]  301 	inc	r0
+      0000F9 A6 06            [24]  302 	mov	@r0,ar6
+      0000FB 08               [12]  303 	inc	r0
+      0000FC A6 07            [24]  304 	mov	@r0,ar7
+      0000FE 02r00r2C         [24]  305 	ljmp	00105$
+      000101                        306 00103$:
+                                    307 ;	../contiki-sensinode/core/net/rime/route.c:108: ctimer_set(&t, CLOCK_SECOND, periodic, NULL);
+      000101 E4               [12]  308 	clr	a
+      000102 C0 E0            [24]  309 	push	acc
+      000104 C0 E0            [24]  310 	push	acc
+      000106 C0 E0            [24]  311 	push	acc
+      000108 74r00            [12]  312 	mov	a,#_periodic
+      00010A C0 E0            [24]  313 	push	acc
+      00010C 74s00            [12]  314 	mov	a,#(_periodic >> 8)
+      00010E C0 E0            [24]  315 	push	acc
+      000110 74 80            [12]  316 	mov	a,#0x80
+      000112 C0 E0            [24]  317 	push	acc
+      000114 E4               [12]  318 	clr	a
+      000115 C0 E0            [24]  319 	push	acc
+      000117 90r00r68         [24]  320 	mov	dptr,#_t
+      00011A 75 F0 00         [24]  321 	mov	b,#0x00
+      00011D 12r00r00         [24]  322 	lcall	_ctimer_set
+      000120 E5 81            [12]  323 	mov	a,sp
+      000122 24 F9            [12]  324 	add	a,#0xf9
+      000124 F5 81            [12]  325 	mov	sp,a
+      000126 15 81            [12]  326 	dec	sp
+      000128 15 81            [12]  327 	dec	sp
+      00012A 15 81            [12]  328 	dec	sp
+      00012C 22               [24]  329 	ret
+                                    330 ;------------------------------------------------------------
+                                    331 ;Allocation info for local variables in function 'route_init'
+                                    332 ;------------------------------------------------------------
+                                    333 ;	../contiki-sensinode/core/net/rime/route.c:112: route_init(void)
+                                    334 ;	-----------------------------------------
+                                    335 ;	 function route_init
+                                    336 ;	-----------------------------------------
+      00012D                        337 _route_init:
+                                    338 ;	../contiki-sensinode/core/net/rime/route.c:114: list_init(route_table);
+      00012D 90r00r03         [24]  339 	mov	dptr,#_route_table
+      000130 E0               [24]  340 	movx	a,@dptr
+      000131 FD               [12]  341 	mov	r5,a
+      000132 A3               [24]  342 	inc	dptr
+      000133 E0               [24]  343 	movx	a,@dptr
+      000134 FE               [12]  344 	mov	r6,a
+      000135 A3               [24]  345 	inc	dptr
+      000136 E0               [24]  346 	movx	a,@dptr
+      000137 FF               [12]  347 	mov	r7,a
+      000138 8D 82            [24]  348 	mov	dpl,r5
+      00013A 8E 83            [24]  349 	mov	dph,r6
+      00013C 8F F0            [24]  350 	mov	b,r7
+      00013E 12r00r00         [24]  351 	lcall	_list_init
+                                    352 ;	../contiki-sensinode/core/net/rime/route.c:115: memb_init(&route_mem);
+      000141 90r00r06         [24]  353 	mov	dptr,#_route_mem
+      000144 75 F0 00         [24]  354 	mov	b,#0x00
+      000147 12r00r00         [24]  355 	lcall	_memb_init
+                                    356 ;	../contiki-sensinode/core/net/rime/route.c:117: ctimer_set(&t, CLOCK_SECOND, periodic, NULL);
+      00014A E4               [12]  357 	clr	a
+      00014B C0 E0            [24]  358 	push	acc
+      00014D C0 E0            [24]  359 	push	acc
+      00014F C0 E0            [24]  360 	push	acc
+      000151 74r00            [12]  361 	mov	a,#_periodic
+      000153 C0 E0            [24]  362 	push	acc
+      000155 74s00            [12]  363 	mov	a,#(_periodic >> 8)
+      000157 C0 E0            [24]  364 	push	acc
+      000159 74 80            [12]  365 	mov	a,#0x80
+      00015B C0 E0            [24]  366 	push	acc
+      00015D E4               [12]  367 	clr	a
+      00015E C0 E0            [24]  368 	push	acc
+      000160 90r00r68         [24]  369 	mov	dptr,#_t
+      000163 75 F0 00         [24]  370 	mov	b,#0x00
+      000166 12r00r00         [24]  371 	lcall	_ctimer_set
+      000169 E5 81            [12]  372 	mov	a,sp
+      00016B 24 F9            [12]  373 	add	a,#0xf9
+      00016D F5 81            [12]  374 	mov	sp,a
+      00016F 22               [24]  375 	ret
+                                    376 ;------------------------------------------------------------
+                                    377 ;Allocation info for local variables in function 'route_add'
+                                    378 ;------------------------------------------------------------
+                                    379 ;nexthop                   Allocated to stack - sp -7
+                                    380 ;cost                      Allocated to stack - sp -8
+                                    381 ;seqno                     Allocated to stack - sp -9
+                                    382 ;dest                      Allocated to registers r5 r6 r7 
+                                    383 ;e                         Allocated to stack - sp -2
+                                    384 ;------------------------------------------------------------
+                                    385 ;	../contiki-sensinode/core/net/rime/route.c:121: route_add(const rimeaddr_t *dest, const rimeaddr_t *nexthop,
+                                    386 ;	-----------------------------------------
+                                    387 ;	 function route_add
+                                    388 ;	-----------------------------------------
+      000170                        389 _route_add:
+      000170 05 81            [12]  390 	inc	sp
+      000172 05 81            [12]  391 	inc	sp
+      000174 05 81            [12]  392 	inc	sp
+                                    393 ;	../contiki-sensinode/core/net/rime/route.c:127: e = route_lookup(dest);
+      000176 AD 82            [24]  394 	mov	r5,dpl
+      000178 AE 83            [24]  395 	mov	r6,dph
+      00017A AF F0            [24]  396 	mov	r7,b
+      00017C C0 07            [24]  397 	push	ar7
+      00017E C0 06            [24]  398 	push	ar6
+      000180 C0 05            [24]  399 	push	ar5
+      000182 12r03r8F         [24]  400 	lcall	_route_lookup
+      000185 AA 82            [24]  401 	mov	r2,dpl
+      000187 AB 83            [24]  402 	mov	r3,dph
+      000189 AC F0            [24]  403 	mov	r4,b
+      00018B D0 05            [24]  404 	pop	ar5
+      00018D D0 06            [24]  405 	pop	ar6
+      00018F D0 07            [24]  406 	pop	ar7
+      000191 A8 81            [24]  407 	mov	r0,sp
+      000193 18               [12]  408 	dec	r0
+      000194 18               [12]  409 	dec	r0
+      000195 A6 02            [24]  410 	mov	@r0,ar2
+      000197 08               [12]  411 	inc	r0
+      000198 A6 03            [24]  412 	mov	@r0,ar3
+      00019A 08               [12]  413 	inc	r0
+      00019B A6 04            [24]  414 	mov	@r0,ar4
+                                    415 ;	../contiki-sensinode/core/net/rime/route.c:128: if(e != NULL && rimeaddr_cmp(&e->nexthop, nexthop)) {
+      00019D A8 81            [24]  416 	mov	r0,sp
+      00019F 18               [12]  417 	dec	r0
+      0001A0 18               [12]  418 	dec	r0
+      0001A1 E6               [12]  419 	mov	a,@r0
+      0001A2 08               [12]  420 	inc	r0
+      0001A3 46               [12]  421 	orl	a,@r0
+      0001A4 70 03            [24]  422 	jnz	00118$
+      0001A6 02r02r37         [24]  423 	ljmp	00104$
+      0001A9                        424 00118$:
+      0001A9 C0 05            [24]  425 	push	ar5
+      0001AB C0 06            [24]  426 	push	ar6
+      0001AD C0 07            [24]  427 	push	ar7
+      0001AF E5 81            [12]  428 	mov	a,sp
+      0001B1 24 FB            [12]  429 	add	a,#0xfb
+      0001B3 F8               [12]  430 	mov	r0,a
+      0001B4 74 05            [12]  431 	mov	a,#0x05
+      0001B6 26               [12]  432 	add	a,@r0
+      0001B7 FD               [12]  433 	mov	r5,a
+      0001B8 E4               [12]  434 	clr	a
+      0001B9 08               [12]  435 	inc	r0
+      0001BA 36               [12]  436 	addc	a,@r0
+      0001BB FE               [12]  437 	mov	r6,a
+      0001BC 08               [12]  438 	inc	r0
+      0001BD 86 07            [24]  439 	mov	ar7,@r0
+      0001BF C0 05            [24]  440 	push	ar5
+      0001C1 E5 81            [12]  441 	mov	a,sp
+      0001C3 24 F5            [12]  442 	add	a,#0xf5
+      0001C5 F8               [12]  443 	mov	r0,a
+      0001C6 E6               [12]  444 	mov	a,@r0
+      0001C7 C0 E0            [24]  445 	push	acc
+      0001C9 08               [12]  446 	inc	r0
+      0001CA E6               [12]  447 	mov	a,@r0
+      0001CB C0 E0            [24]  448 	push	acc
+      0001CD 08               [12]  449 	inc	r0
+      0001CE E6               [12]  450 	mov	a,@r0
+      0001CF C0 E0            [24]  451 	push	acc
+      0001D1 8D 82            [24]  452 	mov	dpl,r5
+      0001D3 8E 83            [24]  453 	mov	dph,r6
+      0001D5 8F F0            [24]  454 	mov	b,r7
+      0001D7 12r00r00         [24]  455 	lcall	_rimeaddr_cmp
+      0001DA AE 82            [24]  456 	mov	r6,dpl
+      0001DC AF 83            [24]  457 	mov	r7,dph
+      0001DE 15 81            [12]  458 	dec	sp
+      0001E0 15 81            [12]  459 	dec	sp
+      0001E2 15 81            [12]  460 	dec	sp
+      0001E4 D0 05            [24]  461 	pop	ar5
+      0001E6 EE               [12]  462 	mov	a,r6
+      0001E7 4F               [12]  463 	orl	a,r7
+      0001E8 D0 07            [24]  464 	pop	ar7
+      0001EA D0 06            [24]  465 	pop	ar6
+      0001EC D0 05            [24]  466 	pop	ar5
+      0001EE 60 47            [24]  467 	jz	00104$
+                                    468 ;	../contiki-sensinode/core/net/rime/route.c:129: list_remove(route_table, e);
+      0001F0 C0 05            [24]  469 	push	ar5
+      0001F2 C0 06            [24]  470 	push	ar6
+      0001F4 C0 07            [24]  471 	push	ar7
+      0001F6 E5 81            [12]  472 	mov	a,sp
+      0001F8 24 FB            [12]  473 	add	a,#0xfb
+      0001FA F8               [12]  474 	mov	r0,a
+      0001FB 86 05            [24]  475 	mov	ar5,@r0
+      0001FD 08               [12]  476 	inc	r0
+      0001FE 86 06            [24]  477 	mov	ar6,@r0
+      000200 08               [12]  478 	inc	r0
+      000201 86 07            [24]  479 	mov	ar7,@r0
+      000203 90r00r03         [24]  480 	mov	dptr,#_route_table
+      000206 E0               [24]  481 	movx	a,@dptr
+      000207 FA               [12]  482 	mov	r2,a
+      000208 A3               [24]  483 	inc	dptr
+      000209 E0               [24]  484 	movx	a,@dptr
+      00020A FB               [12]  485 	mov	r3,a
+      00020B A3               [24]  486 	inc	dptr
+      00020C E0               [24]  487 	movx	a,@dptr
+      00020D FC               [12]  488 	mov	r4,a
+      00020E C0 07            [24]  489 	push	ar7
+      000210 C0 06            [24]  490 	push	ar6
+      000212 C0 05            [24]  491 	push	ar5
+      000214 C0 05            [24]  492 	push	ar5
+      000216 C0 06            [24]  493 	push	ar6
+      000218 C0 07            [24]  494 	push	ar7
+      00021A 8A 82            [24]  495 	mov	dpl,r2
+      00021C 8B 83            [24]  496 	mov	dph,r3
+      00021E 8C F0            [24]  497 	mov	b,r4
+      000220 12r00r00         [24]  498 	lcall	_list_remove
+      000223 15 81            [12]  499 	dec	sp
+      000225 15 81            [12]  500 	dec	sp
+      000227 15 81            [12]  501 	dec	sp
+      000229 D0 05            [24]  502 	pop	ar5
+      00022B D0 06            [24]  503 	pop	ar6
+      00022D D0 07            [24]  504 	pop	ar7
+      00022F D0 07            [24]  505 	pop	ar7
+      000231 D0 06            [24]  506 	pop	ar6
+      000233 D0 05            [24]  507 	pop	ar5
+      000235 80 62            [24]  508 	sjmp	00105$
+      000237                        509 00104$:
+                                    510 ;	../contiki-sensinode/core/net/rime/route.c:132: e = memb_alloc(&route_mem);
+      000237 90r00r06         [24]  511 	mov	dptr,#_route_mem
+      00023A 75 F0 00         [24]  512 	mov	b,#0x00
+      00023D C0 07            [24]  513 	push	ar7
+      00023F C0 06            [24]  514 	push	ar6
+      000241 C0 05            [24]  515 	push	ar5
+      000243 12r00r00         [24]  516 	lcall	_memb_alloc
+      000246 AA 82            [24]  517 	mov	r2,dpl
+      000248 AB 83            [24]  518 	mov	r3,dph
+      00024A AC F0            [24]  519 	mov	r4,b
+      00024C D0 05            [24]  520 	pop	ar5
+      00024E D0 06            [24]  521 	pop	ar6
+      000250 D0 07            [24]  522 	pop	ar7
+      000252 A8 81            [24]  523 	mov	r0,sp
+      000254 18               [12]  524 	dec	r0
+      000255 18               [12]  525 	dec	r0
+      000256 A6 02            [24]  526 	mov	@r0,ar2
+      000258 08               [12]  527 	inc	r0
+      000259 A6 03            [24]  528 	mov	@r0,ar3
+      00025B 08               [12]  529 	inc	r0
+      00025C A6 04            [24]  530 	mov	@r0,ar4
+                                    531 ;	../contiki-sensinode/core/net/rime/route.c:133: if(e == NULL) {
+      00025E A8 81            [24]  532 	mov	r0,sp
+      000260 18               [12]  533 	dec	r0
+      000261 18               [12]  534 	dec	r0
+      000262 E6               [12]  535 	mov	a,@r0
+      000263 08               [12]  536 	inc	r0
+      000264 46               [12]  537 	orl	a,@r0
+      000265 70 32            [24]  538 	jnz	00105$
+                                    539 ;	../contiki-sensinode/core/net/rime/route.c:135: e = list_chop(route_table);
+      000267 90r00r03         [24]  540 	mov	dptr,#_route_table
+      00026A E0               [24]  541 	movx	a,@dptr
+      00026B FA               [12]  542 	mov	r2,a
+      00026C A3               [24]  543 	inc	dptr
+      00026D E0               [24]  544 	movx	a,@dptr
+      00026E FB               [12]  545 	mov	r3,a
+      00026F A3               [24]  546 	inc	dptr
+      000270 E0               [24]  547 	movx	a,@dptr
+      000271 FC               [12]  548 	mov	r4,a
+      000272 8A 82            [24]  549 	mov	dpl,r2
+      000274 8B 83            [24]  550 	mov	dph,r3
+      000276 8C F0            [24]  551 	mov	b,r4
+      000278 C0 07            [24]  552 	push	ar7
+      00027A C0 06            [24]  553 	push	ar6
+      00027C C0 05            [24]  554 	push	ar5
+      00027E 12r00r00         [24]  555 	lcall	_list_chop
+      000281 AA 82            [24]  556 	mov	r2,dpl
+      000283 AB 83            [24]  557 	mov	r3,dph
+      000285 AC F0            [24]  558 	mov	r4,b
+      000287 D0 05            [24]  559 	pop	ar5
+      000289 D0 06            [24]  560 	pop	ar6
+      00028B D0 07            [24]  561 	pop	ar7
+      00028D A8 81            [24]  562 	mov	r0,sp
+      00028F 18               [12]  563 	dec	r0
+      000290 18               [12]  564 	dec	r0
+      000291 A6 02            [24]  565 	mov	@r0,ar2
+      000293 08               [12]  566 	inc	r0
+      000294 A6 03            [24]  567 	mov	@r0,ar3
+      000296 08               [12]  568 	inc	r0
+      000297 A6 04            [24]  569 	mov	@r0,ar4
+      000299                        570 00105$:
+                                    571 ;	../contiki-sensinode/core/net/rime/route.c:143: rimeaddr_copy(&e->dest, dest);
+      000299 A8 81            [24]  572 	mov	r0,sp
+      00029B 18               [12]  573 	dec	r0
+      00029C 18               [12]  574 	dec	r0
+      00029D 74 03            [12]  575 	mov	a,#0x03
+      00029F 26               [12]  576 	add	a,@r0
+      0002A0 FA               [12]  577 	mov	r2,a
+      0002A1 E4               [12]  578 	clr	a
+      0002A2 08               [12]  579 	inc	r0
+      0002A3 36               [12]  580 	addc	a,@r0
+      0002A4 FB               [12]  581 	mov	r3,a
+      0002A5 08               [12]  582 	inc	r0
+      0002A6 86 04            [24]  583 	mov	ar4,@r0
+      0002A8 C0 05            [24]  584 	push	ar5
+      0002AA C0 06            [24]  585 	push	ar6
+      0002AC C0 07            [24]  586 	push	ar7
+      0002AE 8A 82            [24]  587 	mov	dpl,r2
+      0002B0 8B 83            [24]  588 	mov	dph,r3
+      0002B2 8C F0            [24]  589 	mov	b,r4
+      0002B4 12r00r00         [24]  590 	lcall	_rimeaddr_copy
+      0002B7 15 81            [12]  591 	dec	sp
+      0002B9 15 81            [12]  592 	dec	sp
+      0002BB 15 81            [12]  593 	dec	sp
+                                    594 ;	../contiki-sensinode/core/net/rime/route.c:144: rimeaddr_copy(&e->nexthop, nexthop);
+      0002BD A8 81            [24]  595 	mov	r0,sp
+      0002BF 18               [12]  596 	dec	r0
+      0002C0 18               [12]  597 	dec	r0
+      0002C1 74 05            [12]  598 	mov	a,#0x05
+      0002C3 26               [12]  599 	add	a,@r0
+      0002C4 FD               [12]  600 	mov	r5,a
+      0002C5 E4               [12]  601 	clr	a
+      0002C6 08               [12]  602 	inc	r0
+      0002C7 36               [12]  603 	addc	a,@r0
+      0002C8 FE               [12]  604 	mov	r6,a
+      0002C9 08               [12]  605 	inc	r0
+      0002CA 86 07            [24]  606 	mov	ar7,@r0
+      0002CC E5 81            [12]  607 	mov	a,sp
+      0002CE 24 F9            [12]  608 	add	a,#0xf9
+      0002D0 F8               [12]  609 	mov	r0,a
+      0002D1 E6               [12]  610 	mov	a,@r0
+      0002D2 C0 E0            [24]  611 	push	acc
+      0002D4 08               [12]  612 	inc	r0
+      0002D5 E6               [12]  613 	mov	a,@r0
+      0002D6 C0 E0            [24]  614 	push	acc
+      0002D8 08               [12]  615 	inc	r0
+      0002D9 E6               [12]  616 	mov	a,@r0
+      0002DA C0 E0            [24]  617 	push	acc
+      0002DC 8D 82            [24]  618 	mov	dpl,r5
+      0002DE 8E 83            [24]  619 	mov	dph,r6
+      0002E0 8F F0            [24]  620 	mov	b,r7
+      0002E2 12r00r00         [24]  621 	lcall	_rimeaddr_copy
+      0002E5 15 81            [12]  622 	dec	sp
+      0002E7 15 81            [12]  623 	dec	sp
+      0002E9 15 81            [12]  624 	dec	sp
+                                    625 ;	../contiki-sensinode/core/net/rime/route.c:145: e->cost = cost;
+      0002EB A8 81            [24]  626 	mov	r0,sp
+      0002ED 18               [12]  627 	dec	r0
+      0002EE 18               [12]  628 	dec	r0
+      0002EF 74 08            [12]  629 	mov	a,#0x08
+      0002F1 26               [12]  630 	add	a,@r0
+      0002F2 FD               [12]  631 	mov	r5,a
+      0002F3 E4               [12]  632 	clr	a
+      0002F4 08               [12]  633 	inc	r0
+      0002F5 36               [12]  634 	addc	a,@r0
+      0002F6 FE               [12]  635 	mov	r6,a
+      0002F7 08               [12]  636 	inc	r0
+      0002F8 86 07            [24]  637 	mov	ar7,@r0
+      0002FA 8D 82            [24]  638 	mov	dpl,r5
+      0002FC 8E 83            [24]  639 	mov	dph,r6
+      0002FE 8F F0            [24]  640 	mov	b,r7
+      000300 E5 81            [12]  641 	mov	a,sp
+      000302 24 F8            [12]  642 	add	a,#0xf8
+      000304 F8               [12]  643 	mov	r0,a
+      000305 E6               [12]  644 	mov	a,@r0
+      000306 12r00r00         [24]  645 	lcall	__gptrput
+                                    646 ;	../contiki-sensinode/core/net/rime/route.c:146: e->seqno = seqno;
+      000309 A8 81            [24]  647 	mov	r0,sp
+      00030B 18               [12]  648 	dec	r0
+      00030C 18               [12]  649 	dec	r0
+      00030D 74 07            [12]  650 	mov	a,#0x07
+      00030F 26               [12]  651 	add	a,@r0
+      000310 FD               [12]  652 	mov	r5,a
+      000311 E4               [12]  653 	clr	a
+      000312 08               [12]  654 	inc	r0
+      000313 36               [12]  655 	addc	a,@r0
+      000314 FE               [12]  656 	mov	r6,a
+      000315 08               [12]  657 	inc	r0
+      000316 86 07            [24]  658 	mov	ar7,@r0
+      000318 8D 82            [24]  659 	mov	dpl,r5
+      00031A 8E 83            [24]  660 	mov	dph,r6
+      00031C 8F F0            [24]  661 	mov	b,r7
+      00031E E5 81            [12]  662 	mov	a,sp
+      000320 24 F7            [12]  663 	add	a,#0xf7
+      000322 F8               [12]  664 	mov	r0,a
+      000323 E6               [12]  665 	mov	a,@r0
+      000324 12r00r00         [24]  666 	lcall	__gptrput
+                                    667 ;	../contiki-sensinode/core/net/rime/route.c:147: e->time = 0;
+      000327 A8 81            [24]  668 	mov	r0,sp
+      000329 18               [12]  669 	dec	r0
+      00032A 18               [12]  670 	dec	r0
+      00032B 74 09            [12]  671 	mov	a,#0x09
+      00032D 26               [12]  672 	add	a,@r0
+      00032E FD               [12]  673 	mov	r5,a
+      00032F E4               [12]  674 	clr	a
+      000330 08               [12]  675 	inc	r0
+      000331 36               [12]  676 	addc	a,@r0
+      000332 FE               [12]  677 	mov	r6,a
+      000333 08               [12]  678 	inc	r0
+      000334 86 07            [24]  679 	mov	ar7,@r0
+      000336 8D 82            [24]  680 	mov	dpl,r5
+      000338 8E 83            [24]  681 	mov	dph,r6
+      00033A 8F F0            [24]  682 	mov	b,r7
+      00033C E4               [12]  683 	clr	a
+      00033D 12r00r00         [24]  684 	lcall	__gptrput
+                                    685 ;	../contiki-sensinode/core/net/rime/route.c:148: e->decay = 0;
+      000340 A8 81            [24]  686 	mov	r0,sp
+      000342 18               [12]  687 	dec	r0
+      000343 18               [12]  688 	dec	r0
+      000344 74 0A            [12]  689 	mov	a,#0x0A
+      000346 26               [12]  690 	add	a,@r0
+      000347 FD               [12]  691 	mov	r5,a
+      000348 E4               [12]  692 	clr	a
+      000349 08               [12]  693 	inc	r0
+      00034A 36               [12]  694 	addc	a,@r0
+      00034B FE               [12]  695 	mov	r6,a
+      00034C 08               [12]  696 	inc	r0
+      00034D 86 07            [24]  697 	mov	ar7,@r0
+      00034F 8D 82            [24]  698 	mov	dpl,r5
+      000351 8E 83            [24]  699 	mov	dph,r6
+      000353 8F F0            [24]  700 	mov	b,r7
+      000355 E4               [12]  701 	clr	a
+      000356 12r00r00         [24]  702 	lcall	__gptrput
+                                    703 ;	../contiki-sensinode/core/net/rime/route.c:151: list_push(route_table, e);
+      000359 A8 81            [24]  704 	mov	r0,sp
+      00035B 18               [12]  705 	dec	r0
+      00035C 18               [12]  706 	dec	r0
+      00035D 86 02            [24]  707 	mov	ar2,@r0
+      00035F 08               [12]  708 	inc	r0
+      000360 86 03            [24]  709 	mov	ar3,@r0
+      000362 08               [12]  710 	inc	r0
+      000363 86 04            [24]  711 	mov	ar4,@r0
+      000365 90r00r03         [24]  712 	mov	dptr,#_route_table
+      000368 E0               [24]  713 	movx	a,@dptr
+      000369 FD               [12]  714 	mov	r5,a
+      00036A A3               [24]  715 	inc	dptr
+      00036B E0               [24]  716 	movx	a,@dptr
+      00036C FE               [12]  717 	mov	r6,a
+      00036D A3               [24]  718 	inc	dptr
+      00036E E0               [24]  719 	movx	a,@dptr
+      00036F FF               [12]  720 	mov	r7,a
+      000370 C0 02            [24]  721 	push	ar2
+      000372 C0 03            [24]  722 	push	ar3
+      000374 C0 04            [24]  723 	push	ar4
+      000376 8D 82            [24]  724 	mov	dpl,r5
+      000378 8E 83            [24]  725 	mov	dph,r6
+      00037A 8F F0            [24]  726 	mov	b,r7
+      00037C 12r00r00         [24]  727 	lcall	_list_push
+      00037F 15 81            [12]  728 	dec	sp
+      000381 15 81            [12]  729 	dec	sp
+      000383 15 81            [12]  730 	dec	sp
+                                    731 ;	../contiki-sensinode/core/net/rime/route.c:158: return 0;
+      000385 90 00 00         [24]  732 	mov	dptr,#0x0000
+      000388 15 81            [12]  733 	dec	sp
+      00038A 15 81            [12]  734 	dec	sp
+      00038C 15 81            [12]  735 	dec	sp
+      00038E 22               [24]  736 	ret
+                                    737 ;------------------------------------------------------------
+                                    738 ;Allocation info for local variables in function 'route_lookup'
+                                    739 ;------------------------------------------------------------
+                                    740 ;dest                      Allocated to stack - sp -8
+                                    741 ;e                         Allocated to stack - sp -5
+                                    742 ;lowest_cost               Allocated to registers r4 
+                                    743 ;best_entry                Allocated to stack - sp -2
+                                    744 ;------------------------------------------------------------
+                                    745 ;	../contiki-sensinode/core/net/rime/route.c:162: route_lookup(const rimeaddr_t *dest)
+                                    746 ;	-----------------------------------------
+                                    747 ;	 function route_lookup
+                                    748 ;	-----------------------------------------
+      00038F                        749 _route_lookup:
+      00038F C0 82            [24]  750 	push	dpl
+      000391 C0 83            [24]  751 	push	dph
+      000393 C0 F0            [24]  752 	push	b
+      000395 E5 81            [12]  753 	mov	a,sp
+      000397 24 06            [12]  754 	add	a,#0x06
+      000399 F5 81            [12]  755 	mov	sp,a
+                                    756 ;	../contiki-sensinode/core/net/rime/route.c:168: lowest_cost = -1;
+      00039B 7C FF            [12]  757 	mov	r4,#0xFF
+                                    758 ;	../contiki-sensinode/core/net/rime/route.c:169: best_entry = NULL;
+      00039D A8 81            [24]  759 	mov	r0,sp
+      00039F 18               [12]  760 	dec	r0
+      0003A0 18               [12]  761 	dec	r0
+      0003A1 E4               [12]  762 	clr	a
+      0003A2 F6               [12]  763 	mov	@r0,a
+      0003A3 08               [12]  764 	inc	r0
+      0003A4 F6               [12]  765 	mov	@r0,a
+      0003A5 08               [12]  766 	inc	r0
+      0003A6 76 00            [12]  767 	mov	@r0,#0x00
+                                    768 ;	../contiki-sensinode/core/net/rime/route.c:172: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      0003A8 90r00r03         [24]  769 	mov	dptr,#_route_table
+      0003AB E0               [24]  770 	movx	a,@dptr
+      0003AC FA               [12]  771 	mov	r2,a
+      0003AD A3               [24]  772 	inc	dptr
+      0003AE E0               [24]  773 	movx	a,@dptr
+      0003AF FB               [12]  774 	mov	r3,a
+      0003B0 A3               [24]  775 	inc	dptr
+      0003B1 E0               [24]  776 	movx	a,@dptr
+      0003B2 FF               [12]  777 	mov	r7,a
+      0003B3 8A 82            [24]  778 	mov	dpl,r2
+      0003B5 8B 83            [24]  779 	mov	dph,r3
+      0003B7 8F F0            [24]  780 	mov	b,r7
+      0003B9 C0 04            [24]  781 	push	ar4
+      0003BB 12r00r00         [24]  782 	lcall	_list_head
+      0003BE AD 82            [24]  783 	mov	r5,dpl
+      0003C0 AE 83            [24]  784 	mov	r6,dph
+      0003C2 AF F0            [24]  785 	mov	r7,b
+      0003C4 D0 04            [24]  786 	pop	ar4
+      0003C6 E5 81            [12]  787 	mov	a,sp
+      0003C8 24 FB            [12]  788 	add	a,#0xfb
+      0003CA F8               [12]  789 	mov	r0,a
+      0003CB A6 05            [24]  790 	mov	@r0,ar5
+      0003CD 08               [12]  791 	inc	r0
+      0003CE A6 06            [24]  792 	mov	@r0,ar6
+      0003D0 08               [12]  793 	inc	r0
+      0003D1 A6 07            [24]  794 	mov	@r0,ar7
+      0003D3                        795 00107$:
+      0003D3 E5 81            [12]  796 	mov	a,sp
+      0003D5 24 FB            [12]  797 	add	a,#0xfb
+      0003D7 F8               [12]  798 	mov	r0,a
+      0003D8 E4               [12]  799 	clr	a
+      0003D9 C0 E0            [24]  800 	push	acc
+      0003DB C0 E0            [24]  801 	push	acc
+      0003DD C0 E0            [24]  802 	push	acc
+      0003DF 86 82            [24]  803 	mov	dpl,@r0
+      0003E1 08               [12]  804 	inc	r0
+      0003E2 86 83            [24]  805 	mov	dph,@r0
+      0003E4 08               [12]  806 	inc	r0
+      0003E5 86 F0            [24]  807 	mov	b,@r0
+      0003E7 12r00r00         [24]  808 	lcall	___gptr_cmp
+      0003EA 15 81            [12]  809 	dec	sp
+      0003EC 15 81            [12]  810 	dec	sp
+      0003EE 15 81            [12]  811 	dec	sp
+      0003F0 70 03            [24]  812 	jnz	00123$
+      0003F2 02r04r90         [24]  813 	ljmp	00105$
+      0003F5                        814 00123$:
+                                    815 ;	../contiki-sensinode/core/net/rime/route.c:176: if(rimeaddr_cmp(dest, &e->dest)) {
+      0003F5 C0 04            [24]  816 	push	ar4
+      0003F7 E5 81            [12]  817 	mov	a,sp
+      0003F9 24 FA            [12]  818 	add	a,#0xfa
+      0003FB F8               [12]  819 	mov	r0,a
+      0003FC 74 03            [12]  820 	mov	a,#0x03
+      0003FE 26               [12]  821 	add	a,@r0
+      0003FF FA               [12]  822 	mov	r2,a
+      000400 E4               [12]  823 	clr	a
+      000401 08               [12]  824 	inc	r0
+      000402 36               [12]  825 	addc	a,@r0
+      000403 FB               [12]  826 	mov	r3,a
+      000404 08               [12]  827 	inc	r0
+      000405 86 04            [24]  828 	mov	ar4,@r0
+      000407 C0 02            [24]  829 	push	ar2
+      000409 C0 03            [24]  830 	push	ar3
+      00040B C0 04            [24]  831 	push	ar4
+      00040D E5 81            [12]  832 	mov	a,sp
+      00040F 24 F4            [12]  833 	add	a,#0xf4
+      000411 F8               [12]  834 	mov	r0,a
+      000412 86 82            [24]  835 	mov	dpl,@r0
+      000414 08               [12]  836 	inc	r0
+      000415 86 83            [24]  837 	mov	dph,@r0
+      000417 08               [12]  838 	inc	r0
+      000418 86 F0            [24]  839 	mov	b,@r0
+      00041A 12r00r00         [24]  840 	lcall	_rimeaddr_cmp
+      00041D AB 82            [24]  841 	mov	r3,dpl
+      00041F AC 83            [24]  842 	mov	r4,dph
+      000421 15 81            [12]  843 	dec	sp
+      000423 15 81            [12]  844 	dec	sp
+      000425 15 81            [12]  845 	dec	sp
+      000427 EB               [12]  846 	mov	a,r3
+      000428 4C               [12]  847 	orl	a,r4
+      000429 D0 04            [24]  848 	pop	ar4
+      00042B 60 33            [24]  849 	jz	00108$
+                                    850 ;	../contiki-sensinode/core/net/rime/route.c:177: if(e->cost < lowest_cost) {
+      00042D E5 81            [12]  851 	mov	a,sp
+      00042F 24 FB            [12]  852 	add	a,#0xfb
+      000431 F8               [12]  853 	mov	r0,a
+      000432 74 08            [12]  854 	mov	a,#0x08
+      000434 26               [12]  855 	add	a,@r0
+      000435 FA               [12]  856 	mov	r2,a
+      000436 E4               [12]  857 	clr	a
+      000437 08               [12]  858 	inc	r0
+      000438 36               [12]  859 	addc	a,@r0
+      000439 FB               [12]  860 	mov	r3,a
+      00043A 08               [12]  861 	inc	r0
+      00043B 86 07            [24]  862 	mov	ar7,@r0
+      00043D 8A 82            [24]  863 	mov	dpl,r2
+      00043F 8B 83            [24]  864 	mov	dph,r3
+      000441 8F F0            [24]  865 	mov	b,r7
+      000443 12r00r00         [24]  866 	lcall	__gptrget
+      000446 FF               [12]  867 	mov	r7,a
+      000447 C3               [12]  868 	clr	c
+      000448 9C               [12]  869 	subb	a,r4
+      000449 50 15            [24]  870 	jnc	00108$
+                                    871 ;	../contiki-sensinode/core/net/rime/route.c:178: best_entry = e;
+      00044B E5 81            [12]  872 	mov	a,sp
+      00044D 24 FB            [12]  873 	add	a,#0xfb
+      00044F F8               [12]  874 	mov	r0,a
+      000450 A9 81            [24]  875 	mov	r1,sp
+      000452 19               [12]  876 	dec	r1
+      000453 19               [12]  877 	dec	r1
+      000454 E6               [12]  878 	mov	a,@r0
+      000455 F7               [12]  879 	mov	@r1,a
+      000456 08               [12]  880 	inc	r0
+      000457 09               [12]  881 	inc	r1
+      000458 E6               [12]  882 	mov	a,@r0
+      000459 F7               [12]  883 	mov	@r1,a
+      00045A 08               [12]  884 	inc	r0
+      00045B 09               [12]  885 	inc	r1
+      00045C E6               [12]  886 	mov	a,@r0
+      00045D F7               [12]  887 	mov	@r1,a
+                                    888 ;	../contiki-sensinode/core/net/rime/route.c:179: lowest_cost = e->cost;
+      00045E 8F 04            [24]  889 	mov	ar4,r7
+      000460                        890 00108$:
+                                    891 ;	../contiki-sensinode/core/net/rime/route.c:172: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      000460 E5 81            [12]  892 	mov	a,sp
+      000462 24 FB            [12]  893 	add	a,#0xfb
+      000464 F8               [12]  894 	mov	r0,a
+      000465 86 05            [24]  895 	mov	ar5,@r0
+      000467 08               [12]  896 	inc	r0
+      000468 86 06            [24]  897 	mov	ar6,@r0
+      00046A 08               [12]  898 	inc	r0
+      00046B 86 07            [24]  899 	mov	ar7,@r0
+      00046D 8D 82            [24]  900 	mov	dpl,r5
+      00046F 8E 83            [24]  901 	mov	dph,r6
+      000471 8F F0            [24]  902 	mov	b,r7
+      000473 C0 04            [24]  903 	push	ar4
+      000475 12r00r00         [24]  904 	lcall	_list_item_next
+      000478 AD 82            [24]  905 	mov	r5,dpl
+      00047A AE 83            [24]  906 	mov	r6,dph
+      00047C AF F0            [24]  907 	mov	r7,b
+      00047E D0 04            [24]  908 	pop	ar4
+      000480 E5 81            [12]  909 	mov	a,sp
+      000482 24 FB            [12]  910 	add	a,#0xfb
+      000484 F8               [12]  911 	mov	r0,a
+      000485 A6 05            [24]  912 	mov	@r0,ar5
+      000487 08               [12]  913 	inc	r0
+      000488 A6 06            [24]  914 	mov	@r0,ar6
+      00048A 08               [12]  915 	inc	r0
+      00048B A6 07            [24]  916 	mov	@r0,ar7
+      00048D 02r03rD3         [24]  917 	ljmp	00107$
+      000490                        918 00105$:
+                                    919 ;	../contiki-sensinode/core/net/rime/route.c:183: return best_entry;
+      000490 A8 81            [24]  920 	mov	r0,sp
+      000492 18               [12]  921 	dec	r0
+      000493 18               [12]  922 	dec	r0
+      000494 86 82            [24]  923 	mov	dpl,@r0
+      000496 08               [12]  924 	inc	r0
+      000497 86 83            [24]  925 	mov	dph,@r0
+      000499 08               [12]  926 	inc	r0
+      00049A 86 F0            [24]  927 	mov	b,@r0
+      00049C C8               [12]  928 	xch	a,r0
+      00049D E5 81            [12]  929 	mov	a,sp
+      00049F 24 F7            [12]  930 	add	a,#0xF7
+      0004A1 F5 81            [12]  931 	mov	sp,a
+      0004A3 C8               [12]  932 	xch	a,r0
+      0004A4 22               [24]  933 	ret
+                                    934 ;------------------------------------------------------------
+                                    935 ;Allocation info for local variables in function 'route_refresh'
+                                    936 ;------------------------------------------------------------
+                                    937 ;e                         Allocated to registers r5 r6 r7 
+                                    938 ;------------------------------------------------------------
+                                    939 ;	../contiki-sensinode/core/net/rime/route.c:187: route_refresh(struct route_entry *e)
+                                    940 ;	-----------------------------------------
+                                    941 ;	 function route_refresh
+                                    942 ;	-----------------------------------------
+      0004A5                        943 _route_refresh:
+      0004A5 AD 82            [24]  944 	mov	r5,dpl
+      0004A7 AE 83            [24]  945 	mov	r6,dph
+      0004A9 AF F0            [24]  946 	mov	r7,b
+                                    947 ;	../contiki-sensinode/core/net/rime/route.c:189: if(e != NULL) {
+      0004AB ED               [12]  948 	mov	a,r5
+      0004AC 4E               [12]  949 	orl	a,r6
+      0004AD 60 24            [24]  950 	jz	00103$
+                                    951 ;	../contiki-sensinode/core/net/rime/route.c:192: e->time = 0;
+      0004AF 74 09            [12]  952 	mov	a,#0x09
+      0004B1 2D               [12]  953 	add	a,r5
+      0004B2 FA               [12]  954 	mov	r2,a
+      0004B3 E4               [12]  955 	clr	a
+      0004B4 3E               [12]  956 	addc	a,r6
+      0004B5 FB               [12]  957 	mov	r3,a
+      0004B6 8F 04            [24]  958 	mov	ar4,r7
+      0004B8 8A 82            [24]  959 	mov	dpl,r2
+      0004BA 8B 83            [24]  960 	mov	dph,r3
+      0004BC 8C F0            [24]  961 	mov	b,r4
+      0004BE E4               [12]  962 	clr	a
+      0004BF 12r00r00         [24]  963 	lcall	__gptrput
+                                    964 ;	../contiki-sensinode/core/net/rime/route.c:193: e->decay = 0;
+      0004C2 74 0A            [12]  965 	mov	a,#0x0A
+      0004C4 2D               [12]  966 	add	a,r5
+      0004C5 FD               [12]  967 	mov	r5,a
+      0004C6 E4               [12]  968 	clr	a
+      0004C7 3E               [12]  969 	addc	a,r6
+      0004C8 FE               [12]  970 	mov	r6,a
+      0004C9 8D 82            [24]  971 	mov	dpl,r5
+      0004CB 8E 83            [24]  972 	mov	dph,r6
+      0004CD 8F F0            [24]  973 	mov	b,r7
+      0004CF E4               [12]  974 	clr	a
+      0004D0 02r00r00         [24]  975 	ljmp	__gptrput
+      0004D3                        976 00103$:
+      0004D3 22               [24]  977 	ret
+                                    978 ;------------------------------------------------------------
+                                    979 ;Allocation info for local variables in function 'route_decay'
+                                    980 ;------------------------------------------------------------
+                                    981 ;e                         Allocated to registers r5 r6 r7 
+                                    982 ;------------------------------------------------------------
+                                    983 ;	../contiki-sensinode/core/net/rime/route.c:205: route_decay(struct route_entry *e)
+                                    984 ;	-----------------------------------------
+                                    985 ;	 function route_decay
+                                    986 ;	-----------------------------------------
+      0004D4                        987 _route_decay:
+      0004D4 AD 82            [24]  988 	mov	r5,dpl
+      0004D6 AE 83            [24]  989 	mov	r6,dph
+      0004D8 AF F0            [24]  990 	mov	r7,b
+                                    991 ;	../contiki-sensinode/core/net/rime/route.c:216: if(e->time != e->time_last_decay) {
+      0004DA 74 09            [12]  992 	mov	a,#0x09
+      0004DC 2D               [12]  993 	add	a,r5
+      0004DD FA               [12]  994 	mov	r2,a
+      0004DE E4               [12]  995 	clr	a
+      0004DF 3E               [12]  996 	addc	a,r6
+      0004E0 FB               [12]  997 	mov	r3,a
+      0004E1 8F 04            [24]  998 	mov	ar4,r7
+      0004E3 8A 82            [24]  999 	mov	dpl,r2
+      0004E5 8B 83            [24] 1000 	mov	dph,r3
+      0004E7 8C F0            [24] 1001 	mov	b,r4
+      0004E9 12r00r00         [24] 1002 	lcall	__gptrget
+      0004EC FC               [12] 1003 	mov	r4,a
+      0004ED 74 0B            [12] 1004 	mov	a,#0x0B
+      0004EF 2D               [12] 1005 	add	a,r5
+      0004F0 F9               [12] 1006 	mov	r1,a
+      0004F1 E4               [12] 1007 	clr	a
+      0004F2 3E               [12] 1008 	addc	a,r6
+      0004F3 FA               [12] 1009 	mov	r2,a
+      0004F4 8F 03            [24] 1010 	mov	ar3,r7
+      0004F6 89 82            [24] 1011 	mov	dpl,r1
+      0004F8 8A 83            [24] 1012 	mov	dph,r2
+      0004FA 8B F0            [24] 1013 	mov	b,r3
+      0004FC 12r00r00         [24] 1014 	lcall	__gptrget
+      0004FF F8               [12] 1015 	mov	r0,a
+      000500 EC               [12] 1016 	mov	a,r4
+      000501 B5 00 01         [24] 1017 	cjne	a,ar0,00113$
+      000504 22               [24] 1018 	ret
+      000505                       1019 00113$:
+                                   1020 ;	../contiki-sensinode/core/net/rime/route.c:218: e->time_last_decay = e->time;
+      000505 89 82            [24] 1021 	mov	dpl,r1
+      000507 8A 83            [24] 1022 	mov	dph,r2
+      000509 8B F0            [24] 1023 	mov	b,r3
+      00050B EC               [12] 1024 	mov	a,r4
+      00050C 12r00r00         [24] 1025 	lcall	__gptrput
+                                   1026 ;	../contiki-sensinode/core/net/rime/route.c:219: e->decay++;
+      00050F 74 0A            [12] 1027 	mov	a,#0x0A
+      000511 2D               [12] 1028 	add	a,r5
+      000512 FA               [12] 1029 	mov	r2,a
+      000513 E4               [12] 1030 	clr	a
+      000514 3E               [12] 1031 	addc	a,r6
+      000515 FB               [12] 1032 	mov	r3,a
+      000516 8F 04            [24] 1033 	mov	ar4,r7
+      000518 8A 82            [24] 1034 	mov	dpl,r2
+      00051A 8B 83            [24] 1035 	mov	dph,r3
+      00051C 8C F0            [24] 1036 	mov	b,r4
+      00051E 12r00r00         [24] 1037 	lcall	__gptrget
+      000521 F9               [12] 1038 	mov	r1,a
+      000522 09               [12] 1039 	inc	r1
+      000523 8A 82            [24] 1040 	mov	dpl,r2
+      000525 8B 83            [24] 1041 	mov	dph,r3
+      000527 8C F0            [24] 1042 	mov	b,r4
+      000529 E9               [12] 1043 	mov	a,r1
+      00052A 12r00r00         [24] 1044 	lcall	__gptrput
+                                   1045 ;	../contiki-sensinode/core/net/rime/route.c:221: if(e->decay >= DECAY_THRESHOLD) {
+      00052D B9 08 00         [24] 1046 	cjne	r1,#0x08,00114$
+      000530                       1047 00114$:
+      000530 40 09            [24] 1048 	jc	00105$
+                                   1049 ;	../contiki-sensinode/core/net/rime/route.c:226: route_remove(e);
+      000532 8D 82            [24] 1050 	mov	dpl,r5
+      000534 8E 83            [24] 1051 	mov	dph,r6
+      000536 8F F0            [24] 1052 	mov	b,r7
+      000538 02r05r3C         [24] 1053 	ljmp	_route_remove
+      00053B                       1054 00105$:
+      00053B 22               [24] 1055 	ret
+                                   1056 ;------------------------------------------------------------
+                                   1057 ;Allocation info for local variables in function 'route_remove'
+                                   1058 ;------------------------------------------------------------
+                                   1059 ;e                         Allocated to registers r7 r5 r6 
+                                   1060 ;sloc0                     Allocated to stack - sp -2
+                                   1061 ;------------------------------------------------------------
+                                   1062 ;	../contiki-sensinode/core/net/rime/route.c:232: route_remove(struct route_entry *e)
+                                   1063 ;	-----------------------------------------
+                                   1064 ;	 function route_remove
+                                   1065 ;	-----------------------------------------
+      00053C                       1066 _route_remove:
+      00053C 05 81            [12] 1067 	inc	sp
+      00053E 05 81            [12] 1068 	inc	sp
+      000540 05 81            [12] 1069 	inc	sp
+      000542 AF 82            [24] 1070 	mov	r7,dpl
+      000544 AD 83            [24] 1071 	mov	r5,dph
+      000546 AE F0            [24] 1072 	mov	r6,b
+                                   1073 ;	../contiki-sensinode/core/net/rime/route.c:234: list_remove(route_table, e);
+      000548 8F 02            [24] 1074 	mov	ar2,r7
+      00054A 8D 03            [24] 1075 	mov	ar3,r5
+      00054C 8E 04            [24] 1076 	mov	ar4,r6
+      00054E 90r00r03         [24] 1077 	mov	dptr,#_route_table
+      000551 A8 81            [24] 1078 	mov	r0,sp
+      000553 18               [12] 1079 	dec	r0
+      000554 18               [12] 1080 	dec	r0
+      000555 E0               [24] 1081 	movx	a,@dptr
+      000556 F6               [12] 1082 	mov	@r0,a
+      000557 A3               [24] 1083 	inc	dptr
+      000558 E0               [24] 1084 	movx	a,@dptr
+      000559 08               [12] 1085 	inc	r0
+      00055A F6               [12] 1086 	mov	@r0,a
+      00055B A3               [24] 1087 	inc	dptr
+      00055C E0               [24] 1088 	movx	a,@dptr
+      00055D 08               [12] 1089 	inc	r0
+      00055E F6               [12] 1090 	mov	@r0,a
+      00055F C0 07            [24] 1091 	push	ar7
+      000561 C0 06            [24] 1092 	push	ar6
+      000563 C0 05            [24] 1093 	push	ar5
+      000565 C0 02            [24] 1094 	push	ar2
+      000567 C0 03            [24] 1095 	push	ar3
+      000569 C0 04            [24] 1096 	push	ar4
+      00056B E5 81            [12] 1097 	mov	a,sp
+      00056D 24 F8            [12] 1098 	add	a,#0xf8
+      00056F F8               [12] 1099 	mov	r0,a
+      000570 86 82            [24] 1100 	mov	dpl,@r0
+      000572 08               [12] 1101 	inc	r0
+      000573 86 83            [24] 1102 	mov	dph,@r0
+      000575 08               [12] 1103 	inc	r0
+      000576 86 F0            [24] 1104 	mov	b,@r0
+      000578 12r00r00         [24] 1105 	lcall	_list_remove
+      00057B 15 81            [12] 1106 	dec	sp
+      00057D 15 81            [12] 1107 	dec	sp
+      00057F 15 81            [12] 1108 	dec	sp
+      000581 D0 05            [24] 1109 	pop	ar5
+      000583 D0 06            [24] 1110 	pop	ar6
+      000585 D0 07            [24] 1111 	pop	ar7
+                                   1112 ;	../contiki-sensinode/core/net/rime/route.c:235: memb_free(&route_mem, e);
+      000587 8F 04            [24] 1113 	mov	ar4,r7
+      000589 C0 04            [24] 1114 	push	ar4
+      00058B C0 05            [24] 1115 	push	ar5
+      00058D C0 06            [24] 1116 	push	ar6
+      00058F 90r00r06         [24] 1117 	mov	dptr,#_route_mem
+      000592 75 F0 00         [24] 1118 	mov	b,#0x00
+      000595 12r00r00         [24] 1119 	lcall	_memb_free
+      000598 15 81            [12] 1120 	dec	sp
+      00059A 15 81            [12] 1121 	dec	sp
+      00059C 15 81            [12] 1122 	dec	sp
+      00059E 15 81            [12] 1123 	dec	sp
+      0005A0 15 81            [12] 1124 	dec	sp
+      0005A2 15 81            [12] 1125 	dec	sp
+      0005A4 22               [24] 1126 	ret
+                                   1127 ;------------------------------------------------------------
+                                   1128 ;Allocation info for local variables in function 'route_flush_all'
+                                   1129 ;------------------------------------------------------------
+                                   1130 ;e                         Allocated to registers r5 r6 r7 
+                                   1131 ;------------------------------------------------------------
+                                   1132 ;	../contiki-sensinode/core/net/rime/route.c:239: route_flush_all(void)
+                                   1133 ;	-----------------------------------------
+                                   1134 ;	 function route_flush_all
+                                   1135 ;	-----------------------------------------
+      0005A5                       1136 _route_flush_all:
+                                   1137 ;	../contiki-sensinode/core/net/rime/route.c:243: while(1) {
+      0005A5                       1138 00105$:
+                                   1139 ;	../contiki-sensinode/core/net/rime/route.c:244: e = list_pop(route_table);
+      0005A5 90r00r03         [24] 1140 	mov	dptr,#_route_table
+      0005A8 E0               [24] 1141 	movx	a,@dptr
+      0005A9 FD               [12] 1142 	mov	r5,a
+      0005AA A3               [24] 1143 	inc	dptr
+      0005AB E0               [24] 1144 	movx	a,@dptr
+      0005AC FE               [12] 1145 	mov	r6,a
+      0005AD A3               [24] 1146 	inc	dptr
+      0005AE E0               [24] 1147 	movx	a,@dptr
+      0005AF FF               [12] 1148 	mov	r7,a
+      0005B0 8D 82            [24] 1149 	mov	dpl,r5
+      0005B2 8E 83            [24] 1150 	mov	dph,r6
+      0005B4 8F F0            [24] 1151 	mov	b,r7
+      0005B6 12r00r00         [24] 1152 	lcall	_list_pop
+      0005B9 AD 82            [24] 1153 	mov	r5,dpl
+      0005BB AE 83            [24] 1154 	mov	r6,dph
+      0005BD AF F0            [24] 1155 	mov	r7,b
+                                   1156 ;	../contiki-sensinode/core/net/rime/route.c:245: if(e != NULL) {
+      0005BF ED               [12] 1157 	mov	a,r5
+      0005C0 4E               [12] 1158 	orl	a,r6
+      0005C1 60 17            [24] 1159 	jz	00107$
+                                   1160 ;	../contiki-sensinode/core/net/rime/route.c:246: memb_free(&route_mem, e);
+      0005C3 C0 05            [24] 1161 	push	ar5
+      0005C5 C0 06            [24] 1162 	push	ar6
+      0005C7 C0 07            [24] 1163 	push	ar7
+      0005C9 90r00r06         [24] 1164 	mov	dptr,#_route_mem
+      0005CC 75 F0 00         [24] 1165 	mov	b,#0x00
+      0005CF 12r00r00         [24] 1166 	lcall	_memb_free
+      0005D2 15 81            [12] 1167 	dec	sp
+      0005D4 15 81            [12] 1168 	dec	sp
+      0005D6 15 81            [12] 1169 	dec	sp
+                                   1170 ;	../contiki-sensinode/core/net/rime/route.c:248: break;
+      0005D8 80 CB            [24] 1171 	sjmp	00105$
+      0005DA                       1172 00107$:
+      0005DA 22               [24] 1173 	ret
+                                   1174 ;------------------------------------------------------------
+                                   1175 ;Allocation info for local variables in function 'route_set_lifetime'
+                                   1176 ;------------------------------------------------------------
+                                   1177 ;seconds                   Allocated to registers 
+                                   1178 ;------------------------------------------------------------
+                                   1179 ;	../contiki-sensinode/core/net/rime/route.c:254: route_set_lifetime(int seconds)
+                                   1180 ;	-----------------------------------------
+                                   1181 ;	 function route_set_lifetime
+                                   1182 ;	-----------------------------------------
+      0005DB                       1183 _route_set_lifetime:
+      0005DB AF 83            [24] 1184 	mov	r7,dph
+      0005DD E5 82            [12] 1185 	mov	a,dpl
+      0005DF 90r00r10         [24] 1186 	mov	dptr,#_max_time
+      0005E2 F0               [24] 1187 	movx	@dptr,a
+      0005E3 EF               [12] 1188 	mov	a,r7
+      0005E4 A3               [24] 1189 	inc	dptr
+      0005E5 F0               [24] 1190 	movx	@dptr,a
+                                   1191 ;	../contiki-sensinode/core/net/rime/route.c:256: max_time = seconds;
+      0005E6 22               [24] 1192 	ret
+                                   1193 ;------------------------------------------------------------
+                                   1194 ;Allocation info for local variables in function 'route_num'
+                                   1195 ;------------------------------------------------------------
+                                   1196 ;e                         Allocated to registers r5 r6 r7 
+                                   1197 ;i                         Allocated to stack - sp -1
+                                   1198 ;------------------------------------------------------------
+                                   1199 ;	../contiki-sensinode/core/net/rime/route.c:260: route_num(void)
+                                   1200 ;	-----------------------------------------
+                                   1201 ;	 function route_num
+                                   1202 ;	-----------------------------------------
+      0005E7                       1203 _route_num:
+      0005E7 05 81            [12] 1204 	inc	sp
+      0005E9 05 81            [12] 1205 	inc	sp
+                                   1206 ;	../contiki-sensinode/core/net/rime/route.c:265: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      0005EB 90r00r03         [24] 1207 	mov	dptr,#_route_table
+      0005EE E0               [24] 1208 	movx	a,@dptr
+      0005EF FD               [12] 1209 	mov	r5,a
+      0005F0 A3               [24] 1210 	inc	dptr
+      0005F1 E0               [24] 1211 	movx	a,@dptr
+      0005F2 FE               [12] 1212 	mov	r6,a
+      0005F3 A3               [24] 1213 	inc	dptr
+      0005F4 E0               [24] 1214 	movx	a,@dptr
+      0005F5 FF               [12] 1215 	mov	r7,a
+      0005F6 8D 82            [24] 1216 	mov	dpl,r5
+      0005F8 8E 83            [24] 1217 	mov	dph,r6
+      0005FA 8F F0            [24] 1218 	mov	b,r7
+      0005FC 12r00r00         [24] 1219 	lcall	_list_head
+      0005FF AD 82            [24] 1220 	mov	r5,dpl
+      000601 AE 83            [24] 1221 	mov	r6,dph
+      000603 AF F0            [24] 1222 	mov	r7,b
+      000605 A8 81            [24] 1223 	mov	r0,sp
+      000607 18               [12] 1224 	dec	r0
+      000608 E4               [12] 1225 	clr	a
+      000609 F6               [12] 1226 	mov	@r0,a
+      00060A 08               [12] 1227 	inc	r0
+      00060B F6               [12] 1228 	mov	@r0,a
+      00060C                       1229 00103$:
+      00060C E4               [12] 1230 	clr	a
+      00060D C0 E0            [24] 1231 	push	acc
+      00060F C0 E0            [24] 1232 	push	acc
+      000611 C0 E0            [24] 1233 	push	acc
+      000613 8D 82            [24] 1234 	mov	dpl,r5
+      000615 8E 83            [24] 1235 	mov	dph,r6
+      000617 8F F0            [24] 1236 	mov	b,r7
+      000619 12r00r00         [24] 1237 	lcall	___gptr_cmp
+      00061C 15 81            [12] 1238 	dec	sp
+      00061E 15 81            [12] 1239 	dec	sp
+      000620 15 81            [12] 1240 	dec	sp
+      000622 60 26            [24] 1241 	jz	00101$
+                                   1242 ;	../contiki-sensinode/core/net/rime/route.c:266: i++;
+      000624 A8 81            [24] 1243 	mov	r0,sp
+      000626 18               [12] 1244 	dec	r0
+      000627 06               [12] 1245 	inc	@r0
+      000628 B6 00 02         [24] 1246 	cjne	@r0,#0x00,00115$
+      00062B 08               [12] 1247 	inc	r0
+      00062C 06               [12] 1248 	inc	@r0
+      00062D                       1249 00115$:
+                                   1250 ;	../contiki-sensinode/core/net/rime/route.c:265: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      00062D 8D 02            [24] 1251 	mov	ar2,r5
+      00062F 8E 03            [24] 1252 	mov	ar3,r6
+      000631 8F 04            [24] 1253 	mov	ar4,r7
+      000633 8A 82            [24] 1254 	mov	dpl,r2
+      000635 8B 83            [24] 1255 	mov	dph,r3
+      000637 8C F0            [24] 1256 	mov	b,r4
+      000639 12r00r00         [24] 1257 	lcall	_list_item_next
+      00063C AA 82            [24] 1258 	mov	r2,dpl
+      00063E AB 83            [24] 1259 	mov	r3,dph
+      000640 AC F0            [24] 1260 	mov	r4,b
+      000642 8A 05            [24] 1261 	mov	ar5,r2
+      000644 8B 06            [24] 1262 	mov	ar6,r3
+      000646 8C 07            [24] 1263 	mov	ar7,r4
+      000648 80 C2            [24] 1264 	sjmp	00103$
+      00064A                       1265 00101$:
+                                   1266 ;	../contiki-sensinode/core/net/rime/route.c:268: return i;
+      00064A A8 81            [24] 1267 	mov	r0,sp
+      00064C 18               [12] 1268 	dec	r0
+      00064D 86 82            [24] 1269 	mov	dpl,@r0
+      00064F 08               [12] 1270 	inc	r0
+      000650 86 83            [24] 1271 	mov	dph,@r0
+      000652 15 81            [12] 1272 	dec	sp
+      000654 15 81            [12] 1273 	dec	sp
+      000656 22               [24] 1274 	ret
+                                   1275 ;------------------------------------------------------------
+                                   1276 ;Allocation info for local variables in function 'route_get'
+                                   1277 ;------------------------------------------------------------
+                                   1278 ;num                       Allocated to stack - sp -3
+                                   1279 ;e                         Allocated to registers r3 r4 r5 
+                                   1280 ;i                         Allocated to stack - sp -1
+                                   1281 ;------------------------------------------------------------
+                                   1282 ;	../contiki-sensinode/core/net/rime/route.c:272: route_get(int num)
+                                   1283 ;	-----------------------------------------
+                                   1284 ;	 function route_get
+                                   1285 ;	-----------------------------------------
+      000657                       1286 _route_get:
+      000657 C0 82            [24] 1287 	push	dpl
+      000659 C0 83            [24] 1288 	push	dph
+      00065B 05 81            [12] 1289 	inc	sp
+      00065D 05 81            [12] 1290 	inc	sp
+                                   1291 ;	../contiki-sensinode/core/net/rime/route.c:277: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      00065F 90r00r03         [24] 1292 	mov	dptr,#_route_table
+      000662 E0               [24] 1293 	movx	a,@dptr
+      000663 FB               [12] 1294 	mov	r3,a
+      000664 A3               [24] 1295 	inc	dptr
+      000665 E0               [24] 1296 	movx	a,@dptr
+      000666 FC               [12] 1297 	mov	r4,a
+      000667 A3               [24] 1298 	inc	dptr
+      000668 E0               [24] 1299 	movx	a,@dptr
+      000669 FD               [12] 1300 	mov	r5,a
+      00066A 8B 82            [24] 1301 	mov	dpl,r3
+      00066C 8C 83            [24] 1302 	mov	dph,r4
+      00066E 8D F0            [24] 1303 	mov	b,r5
+      000670 12r00r00         [24] 1304 	lcall	_list_head
+      000673 AB 82            [24] 1305 	mov	r3,dpl
+      000675 AC 83            [24] 1306 	mov	r4,dph
+      000677 AD F0            [24] 1307 	mov	r5,b
+      000679 A8 81            [24] 1308 	mov	r0,sp
+      00067B 18               [12] 1309 	dec	r0
+      00067C E4               [12] 1310 	clr	a
+      00067D F6               [12] 1311 	mov	@r0,a
+      00067E 08               [12] 1312 	inc	r0
+      00067F F6               [12] 1313 	mov	@r0,a
+      000680                       1314 00105$:
+      000680 E4               [12] 1315 	clr	a
+      000681 C0 E0            [24] 1316 	push	acc
+      000683 C0 E0            [24] 1317 	push	acc
+      000685 C0 E0            [24] 1318 	push	acc
+      000687 8B 82            [24] 1319 	mov	dpl,r3
+      000689 8C 83            [24] 1320 	mov	dph,r4
+      00068B 8D F0            [24] 1321 	mov	b,r5
+      00068D 12r00r00         [24] 1322 	lcall	___gptr_cmp
+      000690 15 81            [12] 1323 	dec	sp
+      000692 15 81            [12] 1324 	dec	sp
+      000694 15 81            [12] 1325 	dec	sp
+      000696 60 48            [24] 1326 	jz	00103$
+                                   1327 ;	../contiki-sensinode/core/net/rime/route.c:278: if(i == num) {
+      000698 A8 81            [24] 1328 	mov	r0,sp
+      00069A 18               [12] 1329 	dec	r0
+      00069B E5 81            [12] 1330 	mov	a,sp
+      00069D 24 FD            [12] 1331 	add	a,#0xfd
+      00069F F9               [12] 1332 	mov	r1,a
+      0006A0 86 F0            [24] 1333 	mov	b,@r0
+      0006A2 E7               [12] 1334 	mov	a,@r1
+      0006A3 B5 F0 0A         [24] 1335 	cjne	a,b,00119$
+      0006A6 08               [12] 1336 	inc	r0
+      0006A7 86 F0            [24] 1337 	mov	b,@r0
+      0006A9 09               [12] 1338 	inc	r1
+      0006AA E7               [12] 1339 	mov	a,@r1
+      0006AB B5 F0 02         [24] 1340 	cjne	a,b,00119$
+      0006AE 80 02            [24] 1341 	sjmp	00120$
+      0006B0                       1342 00119$:
+      0006B0 80 08            [24] 1343 	sjmp	00102$
+      0006B2                       1344 00120$:
+                                   1345 ;	../contiki-sensinode/core/net/rime/route.c:279: return e;
+      0006B2 8B 82            [24] 1346 	mov	dpl,r3
+      0006B4 8C 83            [24] 1347 	mov	dph,r4
+      0006B6 8D F0            [24] 1348 	mov	b,r5
+      0006B8 80 2C            [24] 1349 	sjmp	00107$
+      0006BA                       1350 00102$:
+                                   1351 ;	../contiki-sensinode/core/net/rime/route.c:281: i++;
+      0006BA A8 81            [24] 1352 	mov	r0,sp
+      0006BC 18               [12] 1353 	dec	r0
+      0006BD 06               [12] 1354 	inc	@r0
+      0006BE B6 00 02         [24] 1355 	cjne	@r0,#0x00,00121$
+      0006C1 08               [12] 1356 	inc	r0
+      0006C2 06               [12] 1357 	inc	@r0
+      0006C3                       1358 00121$:
+                                   1359 ;	../contiki-sensinode/core/net/rime/route.c:277: for(e = list_head(route_table); e != NULL; e = list_item_next(e)) {
+      0006C3 8B 02            [24] 1360 	mov	ar2,r3
+      0006C5 8C 06            [24] 1361 	mov	ar6,r4
+      0006C7 8D 07            [24] 1362 	mov	ar7,r5
+      0006C9 8A 82            [24] 1363 	mov	dpl,r2
+      0006CB 8E 83            [24] 1364 	mov	dph,r6
+      0006CD 8F F0            [24] 1365 	mov	b,r7
+      0006CF 12r00r00         [24] 1366 	lcall	_list_item_next
+      0006D2 AA 82            [24] 1367 	mov	r2,dpl
+      0006D4 AE 83            [24] 1368 	mov	r6,dph
+      0006D6 AF F0            [24] 1369 	mov	r7,b
+      0006D8 8A 03            [24] 1370 	mov	ar3,r2
+      0006DA 8E 04            [24] 1371 	mov	ar4,r6
+      0006DC 8F 05            [24] 1372 	mov	ar5,r7
+      0006DE 80 A0            [24] 1373 	sjmp	00105$
+      0006E0                       1374 00103$:
+                                   1375 ;	../contiki-sensinode/core/net/rime/route.c:283: return NULL;
+      0006E0 90 00 00         [24] 1376 	mov	dptr,#0x0000
+      0006E3 75 F0 00         [24] 1377 	mov	b,#0x00
+      0006E6                       1378 00107$:
+      0006E6 C8               [12] 1379 	xch	a,r0
+      0006E7 E5 81            [12] 1380 	mov	a,sp
+      0006E9 24 FC            [12] 1381 	add	a,#0xFC
+      0006EB F5 81            [12] 1382 	mov	sp,a
+      0006ED C8               [12] 1383 	xch	a,r0
+      0006EE 22               [24] 1384 	ret
+                                   1385 	.area CSEG    (CODE)
+                                   1386 	.area CONST   (CODE)
+                                   1387 	.area XINIT   (CODE)
+      000000                       1388 __xinit__route_table_list:
+                                   1389 ; generic printIvalPtr
+      000000 00 00 00              1390 	.byte #0x00,#0x00,#0x00
+      000003                       1391 __xinit__route_table:
+      000003r00s00 00              1392 	.byte _route_table_list,(_route_table_list >> 8),#0x00
+      000006                       1393 __xinit__route_mem:
+      000006 0C 00                 1394 	.byte #0x0C,#0x00	; 12
+      000008 08 00                 1395 	.byte #0x08,#0x00	; 8
+      00000Ar00s00 00              1396 	.byte _route_mem_memb_count,(_route_mem_memb_count >> 8),#0x00
+      00000Dr08s00 00              1397 	.byte _route_mem_memb_mem,(_route_mem_memb_mem >> 8),#0x00
+      000010                       1398 __xinit__max_time:
+      000010 3C 00                 1399 	.byte #0x3C,#0x00	;  60
+                                   1400 	.area CABS    (ABS,CODE)

@@ -1,0 +1,1155 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Oct 24 2015) (Linux)
+                                      4 ; This file was generated Sun Oct 25 01:52:00 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module netflood
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _netflood_cancel
+                                     13 	.globl _ipolite_cancel
+                                     14 	.globl _ipolite_send
+                                     15 	.globl _ipolite_close
+                                     16 	.globl _ipolite_open
+                                     17 	.globl _queuebuf_free
+                                     18 	.globl _queuebuf_to_packetbuf
+                                     19 	.globl _queuebuf_new_from_packetbuf
+                                     20 	.globl _packetbuf_hdrreduce
+                                     21 	.globl _packetbuf_hdralloc
+                                     22 	.globl _packetbuf_hdrptr
+                                     23 	.globl _packetbuf_dataptr
+                                     24 	.globl _rimeaddr_cmp
+                                     25 	.globl _rimeaddr_copy
+                                     26 	.globl _memcpy
+                                     27 	.globl _netflood_open
+                                     28 	.globl _netflood_close
+                                     29 	.globl _netflood_send
+                                     30 ;--------------------------------------------------------
+                                     31 ; special function registers
+                                     32 ;--------------------------------------------------------
+                                     33 	.area RSEG    (ABS,DATA)
+      000000                         34 	.org 0x0000
+                                     35 ;--------------------------------------------------------
+                                     36 ; special function bits
+                                     37 ;--------------------------------------------------------
+                                     38 	.area RSEG    (ABS,DATA)
+      000000                         39 	.org 0x0000
+                                     40 ;--------------------------------------------------------
+                                     41 ; overlayable register banks
+                                     42 ;--------------------------------------------------------
+                                     43 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         44 	.ds 8
+                                     45 ;--------------------------------------------------------
+                                     46 ; internal ram data
+                                     47 ;--------------------------------------------------------
+                                     48 	.area DSEG    (DATA)
+                                     49 ;--------------------------------------------------------
+                                     50 ; overlayable items in internal ram 
+                                     51 ;--------------------------------------------------------
+                                     52 ;--------------------------------------------------------
+                                     53 ; indirectly addressable internal ram data
+                                     54 ;--------------------------------------------------------
+                                     55 	.area ISEG    (DATA)
+                                     56 ;--------------------------------------------------------
+                                     57 ; absolute internal ram data
+                                     58 ;--------------------------------------------------------
+                                     59 	.area IABS    (ABS,DATA)
+                                     60 	.area IABS    (ABS,DATA)
+                                     61 ;--------------------------------------------------------
+                                     62 ; bit data
+                                     63 ;--------------------------------------------------------
+                                     64 	.area BSEG    (BIT)
+                                     65 ;--------------------------------------------------------
+                                     66 ; paged external ram data
+                                     67 ;--------------------------------------------------------
+                                     68 	.area PSEG    (PAG,XDATA)
+                                     69 ;--------------------------------------------------------
+                                     70 ; external ram data
+                                     71 ;--------------------------------------------------------
+                                     72 	.area XSEG    (XDATA)
+                                     73 ;--------------------------------------------------------
+                                     74 ; absolute external ram data
+                                     75 ;--------------------------------------------------------
+                                     76 	.area XABS    (ABS,XDATA)
+                                     77 ;--------------------------------------------------------
+                                     78 ; external initialized ram data
+                                     79 ;--------------------------------------------------------
+                                     80 	.area XISEG   (XDATA)
+                                     81 	.area HOME    (CODE)
+                                     82 	.area GSINIT0 (CODE)
+                                     83 	.area GSINIT1 (CODE)
+                                     84 	.area GSINIT2 (CODE)
+                                     85 	.area GSINIT3 (CODE)
+                                     86 	.area GSINIT4 (CODE)
+                                     87 	.area GSINIT5 (CODE)
+                                     88 	.area GSINIT  (CODE)
+                                     89 	.area GSFINAL (CODE)
+                                     90 	.area CSEG    (CODE)
+                                     91 ;--------------------------------------------------------
+                                     92 ; global & static initialisations
+                                     93 ;--------------------------------------------------------
+                                     94 	.area HOME    (CODE)
+                                     95 	.area GSINIT  (CODE)
+                                     96 	.area GSFINAL (CODE)
+                                     97 	.area GSINIT  (CODE)
+                                     98 ;--------------------------------------------------------
+                                     99 ; Home
+                                    100 ;--------------------------------------------------------
+                                    101 	.area HOME    (CODE)
+                                    102 	.area HOME    (CODE)
+                                    103 ;--------------------------------------------------------
+                                    104 ; code
+                                    105 ;--------------------------------------------------------
+                                    106 	.area CSEG    (CODE)
+                                    107 ;------------------------------------------------------------
+                                    108 ;Allocation info for local variables in function 'send'
+                                    109 ;------------------------------------------------------------
+                                    110 ;c                         Allocated to registers r5 r6 r7 
+                                    111 ;------------------------------------------------------------
+                                    112 ;	../contiki-sensinode/core/net/rime/netflood.c:67: send(struct netflood_conn *c)
+                                    113 ;	-----------------------------------------
+                                    114 ;	 function send
+                                    115 ;	-----------------------------------------
+      000000                        116 _send:
+                           000007   117 	ar7 = 0x07
+                           000006   118 	ar6 = 0x06
+                           000005   119 	ar5 = 0x05
+                           000004   120 	ar4 = 0x04
+                           000003   121 	ar3 = 0x03
+                           000002   122 	ar2 = 0x02
+                           000001   123 	ar1 = 0x01
+                           000000   124 	ar0 = 0x00
+      000000 AD 82            [24]  125 	mov	r5,dpl
+      000002 AE 83            [24]  126 	mov	r6,dph
+      000004 AF F0            [24]  127 	mov	r7,b
+                                    128 ;	../contiki-sensinode/core/net/rime/netflood.c:71: return ipolite_send(&c->c, c->queue_time, 4);
+      000006 74 30            [12]  129 	mov	a,#0x30
+      000008 2D               [12]  130 	add	a,r5
+      000009 FA               [12]  131 	mov	r2,a
+      00000A E4               [12]  132 	clr	a
+      00000B 3E               [12]  133 	addc	a,r6
+      00000C FB               [12]  134 	mov	r3,a
+      00000D 8F 04            [24]  135 	mov	ar4,r7
+      00000F 8A 82            [24]  136 	mov	dpl,r2
+      000011 8B 83            [24]  137 	mov	dph,r3
+      000013 8C F0            [24]  138 	mov	b,r4
+      000015 12r00r00         [24]  139 	lcall	__gptrget
+      000018 FA               [12]  140 	mov	r2,a
+      000019 A3               [24]  141 	inc	dptr
+      00001A 12r00r00         [24]  142 	lcall	__gptrget
+      00001D FB               [12]  143 	mov	r3,a
+      00001E 74 04            [12]  144 	mov	a,#0x04
+      000020 C0 E0            [24]  145 	push	acc
+      000022 C0 02            [24]  146 	push	ar2
+      000024 C0 03            [24]  147 	push	ar3
+      000026 8D 82            [24]  148 	mov	dpl,r5
+      000028 8E 83            [24]  149 	mov	dph,r6
+      00002A 8F F0            [24]  150 	mov	b,r7
+      00002C 12r00r00         [24]  151 	lcall	_ipolite_send
+      00002F AE 82            [24]  152 	mov	r6,dpl
+      000031 AF 83            [24]  153 	mov	r7,dph
+      000033 15 81            [12]  154 	dec	sp
+      000035 15 81            [12]  155 	dec	sp
+      000037 15 81            [12]  156 	dec	sp
+      000039 8E 82            [24]  157 	mov	dpl,r6
+      00003B 8F 83            [24]  158 	mov	dph,r7
+      00003D 22               [24]  159 	ret
+                                    160 ;------------------------------------------------------------
+                                    161 ;Allocation info for local variables in function 'recv_from_ipolite'
+                                    162 ;------------------------------------------------------------
+                                    163 ;from                      Allocated to stack - sp -21
+                                    164 ;ipolite                   Allocated to registers r5 r6 r7 
+                                    165 ;c                         Allocated to stack - sp -12
+                                    166 ;hdr                       Allocated to stack - sp -9
+                                    167 ;hops                      Allocated to stack - sp -3
+                                    168 ;queuebuf                  Allocated to stack - sp -2
+                                    169 ;sloc0                     Allocated to stack - sp -16
+                                    170 ;sloc1                     Allocated to stack - sp -13
+                                    171 ;------------------------------------------------------------
+                                    172 ;	../contiki-sensinode/core/net/rime/netflood.c:75: recv_from_ipolite(struct ipolite_conn *ipolite, const rimeaddr_t *from)
+                                    173 ;	-----------------------------------------
+                                    174 ;	 function recv_from_ipolite
+                                    175 ;	-----------------------------------------
+      00003E                        176 _recv_from_ipolite:
+      00003E E5 81            [12]  177 	mov	a,sp
+      000040 24 11            [12]  178 	add	a,#0x11
+      000042 F5 81            [12]  179 	mov	sp,a
+      000044 AD 82            [24]  180 	mov	r5,dpl
+      000046 AE 83            [24]  181 	mov	r6,dph
+      000048 AF F0            [24]  182 	mov	r7,b
+                                    183 ;	../contiki-sensinode/core/net/rime/netflood.c:77: struct netflood_conn *c = (struct netflood_conn *)ipolite;
+      00004A E5 81            [12]  184 	mov	a,sp
+      00004C 24 F4            [12]  185 	add	a,#0xf4
+      00004E F8               [12]  186 	mov	r0,a
+      00004F A6 05            [24]  187 	mov	@r0,ar5
+      000051 08               [12]  188 	inc	r0
+      000052 A6 06            [24]  189 	mov	@r0,ar6
+      000054 08               [12]  190 	inc	r0
+      000055 A6 07            [24]  191 	mov	@r0,ar7
+                                    192 ;	../contiki-sensinode/core/net/rime/netflood.c:82: memcpy(&hdr, packetbuf_dataptr(), sizeof(struct netflood_hdr));
+      000057 12r00r00         [24]  193 	lcall	_packetbuf_dataptr
+      00005A AA 82            [24]  194 	mov	r2,dpl
+      00005C AB 83            [24]  195 	mov	r3,dph
+      00005E AC F0            [24]  196 	mov	r4,b
+      000060 E5 81            [12]  197 	mov	a,sp
+      000062 24 F7            [12]  198 	add	a,#0xF7
+      000064 F9               [12]  199 	mov	r1,a
+      000065 FD               [12]  200 	mov	r5,a
+      000066 7E 00            [12]  201 	mov	r6,#0x00
+      000068 7F 40            [12]  202 	mov	r7,#0x40
+      00006A C0 01            [24]  203 	push	ar1
+      00006C 74 06            [12]  204 	mov	a,#0x06
+      00006E C0 E0            [24]  205 	push	acc
+      000070 E4               [12]  206 	clr	a
+      000071 C0 E0            [24]  207 	push	acc
+      000073 C0 02            [24]  208 	push	ar2
+      000075 C0 03            [24]  209 	push	ar3
+      000077 C0 04            [24]  210 	push	ar4
+      000079 8D 82            [24]  211 	mov	dpl,r5
+      00007B 8E 83            [24]  212 	mov	dph,r6
+      00007D 8F F0            [24]  213 	mov	b,r7
+      00007F 12r00r00         [24]  214 	lcall	_memcpy
+      000082 E5 81            [12]  215 	mov	a,sp
+      000084 24 FB            [12]  216 	add	a,#0xfb
+      000086 F5 81            [12]  217 	mov	sp,a
+      000088 D0 01            [24]  218 	pop	ar1
+                                    219 ;	../contiki-sensinode/core/net/rime/netflood.c:83: hops = hdr.hops;
+      00008A 74 04            [12]  220 	mov	a,#0x04
+      00008C 29               [12]  221 	add	a,r1
+      00008D F8               [12]  222 	mov	r0,a
+      00008E 86 06            [24]  223 	mov	ar6,@r0
+      000090 08               [12]  224 	inc	r0
+      000091 86 07            [24]  225 	mov	ar7,@r0
+      000093 18               [12]  226 	dec	r0
+      000094 C0 00            [24]  227 	push	ar0
+      000096 E5 81            [12]  228 	mov	a,sp
+      000098 24 FC            [12]  229 	add	a,#0xfc
+      00009A F8               [12]  230 	mov	r0,a
+      00009B A6 06            [24]  231 	mov	@r0,ar6
+      00009D D0 00            [24]  232 	pop	ar0
+                                    233 ;	../contiki-sensinode/core/net/rime/netflood.c:86: queuebuf = queuebuf_new_from_packetbuf();
+      00009F C0 01            [24]  234 	push	ar1
+      0000A1 C0 00            [24]  235 	push	ar0
+      0000A3 12r00r00         [24]  236 	lcall	_queuebuf_new_from_packetbuf
+      0000A6 AC 82            [24]  237 	mov	r4,dpl
+      0000A8 AD 83            [24]  238 	mov	r5,dph
+      0000AA AF F0            [24]  239 	mov	r7,b
+      0000AC D0 00            [24]  240 	pop	ar0
+      0000AE D0 01            [24]  241 	pop	ar1
+      0000B0 C0 00            [24]  242 	push	ar0
+      0000B2 E5 81            [12]  243 	mov	a,sp
+      0000B4 24 FD            [12]  244 	add	a,#0xfd
+      0000B6 F8               [12]  245 	mov	r0,a
+      0000B7 A6 04            [24]  246 	mov	@r0,ar4
+      0000B9 08               [12]  247 	inc	r0
+      0000BA A6 05            [24]  248 	mov	@r0,ar5
+      0000BC 08               [12]  249 	inc	r0
+      0000BD A6 07            [24]  250 	mov	@r0,ar7
+      0000BF D0 00            [24]  251 	pop	ar0
+                                    252 ;	../contiki-sensinode/core/net/rime/netflood.c:88: packetbuf_hdrreduce(sizeof(struct netflood_hdr));
+      0000C1 90 00 06         [24]  253 	mov	dptr,#0x0006
+      0000C4 C0 01            [24]  254 	push	ar1
+      0000C6 C0 00            [24]  255 	push	ar0
+      0000C8 12r00r00         [24]  256 	lcall	_packetbuf_hdrreduce
+      0000CB D0 00            [24]  257 	pop	ar0
+      0000CD D0 01            [24]  258 	pop	ar1
+                                    259 ;	../contiki-sensinode/core/net/rime/netflood.c:89: if(c->u->recv != NULL) {
+      0000CF C0 00            [24]  260 	push	ar0
+      0000D1 E5 81            [12]  261 	mov	a,sp
+      0000D3 24 F3            [12]  262 	add	a,#0xf3
+      0000D5 F8               [12]  263 	mov	r0,a
+      0000D6 C0 01            [24]  264 	push	ar1
+      0000D8 E5 81            [12]  265 	mov	a,sp
+      0000DA 24 EE            [12]  266 	add	a,#0xee
+      0000DC F9               [12]  267 	mov	r1,a
+      0000DD 74 2D            [12]  268 	mov	a,#0x2D
+      0000DF 26               [12]  269 	add	a,@r0
+      0000E0 F7               [12]  270 	mov	@r1,a
+      0000E1 E4               [12]  271 	clr	a
+      0000E2 08               [12]  272 	inc	r0
+      0000E3 36               [12]  273 	addc	a,@r0
+      0000E4 09               [12]  274 	inc	r1
+      0000E5 F7               [12]  275 	mov	@r1,a
+      0000E6 08               [12]  276 	inc	r0
+      0000E7 09               [12]  277 	inc	r1
+      0000E8 E6               [12]  278 	mov	a,@r0
+      0000E9 F7               [12]  279 	mov	@r1,a
+      0000EA D0 01            [24]  280 	pop	ar1
+      0000EC E5 81            [12]  281 	mov	a,sp
+      0000EE 24 EF            [12]  282 	add	a,#0xef
+      0000F0 F8               [12]  283 	mov	r0,a
+      0000F1 86 82            [24]  284 	mov	dpl,@r0
+      0000F3 08               [12]  285 	inc	r0
+      0000F4 86 83            [24]  286 	mov	dph,@r0
+      0000F6 08               [12]  287 	inc	r0
+      0000F7 86 F0            [24]  288 	mov	b,@r0
+      0000F9 12r00r00         [24]  289 	lcall	__gptrget
+      0000FC FA               [12]  290 	mov	r2,a
+      0000FD A3               [24]  291 	inc	dptr
+      0000FE 12r00r00         [24]  292 	lcall	__gptrget
+      000101 FB               [12]  293 	mov	r3,a
+      000102 A3               [24]  294 	inc	dptr
+      000103 12r00r00         [24]  295 	lcall	__gptrget
+      000106 FE               [12]  296 	mov	r6,a
+      000107 D0 00            [24]  297 	pop	ar0
+      000109 8A 82            [24]  298 	mov	dpl,r2
+      00010B 8B 83            [24]  299 	mov	dph,r3
+      00010D 8E F0            [24]  300 	mov	b,r6
+      00010F 12r00r00         [24]  301 	lcall	__gptrget
+      000112 FA               [12]  302 	mov	r2,a
+      000113 A3               [24]  303 	inc	dptr
+      000114 12r00r00         [24]  304 	lcall	__gptrget
+      000117 FB               [12]  305 	mov	r3,a
+      000118 4A               [12]  306 	orl	a,r2
+      000119 70 03            [24]  307 	jnz	00134$
+      00011B 02r03r97         [24]  308 	ljmp	00111$
+      00011E                        309 00134$:
+                                    310 ;	../contiki-sensinode/core/net/rime/netflood.c:90: if(!(rimeaddr_cmp(&hdr.originator, &c->last_originator) &&
+      00011E C0 00            [24]  311 	push	ar0
+      000120 C0 00            [24]  312 	push	ar0
+      000122 E5 81            [12]  313 	mov	a,sp
+      000124 24 F2            [12]  314 	add	a,#0xf2
+      000126 F8               [12]  315 	mov	r0,a
+      000127 74 32            [12]  316 	mov	a,#0x32
+      000129 26               [12]  317 	add	a,@r0
+      00012A FA               [12]  318 	mov	r2,a
+      00012B E4               [12]  319 	clr	a
+      00012C 08               [12]  320 	inc	r0
+      00012D 36               [12]  321 	addc	a,@r0
+      00012E FB               [12]  322 	mov	r3,a
+      00012F 08               [12]  323 	inc	r0
+      000130 86 06            [24]  324 	mov	ar6,@r0
+      000132 E5 81            [12]  325 	mov	a,sp
+      000134 24 F1            [12]  326 	add	a,#0xf1
+      000136 F8               [12]  327 	mov	r0,a
+      000137 74 02            [12]  328 	mov	a,#0x02
+      000139 29               [12]  329 	add	a,r1
+      00013A F6               [12]  330 	mov	@r0,a
+      00013B E5 81            [12]  331 	mov	a,sp
+      00013D 24 F1            [12]  332 	add	a,#0xf1
+      00013F F8               [12]  333 	mov	r0,a
+      000140 86 04            [24]  334 	mov	ar4,@r0
+      000142 7D 00            [12]  335 	mov	r5,#0x00
+      000144 7F 40            [12]  336 	mov	r7,#0x40
+      000146 D0 00            [24]  337 	pop	ar0
+      000148 C0 01            [24]  338 	push	ar1
+      00014A C0 00            [24]  339 	push	ar0
+      00014C C0 02            [24]  340 	push	ar2
+      00014E C0 03            [24]  341 	push	ar3
+      000150 C0 06            [24]  342 	push	ar6
+      000152 8C 82            [24]  343 	mov	dpl,r4
+      000154 8D 83            [24]  344 	mov	dph,r5
+      000156 8F F0            [24]  345 	mov	b,r7
+      000158 12r00r00         [24]  346 	lcall	_rimeaddr_cmp
+      00015B AE 82            [24]  347 	mov	r6,dpl
+      00015D AF 83            [24]  348 	mov	r7,dph
+      00015F 15 81            [12]  349 	dec	sp
+      000161 15 81            [12]  350 	dec	sp
+      000163 15 81            [12]  351 	dec	sp
+      000165 D0 00            [24]  352 	pop	ar0
+      000167 D0 01            [24]  353 	pop	ar1
+      000169 D0 00            [24]  354 	pop	ar0
+      00016B EE               [12]  355 	mov	a,r6
+      00016C 4F               [12]  356 	orl	a,r7
+      00016D 60 30            [24]  357 	jz	00107$
+                                    358 ;	../contiki-sensinode/core/net/rime/netflood.c:91: hdr.originator_seqno <= c->last_originator_seqno)) {
+      00016F 87 06            [24]  359 	mov	ar6,@r1
+      000171 09               [12]  360 	inc	r1
+      000172 87 07            [24]  361 	mov	ar7,@r1
+      000174 19               [12]  362 	dec	r1
+      000175 C0 00            [24]  363 	push	ar0
+      000177 E5 81            [12]  364 	mov	a,sp
+      000179 24 F3            [12]  365 	add	a,#0xf3
+      00017B F8               [12]  366 	mov	r0,a
+      00017C 74 34            [12]  367 	mov	a,#0x34
+      00017E 26               [12]  368 	add	a,@r0
+      00017F FB               [12]  369 	mov	r3,a
+      000180 E4               [12]  370 	clr	a
+      000181 08               [12]  371 	inc	r0
+      000182 36               [12]  372 	addc	a,@r0
+      000183 FC               [12]  373 	mov	r4,a
+      000184 08               [12]  374 	inc	r0
+      000185 86 05            [24]  375 	mov	ar5,@r0
+      000187 D0 00            [24]  376 	pop	ar0
+      000189 8B 82            [24]  377 	mov	dpl,r3
+      00018B 8C 83            [24]  378 	mov	dph,r4
+      00018D 8D F0            [24]  379 	mov	b,r5
+      00018F 12r00r00         [24]  380 	lcall	__gptrget
+      000192 FB               [12]  381 	mov	r3,a
+      000193 7D 00            [12]  382 	mov	r5,#0x00
+      000195 C3               [12]  383 	clr	c
+      000196 EB               [12]  384 	mov	a,r3
+      000197 9E               [12]  385 	subb	a,r6
+      000198 ED               [12]  386 	mov	a,r5
+      000199 9F               [12]  387 	subb	a,r7
+      00019A 40 03            [24]  388 	jc	00136$
+      00019C 02r03r97         [24]  389 	ljmp	00111$
+      00019F                        390 00136$:
+      00019F                        391 00107$:
+                                    392 ;	../contiki-sensinode/core/net/rime/netflood.c:93: if(c->u->recv(c, from, &hdr.originator, hdr.originator_seqno,
+      00019F C0 00            [24]  393 	push	ar0
+      0001A1 E5 81            [12]  394 	mov	a,sp
+      0001A3 24 EF            [12]  395 	add	a,#0xef
+      0001A5 F8               [12]  396 	mov	r0,a
+      0001A6 86 82            [24]  397 	mov	dpl,@r0
+      0001A8 08               [12]  398 	inc	r0
+      0001A9 86 83            [24]  399 	mov	dph,@r0
+      0001AB 08               [12]  400 	inc	r0
+      0001AC 86 F0            [24]  401 	mov	b,@r0
+      0001AE 12r00r00         [24]  402 	lcall	__gptrget
+      0001B1 FD               [12]  403 	mov	r5,a
+      0001B2 A3               [24]  404 	inc	dptr
+      0001B3 12r00r00         [24]  405 	lcall	__gptrget
+      0001B6 FE               [12]  406 	mov	r6,a
+      0001B7 A3               [24]  407 	inc	dptr
+      0001B8 12r00r00         [24]  408 	lcall	__gptrget
+      0001BB FF               [12]  409 	mov	r7,a
+      0001BC 8D 82            [24]  410 	mov	dpl,r5
+      0001BE 8E 83            [24]  411 	mov	dph,r6
+      0001C0 8F F0            [24]  412 	mov	b,r7
+      0001C2 12r00r00         [24]  413 	lcall	__gptrget
+      0001C5 FD               [12]  414 	mov	r5,a
+      0001C6 A3               [24]  415 	inc	dptr
+      0001C7 12r00r00         [24]  416 	lcall	__gptrget
+      0001CA FE               [12]  417 	mov	r6,a
+      0001CB 87 04            [24]  418 	mov	ar4,@r1
+      0001CD 09               [12]  419 	inc	r1
+      0001CE 87 07            [24]  420 	mov	ar7,@r1
+      0001D0 19               [12]  421 	dec	r1
+      0001D1 E5 81            [12]  422 	mov	a,sp
+      0001D3 24 F2            [12]  423 	add	a,#0xf2
+      0001D5 F8               [12]  424 	mov	r0,a
+      0001D6 86 07            [24]  425 	mov	ar7,@r0
+      0001D8 D0 00            [24]  426 	pop	ar0
+      0001DA 7B 00            [12]  427 	mov	r3,#0x00
+      0001DC 7A 40            [12]  428 	mov	r2,#0x40
+      0001DE C0 01            [24]  429 	push	ar1
+      0001E0 C0 00            [24]  430 	push	ar0
+      0001E2 85 00 F0         [24]  431 	mov	b,ar0
+      0001E5 E5 81            [12]  432 	mov	a,sp
+      0001E7 24 FB            [12]  433 	add	a,#0xfb
+      0001E9 F8               [12]  434 	mov	r0,a
+      0001EA E6               [12]  435 	mov	a,@r0
+      0001EB C0 E0            [24]  436 	push	acc
+      0001ED A8 F0            [24]  437 	mov	r0,b
+      0001EF C0 04            [24]  438 	push	ar4
+      0001F1 C0 07            [24]  439 	push	ar7
+      0001F3 C0 03            [24]  440 	push	ar3
+      0001F5 C0 02            [24]  441 	push	ar2
+      0001F7 85 00 F0         [24]  442 	mov	b,ar0
+      0001FA E5 81            [12]  443 	mov	a,sp
+      0001FC 24 E4            [12]  444 	add	a,#0xe4
+      0001FE F8               [12]  445 	mov	r0,a
+      0001FF E6               [12]  446 	mov	a,@r0
+      000200 C0 E0            [24]  447 	push	acc
+      000202 08               [12]  448 	inc	r0
+      000203 E6               [12]  449 	mov	a,@r0
+      000204 C0 E0            [24]  450 	push	acc
+      000206 08               [12]  451 	inc	r0
+      000207 E6               [12]  452 	mov	a,@r0
+      000208 C0 E0            [24]  453 	push	acc
+      00020A A8 F0            [24]  454 	mov	r0,b
+      00020C 12r02r11         [24]  455 	lcall	00137$
+      00020F 80 16            [24]  456 	sjmp	00138$
+      000211                        457 00137$:
+      000211 C0 05            [24]  458 	push	ar5
+      000213 C0 06            [24]  459 	push	ar6
+      000215 C0 00            [24]  460 	push	ar0
+      000217 E5 81            [12]  461 	mov	a,sp
+      000219 24 E5            [12]  462 	add	a,#0xe5
+      00021B F8               [12]  463 	mov	r0,a
+      00021C 86 82            [24]  464 	mov	dpl,@r0
+      00021E 08               [12]  465 	inc	r0
+      00021F 86 83            [24]  466 	mov	dph,@r0
+      000221 08               [12]  467 	inc	r0
+      000222 86 F0            [24]  468 	mov	b,@r0
+      000224 D0 00            [24]  469 	pop	ar0
+      000226 22               [24]  470 	ret
+      000227                        471 00138$:
+      000227 AD 82            [24]  472 	mov	r5,dpl
+      000229 AE 83            [24]  473 	mov	r6,dph
+      00022B E5 81            [12]  474 	mov	a,sp
+      00022D 24 F8            [12]  475 	add	a,#0xf8
+      00022F F5 81            [12]  476 	mov	sp,a
+      000231 D0 00            [24]  477 	pop	ar0
+      000233 D0 01            [24]  478 	pop	ar1
+      000235 ED               [12]  479 	mov	a,r5
+      000236 4E               [12]  480 	orl	a,r6
+      000237 70 03            [24]  481 	jnz	00139$
+      000239 02r03r97         [24]  482 	ljmp	00111$
+      00023C                        483 00139$:
+                                    484 ;	../contiki-sensinode/core/net/rime/netflood.c:96: if(queuebuf != NULL) {
+      00023C C0 00            [24]  485 	push	ar0
+      00023E E5 81            [12]  486 	mov	a,sp
+      000240 24 FD            [12]  487 	add	a,#0xfd
+      000242 F8               [12]  488 	mov	r0,a
+      000243 E6               [12]  489 	mov	a,@r0
+      000244 08               [12]  490 	inc	r0
+      000245 46               [12]  491 	orl	a,@r0
+      000246 D0 00            [24]  492 	pop	ar0
+      000248 70 03            [24]  493 	jnz	00140$
+      00024A 02r03r97         [24]  494 	ljmp	00111$
+      00024D                        495 00140$:
+                                    496 ;	../contiki-sensinode/core/net/rime/netflood.c:97: queuebuf_to_packetbuf(queuebuf);
+      00024D C0 00            [24]  497 	push	ar0
+      00024F E5 81            [12]  498 	mov	a,sp
+      000251 24 FD            [12]  499 	add	a,#0xfd
+      000253 F8               [12]  500 	mov	r0,a
+      000254 86 82            [24]  501 	mov	dpl,@r0
+      000256 08               [12]  502 	inc	r0
+      000257 86 83            [24]  503 	mov	dph,@r0
+      000259 08               [12]  504 	inc	r0
+      00025A 86 F0            [24]  505 	mov	b,@r0
+      00025C D0 00            [24]  506 	pop	ar0
+      00025E C0 01            [24]  507 	push	ar1
+      000260 C0 00            [24]  508 	push	ar0
+      000262 12r00r00         [24]  509 	lcall	_queuebuf_to_packetbuf
+      000265 D0 00            [24]  510 	pop	ar0
+      000267 D0 01            [24]  511 	pop	ar1
+                                    512 ;	../contiki-sensinode/core/net/rime/netflood.c:98: queuebuf_free(queuebuf);
+      000269 C0 00            [24]  513 	push	ar0
+      00026B E5 81            [12]  514 	mov	a,sp
+      00026D 24 FD            [12]  515 	add	a,#0xfd
+      00026F F8               [12]  516 	mov	r0,a
+      000270 86 82            [24]  517 	mov	dpl,@r0
+      000272 08               [12]  518 	inc	r0
+      000273 86 83            [24]  519 	mov	dph,@r0
+      000275 08               [12]  520 	inc	r0
+      000276 86 F0            [24]  521 	mov	b,@r0
+      000278 D0 00            [24]  522 	pop	ar0
+      00027A C0 01            [24]  523 	push	ar1
+      00027C C0 00            [24]  524 	push	ar0
+      00027E 12r00r00         [24]  525 	lcall	_queuebuf_free
+      000281 D0 00            [24]  526 	pop	ar0
+      000283 D0 01            [24]  527 	pop	ar1
+                                    528 ;	../contiki-sensinode/core/net/rime/netflood.c:99: queuebuf = NULL;
+      000285 C0 00            [24]  529 	push	ar0
+      000287 E5 81            [12]  530 	mov	a,sp
+      000289 24 FD            [12]  531 	add	a,#0xfd
+      00028B F8               [12]  532 	mov	r0,a
+      00028C E4               [12]  533 	clr	a
+      00028D F6               [12]  534 	mov	@r0,a
+      00028E 08               [12]  535 	inc	r0
+      00028F F6               [12]  536 	mov	@r0,a
+      000290 08               [12]  537 	inc	r0
+      000291 76 00            [12]  538 	mov	@r0,#0x00
+      000293 D0 00            [24]  539 	pop	ar0
+                                    540 ;	../contiki-sensinode/core/net/rime/netflood.c:100: memcpy(&hdr, packetbuf_dataptr(), sizeof(struct netflood_hdr));
+      000295 C0 01            [24]  541 	push	ar1
+      000297 C0 00            [24]  542 	push	ar0
+      000299 12r00r00         [24]  543 	lcall	_packetbuf_dataptr
+      00029C AD 82            [24]  544 	mov	r5,dpl
+      00029E AE 83            [24]  545 	mov	r6,dph
+      0002A0 AF F0            [24]  546 	mov	r7,b
+      0002A2 D0 00            [24]  547 	pop	ar0
+      0002A4 D0 01            [24]  548 	pop	ar1
+      0002A6 89 04            [24]  549 	mov	ar4,r1
+      0002A8 7B 00            [12]  550 	mov	r3,#0x00
+      0002AA 7A 40            [12]  551 	mov	r2,#0x40
+      0002AC C0 01            [24]  552 	push	ar1
+      0002AE C0 00            [24]  553 	push	ar0
+      0002B0 74 06            [12]  554 	mov	a,#0x06
+      0002B2 C0 E0            [24]  555 	push	acc
+      0002B4 E4               [12]  556 	clr	a
+      0002B5 C0 E0            [24]  557 	push	acc
+      0002B7 C0 05            [24]  558 	push	ar5
+      0002B9 C0 06            [24]  559 	push	ar6
+      0002BB C0 07            [24]  560 	push	ar7
+      0002BD 8C 82            [24]  561 	mov	dpl,r4
+      0002BF 8B 83            [24]  562 	mov	dph,r3
+      0002C1 8A F0            [24]  563 	mov	b,r2
+      0002C3 12r00r00         [24]  564 	lcall	_memcpy
+      0002C6 E5 81            [12]  565 	mov	a,sp
+      0002C8 24 FB            [12]  566 	add	a,#0xfb
+      0002CA F5 81            [12]  567 	mov	sp,a
+      0002CC D0 00            [24]  568 	pop	ar0
+      0002CE D0 01            [24]  569 	pop	ar1
+                                    570 ;	../contiki-sensinode/core/net/rime/netflood.c:103: if(hops < HOPS_MAX) {
+      0002D0 C0 00            [24]  571 	push	ar0
+      0002D2 E5 81            [12]  572 	mov	a,sp
+      0002D4 24 FC            [12]  573 	add	a,#0xfc
+      0002D6 F8               [12]  574 	mov	r0,a
+      0002D7 B6 10 00         [24]  575 	cjne	@r0,#0x10,00141$
+      0002DA                        576 00141$:
+      0002DA D0 00            [24]  577 	pop	ar0
+      0002DC 40 03            [24]  578 	jc	00142$
+      0002DE 02r03r97         [24]  579 	ljmp	00111$
+      0002E1                        580 00142$:
+                                    581 ;	../contiki-sensinode/core/net/rime/netflood.c:111: hdr.hops++;
+      0002E1 86 06            [24]  582 	mov	ar6,@r0
+      0002E3 08               [12]  583 	inc	r0
+      0002E4 86 07            [24]  584 	mov	ar7,@r0
+      0002E6 18               [12]  585 	dec	r0
+      0002E7 0E               [12]  586 	inc	r6
+      0002E8 BE 00 01         [24]  587 	cjne	r6,#0x00,00143$
+      0002EB 0F               [12]  588 	inc	r7
+      0002EC                        589 00143$:
+      0002EC A6 06            [24]  590 	mov	@r0,ar6
+      0002EE 08               [12]  591 	inc	r0
+      0002EF A6 07            [24]  592 	mov	@r0,ar7
+                                    593 ;	../contiki-sensinode/core/net/rime/netflood.c:112: memcpy(packetbuf_dataptr(), &hdr, sizeof(struct netflood_hdr));
+      0002F1 89 07            [24]  594 	mov	ar7,r1
+      0002F3 7E 00            [12]  595 	mov	r6,#0x00
+      0002F5 7D 40            [12]  596 	mov	r5,#0x40
+      0002F7 C0 07            [24]  597 	push	ar7
+      0002F9 C0 06            [24]  598 	push	ar6
+      0002FB C0 05            [24]  599 	push	ar5
+      0002FD C0 01            [24]  600 	push	ar1
+      0002FF 12r00r00         [24]  601 	lcall	_packetbuf_dataptr
+      000302 AA 82            [24]  602 	mov	r2,dpl
+      000304 AB 83            [24]  603 	mov	r3,dph
+      000306 AC F0            [24]  604 	mov	r4,b
+      000308 D0 01            [24]  605 	pop	ar1
+      00030A D0 05            [24]  606 	pop	ar5
+      00030C D0 06            [24]  607 	pop	ar6
+      00030E D0 07            [24]  608 	pop	ar7
+      000310 C0 01            [24]  609 	push	ar1
+      000312 74 06            [12]  610 	mov	a,#0x06
+      000314 C0 E0            [24]  611 	push	acc
+      000316 E4               [12]  612 	clr	a
+      000317 C0 E0            [24]  613 	push	acc
+      000319 C0 07            [24]  614 	push	ar7
+      00031B C0 06            [24]  615 	push	ar6
+      00031D C0 05            [24]  616 	push	ar5
+      00031F 8A 82            [24]  617 	mov	dpl,r2
+      000321 8B 83            [24]  618 	mov	dph,r3
+      000323 8C F0            [24]  619 	mov	b,r4
+      000325 12r00r00         [24]  620 	lcall	_memcpy
+      000328 E5 81            [12]  621 	mov	a,sp
+      00032A 24 FB            [12]  622 	add	a,#0xfb
+      00032C F5 81            [12]  623 	mov	sp,a
+      00032E D0 01            [24]  624 	pop	ar1
+                                    625 ;	../contiki-sensinode/core/net/rime/netflood.c:113: send(c);
+      000330 E5 81            [12]  626 	mov	a,sp
+      000332 24 F4            [12]  627 	add	a,#0xf4
+      000334 F8               [12]  628 	mov	r0,a
+      000335 86 82            [24]  629 	mov	dpl,@r0
+      000337 08               [12]  630 	inc	r0
+      000338 86 83            [24]  631 	mov	dph,@r0
+      00033A 08               [12]  632 	inc	r0
+      00033B 86 F0            [24]  633 	mov	b,@r0
+      00033D C0 01            [24]  634 	push	ar1
+      00033F 12r00r00         [24]  635 	lcall	_send
+      000342 D0 01            [24]  636 	pop	ar1
+                                    637 ;	../contiki-sensinode/core/net/rime/netflood.c:114: rimeaddr_copy(&c->last_originator, &hdr.originator);
+      000344 E5 81            [12]  638 	mov	a,sp
+      000346 24 F3            [12]  639 	add	a,#0xf3
+      000348 F8               [12]  640 	mov	r0,a
+      000349 86 07            [24]  641 	mov	ar7,@r0
+      00034B 7E 00            [12]  642 	mov	r6,#0x00
+      00034D 7D 40            [12]  643 	mov	r5,#0x40
+      00034F E5 81            [12]  644 	mov	a,sp
+      000351 24 F4            [12]  645 	add	a,#0xf4
+      000353 F8               [12]  646 	mov	r0,a
+      000354 74 32            [12]  647 	mov	a,#0x32
+      000356 26               [12]  648 	add	a,@r0
+      000357 FA               [12]  649 	mov	r2,a
+      000358 E4               [12]  650 	clr	a
+      000359 08               [12]  651 	inc	r0
+      00035A 36               [12]  652 	addc	a,@r0
+      00035B FB               [12]  653 	mov	r3,a
+      00035C 08               [12]  654 	inc	r0
+      00035D 86 04            [24]  655 	mov	ar4,@r0
+      00035F C0 01            [24]  656 	push	ar1
+      000361 C0 07            [24]  657 	push	ar7
+      000363 C0 06            [24]  658 	push	ar6
+      000365 C0 05            [24]  659 	push	ar5
+      000367 8A 82            [24]  660 	mov	dpl,r2
+      000369 8B 83            [24]  661 	mov	dph,r3
+      00036B 8C F0            [24]  662 	mov	b,r4
+      00036D 12r00r00         [24]  663 	lcall	_rimeaddr_copy
+      000370 15 81            [12]  664 	dec	sp
+      000372 15 81            [12]  665 	dec	sp
+      000374 15 81            [12]  666 	dec	sp
+      000376 D0 01            [24]  667 	pop	ar1
+                                    668 ;	../contiki-sensinode/core/net/rime/netflood.c:115: c->last_originator_seqno = hdr.originator_seqno;
+      000378 E5 81            [12]  669 	mov	a,sp
+      00037A 24 F4            [12]  670 	add	a,#0xf4
+      00037C F8               [12]  671 	mov	r0,a
+      00037D 74 34            [12]  672 	mov	a,#0x34
+      00037F 26               [12]  673 	add	a,@r0
+      000380 FD               [12]  674 	mov	r5,a
+      000381 E4               [12]  675 	clr	a
+      000382 08               [12]  676 	inc	r0
+      000383 36               [12]  677 	addc	a,@r0
+      000384 FE               [12]  678 	mov	r6,a
+      000385 08               [12]  679 	inc	r0
+      000386 86 07            [24]  680 	mov	ar7,@r0
+      000388 87 03            [24]  681 	mov	ar3,@r1
+      00038A 09               [12]  682 	inc	r1
+      00038B 87 04            [24]  683 	mov	ar4,@r1
+      00038D 8D 82            [24]  684 	mov	dpl,r5
+      00038F 8E 83            [24]  685 	mov	dph,r6
+      000391 8F F0            [24]  686 	mov	b,r7
+      000393 EB               [12]  687 	mov	a,r3
+      000394 12r00r00         [24]  688 	lcall	__gptrput
+      000397                        689 00111$:
+                                    690 ;	../contiki-sensinode/core/net/rime/netflood.c:121: if(queuebuf != NULL) {
+      000397 A8 81            [24]  691 	mov	r0,sp
+      000399 18               [12]  692 	dec	r0
+      00039A 18               [12]  693 	dec	r0
+      00039B E6               [12]  694 	mov	a,@r0
+      00039C 08               [12]  695 	inc	r0
+      00039D 46               [12]  696 	orl	a,@r0
+      00039E 60 0F            [24]  697 	jz	00114$
+                                    698 ;	../contiki-sensinode/core/net/rime/netflood.c:122: queuebuf_free(queuebuf);
+      0003A0 A8 81            [24]  699 	mov	r0,sp
+      0003A2 18               [12]  700 	dec	r0
+      0003A3 18               [12]  701 	dec	r0
+      0003A4 86 82            [24]  702 	mov	dpl,@r0
+      0003A6 08               [12]  703 	inc	r0
+      0003A7 86 83            [24]  704 	mov	dph,@r0
+      0003A9 08               [12]  705 	inc	r0
+      0003AA 86 F0            [24]  706 	mov	b,@r0
+      0003AC 12r00r00         [24]  707 	lcall	_queuebuf_free
+      0003AF                        708 00114$:
+      0003AF E5 81            [12]  709 	mov	a,sp
+      0003B1 24 EF            [12]  710 	add	a,#0xEF
+      0003B3 F5 81            [12]  711 	mov	sp,a
+      0003B5 22               [24]  712 	ret
+                                    713 ;------------------------------------------------------------
+                                    714 ;Allocation info for local variables in function 'sent'
+                                    715 ;------------------------------------------------------------
+                                    716 ;ipolite                   Allocated to registers r5 r6 r7 
+                                    717 ;c                         Allocated to registers r5 r6 r7 
+                                    718 ;------------------------------------------------------------
+                                    719 ;	../contiki-sensinode/core/net/rime/netflood.c:127: sent(struct ipolite_conn *ipolite)
+                                    720 ;	-----------------------------------------
+                                    721 ;	 function sent
+                                    722 ;	-----------------------------------------
+      0003B6                        723 _sent:
+      0003B6 AD 82            [24]  724 	mov	r5,dpl
+      0003B8 AE 83            [24]  725 	mov	r6,dph
+      0003BA AF F0            [24]  726 	mov	r7,b
+                                    727 ;	../contiki-sensinode/core/net/rime/netflood.c:129: struct netflood_conn *c = (struct netflood_conn *)ipolite;
+                                    728 ;	../contiki-sensinode/core/net/rime/netflood.c:130: if(c->u->sent != NULL) {
+      0003BC 74 2D            [12]  729 	mov	a,#0x2D
+      0003BE 2D               [12]  730 	add	a,r5
+      0003BF FA               [12]  731 	mov	r2,a
+      0003C0 E4               [12]  732 	clr	a
+      0003C1 3E               [12]  733 	addc	a,r6
+      0003C2 FB               [12]  734 	mov	r3,a
+      0003C3 8F 04            [24]  735 	mov	ar4,r7
+      0003C5 8A 82            [24]  736 	mov	dpl,r2
+      0003C7 8B 83            [24]  737 	mov	dph,r3
+      0003C9 8C F0            [24]  738 	mov	b,r4
+      0003CB 12r00r00         [24]  739 	lcall	__gptrget
+      0003CE FA               [12]  740 	mov	r2,a
+      0003CF A3               [24]  741 	inc	dptr
+      0003D0 12r00r00         [24]  742 	lcall	__gptrget
+      0003D3 FB               [12]  743 	mov	r3,a
+      0003D4 A3               [24]  744 	inc	dptr
+      0003D5 12r00r00         [24]  745 	lcall	__gptrget
+      0003D8 FC               [12]  746 	mov	r4,a
+      0003D9 74 02            [12]  747 	mov	a,#0x02
+      0003DB 2A               [12]  748 	add	a,r2
+      0003DC FA               [12]  749 	mov	r2,a
+      0003DD E4               [12]  750 	clr	a
+      0003DE 3B               [12]  751 	addc	a,r3
+      0003DF FB               [12]  752 	mov	r3,a
+      0003E0 8A 82            [24]  753 	mov	dpl,r2
+      0003E2 8B 83            [24]  754 	mov	dph,r3
+      0003E4 8C F0            [24]  755 	mov	b,r4
+      0003E6 12r00r00         [24]  756 	lcall	__gptrget
+      0003E9 FB               [12]  757 	mov	r3,a
+      0003EA A3               [24]  758 	inc	dptr
+      0003EB 12r00r00         [24]  759 	lcall	__gptrget
+      0003EE FC               [12]  760 	mov	r4,a
+      0003EF 4B               [12]  761 	orl	a,r3
+      0003F0 60 18            [24]  762 	jz	00103$
+                                    763 ;	../contiki-sensinode/core/net/rime/netflood.c:131: c->u->sent(c);
+      0003F2 C0 04            [24]  764 	push	ar4
+      0003F4 C0 03            [24]  765 	push	ar3
+      0003F6 12r03rFB         [24]  766 	lcall	00109$
+      0003F9 80 0B            [24]  767 	sjmp	00110$
+      0003FB                        768 00109$:
+      0003FB C0 03            [24]  769 	push	ar3
+      0003FD C0 04            [24]  770 	push	ar4
+      0003FF 8D 82            [24]  771 	mov	dpl,r5
+      000401 8E 83            [24]  772 	mov	dph,r6
+      000403 8F F0            [24]  773 	mov	b,r7
+      000405 22               [24]  774 	ret
+      000406                        775 00110$:
+      000406 D0 03            [24]  776 	pop	ar3
+      000408 D0 04            [24]  777 	pop	ar4
+      00040A                        778 00103$:
+      00040A 22               [24]  779 	ret
+                                    780 ;------------------------------------------------------------
+                                    781 ;Allocation info for local variables in function 'dropped'
+                                    782 ;------------------------------------------------------------
+                                    783 ;ipolite                   Allocated to registers r5 r6 r7 
+                                    784 ;c                         Allocated to registers r5 r6 r7 
+                                    785 ;------------------------------------------------------------
+                                    786 ;	../contiki-sensinode/core/net/rime/netflood.c:136: dropped(struct ipolite_conn *ipolite)
+                                    787 ;	-----------------------------------------
+                                    788 ;	 function dropped
+                                    789 ;	-----------------------------------------
+      00040B                        790 _dropped:
+      00040B AD 82            [24]  791 	mov	r5,dpl
+      00040D AE 83            [24]  792 	mov	r6,dph
+      00040F AF F0            [24]  793 	mov	r7,b
+                                    794 ;	../contiki-sensinode/core/net/rime/netflood.c:138: struct netflood_conn *c = (struct netflood_conn *)ipolite;
+                                    795 ;	../contiki-sensinode/core/net/rime/netflood.c:139: if(c->u->dropped != NULL) {
+      000411 74 2D            [12]  796 	mov	a,#0x2D
+      000413 2D               [12]  797 	add	a,r5
+      000414 FA               [12]  798 	mov	r2,a
+      000415 E4               [12]  799 	clr	a
+      000416 3E               [12]  800 	addc	a,r6
+      000417 FB               [12]  801 	mov	r3,a
+      000418 8F 04            [24]  802 	mov	ar4,r7
+      00041A 8A 82            [24]  803 	mov	dpl,r2
+      00041C 8B 83            [24]  804 	mov	dph,r3
+      00041E 8C F0            [24]  805 	mov	b,r4
+      000420 12r00r00         [24]  806 	lcall	__gptrget
+      000423 FA               [12]  807 	mov	r2,a
+      000424 A3               [24]  808 	inc	dptr
+      000425 12r00r00         [24]  809 	lcall	__gptrget
+      000428 FB               [12]  810 	mov	r3,a
+      000429 A3               [24]  811 	inc	dptr
+      00042A 12r00r00         [24]  812 	lcall	__gptrget
+      00042D FC               [12]  813 	mov	r4,a
+      00042E 74 04            [12]  814 	mov	a,#0x04
+      000430 2A               [12]  815 	add	a,r2
+      000431 FA               [12]  816 	mov	r2,a
+      000432 E4               [12]  817 	clr	a
+      000433 3B               [12]  818 	addc	a,r3
+      000434 FB               [12]  819 	mov	r3,a
+      000435 8A 82            [24]  820 	mov	dpl,r2
+      000437 8B 83            [24]  821 	mov	dph,r3
+      000439 8C F0            [24]  822 	mov	b,r4
+      00043B 12r00r00         [24]  823 	lcall	__gptrget
+      00043E FB               [12]  824 	mov	r3,a
+      00043F A3               [24]  825 	inc	dptr
+      000440 12r00r00         [24]  826 	lcall	__gptrget
+      000443 FC               [12]  827 	mov	r4,a
+      000444 4B               [12]  828 	orl	a,r3
+      000445 60 18            [24]  829 	jz	00103$
+                                    830 ;	../contiki-sensinode/core/net/rime/netflood.c:140: c->u->dropped(c);
+      000447 C0 04            [24]  831 	push	ar4
+      000449 C0 03            [24]  832 	push	ar3
+      00044B 12r04r50         [24]  833 	lcall	00109$
+      00044E 80 0B            [24]  834 	sjmp	00110$
+      000450                        835 00109$:
+      000450 C0 03            [24]  836 	push	ar3
+      000452 C0 04            [24]  837 	push	ar4
+      000454 8D 82            [24]  838 	mov	dpl,r5
+      000456 8E 83            [24]  839 	mov	dph,r6
+      000458 8F F0            [24]  840 	mov	b,r7
+      00045A 22               [24]  841 	ret
+      00045B                        842 00110$:
+      00045B D0 03            [24]  843 	pop	ar3
+      00045D D0 04            [24]  844 	pop	ar4
+      00045F                        845 00103$:
+      00045F 22               [24]  846 	ret
+                                    847 ;------------------------------------------------------------
+                                    848 ;Allocation info for local variables in function 'netflood_open'
+                                    849 ;------------------------------------------------------------
+                                    850 ;queue_time                Allocated to stack - sp -3
+                                    851 ;channel                   Allocated to stack - sp -5
+                                    852 ;u                         Allocated to stack - sp -8
+                                    853 ;c                         Allocated to registers r5 r6 r7 
+                                    854 ;------------------------------------------------------------
+                                    855 ;	../contiki-sensinode/core/net/rime/netflood.c:147: netflood_open(struct netflood_conn *c, clock_time_t queue_time,
+                                    856 ;	-----------------------------------------
+                                    857 ;	 function netflood_open
+                                    858 ;	-----------------------------------------
+      000460                        859 _netflood_open:
+      000460 AD 82            [24]  860 	mov	r5,dpl
+      000462 AE 83            [24]  861 	mov	r6,dph
+      000464 AF F0            [24]  862 	mov	r7,b
+                                    863 ;	../contiki-sensinode/core/net/rime/netflood.c:150: ipolite_open(&c->c, channel, 1, &netflood);
+      000466 C0 07            [24]  864 	push	ar7
+      000468 C0 06            [24]  865 	push	ar6
+      00046A C0 05            [24]  866 	push	ar5
+      00046C 74r00            [12]  867 	mov	a,#_netflood
+      00046E C0 E0            [24]  868 	push	acc
+      000470 74s00            [12]  869 	mov	a,#(_netflood >> 8)
+      000472 C0 E0            [24]  870 	push	acc
+      000474 74 80            [12]  871 	mov	a,#0x80
+      000476 C0 E0            [24]  872 	push	acc
+      000478 23               [12]  873 	rl	a
+      000479 C0 E0            [24]  874 	push	acc
+      00047B E5 81            [12]  875 	mov	a,sp
+      00047D 24 F4            [12]  876 	add	a,#0xf4
+      00047F F8               [12]  877 	mov	r0,a
+      000480 E6               [12]  878 	mov	a,@r0
+      000481 C0 E0            [24]  879 	push	acc
+      000483 08               [12]  880 	inc	r0
+      000484 E6               [12]  881 	mov	a,@r0
+      000485 C0 E0            [24]  882 	push	acc
+      000487 8D 82            [24]  883 	mov	dpl,r5
+      000489 8E 83            [24]  884 	mov	dph,r6
+      00048B 8F F0            [24]  885 	mov	b,r7
+      00048D 12r00r00         [24]  886 	lcall	_ipolite_open
+      000490 E5 81            [12]  887 	mov	a,sp
+      000492 24 FA            [12]  888 	add	a,#0xfa
+      000494 F5 81            [12]  889 	mov	sp,a
+      000496 D0 05            [24]  890 	pop	ar5
+      000498 D0 06            [24]  891 	pop	ar6
+      00049A D0 07            [24]  892 	pop	ar7
+                                    893 ;	../contiki-sensinode/core/net/rime/netflood.c:151: c->u = u;
+      00049C 74 2D            [12]  894 	mov	a,#0x2D
+      00049E 2D               [12]  895 	add	a,r5
+      00049F FA               [12]  896 	mov	r2,a
+      0004A0 E4               [12]  897 	clr	a
+      0004A1 3E               [12]  898 	addc	a,r6
+      0004A2 FB               [12]  899 	mov	r3,a
+      0004A3 8F 04            [24]  900 	mov	ar4,r7
+      0004A5 8A 82            [24]  901 	mov	dpl,r2
+      0004A7 8B 83            [24]  902 	mov	dph,r3
+      0004A9 8C F0            [24]  903 	mov	b,r4
+      0004AB E5 81            [12]  904 	mov	a,sp
+      0004AD 24 F8            [12]  905 	add	a,#0xf8
+      0004AF F8               [12]  906 	mov	r0,a
+      0004B0 E6               [12]  907 	mov	a,@r0
+      0004B1 12r00r00         [24]  908 	lcall	__gptrput
+      0004B4 A3               [24]  909 	inc	dptr
+      0004B5 08               [12]  910 	inc	r0
+      0004B6 E6               [12]  911 	mov	a,@r0
+      0004B7 12r00r00         [24]  912 	lcall	__gptrput
+      0004BA A3               [24]  913 	inc	dptr
+      0004BB 08               [12]  914 	inc	r0
+      0004BC E6               [12]  915 	mov	a,@r0
+      0004BD 12r00r00         [24]  916 	lcall	__gptrput
+                                    917 ;	../contiki-sensinode/core/net/rime/netflood.c:152: c->queue_time = queue_time;
+      0004C0 74 30            [12]  918 	mov	a,#0x30
+      0004C2 2D               [12]  919 	add	a,r5
+      0004C3 FD               [12]  920 	mov	r5,a
+      0004C4 E4               [12]  921 	clr	a
+      0004C5 3E               [12]  922 	addc	a,r6
+      0004C6 FE               [12]  923 	mov	r6,a
+      0004C7 8D 82            [24]  924 	mov	dpl,r5
+      0004C9 8E 83            [24]  925 	mov	dph,r6
+      0004CB 8F F0            [24]  926 	mov	b,r7
+      0004CD E5 81            [12]  927 	mov	a,sp
+      0004CF 24 FD            [12]  928 	add	a,#0xfd
+      0004D1 F8               [12]  929 	mov	r0,a
+      0004D2 E6               [12]  930 	mov	a,@r0
+      0004D3 12r00r00         [24]  931 	lcall	__gptrput
+      0004D6 A3               [24]  932 	inc	dptr
+      0004D7 08               [12]  933 	inc	r0
+      0004D8 E6               [12]  934 	mov	a,@r0
+      0004D9 02r00r00         [24]  935 	ljmp	__gptrput
+                                    936 ;------------------------------------------------------------
+                                    937 ;Allocation info for local variables in function 'netflood_close'
+                                    938 ;------------------------------------------------------------
+                                    939 ;c                         Allocated to registers r5 r6 r7 
+                                    940 ;------------------------------------------------------------
+                                    941 ;	../contiki-sensinode/core/net/rime/netflood.c:156: netflood_close(struct netflood_conn *c)
+                                    942 ;	-----------------------------------------
+                                    943 ;	 function netflood_close
+                                    944 ;	-----------------------------------------
+      0004DC                        945 _netflood_close:
+                                    946 ;	../contiki-sensinode/core/net/rime/netflood.c:158: ipolite_close(&c->c);
+      0004DC 02r00r00         [24]  947 	ljmp	_ipolite_close
+                                    948 ;------------------------------------------------------------
+                                    949 ;Allocation info for local variables in function 'netflood_send'
+                                    950 ;------------------------------------------------------------
+                                    951 ;seqno                     Allocated to stack - sp -8
+                                    952 ;c                         Allocated to stack - sp -5
+                                    953 ;hdr                       Allocated to stack - sp -2
+                                    954 ;------------------------------------------------------------
+                                    955 ;	../contiki-sensinode/core/net/rime/netflood.c:162: netflood_send(struct netflood_conn *c, uint8_t seqno)
+                                    956 ;	-----------------------------------------
+                                    957 ;	 function netflood_send
+                                    958 ;	-----------------------------------------
+      0004DF                        959 _netflood_send:
+      0004DF C0 82            [24]  960 	push	dpl
+      0004E1 C0 83            [24]  961 	push	dph
+      0004E3 C0 F0            [24]  962 	push	b
+      0004E5 05 81            [12]  963 	inc	sp
+      0004E7 05 81            [12]  964 	inc	sp
+      0004E9 05 81            [12]  965 	inc	sp
+                                    966 ;	../contiki-sensinode/core/net/rime/netflood.c:164: if(packetbuf_hdralloc(sizeof(struct netflood_hdr))) {
+      0004EB 90 00 06         [24]  967 	mov	dptr,#0x0006
+      0004EE 12r00r00         [24]  968 	lcall	_packetbuf_hdralloc
+      0004F1 E5 82            [12]  969 	mov	a,dpl
+      0004F3 85 83 F0         [24]  970 	mov	b,dph
+      0004F6 45 F0            [12]  971 	orl	a,b
+      0004F8 70 03            [24]  972 	jnz	00108$
+      0004FA 02r05rED         [24]  973 	ljmp	00102$
+      0004FD                        974 00108$:
+                                    975 ;	../contiki-sensinode/core/net/rime/netflood.c:165: struct netflood_hdr *hdr = packetbuf_hdrptr();
+      0004FD 12r00r00         [24]  976 	lcall	_packetbuf_hdrptr
+      000500 AA 82            [24]  977 	mov	r2,dpl
+      000502 AB 83            [24]  978 	mov	r3,dph
+      000504 AC F0            [24]  979 	mov	r4,b
+      000506 A8 81            [24]  980 	mov	r0,sp
+      000508 18               [12]  981 	dec	r0
+      000509 18               [12]  982 	dec	r0
+      00050A A6 02            [24]  983 	mov	@r0,ar2
+      00050C 08               [12]  984 	inc	r0
+      00050D A6 03            [24]  985 	mov	@r0,ar3
+      00050F 08               [12]  986 	inc	r0
+      000510 A6 04            [24]  987 	mov	@r0,ar4
+                                    988 ;	../contiki-sensinode/core/net/rime/netflood.c:166: rimeaddr_copy(&hdr->originator, &rimeaddr_node_addr);
+      000512 A8 81            [24]  989 	mov	r0,sp
+      000514 18               [12]  990 	dec	r0
+      000515 18               [12]  991 	dec	r0
+      000516 74 02            [12]  992 	mov	a,#0x02
+      000518 26               [12]  993 	add	a,@r0
+      000519 FD               [12]  994 	mov	r5,a
+      00051A E4               [12]  995 	clr	a
+      00051B 08               [12]  996 	inc	r0
+      00051C 36               [12]  997 	addc	a,@r0
+      00051D FE               [12]  998 	mov	r6,a
+      00051E 08               [12]  999 	inc	r0
+      00051F 86 07            [24] 1000 	mov	ar7,@r0
+      000521 74r00            [12] 1001 	mov	a,#_rimeaddr_node_addr
+      000523 C0 E0            [24] 1002 	push	acc
+      000525 74s00            [12] 1003 	mov	a,#(_rimeaddr_node_addr >> 8)
+      000527 C0 E0            [24] 1004 	push	acc
+      000529 E4               [12] 1005 	clr	a
+      00052A C0 E0            [24] 1006 	push	acc
+      00052C 8D 82            [24] 1007 	mov	dpl,r5
+      00052E 8E 83            [24] 1008 	mov	dph,r6
+      000530 8F F0            [24] 1009 	mov	b,r7
+      000532 12r00r00         [24] 1010 	lcall	_rimeaddr_copy
+      000535 15 81            [12] 1011 	dec	sp
+      000537 15 81            [12] 1012 	dec	sp
+      000539 15 81            [12] 1013 	dec	sp
+                                   1014 ;	../contiki-sensinode/core/net/rime/netflood.c:167: rimeaddr_copy(&c->last_originator, &hdr->originator);
+      00053B A8 81            [24] 1015 	mov	r0,sp
+      00053D 18               [12] 1016 	dec	r0
+      00053E 18               [12] 1017 	dec	r0
+      00053F 74 02            [12] 1018 	mov	a,#0x02
+      000541 26               [12] 1019 	add	a,@r0
+      000542 FD               [12] 1020 	mov	r5,a
+      000543 E4               [12] 1021 	clr	a
+      000544 08               [12] 1022 	inc	r0
+      000545 36               [12] 1023 	addc	a,@r0
+      000546 FE               [12] 1024 	mov	r6,a
+      000547 08               [12] 1025 	inc	r0
+      000548 86 07            [24] 1026 	mov	ar7,@r0
+      00054A E5 81            [12] 1027 	mov	a,sp
+      00054C 24 FB            [12] 1028 	add	a,#0xfb
+      00054E F8               [12] 1029 	mov	r0,a
+      00054F 74 32            [12] 1030 	mov	a,#0x32
+      000551 26               [12] 1031 	add	a,@r0
+      000552 FA               [12] 1032 	mov	r2,a
+      000553 E4               [12] 1033 	clr	a
+      000554 08               [12] 1034 	inc	r0
+      000555 36               [12] 1035 	addc	a,@r0
+      000556 FB               [12] 1036 	mov	r3,a
+      000557 08               [12] 1037 	inc	r0
+      000558 86 04            [24] 1038 	mov	ar4,@r0
+      00055A C0 05            [24] 1039 	push	ar5
+      00055C C0 06            [24] 1040 	push	ar6
+      00055E C0 07            [24] 1041 	push	ar7
+      000560 8A 82            [24] 1042 	mov	dpl,r2
+      000562 8B 83            [24] 1043 	mov	dph,r3
+      000564 8C F0            [24] 1044 	mov	b,r4
+      000566 12r00r00         [24] 1045 	lcall	_rimeaddr_copy
+      000569 15 81            [12] 1046 	dec	sp
+      00056B 15 81            [12] 1047 	dec	sp
+      00056D 15 81            [12] 1048 	dec	sp
+                                   1049 ;	../contiki-sensinode/core/net/rime/netflood.c:168: c->last_originator_seqno = hdr->originator_seqno = seqno;
+      00056F E5 81            [12] 1050 	mov	a,sp
+      000571 24 FB            [12] 1051 	add	a,#0xfb
+      000573 F8               [12] 1052 	mov	r0,a
+      000574 74 34            [12] 1053 	mov	a,#0x34
+      000576 26               [12] 1054 	add	a,@r0
+      000577 FD               [12] 1055 	mov	r5,a
+      000578 E4               [12] 1056 	clr	a
+      000579 08               [12] 1057 	inc	r0
+      00057A 36               [12] 1058 	addc	a,@r0
+      00057B FE               [12] 1059 	mov	r6,a
+      00057C 08               [12] 1060 	inc	r0
+      00057D 86 07            [24] 1061 	mov	ar7,@r0
+      00057F E5 81            [12] 1062 	mov	a,sp
+      000581 24 F8            [12] 1063 	add	a,#0xf8
+      000583 F8               [12] 1064 	mov	r0,a
+      000584 86 03            [24] 1065 	mov	ar3,@r0
+      000586 7C 00            [12] 1066 	mov	r4,#0x00
+      000588 A8 81            [24] 1067 	mov	r0,sp
+      00058A 18               [12] 1068 	dec	r0
+      00058B 18               [12] 1069 	dec	r0
+      00058C 86 82            [24] 1070 	mov	dpl,@r0
+      00058E 08               [12] 1071 	inc	r0
+      00058F 86 83            [24] 1072 	mov	dph,@r0
+      000591 08               [12] 1073 	inc	r0
+      000592 86 F0            [24] 1074 	mov	b,@r0
+      000594 EB               [12] 1075 	mov	a,r3
+      000595 12r00r00         [24] 1076 	lcall	__gptrput
+      000598 A3               [24] 1077 	inc	dptr
+      000599 EC               [12] 1078 	mov	a,r4
+      00059A 12r00r00         [24] 1079 	lcall	__gptrput
+      00059D 8D 82            [24] 1080 	mov	dpl,r5
+      00059F 8E 83            [24] 1081 	mov	dph,r6
+      0005A1 8F F0            [24] 1082 	mov	b,r7
+      0005A3 EB               [12] 1083 	mov	a,r3
+      0005A4 12r00r00         [24] 1084 	lcall	__gptrput
+                                   1085 ;	../contiki-sensinode/core/net/rime/netflood.c:169: hdr->hops = 0;
+      0005A7 A8 81            [24] 1086 	mov	r0,sp
+      0005A9 18               [12] 1087 	dec	r0
+      0005AA 18               [12] 1088 	dec	r0
+      0005AB 74 04            [12] 1089 	mov	a,#0x04
+      0005AD 26               [12] 1090 	add	a,@r0
+      0005AE FD               [12] 1091 	mov	r5,a
+      0005AF E4               [12] 1092 	clr	a
+      0005B0 08               [12] 1093 	inc	r0
+      0005B1 36               [12] 1094 	addc	a,@r0
+      0005B2 FE               [12] 1095 	mov	r6,a
+      0005B3 08               [12] 1096 	inc	r0
+      0005B4 86 07            [24] 1097 	mov	ar7,@r0
+      0005B6 8D 82            [24] 1098 	mov	dpl,r5
+      0005B8 8E 83            [24] 1099 	mov	dph,r6
+      0005BA 8F F0            [24] 1100 	mov	b,r7
+      0005BC E4               [12] 1101 	clr	a
+      0005BD 12r00r00         [24] 1102 	lcall	__gptrput
+      0005C0 A3               [24] 1103 	inc	dptr
+      0005C1 12r00r00         [24] 1104 	lcall	__gptrput
+                                   1105 ;	../contiki-sensinode/core/net/rime/netflood.c:173: return ipolite_send(&c->c, 0, 4);
+      0005C4 74 04            [12] 1106 	mov	a,#0x04
+      0005C6 C0 E0            [24] 1107 	push	acc
+      0005C8 E4               [12] 1108 	clr	a
+      0005C9 C0 E0            [24] 1109 	push	acc
+      0005CB C0 E0            [24] 1110 	push	acc
+      0005CD E5 81            [12] 1111 	mov	a,sp
+      0005CF 24 F8            [12] 1112 	add	a,#0xf8
+      0005D1 F8               [12] 1113 	mov	r0,a
+      0005D2 86 82            [24] 1114 	mov	dpl,@r0
+      0005D4 08               [12] 1115 	inc	r0
+      0005D5 86 83            [24] 1116 	mov	dph,@r0
+      0005D7 08               [12] 1117 	inc	r0
+      0005D8 86 F0            [24] 1118 	mov	b,@r0
+      0005DA 12r00r00         [24] 1119 	lcall	_ipolite_send
+      0005DD AE 82            [24] 1120 	mov	r6,dpl
+      0005DF AF 83            [24] 1121 	mov	r7,dph
+      0005E1 15 81            [12] 1122 	dec	sp
+      0005E3 15 81            [12] 1123 	dec	sp
+      0005E5 15 81            [12] 1124 	dec	sp
+      0005E7 8E 82            [24] 1125 	mov	dpl,r6
+      0005E9 8F 83            [24] 1126 	mov	dph,r7
+      0005EB 80 03            [24] 1127 	sjmp	00103$
+      0005ED                       1128 00102$:
+                                   1129 ;	../contiki-sensinode/core/net/rime/netflood.c:175: return 0;
+      0005ED 90 00 00         [24] 1130 	mov	dptr,#0x0000
+      0005F0                       1131 00103$:
+      0005F0 E5 81            [12] 1132 	mov	a,sp
+      0005F2 24 FA            [12] 1133 	add	a,#0xFA
+      0005F4 F5 81            [12] 1134 	mov	sp,a
+      0005F6 22               [24] 1135 	ret
+                                   1136 ;------------------------------------------------------------
+                                   1137 ;Allocation info for local variables in function 'netflood_cancel'
+                                   1138 ;------------------------------------------------------------
+                                   1139 ;c                         Allocated to registers r5 r6 r7 
+                                   1140 ;------------------------------------------------------------
+                                   1141 ;	../contiki-sensinode/core/net/rime/netflood.c:179: netflood_cancel(struct netflood_conn *c)
+                                   1142 ;	-----------------------------------------
+                                   1143 ;	 function netflood_cancel
+                                   1144 ;	-----------------------------------------
+      0005F7                       1145 _netflood_cancel:
+                                   1146 ;	../contiki-sensinode/core/net/rime/netflood.c:181: ipolite_cancel(&c->c);
+      0005F7 02r00r00         [24] 1147 	ljmp	_ipolite_cancel
+                                   1148 	.area CSEG    (CODE)
+                                   1149 	.area CONST   (CODE)
+      000000                       1150 _netflood:
+      000000r3Es00                 1151 	.byte _recv_from_ipolite,(_recv_from_ipolite >> 8)
+      000002rB6s03                 1152 	.byte _sent,(_sent >> 8)
+      000004r0Bs04                 1153 	.byte _dropped,(_dropped >> 8)
+                                   1154 	.area XINIT   (CODE)
+                                   1155 	.area CABS    (ABS,CODE)

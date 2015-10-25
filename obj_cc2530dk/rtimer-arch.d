@@ -1,0 +1,31 @@
+obj_cc2530dk/rtimer-arch.rel: \
+ ../contiki-sensinode/cpu/cc253x/./rtimer-arch.c \
+ ../contiki-sensinode/core/./sys/rtimer.h \
+ ../contiki-sensinode/platform/cc2530dk/./contiki-conf.h \
+ ../contiki-sensinode/cpu/cc253x/./8051def.h \
+ ../contiki-sensinode/core/./dev/watchdog.h \
+ ../contiki-sensinode/core/./sys/cc.h \
+ ../contiki-sensinode/platform/cc2530dk/./models.h \
+ ../contiki-sensinode/cpu/cc253x/./rtimer-arch.h \
+ ../contiki-sensinode/cpu/cc253x/./cc253x.h \
+ ../contiki-sensinode/cpu/cc253x/./sfr-bits.h \
+ ../contiki-sensinode/core/./sys/energest.h \
+ ../contiki-sensinode/platform/cc2530dk/./debug.h \
+ ../contiki-sensinode/cpu/cc253x/./dev/uart1.h \
+ ../contiki-sensinode/cpu/cc253x/./cc253x.h \
+ ../contiki-sensinode/cpu/cc253x/./dev/uart.h
+ ../contiki-sensinode/cpu/cc253x/./rtimer-arch.c :
+ ../contiki-sensinode/core/./sys/rtimer.h :
+ ../contiki-sensinode/platform/cc2530dk/./contiki-conf.h :
+ ../contiki-sensinode/cpu/cc253x/./8051def.h :
+ ../contiki-sensinode/core/./dev/watchdog.h :
+ ../contiki-sensinode/core/./sys/cc.h :
+ ../contiki-sensinode/platform/cc2530dk/./models.h :
+ ../contiki-sensinode/cpu/cc253x/./rtimer-arch.h :
+ ../contiki-sensinode/cpu/cc253x/./cc253x.h :
+ ../contiki-sensinode/cpu/cc253x/./sfr-bits.h :
+ ../contiki-sensinode/core/./sys/energest.h :
+ ../contiki-sensinode/platform/cc2530dk/./debug.h :
+ ../contiki-sensinode/cpu/cc253x/./dev/uart1.h :
+ ../contiki-sensinode/cpu/cc253x/./cc253x.h :
+ ../contiki-sensinode/cpu/cc253x/./dev/uart.h :

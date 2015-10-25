@@ -1,0 +1,660 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Oct 24 2015) (Linux)
+                                      4 ; This file was generated Sun Oct 25 01:52:11 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module ringbuf
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _ringbuf_init
+                                     13 	.globl _ringbuf_put
+                                     14 	.globl _ringbuf_get
+                                     15 	.globl _ringbuf_size
+                                     16 	.globl _ringbuf_elements
+                                     17 ;--------------------------------------------------------
+                                     18 ; special function registers
+                                     19 ;--------------------------------------------------------
+                                     20 	.area RSEG    (ABS,DATA)
+      000000                         21 	.org 0x0000
+                                     22 ;--------------------------------------------------------
+                                     23 ; special function bits
+                                     24 ;--------------------------------------------------------
+                                     25 	.area RSEG    (ABS,DATA)
+      000000                         26 	.org 0x0000
+                                     27 ;--------------------------------------------------------
+                                     28 ; overlayable register banks
+                                     29 ;--------------------------------------------------------
+                                     30 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         31 	.ds 8
+                                     32 ;--------------------------------------------------------
+                                     33 ; internal ram data
+                                     34 ;--------------------------------------------------------
+                                     35 	.area DSEG    (DATA)
+                                     36 ;--------------------------------------------------------
+                                     37 ; overlayable items in internal ram 
+                                     38 ;--------------------------------------------------------
+                                     39 ;--------------------------------------------------------
+                                     40 ; indirectly addressable internal ram data
+                                     41 ;--------------------------------------------------------
+                                     42 	.area ISEG    (DATA)
+                                     43 ;--------------------------------------------------------
+                                     44 ; absolute internal ram data
+                                     45 ;--------------------------------------------------------
+                                     46 	.area IABS    (ABS,DATA)
+                                     47 	.area IABS    (ABS,DATA)
+                                     48 ;--------------------------------------------------------
+                                     49 ; bit data
+                                     50 ;--------------------------------------------------------
+                                     51 	.area BSEG    (BIT)
+                                     52 ;--------------------------------------------------------
+                                     53 ; paged external ram data
+                                     54 ;--------------------------------------------------------
+                                     55 	.area PSEG    (PAG,XDATA)
+                                     56 ;--------------------------------------------------------
+                                     57 ; external ram data
+                                     58 ;--------------------------------------------------------
+                                     59 	.area XSEG    (XDATA)
+                                     60 ;--------------------------------------------------------
+                                     61 ; absolute external ram data
+                                     62 ;--------------------------------------------------------
+                                     63 	.area XABS    (ABS,XDATA)
+                                     64 ;--------------------------------------------------------
+                                     65 ; external initialized ram data
+                                     66 ;--------------------------------------------------------
+                                     67 	.area XISEG   (XDATA)
+                                     68 	.area HOME    (CODE)
+                                     69 	.area GSINIT0 (CODE)
+                                     70 	.area GSINIT1 (CODE)
+                                     71 	.area GSINIT2 (CODE)
+                                     72 	.area GSINIT3 (CODE)
+                                     73 	.area GSINIT4 (CODE)
+                                     74 	.area GSINIT5 (CODE)
+                                     75 	.area GSINIT  (CODE)
+                                     76 	.area GSFINAL (CODE)
+                                     77 	.area CSEG    (CODE)
+                                     78 ;--------------------------------------------------------
+                                     79 ; global & static initialisations
+                                     80 ;--------------------------------------------------------
+                                     81 	.area HOME    (CODE)
+                                     82 	.area GSINIT  (CODE)
+                                     83 	.area GSFINAL (CODE)
+                                     84 	.area GSINIT  (CODE)
+                                     85 ;--------------------------------------------------------
+                                     86 ; Home
+                                     87 ;--------------------------------------------------------
+                                     88 	.area HOME    (CODE)
+                                     89 	.area HOME    (CODE)
+                                     90 ;--------------------------------------------------------
+                                     91 ; code
+                                     92 ;--------------------------------------------------------
+                                     93 	.area CSEG    (CODE)
+                                     94 ;------------------------------------------------------------
+                                     95 ;Allocation info for local variables in function 'ringbuf_init'
+                                     96 ;------------------------------------------------------------
+                                     97 ;dataptr                   Allocated to stack - sp -7
+                                     98 ;size                      Allocated to stack - sp -8
+                                     99 ;r                         Allocated to stack - sp -2
+                                    100 ;------------------------------------------------------------
+                                    101 ;	../contiki-sensinode/core/lib/ringbuf.c:43: ringbuf_init(struct ringbuf *r, uint8_t *dataptr, uint8_t size)
+                                    102 ;	-----------------------------------------
+                                    103 ;	 function ringbuf_init
+                                    104 ;	-----------------------------------------
+      000000                        105 _ringbuf_init:
+                           000007   106 	ar7 = 0x07
+                           000006   107 	ar6 = 0x06
+                           000005   108 	ar5 = 0x05
+                           000004   109 	ar4 = 0x04
+                           000003   110 	ar3 = 0x03
+                           000002   111 	ar2 = 0x02
+                           000001   112 	ar1 = 0x01
+                           000000   113 	ar0 = 0x00
+      000000 C0 82            [24]  114 	push	dpl
+      000002 C0 83            [24]  115 	push	dph
+      000004 C0 F0            [24]  116 	push	b
+                                    117 ;	../contiki-sensinode/core/lib/ringbuf.c:45: r->data = dataptr;
+      000006 A8 81            [24]  118 	mov	r0,sp
+      000008 18               [12]  119 	dec	r0
+      000009 18               [12]  120 	dec	r0
+      00000A 86 82            [24]  121 	mov	dpl,@r0
+      00000C 08               [12]  122 	inc	r0
+      00000D 86 83            [24]  123 	mov	dph,@r0
+      00000F 08               [12]  124 	inc	r0
+      000010 86 F0            [24]  125 	mov	b,@r0
+      000012 E5 81            [12]  126 	mov	a,sp
+      000014 24 F9            [12]  127 	add	a,#0xf9
+      000016 F9               [12]  128 	mov	r1,a
+      000017 E7               [12]  129 	mov	a,@r1
+      000018 12r00r00         [24]  130 	lcall	__gptrput
+      00001B A3               [24]  131 	inc	dptr
+      00001C 09               [12]  132 	inc	r1
+      00001D E7               [12]  133 	mov	a,@r1
+      00001E 12r00r00         [24]  134 	lcall	__gptrput
+      000021 A3               [24]  135 	inc	dptr
+      000022 09               [12]  136 	inc	r1
+      000023 E7               [12]  137 	mov	a,@r1
+      000024 12r00r00         [24]  138 	lcall	__gptrput
+                                    139 ;	../contiki-sensinode/core/lib/ringbuf.c:46: r->mask = size - 1;
+      000027 A8 81            [24]  140 	mov	r0,sp
+      000029 18               [12]  141 	dec	r0
+      00002A 18               [12]  142 	dec	r0
+      00002B 74 03            [12]  143 	mov	a,#0x03
+      00002D 26               [12]  144 	add	a,@r0
+      00002E FA               [12]  145 	mov	r2,a
+      00002F E4               [12]  146 	clr	a
+      000030 08               [12]  147 	inc	r0
+      000031 36               [12]  148 	addc	a,@r0
+      000032 FB               [12]  149 	mov	r3,a
+      000033 08               [12]  150 	inc	r0
+      000034 86 04            [24]  151 	mov	ar4,@r0
+      000036 E5 81            [12]  152 	mov	a,sp
+      000038 24 F8            [12]  153 	add	a,#0xf8
+      00003A F8               [12]  154 	mov	r0,a
+      00003B E6               [12]  155 	mov	a,@r0
+      00003C 14               [12]  156 	dec	a
+      00003D 8A 82            [24]  157 	mov	dpl,r2
+      00003F 8B 83            [24]  158 	mov	dph,r3
+      000041 8C F0            [24]  159 	mov	b,r4
+      000043 12r00r00         [24]  160 	lcall	__gptrput
+                                    161 ;	../contiki-sensinode/core/lib/ringbuf.c:47: r->put_ptr = 0;
+      000046 A8 81            [24]  162 	mov	r0,sp
+      000048 18               [12]  163 	dec	r0
+      000049 18               [12]  164 	dec	r0
+      00004A 74 04            [12]  165 	mov	a,#0x04
+      00004C 26               [12]  166 	add	a,@r0
+      00004D FD               [12]  167 	mov	r5,a
+      00004E E4               [12]  168 	clr	a
+      00004F 08               [12]  169 	inc	r0
+      000050 36               [12]  170 	addc	a,@r0
+      000051 FE               [12]  171 	mov	r6,a
+      000052 08               [12]  172 	inc	r0
+      000053 86 07            [24]  173 	mov	ar7,@r0
+      000055 8D 82            [24]  174 	mov	dpl,r5
+      000057 8E 83            [24]  175 	mov	dph,r6
+      000059 8F F0            [24]  176 	mov	b,r7
+      00005B E4               [12]  177 	clr	a
+      00005C 12r00r00         [24]  178 	lcall	__gptrput
+                                    179 ;	../contiki-sensinode/core/lib/ringbuf.c:48: r->get_ptr = 0;
+      00005F A8 81            [24]  180 	mov	r0,sp
+      000061 18               [12]  181 	dec	r0
+      000062 18               [12]  182 	dec	r0
+      000063 74 05            [12]  183 	mov	a,#0x05
+      000065 26               [12]  184 	add	a,@r0
+      000066 FD               [12]  185 	mov	r5,a
+      000067 E4               [12]  186 	clr	a
+      000068 08               [12]  187 	inc	r0
+      000069 36               [12]  188 	addc	a,@r0
+      00006A FE               [12]  189 	mov	r6,a
+      00006B 08               [12]  190 	inc	r0
+      00006C 86 07            [24]  191 	mov	ar7,@r0
+      00006E 8D 82            [24]  192 	mov	dpl,r5
+      000070 8E 83            [24]  193 	mov	dph,r6
+      000072 8F F0            [24]  194 	mov	b,r7
+      000074 E4               [12]  195 	clr	a
+      000075 12r00r00         [24]  196 	lcall	__gptrput
+      000078 15 81            [12]  197 	dec	sp
+      00007A 15 81            [12]  198 	dec	sp
+      00007C 15 81            [12]  199 	dec	sp
+      00007E 22               [24]  200 	ret
+                                    201 ;------------------------------------------------------------
+                                    202 ;Allocation info for local variables in function 'ringbuf_put'
+                                    203 ;------------------------------------------------------------
+                                    204 ;c                         Allocated to stack - sp -13
+                                    205 ;r                         Allocated to stack - sp -10
+                                    206 ;sloc0                     Allocated to stack - sp -7
+                                    207 ;sloc1                     Allocated to stack - sp -6
+                                    208 ;sloc2                     Allocated to stack - sp -4
+                                    209 ;sloc3                     Allocated to stack - sp -1
+                                    210 ;------------------------------------------------------------
+                                    211 ;	../contiki-sensinode/core/lib/ringbuf.c:52: ringbuf_put(struct ringbuf *r, uint8_t c)
+                                    212 ;	-----------------------------------------
+                                    213 ;	 function ringbuf_put
+                                    214 ;	-----------------------------------------
+      00007F                        215 _ringbuf_put:
+      00007F C0 82            [24]  216 	push	dpl
+      000081 C0 83            [24]  217 	push	dph
+      000083 C0 F0            [24]  218 	push	b
+      000085 E5 81            [12]  219 	mov	a,sp
+      000087 24 08            [12]  220 	add	a,#0x08
+                                    221 ;	../contiki-sensinode/core/lib/ringbuf.c:63: if(((r->put_ptr - r->get_ptr) & r->mask) == r->mask) {
+      000089 F5 81            [12]  222 	mov	sp,a
+      00008B 24 F6            [12]  223 	add	a,#0xf6
+      00008D F8               [12]  224 	mov	r0,a
+      00008E 74 04            [12]  225 	mov	a,#0x04
+      000090 26               [12]  226 	add	a,@r0
+      000091 FA               [12]  227 	mov	r2,a
+      000092 E4               [12]  228 	clr	a
+      000093 08               [12]  229 	inc	r0
+      000094 36               [12]  230 	addc	a,@r0
+      000095 FB               [12]  231 	mov	r3,a
+      000096 08               [12]  232 	inc	r0
+      000097 86 04            [24]  233 	mov	ar4,@r0
+      000099 8A 82            [24]  234 	mov	dpl,r2
+      00009B 8B 83            [24]  235 	mov	dph,r3
+      00009D 8C F0            [24]  236 	mov	b,r4
+      00009F E5 81            [12]  237 	mov	a,sp
+      0000A1 24 F9            [12]  238 	add	a,#0xf9
+      0000A3 F8               [12]  239 	mov	r0,a
+      0000A4 12r00r00         [24]  240 	lcall	__gptrget
+      0000A7 F6               [12]  241 	mov	@r0,a
+      0000A8 E5 81            [12]  242 	mov	a,sp
+      0000AA 24 F9            [12]  243 	add	a,#0xf9
+      0000AC F8               [12]  244 	mov	r0,a
+      0000AD E5 81            [12]  245 	mov	a,sp
+      0000AF 24 FA            [12]  246 	add	a,#0xfa
+      0000B1 F9               [12]  247 	mov	r1,a
+      0000B2 E6               [12]  248 	mov	a,@r0
+      0000B3 F7               [12]  249 	mov	@r1,a
+      0000B4 09               [12]  250 	inc	r1
+      0000B5 77 00            [12]  251 	mov	@r1,#0x00
+      0000B7 E5 81            [12]  252 	mov	a,sp
+      0000B9 24 F6            [12]  253 	add	a,#0xf6
+      0000BB F8               [12]  254 	mov	r0,a
+      0000BC 74 05            [12]  255 	mov	a,#0x05
+      0000BE 26               [12]  256 	add	a,@r0
+      0000BF FD               [12]  257 	mov	r5,a
+      0000C0 E4               [12]  258 	clr	a
+      0000C1 08               [12]  259 	inc	r0
+      0000C2 36               [12]  260 	addc	a,@r0
+      0000C3 FE               [12]  261 	mov	r6,a
+      0000C4 08               [12]  262 	inc	r0
+      0000C5 86 07            [24]  263 	mov	ar7,@r0
+      0000C7 8D 82            [24]  264 	mov	dpl,r5
+      0000C9 8E 83            [24]  265 	mov	dph,r6
+      0000CB 8F F0            [24]  266 	mov	b,r7
+      0000CD 12r00r00         [24]  267 	lcall	__gptrget
+      0000D0 FD               [12]  268 	mov	r5,a
+      0000D1 7F 00            [12]  269 	mov	r7,#0x00
+      0000D3 E5 81            [12]  270 	mov	a,sp
+      0000D5 24 FA            [12]  271 	add	a,#0xfa
+      0000D7 F8               [12]  272 	mov	r0,a
+      0000D8 E6               [12]  273 	mov	a,@r0
+      0000D9 C3               [12]  274 	clr	c
+      0000DA 9D               [12]  275 	subb	a,r5
+      0000DB FD               [12]  276 	mov	r5,a
+      0000DC 08               [12]  277 	inc	r0
+      0000DD E6               [12]  278 	mov	a,@r0
+      0000DE 9F               [12]  279 	subb	a,r7
+      0000DF FF               [12]  280 	mov	r7,a
+      0000E0 E5 81            [12]  281 	mov	a,sp
+      0000E2 24 F6            [12]  282 	add	a,#0xf6
+      0000E4 F8               [12]  283 	mov	r0,a
+      0000E5 E5 81            [12]  284 	mov	a,sp
+      0000E7 24 FC            [12]  285 	add	a,#0xfc
+      0000E9 F9               [12]  286 	mov	r1,a
+      0000EA 74 03            [12]  287 	mov	a,#0x03
+      0000EC 26               [12]  288 	add	a,@r0
+      0000ED F7               [12]  289 	mov	@r1,a
+      0000EE E4               [12]  290 	clr	a
+      0000EF 08               [12]  291 	inc	r0
+      0000F0 36               [12]  292 	addc	a,@r0
+      0000F1 09               [12]  293 	inc	r1
+      0000F2 F7               [12]  294 	mov	@r1,a
+      0000F3 08               [12]  295 	inc	r0
+      0000F4 09               [12]  296 	inc	r1
+      0000F5 E6               [12]  297 	mov	a,@r0
+      0000F6 F7               [12]  298 	mov	@r1,a
+      0000F7 E5 81            [12]  299 	mov	a,sp
+      0000F9 24 FC            [12]  300 	add	a,#0xfc
+      0000FB F8               [12]  301 	mov	r0,a
+      0000FC 86 82            [24]  302 	mov	dpl,@r0
+      0000FE 08               [12]  303 	inc	r0
+      0000FF 86 83            [24]  304 	mov	dph,@r0
+      000101 08               [12]  305 	inc	r0
+      000102 86 F0            [24]  306 	mov	b,@r0
+      000104 12r00r00         [24]  307 	lcall	__gptrget
+      000107 FE               [12]  308 	mov	r6,a
+      000108 A8 81            [24]  309 	mov	r0,sp
+      00010A 18               [12]  310 	dec	r0
+      00010B A6 06            [24]  311 	mov	@r0,ar6
+      00010D 08               [12]  312 	inc	r0
+      00010E 76 00            [12]  313 	mov	@r0,#0x00
+      000110 A8 81            [24]  314 	mov	r0,sp
+      000112 18               [12]  315 	dec	r0
+      000113 E6               [12]  316 	mov	a,@r0
+      000114 52 05            [12]  317 	anl	ar5,a
+      000116 08               [12]  318 	inc	r0
+      000117 E6               [12]  319 	mov	a,@r0
+      000118 52 07            [12]  320 	anl	ar7,a
+      00011A A8 81            [24]  321 	mov	r0,sp
+      00011C 18               [12]  322 	dec	r0
+      00011D E6               [12]  323 	mov	a,@r0
+      00011E B5 05 07         [24]  324 	cjne	a,ar5,00108$
+      000121 08               [12]  325 	inc	r0
+      000122 E6               [12]  326 	mov	a,@r0
+      000123 B5 07 02         [24]  327 	cjne	a,ar7,00108$
+      000126 80 02            [24]  328 	sjmp	00109$
+      000128                        329 00108$:
+      000128 80 05            [24]  330 	sjmp	00102$
+      00012A                        331 00109$:
+                                    332 ;	../contiki-sensinode/core/lib/ringbuf.c:64: return 0;
+      00012A 90 00 00         [24]  333 	mov	dptr,#0x0000
+      00012D 80 60            [24]  334 	sjmp	00103$
+      00012F                        335 00102$:
+                                    336 ;	../contiki-sensinode/core/lib/ringbuf.c:66: r->data[r->put_ptr] = c;
+      00012F E5 81            [12]  337 	mov	a,sp
+      000131 24 F6            [12]  338 	add	a,#0xf6
+      000133 F8               [12]  339 	mov	r0,a
+      000134 86 82            [24]  340 	mov	dpl,@r0
+      000136 08               [12]  341 	inc	r0
+      000137 86 83            [24]  342 	mov	dph,@r0
+      000139 08               [12]  343 	inc	r0
+      00013A 86 F0            [24]  344 	mov	b,@r0
+      00013C 12r00r00         [24]  345 	lcall	__gptrget
+      00013F FD               [12]  346 	mov	r5,a
+      000140 A3               [24]  347 	inc	dptr
+      000141 12r00r00         [24]  348 	lcall	__gptrget
+      000144 FE               [12]  349 	mov	r6,a
+      000145 A3               [24]  350 	inc	dptr
+      000146 12r00r00         [24]  351 	lcall	__gptrget
+      000149 FF               [12]  352 	mov	r7,a
+      00014A E5 81            [12]  353 	mov	a,sp
+      00014C 24 F9            [12]  354 	add	a,#0xf9
+      00014E F8               [12]  355 	mov	r0,a
+      00014F E6               [12]  356 	mov	a,@r0
+      000150 2D               [12]  357 	add	a,r5
+      000151 FD               [12]  358 	mov	r5,a
+      000152 E4               [12]  359 	clr	a
+      000153 3E               [12]  360 	addc	a,r6
+      000154 FE               [12]  361 	mov	r6,a
+      000155 8D 82            [24]  362 	mov	dpl,r5
+      000157 8E 83            [24]  363 	mov	dph,r6
+      000159 8F F0            [24]  364 	mov	b,r7
+      00015B E5 81            [12]  365 	mov	a,sp
+      00015D 24 F3            [12]  366 	add	a,#0xf3
+      00015F F8               [12]  367 	mov	r0,a
+      000160 E6               [12]  368 	mov	a,@r0
+      000161 12r00r00         [24]  369 	lcall	__gptrput
+                                    370 ;	../contiki-sensinode/core/lib/ringbuf.c:67: r->put_ptr = (r->put_ptr + 1) & r->mask;
+      000164 8A 82            [24]  371 	mov	dpl,r2
+      000166 8B 83            [24]  372 	mov	dph,r3
+      000168 8C F0            [24]  373 	mov	b,r4
+      00016A 12r00r00         [24]  374 	lcall	__gptrget
+      00016D FF               [12]  375 	mov	r7,a
+      00016E 0F               [12]  376 	inc	r7
+      00016F E5 81            [12]  377 	mov	a,sp
+      000171 24 FC            [12]  378 	add	a,#0xfc
+      000173 F8               [12]  379 	mov	r0,a
+      000174 86 82            [24]  380 	mov	dpl,@r0
+      000176 08               [12]  381 	inc	r0
+      000177 86 83            [24]  382 	mov	dph,@r0
+      000179 08               [12]  383 	inc	r0
+      00017A 86 F0            [24]  384 	mov	b,@r0
+      00017C 12r00r00         [24]  385 	lcall	__gptrget
+      00017F FE               [12]  386 	mov	r6,a
+      000180 52 07            [12]  387 	anl	ar7,a
+      000182 8A 82            [24]  388 	mov	dpl,r2
+      000184 8B 83            [24]  389 	mov	dph,r3
+      000186 8C F0            [24]  390 	mov	b,r4
+      000188 EF               [12]  391 	mov	a,r7
+      000189 12r00r00         [24]  392 	lcall	__gptrput
+                                    393 ;	../contiki-sensinode/core/lib/ringbuf.c:68: return 1;
+      00018C 90 00 01         [24]  394 	mov	dptr,#0x0001
+      00018F                        395 00103$:
+      00018F E5 81            [12]  396 	mov	a,sp
+      000191 24 F5            [12]  397 	add	a,#0xF5
+      000193 F5 81            [12]  398 	mov	sp,a
+      000195 22               [24]  399 	ret
+                                    400 ;------------------------------------------------------------
+                                    401 ;Allocation info for local variables in function 'ringbuf_get'
+                                    402 ;------------------------------------------------------------
+                                    403 ;r                         Allocated to stack - sp -5
+                                    404 ;c                         Allocated to registers r4 
+                                    405 ;sloc0                     Allocated to stack - sp -2
+                                    406 ;------------------------------------------------------------
+                                    407 ;	../contiki-sensinode/core/lib/ringbuf.c:72: ringbuf_get(struct ringbuf *r)
+                                    408 ;	-----------------------------------------
+                                    409 ;	 function ringbuf_get
+                                    410 ;	-----------------------------------------
+      000196                        411 _ringbuf_get:
+      000196 C0 82            [24]  412 	push	dpl
+      000198 C0 83            [24]  413 	push	dph
+      00019A C0 F0            [24]  414 	push	b
+      00019C 05 81            [12]  415 	inc	sp
+      00019E 05 81            [12]  416 	inc	sp
+      0001A0 05 81            [12]  417 	inc	sp
+                                    418 ;	../contiki-sensinode/core/lib/ringbuf.c:86: if(((r->put_ptr - r->get_ptr) & r->mask) > 0) {
+      0001A2 E5 81            [12]  419 	mov	a,sp
+      0001A4 24 FB            [12]  420 	add	a,#0xfb
+      0001A6 F8               [12]  421 	mov	r0,a
+      0001A7 74 04            [12]  422 	mov	a,#0x04
+      0001A9 26               [12]  423 	add	a,@r0
+      0001AA FA               [12]  424 	mov	r2,a
+      0001AB E4               [12]  425 	clr	a
+      0001AC 08               [12]  426 	inc	r0
+      0001AD 36               [12]  427 	addc	a,@r0
+      0001AE FB               [12]  428 	mov	r3,a
+      0001AF 08               [12]  429 	inc	r0
+      0001B0 86 04            [24]  430 	mov	ar4,@r0
+      0001B2 8A 82            [24]  431 	mov	dpl,r2
+      0001B4 8B 83            [24]  432 	mov	dph,r3
+      0001B6 8C F0            [24]  433 	mov	b,r4
+      0001B8 12r00r00         [24]  434 	lcall	__gptrget
+      0001BB FA               [12]  435 	mov	r2,a
+      0001BC 7C 00            [12]  436 	mov	r4,#0x00
+      0001BE E5 81            [12]  437 	mov	a,sp
+      0001C0 24 FB            [12]  438 	add	a,#0xfb
+      0001C2 F8               [12]  439 	mov	r0,a
+      0001C3 A9 81            [24]  440 	mov	r1,sp
+      0001C5 19               [12]  441 	dec	r1
+      0001C6 19               [12]  442 	dec	r1
+      0001C7 74 05            [12]  443 	mov	a,#0x05
+      0001C9 26               [12]  444 	add	a,@r0
+      0001CA F7               [12]  445 	mov	@r1,a
+      0001CB E4               [12]  446 	clr	a
+      0001CC 08               [12]  447 	inc	r0
+      0001CD 36               [12]  448 	addc	a,@r0
+      0001CE 09               [12]  449 	inc	r1
+      0001CF F7               [12]  450 	mov	@r1,a
+      0001D0 08               [12]  451 	inc	r0
+      0001D1 09               [12]  452 	inc	r1
+      0001D2 E6               [12]  453 	mov	a,@r0
+      0001D3 F7               [12]  454 	mov	@r1,a
+      0001D4 A8 81            [24]  455 	mov	r0,sp
+      0001D6 18               [12]  456 	dec	r0
+      0001D7 18               [12]  457 	dec	r0
+      0001D8 86 82            [24]  458 	mov	dpl,@r0
+      0001DA 08               [12]  459 	inc	r0
+      0001DB 86 83            [24]  460 	mov	dph,@r0
+      0001DD 08               [12]  461 	inc	r0
+      0001DE 86 F0            [24]  462 	mov	b,@r0
+      0001E0 12r00r00         [24]  463 	lcall	__gptrget
+      0001E3 FB               [12]  464 	mov	r3,a
+      0001E4 FE               [12]  465 	mov	r6,a
+      0001E5 7F 00            [12]  466 	mov	r7,#0x00
+      0001E7 EA               [12]  467 	mov	a,r2
+      0001E8 C3               [12]  468 	clr	c
+      0001E9 9E               [12]  469 	subb	a,r6
+      0001EA FA               [12]  470 	mov	r2,a
+      0001EB EC               [12]  471 	mov	a,r4
+      0001EC 9F               [12]  472 	subb	a,r7
+      0001ED FC               [12]  473 	mov	r4,a
+      0001EE E5 81            [12]  474 	mov	a,sp
+      0001F0 24 FB            [12]  475 	add	a,#0xfb
+      0001F2 F8               [12]  476 	mov	r0,a
+      0001F3 74 03            [12]  477 	mov	a,#0x03
+      0001F5 26               [12]  478 	add	a,@r0
+      0001F6 FD               [12]  479 	mov	r5,a
+      0001F7 E4               [12]  480 	clr	a
+      0001F8 08               [12]  481 	inc	r0
+      0001F9 36               [12]  482 	addc	a,@r0
+      0001FA FE               [12]  483 	mov	r6,a
+      0001FB 08               [12]  484 	inc	r0
+      0001FC 86 07            [24]  485 	mov	ar7,@r0
+      0001FE 8D 82            [24]  486 	mov	dpl,r5
+      000200 8E 83            [24]  487 	mov	dph,r6
+      000202 8F F0            [24]  488 	mov	b,r7
+      000204 12r00r00         [24]  489 	lcall	__gptrget
+      000207 FF               [12]  490 	mov	r7,a
+      000208 FD               [12]  491 	mov	r5,a
+      000209 7E 00            [12]  492 	mov	r6,#0x00
+      00020B ED               [12]  493 	mov	a,r5
+      00020C 52 02            [12]  494 	anl	ar2,a
+      00020E EE               [12]  495 	mov	a,r6
+      00020F 52 04            [12]  496 	anl	ar4,a
+      000211 C3               [12]  497 	clr	c
+      000212 E4               [12]  498 	clr	a
+      000213 9A               [12]  499 	subb	a,r2
+      000214 74 80            [12]  500 	mov	a,#(0x00 ^ 0x80)
+      000216 8C F0            [24]  501 	mov	b,r4
+      000218 63 F0 80         [24]  502 	xrl	b,#0x80
+      00021B 95 F0            [12]  503 	subb	a,b
+      00021D 50 47            [24]  504 	jnc	00102$
+                                    505 ;	../contiki-sensinode/core/lib/ringbuf.c:87: c = r->data[r->get_ptr];
+      00021F E5 81            [12]  506 	mov	a,sp
+      000221 24 FB            [12]  507 	add	a,#0xfb
+      000223 F8               [12]  508 	mov	r0,a
+      000224 86 82            [24]  509 	mov	dpl,@r0
+      000226 08               [12]  510 	inc	r0
+      000227 86 83            [24]  511 	mov	dph,@r0
+      000229 08               [12]  512 	inc	r0
+      00022A 86 F0            [24]  513 	mov	b,@r0
+      00022C 12r00r00         [24]  514 	lcall	__gptrget
+      00022F FC               [12]  515 	mov	r4,a
+      000230 A3               [24]  516 	inc	dptr
+      000231 12r00r00         [24]  517 	lcall	__gptrget
+      000234 FD               [12]  518 	mov	r5,a
+      000235 A3               [24]  519 	inc	dptr
+      000236 12r00r00         [24]  520 	lcall	__gptrget
+      000239 FE               [12]  521 	mov	r6,a
+      00023A EB               [12]  522 	mov	a,r3
+      00023B 2C               [12]  523 	add	a,r4
+      00023C FC               [12]  524 	mov	r4,a
+      00023D E4               [12]  525 	clr	a
+      00023E 3D               [12]  526 	addc	a,r5
+      00023F FD               [12]  527 	mov	r5,a
+      000240 8C 82            [24]  528 	mov	dpl,r4
+      000242 8D 83            [24]  529 	mov	dph,r5
+      000244 8E F0            [24]  530 	mov	b,r6
+      000246 12r00r00         [24]  531 	lcall	__gptrget
+      000249 FC               [12]  532 	mov	r4,a
+                                    533 ;	../contiki-sensinode/core/lib/ringbuf.c:88: r->get_ptr = (r->get_ptr + 1) & r->mask;
+      00024A EB               [12]  534 	mov	a,r3
+      00024B 04               [12]  535 	inc	a
+      00024C 52 07            [12]  536 	anl	ar7,a
+      00024E A8 81            [24]  537 	mov	r0,sp
+      000250 18               [12]  538 	dec	r0
+      000251 18               [12]  539 	dec	r0
+      000252 86 82            [24]  540 	mov	dpl,@r0
+      000254 08               [12]  541 	inc	r0
+      000255 86 83            [24]  542 	mov	dph,@r0
+      000257 08               [12]  543 	inc	r0
+      000258 86 F0            [24]  544 	mov	b,@r0
+      00025A EF               [12]  545 	mov	a,r7
+      00025B 12r00r00         [24]  546 	lcall	__gptrput
+                                    547 ;	../contiki-sensinode/core/lib/ringbuf.c:89: return c;
+      00025E 7F 00            [12]  548 	mov	r7,#0x00
+      000260 8C 82            [24]  549 	mov	dpl,r4
+      000262 8F 83            [24]  550 	mov	dph,r7
+      000264 80 03            [24]  551 	sjmp	00104$
+      000266                        552 00102$:
+                                    553 ;	../contiki-sensinode/core/lib/ringbuf.c:91: return -1;
+      000266 90 FF FF         [24]  554 	mov	dptr,#0xFFFF
+      000269                        555 00104$:
+      000269 E5 81            [12]  556 	mov	a,sp
+      00026B 24 FA            [12]  557 	add	a,#0xFA
+      00026D F5 81            [12]  558 	mov	sp,a
+      00026F 22               [24]  559 	ret
+                                    560 ;------------------------------------------------------------
+                                    561 ;Allocation info for local variables in function 'ringbuf_size'
+                                    562 ;------------------------------------------------------------
+                                    563 ;r                         Allocated to registers r5 r6 r7 
+                                    564 ;------------------------------------------------------------
+                                    565 ;	../contiki-sensinode/core/lib/ringbuf.c:96: ringbuf_size(struct ringbuf *r)
+                                    566 ;	-----------------------------------------
+                                    567 ;	 function ringbuf_size
+                                    568 ;	-----------------------------------------
+      000270                        569 _ringbuf_size:
+      000270 AD 82            [24]  570 	mov	r5,dpl
+      000272 AE 83            [24]  571 	mov	r6,dph
+      000274 AF F0            [24]  572 	mov	r7,b
+                                    573 ;	../contiki-sensinode/core/lib/ringbuf.c:98: return r->mask + 1;
+      000276 74 03            [12]  574 	mov	a,#0x03
+      000278 2D               [12]  575 	add	a,r5
+      000279 FD               [12]  576 	mov	r5,a
+      00027A E4               [12]  577 	clr	a
+      00027B 3E               [12]  578 	addc	a,r6
+      00027C FE               [12]  579 	mov	r6,a
+      00027D 8D 82            [24]  580 	mov	dpl,r5
+      00027F 8E 83            [24]  581 	mov	dph,r6
+      000281 8F F0            [24]  582 	mov	b,r7
+      000283 12r00r00         [24]  583 	lcall	__gptrget
+      000286 FD               [12]  584 	mov	r5,a
+      000287 7F 00            [12]  585 	mov	r7,#0x00
+      000289 0D               [12]  586 	inc	r5
+      00028A BD 00 01         [24]  587 	cjne	r5,#0x00,00103$
+      00028D 0F               [12]  588 	inc	r7
+      00028E                        589 00103$:
+      00028E 8D 82            [24]  590 	mov	dpl,r5
+      000290 8F 83            [24]  591 	mov	dph,r7
+      000292 22               [24]  592 	ret
+                                    593 ;------------------------------------------------------------
+                                    594 ;Allocation info for local variables in function 'ringbuf_elements'
+                                    595 ;------------------------------------------------------------
+                                    596 ;r                         Allocated to registers r5 r6 r7 
+                                    597 ;------------------------------------------------------------
+                                    598 ;	../contiki-sensinode/core/lib/ringbuf.c:102: ringbuf_elements(struct ringbuf *r)
+                                    599 ;	-----------------------------------------
+                                    600 ;	 function ringbuf_elements
+                                    601 ;	-----------------------------------------
+      000293                        602 _ringbuf_elements:
+      000293 AD 82            [24]  603 	mov	r5,dpl
+      000295 AE 83            [24]  604 	mov	r6,dph
+      000297 AF F0            [24]  605 	mov	r7,b
+                                    606 ;	../contiki-sensinode/core/lib/ringbuf.c:104: return (r->put_ptr - r->get_ptr) & r->mask;
+      000299 74 04            [12]  607 	mov	a,#0x04
+      00029B 2D               [12]  608 	add	a,r5
+      00029C FA               [12]  609 	mov	r2,a
+      00029D E4               [12]  610 	clr	a
+      00029E 3E               [12]  611 	addc	a,r6
+      00029F FB               [12]  612 	mov	r3,a
+      0002A0 8F 04            [24]  613 	mov	ar4,r7
+      0002A2 8A 82            [24]  614 	mov	dpl,r2
+      0002A4 8B 83            [24]  615 	mov	dph,r3
+      0002A6 8C F0            [24]  616 	mov	b,r4
+      0002A8 12r00r00         [24]  617 	lcall	__gptrget
+      0002AB FA               [12]  618 	mov	r2,a
+      0002AC 7C 00            [12]  619 	mov	r4,#0x00
+      0002AE 74 05            [12]  620 	mov	a,#0x05
+      0002B0 2D               [12]  621 	add	a,r5
+      0002B1 F8               [12]  622 	mov	r0,a
+      0002B2 E4               [12]  623 	clr	a
+      0002B3 3E               [12]  624 	addc	a,r6
+      0002B4 F9               [12]  625 	mov	r1,a
+      0002B5 8F 03            [24]  626 	mov	ar3,r7
+      0002B7 88 82            [24]  627 	mov	dpl,r0
+      0002B9 89 83            [24]  628 	mov	dph,r1
+      0002BB 8B F0            [24]  629 	mov	b,r3
+      0002BD 12r00r00         [24]  630 	lcall	__gptrget
+      0002C0 F8               [12]  631 	mov	r0,a
+      0002C1 7B 00            [12]  632 	mov	r3,#0x00
+      0002C3 EA               [12]  633 	mov	a,r2
+      0002C4 C3               [12]  634 	clr	c
+      0002C5 98               [12]  635 	subb	a,r0
+      0002C6 FA               [12]  636 	mov	r2,a
+      0002C7 EC               [12]  637 	mov	a,r4
+      0002C8 9B               [12]  638 	subb	a,r3
+      0002C9 FC               [12]  639 	mov	r4,a
+      0002CA 74 03            [12]  640 	mov	a,#0x03
+      0002CC 2D               [12]  641 	add	a,r5
+      0002CD FD               [12]  642 	mov	r5,a
+      0002CE E4               [12]  643 	clr	a
+      0002CF 3E               [12]  644 	addc	a,r6
+      0002D0 FE               [12]  645 	mov	r6,a
+      0002D1 8D 82            [24]  646 	mov	dpl,r5
+      0002D3 8E 83            [24]  647 	mov	dph,r6
+      0002D5 8F F0            [24]  648 	mov	b,r7
+      0002D7 12r00r00         [24]  649 	lcall	__gptrget
+      0002DA 7F 00            [12]  650 	mov	r7,#0x00
+      0002DC 52 02            [12]  651 	anl	ar2,a
+      0002DE EF               [12]  652 	mov	a,r7
+      0002DF 52 04            [12]  653 	anl	ar4,a
+      0002E1 8A 82            [24]  654 	mov	dpl,r2
+      0002E3 8C 83            [24]  655 	mov	dph,r4
+      0002E5 22               [24]  656 	ret
+                                    657 	.area CSEG    (CODE)
+                                    658 	.area CONST   (CODE)
+                                    659 	.area XINIT   (CODE)
+                                    660 	.area CABS    (ABS,CODE)

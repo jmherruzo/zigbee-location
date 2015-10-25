@@ -1,0 +1,1949 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Oct 24 2015) (Linux)
+                                      4 ; This file was generated Sun Oct 25 01:52:07 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module process
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _process_current
+                                     13 	.globl _process_list
+                                     14 	.globl _process_alloc_event
+                                     15 	.globl _process_start
+                                     16 	.globl _process_exit
+                                     17 	.globl _process_init
+                                     18 	.globl _process_run
+                                     19 	.globl _process_nevents
+                                     20 	.globl _process_post
+                                     21 	.globl _process_post_synch
+                                     22 	.globl _process_poll
+                                     23 	.globl _process_is_running
+                                     24 ;--------------------------------------------------------
+                                     25 ; special function registers
+                                     26 ;--------------------------------------------------------
+                                     27 	.area RSEG    (ABS,DATA)
+      000000                         28 	.org 0x0000
+                                     29 ;--------------------------------------------------------
+                                     30 ; special function bits
+                                     31 ;--------------------------------------------------------
+                                     32 	.area RSEG    (ABS,DATA)
+      000000                         33 	.org 0x0000
+                                     34 ;--------------------------------------------------------
+                                     35 ; overlayable register banks
+                                     36 ;--------------------------------------------------------
+                                     37 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         38 	.ds 8
+                                     39 ;--------------------------------------------------------
+                                     40 ; internal ram data
+                                     41 ;--------------------------------------------------------
+                                     42 	.area DSEG    (DATA)
+                                     43 ;--------------------------------------------------------
+                                     44 ; overlayable items in internal ram 
+                                     45 ;--------------------------------------------------------
+                                     46 ;--------------------------------------------------------
+                                     47 ; indirectly addressable internal ram data
+                                     48 ;--------------------------------------------------------
+                                     49 	.area ISEG    (DATA)
+                                     50 ;--------------------------------------------------------
+                                     51 ; absolute internal ram data
+                                     52 ;--------------------------------------------------------
+                                     53 	.area IABS    (ABS,DATA)
+                                     54 	.area IABS    (ABS,DATA)
+                                     55 ;--------------------------------------------------------
+                                     56 ; bit data
+                                     57 ;--------------------------------------------------------
+                                     58 	.area BSEG    (BIT)
+                                     59 ;--------------------------------------------------------
+                                     60 ; paged external ram data
+                                     61 ;--------------------------------------------------------
+                                     62 	.area PSEG    (PAG,XDATA)
+                                     63 ;--------------------------------------------------------
+                                     64 ; external ram data
+                                     65 ;--------------------------------------------------------
+                                     66 	.area XSEG    (XDATA)
+      000000                         67 _lastevent:
+      000000                         68 	.ds 1
+      000001                         69 _nevents:
+      000001                         70 	.ds 1
+      000002                         71 _fevent:
+      000002                         72 	.ds 1
+      000003                         73 _events:
+      000003                         74 	.ds 224
+      0000E3                         75 _poll_requested:
+      0000E3                         76 	.ds 1
+      0000E4                         77 _do_event_ev_1_82:
+      0000E4                         78 	.ds 1
+      0000E5                         79 _do_event_data_1_82:
+      0000E5                         80 	.ds 3
+      0000E8                         81 _do_event_receiver_1_82:
+      0000E8                         82 	.ds 3
+      0000EB                         83 _do_event_p_1_82:
+      0000EB                         84 	.ds 3
+      0000EE                         85 _process_post_snum_1_95:
+      0000EE                         86 	.ds 1
+                                     87 ;--------------------------------------------------------
+                                     88 ; absolute external ram data
+                                     89 ;--------------------------------------------------------
+                                     90 	.area XABS    (ABS,XDATA)
+                                     91 ;--------------------------------------------------------
+                                     92 ; external initialized ram data
+                                     93 ;--------------------------------------------------------
+                                     94 	.area XISEG   (XDATA)
+      000000                         95 _process_list::
+      000000                         96 	.ds 3
+      000003                         97 _process_current::
+      000003                         98 	.ds 3
+                                     99 	.area HOME    (CODE)
+                                    100 	.area GSINIT0 (CODE)
+                                    101 	.area GSINIT1 (CODE)
+                                    102 	.area GSINIT2 (CODE)
+                                    103 	.area GSINIT3 (CODE)
+                                    104 	.area GSINIT4 (CODE)
+                                    105 	.area GSINIT5 (CODE)
+                                    106 	.area GSINIT  (CODE)
+                                    107 	.area GSFINAL (CODE)
+                                    108 	.area CSEG    (CODE)
+                                    109 ;--------------------------------------------------------
+                                    110 ; global & static initialisations
+                                    111 ;--------------------------------------------------------
+                                    112 	.area HOME    (CODE)
+                                    113 	.area GSINIT  (CODE)
+                                    114 	.area GSFINAL (CODE)
+                                    115 	.area GSINIT  (CODE)
+                                    116 ;--------------------------------------------------------
+                                    117 ; Home
+                                    118 ;--------------------------------------------------------
+                                    119 	.area HOME    (CODE)
+                                    120 	.area HOME    (CODE)
+                                    121 ;--------------------------------------------------------
+                                    122 ; code
+                                    123 ;--------------------------------------------------------
+                                    124 	.area CSEG    (CODE)
+                                    125 ;------------------------------------------------------------
+                                    126 ;Allocation info for local variables in function 'process_alloc_event'
+                                    127 ;------------------------------------------------------------
+                                    128 ;	../contiki-sensinode/core/sys/process.c:93: process_alloc_event(void)
+                                    129 ;	-----------------------------------------
+                                    130 ;	 function process_alloc_event
+                                    131 ;	-----------------------------------------
+      000000                        132 _process_alloc_event:
+                           000007   133 	ar7 = 0x07
+                           000006   134 	ar6 = 0x06
+                           000005   135 	ar5 = 0x05
+                           000004   136 	ar4 = 0x04
+                           000003   137 	ar3 = 0x03
+                           000002   138 	ar2 = 0x02
+                           000001   139 	ar1 = 0x01
+                           000000   140 	ar0 = 0x00
+                                    141 ;	../contiki-sensinode/core/sys/process.c:95: return lastevent++;
+      000000 90r00r00         [24]  142 	mov	dptr,#_lastevent
+      000003 E0               [24]  143 	movx	a,@dptr
+      000004 FF               [12]  144 	mov	r7,a
+      000005 04               [12]  145 	inc	a
+      000006 F0               [24]  146 	movx	@dptr,a
+      000007 8F 82            [24]  147 	mov	dpl,r7
+      000009 22               [24]  148 	ret
+                                    149 ;------------------------------------------------------------
+                                    150 ;Allocation info for local variables in function 'process_start'
+                                    151 ;------------------------------------------------------------
+                                    152 ;arg                       Allocated to stack - sp -7
+                                    153 ;p                         Allocated to stack - sp -2
+                                    154 ;q                         Allocated to registers r5 r6 r7 
+                                    155 ;------------------------------------------------------------
+                                    156 ;	../contiki-sensinode/core/sys/process.c:99: process_start(struct process *p, const char *arg)
+                                    157 ;	-----------------------------------------
+                                    158 ;	 function process_start
+                                    159 ;	-----------------------------------------
+      00000A                        160 _process_start:
+      00000A C0 82            [24]  161 	push	dpl
+      00000C C0 83            [24]  162 	push	dph
+      00000E C0 F0            [24]  163 	push	b
+                                    164 ;	../contiki-sensinode/core/sys/process.c:105: for(q = process_list; q != p && q != NULL; q = q->next);
+      000010 90r00r00         [24]  165 	mov	dptr,#_process_list
+      000013 E0               [24]  166 	movx	a,@dptr
+      000014 FA               [12]  167 	mov	r2,a
+      000015 A3               [24]  168 	inc	dptr
+      000016 E0               [24]  169 	movx	a,@dptr
+      000017 FB               [12]  170 	mov	r3,a
+      000018 A3               [24]  171 	inc	dptr
+      000019 E0               [24]  172 	movx	a,@dptr
+      00001A FC               [12]  173 	mov	r4,a
+      00001B 8A 05            [24]  174 	mov	ar5,r2
+      00001D 8B 06            [24]  175 	mov	ar6,r3
+      00001F 8C 07            [24]  176 	mov	ar7,r4
+      000021                        177 00106$:
+      000021 A8 81            [24]  178 	mov	r0,sp
+      000023 18               [12]  179 	dec	r0
+      000024 18               [12]  180 	dec	r0
+      000025 C0 05            [24]  181 	push	ar5
+      000027 C0 06            [24]  182 	push	ar6
+      000029 C0 07            [24]  183 	push	ar7
+      00002B 86 82            [24]  184 	mov	dpl,@r0
+      00002D 08               [12]  185 	inc	r0
+      00002E 86 83            [24]  186 	mov	dph,@r0
+      000030 08               [12]  187 	inc	r0
+      000031 86 F0            [24]  188 	mov	b,@r0
+      000033 12r00r00         [24]  189 	lcall	___gptr_cmp
+      000036 15 81            [12]  190 	dec	sp
+      000038 15 81            [12]  191 	dec	sp
+      00003A 15 81            [12]  192 	dec	sp
+      00003C 60 2E            [24]  193 	jz	00101$
+      00003E E4               [12]  194 	clr	a
+      00003F C0 E0            [24]  195 	push	acc
+      000041 C0 E0            [24]  196 	push	acc
+      000043 C0 E0            [24]  197 	push	acc
+      000045 8D 82            [24]  198 	mov	dpl,r5
+      000047 8E 83            [24]  199 	mov	dph,r6
+      000049 8F F0            [24]  200 	mov	b,r7
+      00004B 12r00r00         [24]  201 	lcall	___gptr_cmp
+      00004E 15 81            [12]  202 	dec	sp
+      000050 15 81            [12]  203 	dec	sp
+      000052 15 81            [12]  204 	dec	sp
+      000054 60 16            [24]  205 	jz	00101$
+      000056 8D 82            [24]  206 	mov	dpl,r5
+      000058 8E 83            [24]  207 	mov	dph,r6
+      00005A 8F F0            [24]  208 	mov	b,r7
+      00005C 12r00r00         [24]  209 	lcall	__gptrget
+      00005F FD               [12]  210 	mov	r5,a
+      000060 A3               [24]  211 	inc	dptr
+      000061 12r00r00         [24]  212 	lcall	__gptrget
+      000064 FE               [12]  213 	mov	r6,a
+      000065 A3               [24]  214 	inc	dptr
+      000066 12r00r00         [24]  215 	lcall	__gptrget
+      000069 FF               [12]  216 	mov	r7,a
+      00006A 80 B5            [24]  217 	sjmp	00106$
+      00006C                        218 00101$:
+                                    219 ;	../contiki-sensinode/core/sys/process.c:108: if(q == p) {
+      00006C A8 81            [24]  220 	mov	r0,sp
+      00006E 18               [12]  221 	dec	r0
+      00006F 18               [12]  222 	dec	r0
+      000070 C0 05            [24]  223 	push	ar5
+      000072 C0 06            [24]  224 	push	ar6
+      000074 C0 07            [24]  225 	push	ar7
+      000076 86 82            [24]  226 	mov	dpl,@r0
+      000078 08               [12]  227 	inc	r0
+      000079 86 83            [24]  228 	mov	dph,@r0
+      00007B 08               [12]  229 	inc	r0
+      00007C 86 F0            [24]  230 	mov	b,@r0
+      00007E 12r00r00         [24]  231 	lcall	___gptr_cmp
+      000081 15 81            [12]  232 	dec	sp
+      000083 15 81            [12]  233 	dec	sp
+      000085 15 81            [12]  234 	dec	sp
+      000087 60 02            [24]  235 	jz	00125$
+      000089 80 03            [24]  236 	sjmp	00103$
+      00008B                        237 00125$:
+                                    238 ;	../contiki-sensinode/core/sys/process.c:109: return;
+      00008B 02r01r1D         [24]  239 	ljmp	00108$
+      00008E                        240 00103$:
+                                    241 ;	../contiki-sensinode/core/sys/process.c:112: p->next = process_list;
+      00008E A8 81            [24]  242 	mov	r0,sp
+      000090 18               [12]  243 	dec	r0
+      000091 18               [12]  244 	dec	r0
+      000092 86 82            [24]  245 	mov	dpl,@r0
+      000094 08               [12]  246 	inc	r0
+      000095 86 83            [24]  247 	mov	dph,@r0
+      000097 08               [12]  248 	inc	r0
+      000098 86 F0            [24]  249 	mov	b,@r0
+      00009A EA               [12]  250 	mov	a,r2
+      00009B 12r00r00         [24]  251 	lcall	__gptrput
+      00009E A3               [24]  252 	inc	dptr
+      00009F EB               [12]  253 	mov	a,r3
+      0000A0 12r00r00         [24]  254 	lcall	__gptrput
+      0000A3 A3               [24]  255 	inc	dptr
+      0000A4 EC               [12]  256 	mov	a,r4
+      0000A5 12r00r00         [24]  257 	lcall	__gptrput
+                                    258 ;	../contiki-sensinode/core/sys/process.c:113: process_list = p;
+      0000A8 A8 81            [24]  259 	mov	r0,sp
+      0000AA 18               [12]  260 	dec	r0
+      0000AB 18               [12]  261 	dec	r0
+      0000AC 90r00r00         [24]  262 	mov	dptr,#_process_list
+      0000AF E6               [12]  263 	mov	a,@r0
+      0000B0 F0               [24]  264 	movx	@dptr,a
+      0000B1 08               [12]  265 	inc	r0
+      0000B2 E6               [12]  266 	mov	a,@r0
+      0000B3 A3               [24]  267 	inc	dptr
+      0000B4 F0               [24]  268 	movx	@dptr,a
+      0000B5 08               [12]  269 	inc	r0
+      0000B6 E6               [12]  270 	mov	a,@r0
+      0000B7 A3               [24]  271 	inc	dptr
+      0000B8 F0               [24]  272 	movx	@dptr,a
+                                    273 ;	../contiki-sensinode/core/sys/process.c:114: p->state = PROCESS_STATE_RUNNING;
+      0000B9 A8 81            [24]  274 	mov	r0,sp
+      0000BB 18               [12]  275 	dec	r0
+      0000BC 18               [12]  276 	dec	r0
+      0000BD 74 07            [12]  277 	mov	a,#0x07
+      0000BF 26               [12]  278 	add	a,@r0
+      0000C0 FD               [12]  279 	mov	r5,a
+      0000C1 E4               [12]  280 	clr	a
+      0000C2 08               [12]  281 	inc	r0
+      0000C3 36               [12]  282 	addc	a,@r0
+      0000C4 FE               [12]  283 	mov	r6,a
+      0000C5 08               [12]  284 	inc	r0
+      0000C6 86 07            [24]  285 	mov	ar7,@r0
+      0000C8 8D 82            [24]  286 	mov	dpl,r5
+      0000CA 8E 83            [24]  287 	mov	dph,r6
+      0000CC 8F F0            [24]  288 	mov	b,r7
+      0000CE 74 01            [12]  289 	mov	a,#0x01
+      0000D0 12r00r00         [24]  290 	lcall	__gptrput
+                                    291 ;	../contiki-sensinode/core/sys/process.c:115: PT_INIT(&p->pt);
+      0000D3 A8 81            [24]  292 	mov	r0,sp
+      0000D5 18               [12]  293 	dec	r0
+      0000D6 18               [12]  294 	dec	r0
+      0000D7 74 05            [12]  295 	mov	a,#0x05
+      0000D9 26               [12]  296 	add	a,@r0
+      0000DA FD               [12]  297 	mov	r5,a
+      0000DB E4               [12]  298 	clr	a
+      0000DC 08               [12]  299 	inc	r0
+      0000DD 36               [12]  300 	addc	a,@r0
+      0000DE FE               [12]  301 	mov	r6,a
+      0000DF 08               [12]  302 	inc	r0
+      0000E0 86 07            [24]  303 	mov	ar7,@r0
+      0000E2 8D 82            [24]  304 	mov	dpl,r5
+      0000E4 8E 83            [24]  305 	mov	dph,r6
+      0000E6 8F F0            [24]  306 	mov	b,r7
+      0000E8 E4               [12]  307 	clr	a
+      0000E9 12r00r00         [24]  308 	lcall	__gptrput
+      0000EC A3               [24]  309 	inc	dptr
+      0000ED 12r00r00         [24]  310 	lcall	__gptrput
+                                    311 ;	../contiki-sensinode/core/sys/process.c:120: process_post_synch(p, PROCESS_EVENT_INIT, (process_data_t)arg);
+      0000F0 E5 81            [12]  312 	mov	a,sp
+      0000F2 24 F9            [12]  313 	add	a,#0xf9
+      0000F4 F8               [12]  314 	mov	r0,a
+      0000F5 86 05            [24]  315 	mov	ar5,@r0
+      0000F7 08               [12]  316 	inc	r0
+      0000F8 86 06            [24]  317 	mov	ar6,@r0
+      0000FA 08               [12]  318 	inc	r0
+      0000FB 86 07            [24]  319 	mov	ar7,@r0
+      0000FD C0 05            [24]  320 	push	ar5
+      0000FF C0 06            [24]  321 	push	ar6
+      000101 C0 07            [24]  322 	push	ar7
+      000103 74 81            [12]  323 	mov	a,#0x81
+      000105 C0 E0            [24]  324 	push	acc
+      000107 E5 81            [12]  325 	mov	a,sp
+      000109 24 FA            [12]  326 	add	a,#0xfa
+      00010B F8               [12]  327 	mov	r0,a
+      00010C 86 82            [24]  328 	mov	dpl,@r0
+      00010E 08               [12]  329 	inc	r0
+      00010F 86 83            [24]  330 	mov	dph,@r0
+      000111 08               [12]  331 	inc	r0
+      000112 86 F0            [24]  332 	mov	b,@r0
+      000114 12r08rF1         [24]  333 	lcall	_process_post_synch
+      000117 E5 81            [12]  334 	mov	a,sp
+      000119 24 FC            [12]  335 	add	a,#0xfc
+      00011B F5 81            [12]  336 	mov	sp,a
+      00011D                        337 00108$:
+      00011D 15 81            [12]  338 	dec	sp
+      00011F 15 81            [12]  339 	dec	sp
+      000121 15 81            [12]  340 	dec	sp
+      000123 22               [24]  341 	ret
+                                    342 ;------------------------------------------------------------
+                                    343 ;Allocation info for local variables in function 'exit_process'
+                                    344 ;------------------------------------------------------------
+                                    345 ;fromprocess               Allocated to stack - sp -13
+                                    346 ;p                         Allocated to stack - sp -8
+                                    347 ;q                         Allocated to stack - sp -5
+                                    348 ;old_current               Allocated to stack - sp -2
+                                    349 ;sloc0                     Allocated to stack - sp +1
+                                    350 ;------------------------------------------------------------
+                                    351 ;	../contiki-sensinode/core/sys/process.c:124: exit_process(struct process *p, struct process *fromprocess)
+                                    352 ;	-----------------------------------------
+                                    353 ;	 function exit_process
+                                    354 ;	-----------------------------------------
+      000124                        355 _exit_process:
+      000124 C0 82            [24]  356 	push	dpl
+      000126 C0 83            [24]  357 	push	dph
+      000128 C0 F0            [24]  358 	push	b
+      00012A E5 81            [12]  359 	mov	a,sp
+      00012C 24 06            [12]  360 	add	a,#0x06
+      00012E F5 81            [12]  361 	mov	sp,a
+                                    362 ;	../contiki-sensinode/core/sys/process.c:127: struct process *old_current = process_current;
+      000130 90r00r03         [24]  363 	mov	dptr,#_process_current
+      000133 E0               [24]  364 	movx	a,@dptr
+      000134 FA               [12]  365 	mov	r2,a
+      000135 A3               [24]  366 	inc	dptr
+      000136 E0               [24]  367 	movx	a,@dptr
+      000137 FB               [12]  368 	mov	r3,a
+      000138 A3               [24]  369 	inc	dptr
+      000139 E0               [24]  370 	movx	a,@dptr
+      00013A FC               [12]  371 	mov	r4,a
+      00013B A8 81            [24]  372 	mov	r0,sp
+      00013D 18               [12]  373 	dec	r0
+      00013E 18               [12]  374 	dec	r0
+      00013F A6 02            [24]  375 	mov	@r0,ar2
+      000141 08               [12]  376 	inc	r0
+      000142 A6 03            [24]  377 	mov	@r0,ar3
+      000144 08               [12]  378 	inc	r0
+      000145 A6 04            [24]  379 	mov	@r0,ar4
+                                    380 ;	../contiki-sensinode/core/sys/process.c:133: for(q = process_list; q != p && q != NULL; q = q->next);
+      000147 90r00r00         [24]  381 	mov	dptr,#_process_list
+      00014A E0               [24]  382 	movx	a,@dptr
+      00014B FA               [12]  383 	mov	r2,a
+      00014C A3               [24]  384 	inc	dptr
+      00014D E0               [24]  385 	movx	a,@dptr
+      00014E FB               [12]  386 	mov	r3,a
+      00014F A3               [24]  387 	inc	dptr
+      000150 E0               [24]  388 	movx	a,@dptr
+      000151 FC               [12]  389 	mov	r4,a
+      000152 E5 81            [12]  390 	mov	a,sp
+      000154 24 FB            [12]  391 	add	a,#0xfb
+      000156 F8               [12]  392 	mov	r0,a
+      000157 A6 02            [24]  393 	mov	@r0,ar2
+      000159 08               [12]  394 	inc	r0
+      00015A A6 03            [24]  395 	mov	@r0,ar3
+      00015C 08               [12]  396 	inc	r0
+      00015D A6 04            [24]  397 	mov	@r0,ar4
+      00015F                        398 00120$:
+      00015F E5 81            [12]  399 	mov	a,sp
+      000161 24 FB            [12]  400 	add	a,#0xfb
+      000163 F8               [12]  401 	mov	r0,a
+      000164 E5 81            [12]  402 	mov	a,sp
+      000166 24 F8            [12]  403 	add	a,#0xf8
+      000168 F9               [12]  404 	mov	r1,a
+      000169 E7               [12]  405 	mov	a,@r1
+      00016A C0 E0            [24]  406 	push	acc
+      00016C 09               [12]  407 	inc	r1
+      00016D E7               [12]  408 	mov	a,@r1
+      00016E C0 E0            [24]  409 	push	acc
+      000170 09               [12]  410 	inc	r1
+      000171 E7               [12]  411 	mov	a,@r1
+      000172 C0 E0            [24]  412 	push	acc
+      000174 86 82            [24]  413 	mov	dpl,@r0
+      000176 08               [12]  414 	inc	r0
+      000177 86 83            [24]  415 	mov	dph,@r0
+      000179 08               [12]  416 	inc	r0
+      00017A 86 F0            [24]  417 	mov	b,@r0
+      00017C 12r00r00         [24]  418 	lcall	___gptr_cmp
+      00017F 15 81            [12]  419 	dec	sp
+      000181 15 81            [12]  420 	dec	sp
+      000183 15 81            [12]  421 	dec	sp
+      000185 60 40            [24]  422 	jz	00101$
+      000187 E5 81            [12]  423 	mov	a,sp
+      000189 24 FB            [12]  424 	add	a,#0xfb
+      00018B F8               [12]  425 	mov	r0,a
+      00018C E4               [12]  426 	clr	a
+      00018D C0 E0            [24]  427 	push	acc
+      00018F C0 E0            [24]  428 	push	acc
+      000191 C0 E0            [24]  429 	push	acc
+      000193 86 82            [24]  430 	mov	dpl,@r0
+      000195 08               [12]  431 	inc	r0
+      000196 86 83            [24]  432 	mov	dph,@r0
+      000198 08               [12]  433 	inc	r0
+      000199 86 F0            [24]  434 	mov	b,@r0
+      00019B 12r00r00         [24]  435 	lcall	___gptr_cmp
+      00019E 15 81            [12]  436 	dec	sp
+      0001A0 15 81            [12]  437 	dec	sp
+      0001A2 15 81            [12]  438 	dec	sp
+      0001A4 60 21            [24]  439 	jz	00101$
+      0001A6 E5 81            [12]  440 	mov	a,sp
+      0001A8 24 FB            [12]  441 	add	a,#0xfb
+      0001AA F8               [12]  442 	mov	r0,a
+      0001AB 86 82            [24]  443 	mov	dpl,@r0
+      0001AD 08               [12]  444 	inc	r0
+      0001AE 86 83            [24]  445 	mov	dph,@r0
+      0001B0 08               [12]  446 	inc	r0
+      0001B1 86 F0            [24]  447 	mov	b,@r0
+      0001B3 12r00r00         [24]  448 	lcall	__gptrget
+      0001B6 18               [12]  449 	dec	r0
+      0001B7 18               [12]  450 	dec	r0
+      0001B8 F6               [12]  451 	mov	@r0,a
+      0001B9 A3               [24]  452 	inc	dptr
+      0001BA 12r00r00         [24]  453 	lcall	__gptrget
+      0001BD 08               [12]  454 	inc	r0
+      0001BE F6               [12]  455 	mov	@r0,a
+      0001BF A3               [24]  456 	inc	dptr
+      0001C0 12r00r00         [24]  457 	lcall	__gptrget
+      0001C3 08               [12]  458 	inc	r0
+      0001C4 F6               [12]  459 	mov	@r0,a
+      0001C5 80 98            [24]  460 	sjmp	00120$
+      0001C7                        461 00101$:
+                                    462 ;	../contiki-sensinode/core/sys/process.c:134: if(q == NULL) {
+      0001C7 E5 81            [12]  463 	mov	a,sp
+      0001C9 24 FB            [12]  464 	add	a,#0xfb
+      0001CB F8               [12]  465 	mov	r0,a
+      0001CC E6               [12]  466 	mov	a,@r0
+      0001CD 08               [12]  467 	inc	r0
+      0001CE 46               [12]  468 	orl	a,@r0
+      0001CF 70 03            [24]  469 	jnz	00103$
+                                    470 ;	../contiki-sensinode/core/sys/process.c:135: return;
+      0001D1 02r04r75         [24]  471 	ljmp	00128$
+      0001D4                        472 00103$:
+                                    473 ;	../contiki-sensinode/core/sys/process.c:138: if(process_is_running(p)) {
+      0001D4 E5 81            [12]  474 	mov	a,sp
+      0001D6 24 F8            [12]  475 	add	a,#0xf8
+      0001D8 F8               [12]  476 	mov	r0,a
+      0001D9 86 82            [24]  477 	mov	dpl,@r0
+      0001DB 08               [12]  478 	inc	r0
+      0001DC 86 83            [24]  479 	mov	dph,@r0
+      0001DE 08               [12]  480 	inc	r0
+      0001DF 86 F0            [24]  481 	mov	b,@r0
+      0001E1 12r09r7D         [24]  482 	lcall	_process_is_running
+      0001E4 E5 82            [12]  483 	mov	a,dpl
+      0001E6 85 83 F0         [24]  484 	mov	b,dph
+      0001E9 45 F0            [12]  485 	orl	a,b
+      0001EB 70 03            [24]  486 	jnz	00175$
+      0001ED 02r03r5F         [24]  487 	ljmp	00111$
+      0001F0                        488 00175$:
+                                    489 ;	../contiki-sensinode/core/sys/process.c:140: p->state = PROCESS_STATE_NONE;
+      0001F0 E5 81            [12]  490 	mov	a,sp
+      0001F2 24 F8            [12]  491 	add	a,#0xf8
+      0001F4 F8               [12]  492 	mov	r0,a
+      0001F5 74 07            [12]  493 	mov	a,#0x07
+      0001F7 26               [12]  494 	add	a,@r0
+      0001F8 FD               [12]  495 	mov	r5,a
+      0001F9 E4               [12]  496 	clr	a
+      0001FA 08               [12]  497 	inc	r0
+      0001FB 36               [12]  498 	addc	a,@r0
+      0001FC FE               [12]  499 	mov	r6,a
+      0001FD 08               [12]  500 	inc	r0
+      0001FE 86 07            [24]  501 	mov	ar7,@r0
+      000200 8D 82            [24]  502 	mov	dpl,r5
+      000202 8E 83            [24]  503 	mov	dph,r6
+      000204 8F F0            [24]  504 	mov	b,r7
+      000206 E4               [12]  505 	clr	a
+      000207 12r00r00         [24]  506 	lcall	__gptrput
+                                    507 ;	../contiki-sensinode/core/sys/process.c:147: for(q = process_list; q != NULL; q = q->next) {
+      00020A 90r00r00         [24]  508 	mov	dptr,#_process_list
+      00020D E0               [24]  509 	movx	a,@dptr
+      00020E FD               [12]  510 	mov	r5,a
+      00020F A3               [24]  511 	inc	dptr
+      000210 E0               [24]  512 	movx	a,@dptr
+      000211 FE               [12]  513 	mov	r6,a
+      000212 A3               [24]  514 	inc	dptr
+      000213 E0               [24]  515 	movx	a,@dptr
+      000214 FF               [12]  516 	mov	r7,a
+      000215 E5 81            [12]  517 	mov	a,sp
+      000217 24 FB            [12]  518 	add	a,#0xfb
+      000219 F8               [12]  519 	mov	r0,a
+      00021A A6 05            [24]  520 	mov	@r0,ar5
+      00021C 08               [12]  521 	inc	r0
+      00021D A6 06            [24]  522 	mov	@r0,ar6
+      00021F 08               [12]  523 	inc	r0
+      000220 A6 07            [24]  524 	mov	@r0,ar7
+      000222                        525 00123$:
+      000222 E5 81            [12]  526 	mov	a,sp
+      000224 24 FB            [12]  527 	add	a,#0xfb
+      000226 F8               [12]  528 	mov	r0,a
+      000227 E4               [12]  529 	clr	a
+      000228 C0 E0            [24]  530 	push	acc
+      00022A C0 E0            [24]  531 	push	acc
+      00022C C0 E0            [24]  532 	push	acc
+      00022E 86 82            [24]  533 	mov	dpl,@r0
+      000230 08               [12]  534 	inc	r0
+      000231 86 83            [24]  535 	mov	dph,@r0
+      000233 08               [12]  536 	inc	r0
+      000234 86 F0            [24]  537 	mov	b,@r0
+      000236 12r00r00         [24]  538 	lcall	___gptr_cmp
+      000239 15 81            [12]  539 	dec	sp
+      00023B 15 81            [12]  540 	dec	sp
+      00023D 15 81            [12]  541 	dec	sp
+      00023F 60 77            [24]  542 	jz	00106$
+                                    543 ;	../contiki-sensinode/core/sys/process.c:148: if(p != q) {
+      000241 E5 81            [12]  544 	mov	a,sp
+      000243 24 F8            [12]  545 	add	a,#0xf8
+      000245 F8               [12]  546 	mov	r0,a
+      000246 E5 81            [12]  547 	mov	a,sp
+      000248 24 FB            [12]  548 	add	a,#0xfb
+      00024A F9               [12]  549 	mov	r1,a
+      00024B E7               [12]  550 	mov	a,@r1
+      00024C C0 E0            [24]  551 	push	acc
+      00024E 09               [12]  552 	inc	r1
+      00024F E7               [12]  553 	mov	a,@r1
+      000250 C0 E0            [24]  554 	push	acc
+      000252 09               [12]  555 	inc	r1
+      000253 E7               [12]  556 	mov	a,@r1
+      000254 C0 E0            [24]  557 	push	acc
+      000256 86 82            [24]  558 	mov	dpl,@r0
+      000258 08               [12]  559 	inc	r0
+      000259 86 83            [24]  560 	mov	dph,@r0
+      00025B 08               [12]  561 	inc	r0
+      00025C 86 F0            [24]  562 	mov	b,@r0
+      00025E 12r00r00         [24]  563 	lcall	___gptr_cmp
+      000261 15 81            [12]  564 	dec	sp
+      000263 15 81            [12]  565 	dec	sp
+      000265 15 81            [12]  566 	dec	sp
+      000267 60 2D            [24]  567 	jz	00124$
+                                    568 ;	../contiki-sensinode/core/sys/process.c:149: call_process(q, PROCESS_EVENT_EXITED, (process_data_t)p);
+      000269 E5 81            [12]  569 	mov	a,sp
+      00026B 24 F8            [12]  570 	add	a,#0xf8
+      00026D F8               [12]  571 	mov	r0,a
+      00026E 86 05            [24]  572 	mov	ar5,@r0
+      000270 08               [12]  573 	inc	r0
+      000271 86 06            [24]  574 	mov	ar6,@r0
+      000273 08               [12]  575 	inc	r0
+      000274 86 07            [24]  576 	mov	ar7,@r0
+      000276 C0 05            [24]  577 	push	ar5
+      000278 C0 06            [24]  578 	push	ar6
+      00027A C0 07            [24]  579 	push	ar7
+      00027C 74 87            [12]  580 	mov	a,#0x87
+      00027E C0 E0            [24]  581 	push	acc
+      000280 E5 81            [12]  582 	mov	a,sp
+      000282 24 F7            [12]  583 	add	a,#0xf7
+      000284 F8               [12]  584 	mov	r0,a
+      000285 86 82            [24]  585 	mov	dpl,@r0
+      000287 08               [12]  586 	inc	r0
+      000288 86 83            [24]  587 	mov	dph,@r0
+      00028A 08               [12]  588 	inc	r0
+      00028B 86 F0            [24]  589 	mov	b,@r0
+      00028D 12r04r7C         [24]  590 	lcall	_call_process
+      000290 E5 81            [12]  591 	mov	a,sp
+      000292 24 FC            [12]  592 	add	a,#0xfc
+      000294 F5 81            [12]  593 	mov	sp,a
+      000296                        594 00124$:
+                                    595 ;	../contiki-sensinode/core/sys/process.c:147: for(q = process_list; q != NULL; q = q->next) {
+      000296 E5 81            [12]  596 	mov	a,sp
+      000298 24 FB            [12]  597 	add	a,#0xfb
+      00029A F8               [12]  598 	mov	r0,a
+      00029B 86 82            [24]  599 	mov	dpl,@r0
+      00029D 08               [12]  600 	inc	r0
+      00029E 86 83            [24]  601 	mov	dph,@r0
+      0002A0 08               [12]  602 	inc	r0
+      0002A1 86 F0            [24]  603 	mov	b,@r0
+      0002A3 12r00r00         [24]  604 	lcall	__gptrget
+      0002A6 18               [12]  605 	dec	r0
+      0002A7 18               [12]  606 	dec	r0
+      0002A8 F6               [12]  607 	mov	@r0,a
+      0002A9 A3               [24]  608 	inc	dptr
+      0002AA 12r00r00         [24]  609 	lcall	__gptrget
+      0002AD 08               [12]  610 	inc	r0
+      0002AE F6               [12]  611 	mov	@r0,a
+      0002AF A3               [24]  612 	inc	dptr
+      0002B0 12r00r00         [24]  613 	lcall	__gptrget
+      0002B3 08               [12]  614 	inc	r0
+      0002B4 F6               [12]  615 	mov	@r0,a
+      0002B5 02r02r22         [24]  616 	ljmp	00123$
+      0002B8                        617 00106$:
+                                    618 ;	../contiki-sensinode/core/sys/process.c:153: if(p->thread != NULL && p != fromprocess) {
+      0002B8 E5 81            [12]  619 	mov	a,sp
+      0002BA 24 F8            [12]  620 	add	a,#0xf8
+      0002BC F8               [12]  621 	mov	r0,a
+      0002BD 74 03            [12]  622 	mov	a,#0x03
+      0002BF 26               [12]  623 	add	a,@r0
+      0002C0 FD               [12]  624 	mov	r5,a
+      0002C1 E4               [12]  625 	clr	a
+      0002C2 08               [12]  626 	inc	r0
+      0002C3 36               [12]  627 	addc	a,@r0
+      0002C4 FC               [12]  628 	mov	r4,a
+      0002C5 08               [12]  629 	inc	r0
+      0002C6 86 03            [24]  630 	mov	ar3,@r0
+      0002C8 8D 82            [24]  631 	mov	dpl,r5
+      0002CA 8C 83            [24]  632 	mov	dph,r4
+      0002CC 8B F0            [24]  633 	mov	b,r3
+      0002CE 12r00r00         [24]  634 	lcall	__gptrget
+      0002D1 FE               [12]  635 	mov	r6,a
+      0002D2 A3               [24]  636 	inc	dptr
+      0002D3 12r00r00         [24]  637 	lcall	__gptrget
+      0002D6 FF               [12]  638 	mov	r7,a
+      0002D7 4E               [12]  639 	orl	a,r6
+      0002D8 70 03            [24]  640 	jnz	00178$
+      0002DA 02r03r5F         [24]  641 	ljmp	00111$
+      0002DD                        642 00178$:
+      0002DD E5 81            [12]  643 	mov	a,sp
+      0002DF 24 F8            [12]  644 	add	a,#0xf8
+      0002E1 F8               [12]  645 	mov	r0,a
+      0002E2 E5 81            [12]  646 	mov	a,sp
+      0002E4 24 F3            [12]  647 	add	a,#0xf3
+      0002E6 F9               [12]  648 	mov	r1,a
+      0002E7 E7               [12]  649 	mov	a,@r1
+      0002E8 C0 E0            [24]  650 	push	acc
+      0002EA 09               [12]  651 	inc	r1
+      0002EB E7               [12]  652 	mov	a,@r1
+      0002EC C0 E0            [24]  653 	push	acc
+      0002EE 09               [12]  654 	inc	r1
+      0002EF E7               [12]  655 	mov	a,@r1
+      0002F0 C0 E0            [24]  656 	push	acc
+      0002F2 86 82            [24]  657 	mov	dpl,@r0
+      0002F4 08               [12]  658 	inc	r0
+      0002F5 86 83            [24]  659 	mov	dph,@r0
+      0002F7 08               [12]  660 	inc	r0
+      0002F8 86 F0            [24]  661 	mov	b,@r0
+      0002FA 12r00r00         [24]  662 	lcall	___gptr_cmp
+      0002FD 15 81            [12]  663 	dec	sp
+      0002FF 15 81            [12]  664 	dec	sp
+      000301 15 81            [12]  665 	dec	sp
+      000303 60 5A            [24]  666 	jz	00111$
+                                    667 ;	../contiki-sensinode/core/sys/process.c:155: process_current = p;
+      000305 E5 81            [12]  668 	mov	a,sp
+      000307 24 F8            [12]  669 	add	a,#0xf8
+      000309 F8               [12]  670 	mov	r0,a
+      00030A 90r00r03         [24]  671 	mov	dptr,#_process_current
+      00030D E6               [12]  672 	mov	a,@r0
+      00030E F0               [24]  673 	movx	@dptr,a
+      00030F 08               [12]  674 	inc	r0
+      000310 E6               [12]  675 	mov	a,@r0
+      000311 A3               [24]  676 	inc	dptr
+      000312 F0               [24]  677 	movx	@dptr,a
+      000313 08               [12]  678 	inc	r0
+      000314 E6               [12]  679 	mov	a,@r0
+      000315 A3               [24]  680 	inc	dptr
+      000316 F0               [24]  681 	movx	@dptr,a
+                                    682 ;	../contiki-sensinode/core/sys/process.c:156: p->thread(&p->pt, PROCESS_EVENT_EXIT, NULL);
+      000317 8D 82            [24]  683 	mov	dpl,r5
+      000319 8C 83            [24]  684 	mov	dph,r4
+      00031B 8B F0            [24]  685 	mov	b,r3
+      00031D 12r00r00         [24]  686 	lcall	__gptrget
+      000320 FB               [12]  687 	mov	r3,a
+      000321 A3               [24]  688 	inc	dptr
+      000322 12r00r00         [24]  689 	lcall	__gptrget
+      000325 FC               [12]  690 	mov	r4,a
+      000326 E5 81            [12]  691 	mov	a,sp
+      000328 24 F8            [12]  692 	add	a,#0xf8
+      00032A F8               [12]  693 	mov	r0,a
+      00032B 74 05            [12]  694 	mov	a,#0x05
+      00032D 26               [12]  695 	add	a,@r0
+      00032E FD               [12]  696 	mov	r5,a
+      00032F E4               [12]  697 	clr	a
+      000330 08               [12]  698 	inc	r0
+      000331 36               [12]  699 	addc	a,@r0
+      000332 FE               [12]  700 	mov	r6,a
+      000333 08               [12]  701 	inc	r0
+      000334 86 07            [24]  702 	mov	ar7,@r0
+      000336 C0 04            [24]  703 	push	ar4
+      000338 C0 03            [24]  704 	push	ar3
+      00033A E4               [12]  705 	clr	a
+      00033B C0 E0            [24]  706 	push	acc
+      00033D C0 E0            [24]  707 	push	acc
+      00033F C0 E0            [24]  708 	push	acc
+      000341 74 83            [12]  709 	mov	a,#0x83
+      000343 C0 E0            [24]  710 	push	acc
+      000345 12r03r4A         [24]  711 	lcall	00180$
+      000348 80 0B            [24]  712 	sjmp	00181$
+      00034A                        713 00180$:
+      00034A C0 03            [24]  714 	push	ar3
+      00034C C0 04            [24]  715 	push	ar4
+      00034E 8D 82            [24]  716 	mov	dpl,r5
+      000350 8E 83            [24]  717 	mov	dph,r6
+      000352 8F F0            [24]  718 	mov	b,r7
+      000354 22               [24]  719 	ret
+      000355                        720 00181$:
+      000355 E5 81            [12]  721 	mov	a,sp
+      000357 24 FC            [12]  722 	add	a,#0xfc
+      000359 F5 81            [12]  723 	mov	sp,a
+      00035B D0 03            [24]  724 	pop	ar3
+      00035D D0 04            [24]  725 	pop	ar4
+      00035F                        726 00111$:
+                                    727 ;	../contiki-sensinode/core/sys/process.c:160: if(p == process_list) {
+      00035F 90r00r00         [24]  728 	mov	dptr,#_process_list
+      000362 E0               [24]  729 	movx	a,@dptr
+      000363 FC               [12]  730 	mov	r4,a
+      000364 A3               [24]  731 	inc	dptr
+      000365 E0               [24]  732 	movx	a,@dptr
+      000366 FB               [12]  733 	mov	r3,a
+      000367 A3               [24]  734 	inc	dptr
+      000368 E0               [24]  735 	movx	a,@dptr
+      000369 FA               [12]  736 	mov	r2,a
+      00036A E5 81            [12]  737 	mov	a,sp
+      00036C 24 F8            [12]  738 	add	a,#0xf8
+      00036E F8               [12]  739 	mov	r0,a
+      00036F C0 04            [24]  740 	push	ar4
+      000371 C0 03            [24]  741 	push	ar3
+      000373 C0 02            [24]  742 	push	ar2
+      000375 86 82            [24]  743 	mov	dpl,@r0
+      000377 08               [12]  744 	inc	r0
+      000378 86 83            [24]  745 	mov	dph,@r0
+      00037A 08               [12]  746 	inc	r0
+      00037B 86 F0            [24]  747 	mov	b,@r0
+      00037D 12r00r00         [24]  748 	lcall	___gptr_cmp
+      000380 15 81            [12]  749 	dec	sp
+      000382 15 81            [12]  750 	dec	sp
+      000384 15 81            [12]  751 	dec	sp
+      000386 60 02            [24]  752 	jz	00183$
+      000388 80 22            [24]  753 	sjmp	00116$
+      00038A                        754 00183$:
+                                    755 ;	../contiki-sensinode/core/sys/process.c:161: process_list = process_list->next;
+      00038A 8C 82            [24]  756 	mov	dpl,r4
+      00038C 8B 83            [24]  757 	mov	dph,r3
+      00038E 8A F0            [24]  758 	mov	b,r2
+      000390 12r00r00         [24]  759 	lcall	__gptrget
+      000393 FD               [12]  760 	mov	r5,a
+      000394 A3               [24]  761 	inc	dptr
+      000395 12r00r00         [24]  762 	lcall	__gptrget
+      000398 FE               [12]  763 	mov	r6,a
+      000399 A3               [24]  764 	inc	dptr
+      00039A 12r00r00         [24]  765 	lcall	__gptrget
+      00039D FF               [12]  766 	mov	r7,a
+      00039E 90r00r00         [24]  767 	mov	dptr,#_process_list
+      0003A1 ED               [12]  768 	mov	a,r5
+      0003A2 F0               [24]  769 	movx	@dptr,a
+      0003A3 EE               [12]  770 	mov	a,r6
+      0003A4 A3               [24]  771 	inc	dptr
+      0003A5 F0               [24]  772 	movx	@dptr,a
+      0003A6 EF               [12]  773 	mov	a,r7
+      0003A7 A3               [24]  774 	inc	dptr
+      0003A8 F0               [24]  775 	movx	@dptr,a
+      0003A9 02r04r64         [24]  776 	ljmp	00117$
+      0003AC                        777 00116$:
+                                    778 ;	../contiki-sensinode/core/sys/process.c:163: for(q = process_list; q != NULL; q = q->next) {
+      0003AC 8C 05            [24]  779 	mov	ar5,r4
+      0003AE 8B 06            [24]  780 	mov	ar6,r3
+      0003B0 8A 07            [24]  781 	mov	ar7,r2
+      0003B2 E5 81            [12]  782 	mov	a,sp
+      0003B4 24 FB            [12]  783 	add	a,#0xfb
+      0003B6 F8               [12]  784 	mov	r0,a
+      0003B7 A6 05            [24]  785 	mov	@r0,ar5
+      0003B9 08               [12]  786 	inc	r0
+      0003BA A6 06            [24]  787 	mov	@r0,ar6
+      0003BC 08               [12]  788 	inc	r0
+      0003BD A6 07            [24]  789 	mov	@r0,ar7
+      0003BF                        790 00126$:
+      0003BF E5 81            [12]  791 	mov	a,sp
+      0003C1 24 FB            [12]  792 	add	a,#0xfb
+      0003C3 F8               [12]  793 	mov	r0,a
+      0003C4 E4               [12]  794 	clr	a
+      0003C5 C0 E0            [24]  795 	push	acc
+      0003C7 C0 E0            [24]  796 	push	acc
+      0003C9 C0 E0            [24]  797 	push	acc
+      0003CB 86 82            [24]  798 	mov	dpl,@r0
+      0003CD 08               [12]  799 	inc	r0
+      0003CE 86 83            [24]  800 	mov	dph,@r0
+      0003D0 08               [12]  801 	inc	r0
+      0003D1 86 F0            [24]  802 	mov	b,@r0
+      0003D3 12r00r00         [24]  803 	lcall	___gptr_cmp
+      0003D6 15 81            [12]  804 	dec	sp
+      0003D8 15 81            [12]  805 	dec	sp
+      0003DA 15 81            [12]  806 	dec	sp
+      0003DC 70 03            [24]  807 	jnz	00184$
+      0003DE 02r04r64         [24]  808 	ljmp	00117$
+      0003E1                        809 00184$:
+                                    810 ;	../contiki-sensinode/core/sys/process.c:164: if(q->next == p) {
+      0003E1 E5 81            [12]  811 	mov	a,sp
+      0003E3 24 FB            [12]  812 	add	a,#0xfb
+      0003E5 F8               [12]  813 	mov	r0,a
+      0003E6 86 82            [24]  814 	mov	dpl,@r0
+      0003E8 08               [12]  815 	inc	r0
+      0003E9 86 83            [24]  816 	mov	dph,@r0
+      0003EB 08               [12]  817 	inc	r0
+      0003EC 86 F0            [24]  818 	mov	b,@r0
+      0003EE 12r00r00         [24]  819 	lcall	__gptrget
+      0003F1 FD               [12]  820 	mov	r5,a
+      0003F2 A3               [24]  821 	inc	dptr
+      0003F3 12r00r00         [24]  822 	lcall	__gptrget
+      0003F6 FE               [12]  823 	mov	r6,a
+      0003F7 A3               [24]  824 	inc	dptr
+      0003F8 12r00r00         [24]  825 	lcall	__gptrget
+      0003FB FF               [12]  826 	mov	r7,a
+      0003FC E5 81            [12]  827 	mov	a,sp
+      0003FE 24 F8            [12]  828 	add	a,#0xf8
+      000400 F8               [12]  829 	mov	r0,a
+      000401 C0 05            [24]  830 	push	ar5
+      000403 C0 06            [24]  831 	push	ar6
+      000405 C0 07            [24]  832 	push	ar7
+      000407 86 82            [24]  833 	mov	dpl,@r0
+      000409 08               [12]  834 	inc	r0
+      00040A 86 83            [24]  835 	mov	dph,@r0
+      00040C 08               [12]  836 	inc	r0
+      00040D 86 F0            [24]  837 	mov	b,@r0
+      00040F 12r00r00         [24]  838 	lcall	___gptr_cmp
+      000412 15 81            [12]  839 	dec	sp
+      000414 15 81            [12]  840 	dec	sp
+      000416 15 81            [12]  841 	dec	sp
+      000418 60 02            [24]  842 	jz	00186$
+      00041A 80 38            [24]  843 	sjmp	00127$
+      00041C                        844 00186$:
+                                    845 ;	../contiki-sensinode/core/sys/process.c:165: q->next = p->next;
+      00041C E5 81            [12]  846 	mov	a,sp
+      00041E 24 F8            [12]  847 	add	a,#0xf8
+      000420 F8               [12]  848 	mov	r0,a
+      000421 86 82            [24]  849 	mov	dpl,@r0
+      000423 08               [12]  850 	inc	r0
+      000424 86 83            [24]  851 	mov	dph,@r0
+      000426 08               [12]  852 	inc	r0
+      000427 86 F0            [24]  853 	mov	b,@r0
+      000429 12r00r00         [24]  854 	lcall	__gptrget
+      00042C FA               [12]  855 	mov	r2,a
+      00042D A3               [24]  856 	inc	dptr
+      00042E 12r00r00         [24]  857 	lcall	__gptrget
+      000431 FB               [12]  858 	mov	r3,a
+      000432 A3               [24]  859 	inc	dptr
+      000433 12r00r00         [24]  860 	lcall	__gptrget
+      000436 FC               [12]  861 	mov	r4,a
+      000437 E5 81            [12]  862 	mov	a,sp
+      000439 24 FB            [12]  863 	add	a,#0xfb
+      00043B F8               [12]  864 	mov	r0,a
+      00043C 86 82            [24]  865 	mov	dpl,@r0
+      00043E 08               [12]  866 	inc	r0
+      00043F 86 83            [24]  867 	mov	dph,@r0
+      000441 08               [12]  868 	inc	r0
+      000442 86 F0            [24]  869 	mov	b,@r0
+      000444 EA               [12]  870 	mov	a,r2
+      000445 12r00r00         [24]  871 	lcall	__gptrput
+      000448 A3               [24]  872 	inc	dptr
+      000449 EB               [12]  873 	mov	a,r3
+      00044A 12r00r00         [24]  874 	lcall	__gptrput
+      00044D A3               [24]  875 	inc	dptr
+      00044E EC               [12]  876 	mov	a,r4
+      00044F 12r00r00         [24]  877 	lcall	__gptrput
+                                    878 ;	../contiki-sensinode/core/sys/process.c:166: break;
+      000452 80 10            [24]  879 	sjmp	00117$
+      000454                        880 00127$:
+                                    881 ;	../contiki-sensinode/core/sys/process.c:163: for(q = process_list; q != NULL; q = q->next) {
+      000454 E5 81            [12]  882 	mov	a,sp
+      000456 24 FB            [12]  883 	add	a,#0xfb
+      000458 F8               [12]  884 	mov	r0,a
+      000459 A6 05            [24]  885 	mov	@r0,ar5
+      00045B 08               [12]  886 	inc	r0
+      00045C A6 06            [24]  887 	mov	@r0,ar6
+      00045E 08               [12]  888 	inc	r0
+      00045F A6 07            [24]  889 	mov	@r0,ar7
+      000461 02r03rBF         [24]  890 	ljmp	00126$
+      000464                        891 00117$:
+                                    892 ;	../contiki-sensinode/core/sys/process.c:171: process_current = old_current;
+      000464 A8 81            [24]  893 	mov	r0,sp
+      000466 18               [12]  894 	dec	r0
+      000467 18               [12]  895 	dec	r0
+      000468 90r00r03         [24]  896 	mov	dptr,#_process_current
+      00046B E6               [12]  897 	mov	a,@r0
+      00046C F0               [24]  898 	movx	@dptr,a
+      00046D 08               [12]  899 	inc	r0
+      00046E E6               [12]  900 	mov	a,@r0
+      00046F A3               [24]  901 	inc	dptr
+      000470 F0               [24]  902 	movx	@dptr,a
+      000471 08               [12]  903 	inc	r0
+      000472 E6               [12]  904 	mov	a,@r0
+      000473 A3               [24]  905 	inc	dptr
+      000474 F0               [24]  906 	movx	@dptr,a
+      000475                        907 00128$:
+      000475 E5 81            [12]  908 	mov	a,sp
+      000477 24 F7            [12]  909 	add	a,#0xF7
+      000479 F5 81            [12]  910 	mov	sp,a
+      00047B 22               [24]  911 	ret
+                                    912 ;------------------------------------------------------------
+                                    913 ;Allocation info for local variables in function 'call_process'
+                                    914 ;------------------------------------------------------------
+                                    915 ;ev                        Allocated to stack - sp -8
+                                    916 ;data                      Allocated to stack - sp -11
+                                    917 ;p                         Allocated to stack - sp -5
+                                    918 ;ret                       Allocated to registers r6 r7 
+                                    919 ;sloc0                     Allocated to stack - sp -2
+                                    920 ;------------------------------------------------------------
+                                    921 ;	../contiki-sensinode/core/sys/process.c:175: call_process(struct process *p, process_event_t ev, process_data_t data)
+                                    922 ;	-----------------------------------------
+                                    923 ;	 function call_process
+                                    924 ;	-----------------------------------------
+      00047C                        925 _call_process:
+      00047C C0 82            [24]  926 	push	dpl
+      00047E C0 83            [24]  927 	push	dph
+      000480 C0 F0            [24]  928 	push	b
+      000482 05 81            [12]  929 	inc	sp
+      000484 05 81            [12]  930 	inc	sp
+      000486 05 81            [12]  931 	inc	sp
+                                    932 ;	../contiki-sensinode/core/sys/process.c:185: if((p->state & PROCESS_STATE_RUNNING) &&
+      000488 E5 81            [12]  933 	mov	a,sp
+      00048A 24 FB            [12]  934 	add	a,#0xfb
+      00048C F8               [12]  935 	mov	r0,a
+      00048D 74 07            [12]  936 	mov	a,#0x07
+      00048F 26               [12]  937 	add	a,@r0
+      000490 FA               [12]  938 	mov	r2,a
+      000491 E4               [12]  939 	clr	a
+      000492 08               [12]  940 	inc	r0
+      000493 36               [12]  941 	addc	a,@r0
+      000494 FB               [12]  942 	mov	r3,a
+      000495 08               [12]  943 	inc	r0
+      000496 86 04            [24]  944 	mov	ar4,@r0
+      000498 8A 82            [24]  945 	mov	dpl,r2
+      00049A 8B 83            [24]  946 	mov	dph,r3
+      00049C 8C F0            [24]  947 	mov	b,r4
+      00049E 12r00r00         [24]  948 	lcall	__gptrget
+      0004A1 FF               [12]  949 	mov	r7,a
+      0004A2 20 E0 03         [24]  950 	jb	acc.0,00123$
+      0004A5 02r05rBD         [24]  951 	ljmp	00109$
+      0004A8                        952 00123$:
+                                    953 ;	../contiki-sensinode/core/sys/process.c:186: p->thread != NULL) {
+      0004A8 E5 81            [12]  954 	mov	a,sp
+      0004AA 24 FB            [12]  955 	add	a,#0xfb
+      0004AC F8               [12]  956 	mov	r0,a
+      0004AD A9 81            [24]  957 	mov	r1,sp
+      0004AF 19               [12]  958 	dec	r1
+      0004B0 19               [12]  959 	dec	r1
+      0004B1 74 03            [12]  960 	mov	a,#0x03
+      0004B3 26               [12]  961 	add	a,@r0
+      0004B4 F7               [12]  962 	mov	@r1,a
+      0004B5 E4               [12]  963 	clr	a
+      0004B6 08               [12]  964 	inc	r0
+      0004B7 36               [12]  965 	addc	a,@r0
+      0004B8 09               [12]  966 	inc	r1
+      0004B9 F7               [12]  967 	mov	@r1,a
+      0004BA 08               [12]  968 	inc	r0
+      0004BB 09               [12]  969 	inc	r1
+      0004BC E6               [12]  970 	mov	a,@r0
+      0004BD F7               [12]  971 	mov	@r1,a
+      0004BE A8 81            [24]  972 	mov	r0,sp
+      0004C0 18               [12]  973 	dec	r0
+      0004C1 18               [12]  974 	dec	r0
+      0004C2 86 82            [24]  975 	mov	dpl,@r0
+      0004C4 08               [12]  976 	inc	r0
+      0004C5 86 83            [24]  977 	mov	dph,@r0
+      0004C7 08               [12]  978 	inc	r0
+      0004C8 86 F0            [24]  979 	mov	b,@r0
+      0004CA 12r00r00         [24]  980 	lcall	__gptrget
+      0004CD FE               [12]  981 	mov	r6,a
+      0004CE A3               [24]  982 	inc	dptr
+      0004CF 12r00r00         [24]  983 	lcall	__gptrget
+      0004D2 FF               [12]  984 	mov	r7,a
+      0004D3 4E               [12]  985 	orl	a,r6
+      0004D4 70 03            [24]  986 	jnz	00124$
+      0004D6 02r05rBD         [24]  987 	ljmp	00109$
+      0004D9                        988 00124$:
+                                    989 ;	../contiki-sensinode/core/sys/process.c:188: process_current = p;
+      0004D9 E5 81            [12]  990 	mov	a,sp
+      0004DB 24 FB            [12]  991 	add	a,#0xfb
+      0004DD F8               [12]  992 	mov	r0,a
+      0004DE 90r00r03         [24]  993 	mov	dptr,#_process_current
+      0004E1 E6               [12]  994 	mov	a,@r0
+      0004E2 F0               [24]  995 	movx	@dptr,a
+      0004E3 08               [12]  996 	inc	r0
+      0004E4 E6               [12]  997 	mov	a,@r0
+      0004E5 A3               [24]  998 	inc	dptr
+      0004E6 F0               [24]  999 	movx	@dptr,a
+      0004E7 08               [12] 1000 	inc	r0
+      0004E8 E6               [12] 1001 	mov	a,@r0
+      0004E9 A3               [24] 1002 	inc	dptr
+      0004EA F0               [24] 1003 	movx	@dptr,a
+                                   1004 ;	../contiki-sensinode/core/sys/process.c:189: p->state = PROCESS_STATE_CALLED;
+      0004EB 8A 82            [24] 1005 	mov	dpl,r2
+      0004ED 8B 83            [24] 1006 	mov	dph,r3
+      0004EF 8C F0            [24] 1007 	mov	b,r4
+      0004F1 74 02            [12] 1008 	mov	a,#0x02
+      0004F3 12r00r00         [24] 1009 	lcall	__gptrput
+                                   1010 ;	../contiki-sensinode/core/sys/process.c:190: ret = p->thread(&p->pt, ev, data);
+      0004F6 A8 81            [24] 1011 	mov	r0,sp
+      0004F8 18               [12] 1012 	dec	r0
+      0004F9 18               [12] 1013 	dec	r0
+      0004FA 86 82            [24] 1014 	mov	dpl,@r0
+      0004FC 08               [12] 1015 	inc	r0
+      0004FD 86 83            [24] 1016 	mov	dph,@r0
+      0004FF 08               [12] 1017 	inc	r0
+      000500 86 F0            [24] 1018 	mov	b,@r0
+      000502 12r00r00         [24] 1019 	lcall	__gptrget
+      000505 FE               [12] 1020 	mov	r6,a
+      000506 A3               [24] 1021 	inc	dptr
+      000507 12r00r00         [24] 1022 	lcall	__gptrget
+      00050A FF               [12] 1023 	mov	r7,a
+      00050B C0 02            [24] 1024 	push	ar2
+      00050D C0 03            [24] 1025 	push	ar3
+      00050F C0 04            [24] 1026 	push	ar4
+      000511 E5 81            [12] 1027 	mov	a,sp
+      000513 24 F8            [12] 1028 	add	a,#0xf8
+      000515 F8               [12] 1029 	mov	r0,a
+      000516 74 05            [12] 1030 	mov	a,#0x05
+      000518 26               [12] 1031 	add	a,@r0
+      000519 FB               [12] 1032 	mov	r3,a
+      00051A E4               [12] 1033 	clr	a
+      00051B 08               [12] 1034 	inc	r0
+      00051C 36               [12] 1035 	addc	a,@r0
+      00051D FC               [12] 1036 	mov	r4,a
+      00051E 08               [12] 1037 	inc	r0
+      00051F 86 05            [24] 1038 	mov	ar5,@r0
+      000521 C0 07            [24] 1039 	push	ar7
+      000523 C0 04            [24] 1040 	push	ar4
+      000525 C0 03            [24] 1041 	push	ar3
+      000527 C0 02            [24] 1042 	push	ar2
+      000529 E5 81            [12] 1043 	mov	a,sp
+      00052B 24 EE            [12] 1044 	add	a,#0xee
+      00052D F8               [12] 1045 	mov	r0,a
+      00052E E6               [12] 1046 	mov	a,@r0
+      00052F C0 E0            [24] 1047 	push	acc
+      000531 08               [12] 1048 	inc	r0
+      000532 E6               [12] 1049 	mov	a,@r0
+      000533 C0 E0            [24] 1050 	push	acc
+      000535 08               [12] 1051 	inc	r0
+      000536 E6               [12] 1052 	mov	a,@r0
+      000537 C0 E0            [24] 1053 	push	acc
+      000539 E5 81            [12] 1054 	mov	a,sp
+      00053B 24 EE            [12] 1055 	add	a,#0xee
+      00053D F8               [12] 1056 	mov	r0,a
+      00053E E6               [12] 1057 	mov	a,@r0
+      00053F C0 E0            [24] 1058 	push	acc
+      000541 12r05r46         [24] 1059 	lcall	00125$
+      000544 80 0B            [24] 1060 	sjmp	00126$
+      000546                       1061 00125$:
+      000546 C0 06            [24] 1062 	push	ar6
+      000548 C0 07            [24] 1063 	push	ar7
+      00054A 8B 82            [24] 1064 	mov	dpl,r3
+      00054C 8C 83            [24] 1065 	mov	dph,r4
+      00054E 8D F0            [24] 1066 	mov	b,r5
+      000550 22               [24] 1067 	ret
+      000551                       1068 00126$:
+      000551 AE 82            [24] 1069 	mov	r6,dpl
+      000553 E5 81            [12] 1070 	mov	a,sp
+      000555 24 FC            [12] 1071 	add	a,#0xfc
+      000557 F5 81            [12] 1072 	mov	sp,a
+      000559 D0 02            [24] 1073 	pop	ar2
+      00055B D0 03            [24] 1074 	pop	ar3
+      00055D D0 04            [24] 1075 	pop	ar4
+      00055F D0 07            [24] 1076 	pop	ar7
+      000561 EE               [12] 1077 	mov	a,r6
+      000562 33               [12] 1078 	rlc	a
+      000563 95 E0            [12] 1079 	subb	a,acc
+      000565 FF               [12] 1080 	mov	r7,a
+                                   1081 ;	../contiki-sensinode/core/sys/process.c:191: if(ret == PT_EXITED ||
+      000566 BE 02 0B         [24] 1082 	cjne	r6,#0x02,00127$
+      000569 BF 00 08         [24] 1083 	cjne	r7,#0x00,00127$
+      00056C D0 04            [24] 1084 	pop	ar4
+      00056E D0 03            [24] 1085 	pop	ar3
+      000570 D0 02            [24] 1086 	pop	ar2
+      000572 80 16            [24] 1087 	sjmp	00101$
+      000574                       1088 00127$:
+      000574 D0 04            [24] 1089 	pop	ar4
+      000576 D0 03            [24] 1090 	pop	ar3
+      000578 D0 02            [24] 1091 	pop	ar2
+                                   1092 ;	../contiki-sensinode/core/sys/process.c:192: ret == PT_ENDED ||
+      00057A BE 03 05         [24] 1093 	cjne	r6,#0x03,00128$
+      00057D BF 00 02         [24] 1094 	cjne	r7,#0x00,00128$
+      000580 80 08            [24] 1095 	sjmp	00101$
+      000582                       1096 00128$:
+                                   1097 ;	../contiki-sensinode/core/sys/process.c:193: ev == PROCESS_EVENT_EXIT) {
+      000582 E5 81            [12] 1098 	mov	a,sp
+      000584 24 F8            [12] 1099 	add	a,#0xf8
+      000586 F8               [12] 1100 	mov	r0,a
+      000587 B6 83 28         [24] 1101 	cjne	@r0,#0x83,00102$
+      00058A                       1102 00101$:
+                                   1103 ;	../contiki-sensinode/core/sys/process.c:194: exit_process(p, p);
+      00058A E5 81            [12] 1104 	mov	a,sp
+      00058C 24 FB            [12] 1105 	add	a,#0xfb
+      00058E F8               [12] 1106 	mov	r0,a
+      00058F E6               [12] 1107 	mov	a,@r0
+      000590 C0 E0            [24] 1108 	push	acc
+      000592 08               [12] 1109 	inc	r0
+      000593 E6               [12] 1110 	mov	a,@r0
+      000594 C0 E0            [24] 1111 	push	acc
+      000596 08               [12] 1112 	inc	r0
+      000597 E6               [12] 1113 	mov	a,@r0
+      000598 C0 E0            [24] 1114 	push	acc
+      00059A E5 81            [12] 1115 	mov	a,sp
+      00059C 24 F8            [12] 1116 	add	a,#0xf8
+      00059E F8               [12] 1117 	mov	r0,a
+      00059F 86 82            [24] 1118 	mov	dpl,@r0
+      0005A1 08               [12] 1119 	inc	r0
+      0005A2 86 83            [24] 1120 	mov	dph,@r0
+      0005A4 08               [12] 1121 	inc	r0
+      0005A5 86 F0            [24] 1122 	mov	b,@r0
+      0005A7 12r01r24         [24] 1123 	lcall	_exit_process
+      0005AA 15 81            [12] 1124 	dec	sp
+      0005AC 15 81            [12] 1125 	dec	sp
+      0005AE 15 81            [12] 1126 	dec	sp
+      0005B0 80 0B            [24] 1127 	sjmp	00109$
+      0005B2                       1128 00102$:
+                                   1129 ;	../contiki-sensinode/core/sys/process.c:196: p->state = PROCESS_STATE_RUNNING;
+      0005B2 8A 82            [24] 1130 	mov	dpl,r2
+      0005B4 8B 83            [24] 1131 	mov	dph,r3
+      0005B6 8C F0            [24] 1132 	mov	b,r4
+      0005B8 74 01            [12] 1133 	mov	a,#0x01
+      0005BA 12r00r00         [24] 1134 	lcall	__gptrput
+      0005BD                       1135 00109$:
+      0005BD E5 81            [12] 1136 	mov	a,sp
+      0005BF 24 FA            [12] 1137 	add	a,#0xFA
+      0005C1 F5 81            [12] 1138 	mov	sp,a
+      0005C3 22               [24] 1139 	ret
+                                   1140 ;------------------------------------------------------------
+                                   1141 ;Allocation info for local variables in function 'process_exit'
+                                   1142 ;------------------------------------------------------------
+                                   1143 ;p                         Allocated to registers r5 r6 r7 
+                                   1144 ;------------------------------------------------------------
+                                   1145 ;	../contiki-sensinode/core/sys/process.c:202: process_exit(struct process *p)
+                                   1146 ;	-----------------------------------------
+                                   1147 ;	 function process_exit
+                                   1148 ;	-----------------------------------------
+      0005C4                       1149 _process_exit:
+      0005C4 AD 82            [24] 1150 	mov	r5,dpl
+      0005C6 AE 83            [24] 1151 	mov	r6,dph
+      0005C8 AF F0            [24] 1152 	mov	r7,b
+                                   1153 ;	../contiki-sensinode/core/sys/process.c:204: exit_process(p, PROCESS_CURRENT());
+      0005CA 90r00r03         [24] 1154 	mov	dptr,#_process_current
+      0005CD E0               [24] 1155 	movx	a,@dptr
+      0005CE C0 E0            [24] 1156 	push	acc
+      0005D0 A3               [24] 1157 	inc	dptr
+      0005D1 E0               [24] 1158 	movx	a,@dptr
+      0005D2 C0 E0            [24] 1159 	push	acc
+      0005D4 A3               [24] 1160 	inc	dptr
+      0005D5 E0               [24] 1161 	movx	a,@dptr
+      0005D6 C0 E0            [24] 1162 	push	acc
+      0005D8 8D 82            [24] 1163 	mov	dpl,r5
+      0005DA 8E 83            [24] 1164 	mov	dph,r6
+      0005DC 8F F0            [24] 1165 	mov	b,r7
+      0005DE 12r01r24         [24] 1166 	lcall	_exit_process
+      0005E1 15 81            [12] 1167 	dec	sp
+      0005E3 15 81            [12] 1168 	dec	sp
+      0005E5 15 81            [12] 1169 	dec	sp
+      0005E7 22               [24] 1170 	ret
+                                   1171 ;------------------------------------------------------------
+                                   1172 ;Allocation info for local variables in function 'process_init'
+                                   1173 ;------------------------------------------------------------
+                                   1174 ;	../contiki-sensinode/core/sys/process.c:208: process_init(void)
+                                   1175 ;	-----------------------------------------
+                                   1176 ;	 function process_init
+                                   1177 ;	-----------------------------------------
+      0005E8                       1178 _process_init:
+                                   1179 ;	../contiki-sensinode/core/sys/process.c:210: lastevent = PROCESS_EVENT_MAX;
+      0005E8 90r00r00         [24] 1180 	mov	dptr,#_lastevent
+      0005EB 74 8A            [12] 1181 	mov	a,#0x8A
+      0005ED F0               [24] 1182 	movx	@dptr,a
+                                   1183 ;	../contiki-sensinode/core/sys/process.c:212: nevents = fevent = 0;
+      0005EE 90r00r02         [24] 1184 	mov	dptr,#_fevent
+      0005F1 E4               [12] 1185 	clr	a
+      0005F2 F0               [24] 1186 	movx	@dptr,a
+      0005F3 90r00r01         [24] 1187 	mov	dptr,#_nevents
+      0005F6 F0               [24] 1188 	movx	@dptr,a
+                                   1189 ;	../contiki-sensinode/core/sys/process.c:217: process_current = process_list = NULL;
+      0005F7 90r00r00         [24] 1190 	mov	dptr,#_process_list
+      0005FA F0               [24] 1191 	movx	@dptr,a
+      0005FB A3               [24] 1192 	inc	dptr
+      0005FC F0               [24] 1193 	movx	@dptr,a
+      0005FD A3               [24] 1194 	inc	dptr
+      0005FE F0               [24] 1195 	movx	@dptr,a
+      0005FF 90r00r03         [24] 1196 	mov	dptr,#_process_current
+      000602 F0               [24] 1197 	movx	@dptr,a
+      000603 A3               [24] 1198 	inc	dptr
+      000604 F0               [24] 1199 	movx	@dptr,a
+      000605 A3               [24] 1200 	inc	dptr
+      000606 F0               [24] 1201 	movx	@dptr,a
+      000607 22               [24] 1202 	ret
+                                   1203 ;------------------------------------------------------------
+                                   1204 ;Allocation info for local variables in function 'do_poll'
+                                   1205 ;------------------------------------------------------------
+                                   1206 ;p                         Allocated to stack - sp -2
+                                   1207 ;------------------------------------------------------------
+                                   1208 ;	../contiki-sensinode/core/sys/process.c:225: do_poll(void)
+                                   1209 ;	-----------------------------------------
+                                   1210 ;	 function do_poll
+                                   1211 ;	-----------------------------------------
+      000608                       1212 _do_poll:
+      000608 05 81            [12] 1213 	inc	sp
+      00060A 05 81            [12] 1214 	inc	sp
+      00060C 05 81            [12] 1215 	inc	sp
+                                   1216 ;	../contiki-sensinode/core/sys/process.c:229: poll_requested = 0;
+      00060E 90r00rE3         [24] 1217 	mov	dptr,#_poll_requested
+      000611 E4               [12] 1218 	clr	a
+      000612 F0               [24] 1219 	movx	@dptr,a
+                                   1220 ;	../contiki-sensinode/core/sys/process.c:231: for(p = process_list; p != NULL; p = p->next) {
+      000613 90r00r00         [24] 1221 	mov	dptr,#_process_list
+      000616 E0               [24] 1222 	movx	a,@dptr
+      000617 FD               [12] 1223 	mov	r5,a
+      000618 A3               [24] 1224 	inc	dptr
+      000619 E0               [24] 1225 	movx	a,@dptr
+      00061A FE               [12] 1226 	mov	r6,a
+      00061B A3               [24] 1227 	inc	dptr
+      00061C E0               [24] 1228 	movx	a,@dptr
+      00061D FF               [12] 1229 	mov	r7,a
+      00061E A8 81            [24] 1230 	mov	r0,sp
+      000620 18               [12] 1231 	dec	r0
+      000621 18               [12] 1232 	dec	r0
+      000622 A6 05            [24] 1233 	mov	@r0,ar5
+      000624 08               [12] 1234 	inc	r0
+      000625 A6 06            [24] 1235 	mov	@r0,ar6
+      000627 08               [12] 1236 	inc	r0
+      000628 A6 07            [24] 1237 	mov	@r0,ar7
+      00062A                       1238 00105$:
+      00062A A8 81            [24] 1239 	mov	r0,sp
+      00062C 18               [12] 1240 	dec	r0
+      00062D 18               [12] 1241 	dec	r0
+      00062E E4               [12] 1242 	clr	a
+      00062F C0 E0            [24] 1243 	push	acc
+      000631 C0 E0            [24] 1244 	push	acc
+      000633 C0 E0            [24] 1245 	push	acc
+      000635 86 82            [24] 1246 	mov	dpl,@r0
+      000637 08               [12] 1247 	inc	r0
+      000638 86 83            [24] 1248 	mov	dph,@r0
+      00063A 08               [12] 1249 	inc	r0
+      00063B 86 F0            [24] 1250 	mov	b,@r0
+      00063D 12r00r00         [24] 1251 	lcall	___gptr_cmp
+      000640 15 81            [12] 1252 	dec	sp
+      000642 15 81            [12] 1253 	dec	sp
+      000644 15 81            [12] 1254 	dec	sp
+      000646 70 03            [24] 1255 	jnz	00118$
+      000648 02r06rCA         [24] 1256 	ljmp	00107$
+      00064B                       1257 00118$:
+                                   1258 ;	../contiki-sensinode/core/sys/process.c:232: if(p->needspoll) {
+      00064B A8 81            [24] 1259 	mov	r0,sp
+      00064D 18               [12] 1260 	dec	r0
+      00064E 18               [12] 1261 	dec	r0
+      00064F 74 08            [12] 1262 	mov	a,#0x08
+      000651 26               [12] 1263 	add	a,@r0
+      000652 FA               [12] 1264 	mov	r2,a
+      000653 E4               [12] 1265 	clr	a
+      000654 08               [12] 1266 	inc	r0
+      000655 36               [12] 1267 	addc	a,@r0
+      000656 FB               [12] 1268 	mov	r3,a
+      000657 08               [12] 1269 	inc	r0
+      000658 86 04            [24] 1270 	mov	ar4,@r0
+      00065A 8A 82            [24] 1271 	mov	dpl,r2
+      00065C 8B 83            [24] 1272 	mov	dph,r3
+      00065E 8C F0            [24] 1273 	mov	b,r4
+      000660 12r00r00         [24] 1274 	lcall	__gptrget
+      000663 60 44            [24] 1275 	jz	00106$
+                                   1276 ;	../contiki-sensinode/core/sys/process.c:233: p->state = PROCESS_STATE_RUNNING;
+      000665 A8 81            [24] 1277 	mov	r0,sp
+      000667 18               [12] 1278 	dec	r0
+      000668 18               [12] 1279 	dec	r0
+      000669 74 07            [12] 1280 	mov	a,#0x07
+      00066B 26               [12] 1281 	add	a,@r0
+      00066C FD               [12] 1282 	mov	r5,a
+      00066D E4               [12] 1283 	clr	a
+      00066E 08               [12] 1284 	inc	r0
+      00066F 36               [12] 1285 	addc	a,@r0
+      000670 FE               [12] 1286 	mov	r6,a
+      000671 08               [12] 1287 	inc	r0
+      000672 86 07            [24] 1288 	mov	ar7,@r0
+      000674 8D 82            [24] 1289 	mov	dpl,r5
+      000676 8E 83            [24] 1290 	mov	dph,r6
+      000678 8F F0            [24] 1291 	mov	b,r7
+      00067A 74 01            [12] 1292 	mov	a,#0x01
+      00067C 12r00r00         [24] 1293 	lcall	__gptrput
+                                   1294 ;	../contiki-sensinode/core/sys/process.c:234: p->needspoll = 0;
+      00067F 8A 82            [24] 1295 	mov	dpl,r2
+      000681 8B 83            [24] 1296 	mov	dph,r3
+      000683 8C F0            [24] 1297 	mov	b,r4
+      000685 E4               [12] 1298 	clr	a
+      000686 12r00r00         [24] 1299 	lcall	__gptrput
+                                   1300 ;	../contiki-sensinode/core/sys/process.c:235: call_process(p, PROCESS_EVENT_POLL, NULL);
+      000689 C0 E0            [24] 1301 	push	acc
+      00068B C0 E0            [24] 1302 	push	acc
+      00068D C0 E0            [24] 1303 	push	acc
+      00068F 74 82            [12] 1304 	mov	a,#0x82
+      000691 C0 E0            [24] 1305 	push	acc
+      000693 E5 81            [12] 1306 	mov	a,sp
+      000695 24 FA            [12] 1307 	add	a,#0xfa
+      000697 F8               [12] 1308 	mov	r0,a
+      000698 86 82            [24] 1309 	mov	dpl,@r0
+      00069A 08               [12] 1310 	inc	r0
+      00069B 86 83            [24] 1311 	mov	dph,@r0
+      00069D 08               [12] 1312 	inc	r0
+      00069E 86 F0            [24] 1313 	mov	b,@r0
+      0006A0 12r04r7C         [24] 1314 	lcall	_call_process
+      0006A3 E5 81            [12] 1315 	mov	a,sp
+      0006A5 24 FC            [12] 1316 	add	a,#0xfc
+      0006A7 F5 81            [12] 1317 	mov	sp,a
+      0006A9                       1318 00106$:
+                                   1319 ;	../contiki-sensinode/core/sys/process.c:231: for(p = process_list; p != NULL; p = p->next) {
+      0006A9 A8 81            [24] 1320 	mov	r0,sp
+      0006AB 18               [12] 1321 	dec	r0
+      0006AC 18               [12] 1322 	dec	r0
+      0006AD 86 82            [24] 1323 	mov	dpl,@r0
+      0006AF 08               [12] 1324 	inc	r0
+      0006B0 86 83            [24] 1325 	mov	dph,@r0
+      0006B2 08               [12] 1326 	inc	r0
+      0006B3 86 F0            [24] 1327 	mov	b,@r0
+      0006B5 12r00r00         [24] 1328 	lcall	__gptrget
+      0006B8 18               [12] 1329 	dec	r0
+      0006B9 18               [12] 1330 	dec	r0
+      0006BA F6               [12] 1331 	mov	@r0,a
+      0006BB A3               [24] 1332 	inc	dptr
+      0006BC 12r00r00         [24] 1333 	lcall	__gptrget
+      0006BF 08               [12] 1334 	inc	r0
+      0006C0 F6               [12] 1335 	mov	@r0,a
+      0006C1 A3               [24] 1336 	inc	dptr
+      0006C2 12r00r00         [24] 1337 	lcall	__gptrget
+      0006C5 08               [12] 1338 	inc	r0
+      0006C6 F6               [12] 1339 	mov	@r0,a
+      0006C7 02r06r2A         [24] 1340 	ljmp	00105$
+      0006CA                       1341 00107$:
+      0006CA 15 81            [12] 1342 	dec	sp
+      0006CC 15 81            [12] 1343 	dec	sp
+      0006CE 15 81            [12] 1344 	dec	sp
+      0006D0 22               [24] 1345 	ret
+                                   1346 ;------------------------------------------------------------
+                                   1347 ;Allocation info for local variables in function 'do_event'
+                                   1348 ;------------------------------------------------------------
+                                   1349 ;ev                        Allocated with name '_do_event_ev_1_82'
+                                   1350 ;data                      Allocated with name '_do_event_data_1_82'
+                                   1351 ;receiver                  Allocated with name '_do_event_receiver_1_82'
+                                   1352 ;p                         Allocated with name '_do_event_p_1_82'
+                                   1353 ;------------------------------------------------------------
+                                   1354 ;	../contiki-sensinode/core/sys/process.c:246: do_event(void)
+                                   1355 ;	-----------------------------------------
+                                   1356 ;	 function do_event
+                                   1357 ;	-----------------------------------------
+      0006D1                       1358 _do_event:
+                                   1359 ;	../contiki-sensinode/core/sys/process.c:261: if(nevents > 0) {
+      0006D1 90r00r01         [24] 1360 	mov	dptr,#_nevents
+      0006D4 E0               [24] 1361 	movx	a,@dptr
+      0006D5 FF               [12] 1362 	mov	r7,a
+      0006D6 70 01            [24] 1363 	jnz	00134$
+      0006D8 22               [24] 1364 	ret
+      0006D9                       1365 00134$:
+                                   1366 ;	../contiki-sensinode/core/sys/process.c:264: ev = events[fevent].ev;
+      0006D9 90r00r02         [24] 1367 	mov	dptr,#_fevent
+      0006DC E0               [24] 1368 	movx	a,@dptr
+      0006DD FE               [12] 1369 	mov	r6,a
+      0006DE 75 F0 07         [24] 1370 	mov	b,#0x07
+      0006E1 A4               [48] 1371 	mul	ab
+      0006E2 FC               [12] 1372 	mov	r4,a
+      0006E3 AD F0            [24] 1373 	mov	r5,b
+      0006E5 24r03            [12] 1374 	add	a,#_events
+      0006E7 F5 82            [12] 1375 	mov	dpl,a
+      0006E9 ED               [12] 1376 	mov	a,r5
+      0006EA 34s00            [12] 1377 	addc	a,#(_events >> 8)
+      0006EC F5 83            [12] 1378 	mov	dph,a
+      0006EE E0               [24] 1379 	movx	a,@dptr
+      0006EF 90r00rE4         [24] 1380 	mov	dptr,#_do_event_ev_1_82
+      0006F2 F0               [24] 1381 	movx	@dptr,a
+                                   1382 ;	../contiki-sensinode/core/sys/process.c:266: data = events[fevent].data;
+      0006F3 EC               [12] 1383 	mov	a,r4
+      0006F4 24r03            [12] 1384 	add	a,#_events
+      0006F6 FC               [12] 1385 	mov	r4,a
+      0006F7 ED               [12] 1386 	mov	a,r5
+      0006F8 34s00            [12] 1387 	addc	a,#(_events >> 8)
+      0006FA FD               [12] 1388 	mov	r5,a
+      0006FB 8C 82            [24] 1389 	mov	dpl,r4
+      0006FD 8D 83            [24] 1390 	mov	dph,r5
+      0006FF A3               [24] 1391 	inc	dptr
+      000700 E0               [24] 1392 	movx	a,@dptr
+      000701 F9               [12] 1393 	mov	r1,a
+      000702 A3               [24] 1394 	inc	dptr
+      000703 E0               [24] 1395 	movx	a,@dptr
+      000704 FA               [12] 1396 	mov	r2,a
+      000705 A3               [24] 1397 	inc	dptr
+      000706 E0               [24] 1398 	movx	a,@dptr
+      000707 FB               [12] 1399 	mov	r3,a
+      000708 90r00rE5         [24] 1400 	mov	dptr,#_do_event_data_1_82
+      00070B E9               [12] 1401 	mov	a,r1
+      00070C F0               [24] 1402 	movx	@dptr,a
+      00070D EA               [12] 1403 	mov	a,r2
+      00070E A3               [24] 1404 	inc	dptr
+      00070F F0               [24] 1405 	movx	@dptr,a
+      000710 EB               [12] 1406 	mov	a,r3
+      000711 A3               [24] 1407 	inc	dptr
+      000712 F0               [24] 1408 	movx	@dptr,a
+                                   1409 ;	../contiki-sensinode/core/sys/process.c:267: receiver = events[fevent].p;
+      000713 8C 82            [24] 1410 	mov	dpl,r4
+      000715 8D 83            [24] 1411 	mov	dph,r5
+      000717 A3               [24] 1412 	inc	dptr
+      000718 A3               [24] 1413 	inc	dptr
+      000719 A3               [24] 1414 	inc	dptr
+      00071A A3               [24] 1415 	inc	dptr
+      00071B E0               [24] 1416 	movx	a,@dptr
+      00071C FB               [12] 1417 	mov	r3,a
+      00071D A3               [24] 1418 	inc	dptr
+      00071E E0               [24] 1419 	movx	a,@dptr
+      00071F FC               [12] 1420 	mov	r4,a
+      000720 A3               [24] 1421 	inc	dptr
+      000721 E0               [24] 1422 	movx	a,@dptr
+      000722 FD               [12] 1423 	mov	r5,a
+      000723 90r00rE8         [24] 1424 	mov	dptr,#_do_event_receiver_1_82
+      000726 EB               [12] 1425 	mov	a,r3
+      000727 F0               [24] 1426 	movx	@dptr,a
+      000728 EC               [12] 1427 	mov	a,r4
+      000729 A3               [24] 1428 	inc	dptr
+      00072A F0               [24] 1429 	movx	@dptr,a
+      00072B ED               [12] 1430 	mov	a,r5
+      00072C A3               [24] 1431 	inc	dptr
+      00072D F0               [24] 1432 	movx	@dptr,a
+                                   1433 ;	../contiki-sensinode/core/sys/process.c:271: fevent = (process_num_events_t) (fevent + 1) % PROCESS_CONF_NUMEVENTS;
+      00072E EE               [12] 1434 	mov	a,r6
+      00072F 04               [12] 1435 	inc	a
+      000730 90r00r02         [24] 1436 	mov	dptr,#_fevent
+      000733 54 1F            [12] 1437 	anl	a,#0x1F
+      000735 F0               [24] 1438 	movx	@dptr,a
+                                   1439 ;	../contiki-sensinode/core/sys/process.c:272: --nevents;
+      000736 EF               [12] 1440 	mov	a,r7
+      000737 14               [12] 1441 	dec	a
+      000738 90r00r01         [24] 1442 	mov	dptr,#_nevents
+      00073B F0               [24] 1443 	movx	@dptr,a
+                                   1444 ;	../contiki-sensinode/core/sys/process.c:276: if(receiver == PROCESS_BROADCAST) {
+      00073C 90r00rE8         [24] 1445 	mov	dptr,#_do_event_receiver_1_82
+      00073F E0               [24] 1446 	movx	a,@dptr
+      000740 FD               [12] 1447 	mov	r5,a
+      000741 A3               [24] 1448 	inc	dptr
+      000742 E0               [24] 1449 	movx	a,@dptr
+      000743 FE               [12] 1450 	mov	r6,a
+      000744 A3               [24] 1451 	inc	dptr
+      000745 E0               [24] 1452 	movx	a,@dptr
+      000746 FF               [12] 1453 	mov	r7,a
+      000747 ED               [12] 1454 	mov	a,r5
+      000748 4E               [12] 1455 	orl	a,r6
+      000749 60 03            [24] 1456 	jz	00135$
+      00074B 02r07rED         [24] 1457 	ljmp	00107$
+      00074E                       1458 00135$:
+                                   1459 ;	../contiki-sensinode/core/sys/process.c:277: for(p = process_list; p != NULL; p = p->next) {
+      00074E 90r00r00         [24] 1460 	mov	dptr,#_process_list
+      000751 E0               [24] 1461 	movx	a,@dptr
+      000752 FA               [12] 1462 	mov	r2,a
+      000753 A3               [24] 1463 	inc	dptr
+      000754 E0               [24] 1464 	movx	a,@dptr
+      000755 FB               [12] 1465 	mov	r3,a
+      000756 A3               [24] 1466 	inc	dptr
+      000757 E0               [24] 1467 	movx	a,@dptr
+      000758 FC               [12] 1468 	mov	r4,a
+      000759 90r00rEB         [24] 1469 	mov	dptr,#_do_event_p_1_82
+      00075C EA               [12] 1470 	mov	a,r2
+      00075D F0               [24] 1471 	movx	@dptr,a
+      00075E EB               [12] 1472 	mov	a,r3
+      00075F A3               [24] 1473 	inc	dptr
+      000760 F0               [24] 1474 	movx	@dptr,a
+      000761 EC               [12] 1475 	mov	a,r4
+      000762 A3               [24] 1476 	inc	dptr
+      000763 F0               [24] 1477 	movx	@dptr,a
+      000764                       1478 00112$:
+      000764 90r00rEB         [24] 1479 	mov	dptr,#_do_event_p_1_82
+      000767 E0               [24] 1480 	movx	a,@dptr
+      000768 FA               [12] 1481 	mov	r2,a
+      000769 A3               [24] 1482 	inc	dptr
+      00076A E0               [24] 1483 	movx	a,@dptr
+      00076B FB               [12] 1484 	mov	r3,a
+      00076C A3               [24] 1485 	inc	dptr
+      00076D E0               [24] 1486 	movx	a,@dptr
+      00076E FC               [12] 1487 	mov	r4,a
+      00076F E4               [12] 1488 	clr	a
+      000770 C0 E0            [24] 1489 	push	acc
+      000772 C0 E0            [24] 1490 	push	acc
+      000774 C0 E0            [24] 1491 	push	acc
+      000776 8A 82            [24] 1492 	mov	dpl,r2
+      000778 8B 83            [24] 1493 	mov	dph,r3
+      00077A 8C F0            [24] 1494 	mov	b,r4
+      00077C 12r00r00         [24] 1495 	lcall	___gptr_cmp
+      00077F 15 81            [12] 1496 	dec	sp
+      000781 15 81            [12] 1497 	dec	sp
+      000783 15 81            [12] 1498 	dec	sp
+      000785 70 01            [24] 1499 	jnz	00136$
+      000787 22               [24] 1500 	ret
+      000788                       1501 00136$:
+                                   1502 ;	../contiki-sensinode/core/sys/process.c:281: if(poll_requested) {
+      000788 90r00rE3         [24] 1503 	mov	dptr,#_poll_requested
+      00078B E0               [24] 1504 	movx	a,@dptr
+      00078C FC               [12] 1505 	mov	r4,a
+      00078D 60 03            [24] 1506 	jz	00102$
+                                   1507 ;	../contiki-sensinode/core/sys/process.c:282: do_poll();
+      00078F 12r06r08         [24] 1508 	lcall	_do_poll
+      000792                       1509 00102$:
+                                   1510 ;	../contiki-sensinode/core/sys/process.c:284: call_process(p, ev, data);
+      000792 90r00rEB         [24] 1511 	mov	dptr,#_do_event_p_1_82
+      000795 E0               [24] 1512 	movx	a,@dptr
+      000796 FA               [12] 1513 	mov	r2,a
+      000797 A3               [24] 1514 	inc	dptr
+      000798 E0               [24] 1515 	movx	a,@dptr
+      000799 FB               [12] 1516 	mov	r3,a
+      00079A A3               [24] 1517 	inc	dptr
+      00079B E0               [24] 1518 	movx	a,@dptr
+      00079C FC               [12] 1519 	mov	r4,a
+      00079D 90r00rE5         [24] 1520 	mov	dptr,#_do_event_data_1_82
+      0007A0 E0               [24] 1521 	movx	a,@dptr
+      0007A1 C0 E0            [24] 1522 	push	acc
+      0007A3 A3               [24] 1523 	inc	dptr
+      0007A4 E0               [24] 1524 	movx	a,@dptr
+      0007A5 C0 E0            [24] 1525 	push	acc
+      0007A7 A3               [24] 1526 	inc	dptr
+      0007A8 E0               [24] 1527 	movx	a,@dptr
+      0007A9 C0 E0            [24] 1528 	push	acc
+      0007AB 90r00rE4         [24] 1529 	mov	dptr,#_do_event_ev_1_82
+      0007AE E0               [24] 1530 	movx	a,@dptr
+      0007AF C0 E0            [24] 1531 	push	acc
+      0007B1 8A 82            [24] 1532 	mov	dpl,r2
+      0007B3 8B 83            [24] 1533 	mov	dph,r3
+      0007B5 8C F0            [24] 1534 	mov	b,r4
+      0007B7 12r04r7C         [24] 1535 	lcall	_call_process
+      0007BA E5 81            [12] 1536 	mov	a,sp
+      0007BC 24 FC            [12] 1537 	add	a,#0xfc
+      0007BE F5 81            [12] 1538 	mov	sp,a
+                                   1539 ;	../contiki-sensinode/core/sys/process.c:277: for(p = process_list; p != NULL; p = p->next) {
+      0007C0 90r00rEB         [24] 1540 	mov	dptr,#_do_event_p_1_82
+      0007C3 E0               [24] 1541 	movx	a,@dptr
+      0007C4 FA               [12] 1542 	mov	r2,a
+      0007C5 A3               [24] 1543 	inc	dptr
+      0007C6 E0               [24] 1544 	movx	a,@dptr
+      0007C7 FB               [12] 1545 	mov	r3,a
+      0007C8 A3               [24] 1546 	inc	dptr
+      0007C9 E0               [24] 1547 	movx	a,@dptr
+      0007CA FC               [12] 1548 	mov	r4,a
+      0007CB 8A 82            [24] 1549 	mov	dpl,r2
+      0007CD 8B 83            [24] 1550 	mov	dph,r3
+      0007CF 8C F0            [24] 1551 	mov	b,r4
+      0007D1 12r00r00         [24] 1552 	lcall	__gptrget
+      0007D4 FA               [12] 1553 	mov	r2,a
+      0007D5 A3               [24] 1554 	inc	dptr
+      0007D6 12r00r00         [24] 1555 	lcall	__gptrget
+      0007D9 FB               [12] 1556 	mov	r3,a
+      0007DA A3               [24] 1557 	inc	dptr
+      0007DB 12r00r00         [24] 1558 	lcall	__gptrget
+      0007DE FC               [12] 1559 	mov	r4,a
+      0007DF 90r00rEB         [24] 1560 	mov	dptr,#_do_event_p_1_82
+      0007E2 EA               [12] 1561 	mov	a,r2
+      0007E3 F0               [24] 1562 	movx	@dptr,a
+      0007E4 EB               [12] 1563 	mov	a,r3
+      0007E5 A3               [24] 1564 	inc	dptr
+      0007E6 F0               [24] 1565 	movx	@dptr,a
+      0007E7 EC               [12] 1566 	mov	a,r4
+      0007E8 A3               [24] 1567 	inc	dptr
+      0007E9 F0               [24] 1568 	movx	@dptr,a
+      0007EA 02r07r64         [24] 1569 	ljmp	00112$
+      0007ED                       1570 00107$:
+                                   1571 ;	../contiki-sensinode/core/sys/process.c:291: if(ev == PROCESS_EVENT_INIT) {
+      0007ED 90r00rE4         [24] 1572 	mov	dptr,#_do_event_ev_1_82
+      0007F0 E0               [24] 1573 	movx	a,@dptr
+      0007F1 FC               [12] 1574 	mov	r4,a
+      0007F2 BC 81 12         [24] 1575 	cjne	r4,#0x81,00105$
+                                   1576 ;	../contiki-sensinode/core/sys/process.c:292: receiver->state = PROCESS_STATE_RUNNING;
+      0007F5 74 07            [12] 1577 	mov	a,#0x07
+      0007F7 2D               [12] 1578 	add	a,r5
+      0007F8 FD               [12] 1579 	mov	r5,a
+      0007F9 E4               [12] 1580 	clr	a
+      0007FA 3E               [12] 1581 	addc	a,r6
+      0007FB FE               [12] 1582 	mov	r6,a
+      0007FC 8D 82            [24] 1583 	mov	dpl,r5
+      0007FE 8E 83            [24] 1584 	mov	dph,r6
+      000800 8F F0            [24] 1585 	mov	b,r7
+      000802 74 01            [12] 1586 	mov	a,#0x01
+      000804 12r00r00         [24] 1587 	lcall	__gptrput
+      000807                       1588 00105$:
+                                   1589 ;	../contiki-sensinode/core/sys/process.c:296: call_process(receiver, ev, data);
+      000807 90r00rE8         [24] 1590 	mov	dptr,#_do_event_receiver_1_82
+      00080A E0               [24] 1591 	movx	a,@dptr
+      00080B FD               [12] 1592 	mov	r5,a
+      00080C A3               [24] 1593 	inc	dptr
+      00080D E0               [24] 1594 	movx	a,@dptr
+      00080E FE               [12] 1595 	mov	r6,a
+      00080F A3               [24] 1596 	inc	dptr
+      000810 E0               [24] 1597 	movx	a,@dptr
+      000811 FF               [12] 1598 	mov	r7,a
+      000812 90r00rE5         [24] 1599 	mov	dptr,#_do_event_data_1_82
+      000815 E0               [24] 1600 	movx	a,@dptr
+      000816 C0 E0            [24] 1601 	push	acc
+      000818 A3               [24] 1602 	inc	dptr
+      000819 E0               [24] 1603 	movx	a,@dptr
+      00081A C0 E0            [24] 1604 	push	acc
+      00081C A3               [24] 1605 	inc	dptr
+      00081D E0               [24] 1606 	movx	a,@dptr
+      00081E C0 E0            [24] 1607 	push	acc
+      000820 90r00rE4         [24] 1608 	mov	dptr,#_do_event_ev_1_82
+      000823 E0               [24] 1609 	movx	a,@dptr
+      000824 C0 E0            [24] 1610 	push	acc
+      000826 8D 82            [24] 1611 	mov	dpl,r5
+      000828 8E 83            [24] 1612 	mov	dph,r6
+      00082A 8F F0            [24] 1613 	mov	b,r7
+      00082C 12r04r7C         [24] 1614 	lcall	_call_process
+      00082F E5 81            [12] 1615 	mov	a,sp
+      000831 24 FC            [12] 1616 	add	a,#0xfc
+      000833 F5 81            [12] 1617 	mov	sp,a
+      000835 22               [24] 1618 	ret
+                                   1619 ;------------------------------------------------------------
+                                   1620 ;Allocation info for local variables in function 'process_run'
+                                   1621 ;------------------------------------------------------------
+                                   1622 ;	../contiki-sensinode/core/sys/process.c:302: process_run(void)
+                                   1623 ;	-----------------------------------------
+                                   1624 ;	 function process_run
+                                   1625 ;	-----------------------------------------
+      000836                       1626 _process_run:
+                                   1627 ;	../contiki-sensinode/core/sys/process.c:305: if(poll_requested) {
+      000836 90r00rE3         [24] 1628 	mov	dptr,#_poll_requested
+      000839 E0               [24] 1629 	movx	a,@dptr
+      00083A FF               [12] 1630 	mov	r7,a
+      00083B 60 03            [24] 1631 	jz	00102$
+                                   1632 ;	../contiki-sensinode/core/sys/process.c:306: do_poll();
+      00083D 12r06r08         [24] 1633 	lcall	_do_poll
+      000840                       1634 00102$:
+                                   1635 ;	../contiki-sensinode/core/sys/process.c:310: do_event();
+      000840 12r06rD1         [24] 1636 	lcall	_do_event
+                                   1637 ;	../contiki-sensinode/core/sys/process.c:312: return nevents + poll_requested;
+      000843 90r00r01         [24] 1638 	mov	dptr,#_nevents
+      000846 E0               [24] 1639 	movx	a,@dptr
+      000847 FF               [12] 1640 	mov	r7,a
+      000848 7E 00            [12] 1641 	mov	r6,#0x00
+      00084A 90r00rE3         [24] 1642 	mov	dptr,#_poll_requested
+      00084D E0               [24] 1643 	movx	a,@dptr
+      00084E 7C 00            [12] 1644 	mov	r4,#0x00
+      000850 2F               [12] 1645 	add	a,r7
+      000851 FF               [12] 1646 	mov	r7,a
+      000852 EC               [12] 1647 	mov	a,r4
+      000853 3E               [12] 1648 	addc	a,r6
+      000854 8F 82            [24] 1649 	mov	dpl,r7
+      000856 F5 83            [12] 1650 	mov	dph,a
+      000858 22               [24] 1651 	ret
+                                   1652 ;------------------------------------------------------------
+                                   1653 ;Allocation info for local variables in function 'process_nevents'
+                                   1654 ;------------------------------------------------------------
+                                   1655 ;	../contiki-sensinode/core/sys/process.c:316: process_nevents(void)
+                                   1656 ;	-----------------------------------------
+                                   1657 ;	 function process_nevents
+                                   1658 ;	-----------------------------------------
+      000859                       1659 _process_nevents:
+                                   1660 ;	../contiki-sensinode/core/sys/process.c:318: return nevents + poll_requested;
+      000859 90r00r01         [24] 1661 	mov	dptr,#_nevents
+      00085C E0               [24] 1662 	movx	a,@dptr
+      00085D FF               [12] 1663 	mov	r7,a
+      00085E 7E 00            [12] 1664 	mov	r6,#0x00
+      000860 90r00rE3         [24] 1665 	mov	dptr,#_poll_requested
+      000863 E0               [24] 1666 	movx	a,@dptr
+      000864 7C 00            [12] 1667 	mov	r4,#0x00
+      000866 2F               [12] 1668 	add	a,r7
+      000867 FF               [12] 1669 	mov	r7,a
+      000868 EC               [12] 1670 	mov	a,r4
+      000869 3E               [12] 1671 	addc	a,r6
+      00086A 8F 82            [24] 1672 	mov	dpl,r7
+      00086C F5 83            [12] 1673 	mov	dph,a
+      00086E 22               [24] 1674 	ret
+                                   1675 ;------------------------------------------------------------
+                                   1676 ;Allocation info for local variables in function 'process_post'
+                                   1677 ;------------------------------------------------------------
+                                   1678 ;ev                        Allocated to stack - sp -2
+                                   1679 ;data                      Allocated to stack - sp -5
+                                   1680 ;p                         Allocated to registers r5 r6 r7 
+                                   1681 ;snum                      Allocated with name '_process_post_snum_1_95'
+                                   1682 ;------------------------------------------------------------
+                                   1683 ;	../contiki-sensinode/core/sys/process.c:322: process_post(struct process *p, process_event_t ev, process_data_t data)
+                                   1684 ;	-----------------------------------------
+                                   1685 ;	 function process_post
+                                   1686 ;	-----------------------------------------
+      00086F                       1687 _process_post:
+      00086F AD 82            [24] 1688 	mov	r5,dpl
+      000871 AE 83            [24] 1689 	mov	r6,dph
+      000873 AF F0            [24] 1690 	mov	r7,b
+                                   1691 ;	../contiki-sensinode/core/sys/process.c:335: if(nevents == PROCESS_CONF_NUMEVENTS) {
+      000875 90r00r01         [24] 1692 	mov	dptr,#_nevents
+      000878 E0               [24] 1693 	movx	a,@dptr
+      000879 FC               [12] 1694 	mov	r4,a
+      00087A BC 20 04         [24] 1695 	cjne	r4,#0x20,00102$
+                                   1696 ;	../contiki-sensinode/core/sys/process.c:343: return PROCESS_ERR_FULL;
+      00087D 90 00 01         [24] 1697 	mov	dptr,#0x0001
+      000880 22               [24] 1698 	ret
+      000881                       1699 00102$:
+                                   1700 ;	../contiki-sensinode/core/sys/process.c:346: snum = (process_num_events_t)(fevent + nevents) % PROCESS_CONF_NUMEVENTS;
+      000881 90r00r02         [24] 1701 	mov	dptr,#_fevent
+      000884 E0               [24] 1702 	movx	a,@dptr
+      000885 2C               [12] 1703 	add	a,r4
+      000886 54 1F            [12] 1704 	anl	a,#0x1F
+      000888 FC               [12] 1705 	mov	r4,a
+      000889 90r00rEE         [24] 1706 	mov	dptr,#_process_post_snum_1_95
+      00088C F0               [24] 1707 	movx	@dptr,a
+                                   1708 ;	../contiki-sensinode/core/sys/process.c:347: events[snum].ev = ev;
+      00088D EC               [12] 1709 	mov	a,r4
+      00088E 75 F0 07         [24] 1710 	mov	b,#0x07
+      000891 A4               [48] 1711 	mul	ab
+      000892 24r03            [12] 1712 	add	a,#_events
+      000894 F5 82            [12] 1713 	mov	dpl,a
+      000896 74s00            [12] 1714 	mov	a,#(_events >> 8)
+      000898 35 F0            [12] 1715 	addc	a,b
+      00089A F5 83            [12] 1716 	mov	dph,a
+      00089C A8 81            [24] 1717 	mov	r0,sp
+      00089E 18               [12] 1718 	dec	r0
+      00089F 18               [12] 1719 	dec	r0
+      0008A0 E6               [12] 1720 	mov	a,@r0
+      0008A1 F0               [24] 1721 	movx	@dptr,a
+                                   1722 ;	../contiki-sensinode/core/sys/process.c:348: events[snum].data = data;
+      0008A2 90r00rEE         [24] 1723 	mov	dptr,#_process_post_snum_1_95
+      0008A5 E0               [24] 1724 	movx	a,@dptr
+      0008A6 75 F0 07         [24] 1725 	mov	b,#0x07
+      0008A9 A4               [48] 1726 	mul	ab
+      0008AA 24r03            [12] 1727 	add	a,#_events
+      0008AC FB               [12] 1728 	mov	r3,a
+      0008AD 74s00            [12] 1729 	mov	a,#(_events >> 8)
+      0008AF 35 F0            [12] 1730 	addc	a,b
+      0008B1 FC               [12] 1731 	mov	r4,a
+      0008B2 8B 82            [24] 1732 	mov	dpl,r3
+      0008B4 8C 83            [24] 1733 	mov	dph,r4
+      0008B6 A3               [24] 1734 	inc	dptr
+      0008B7 E5 81            [12] 1735 	mov	a,sp
+      0008B9 24 FB            [12] 1736 	add	a,#0xfb
+      0008BB F8               [12] 1737 	mov	r0,a
+      0008BC E6               [12] 1738 	mov	a,@r0
+      0008BD F0               [24] 1739 	movx	@dptr,a
+      0008BE 08               [12] 1740 	inc	r0
+      0008BF E6               [12] 1741 	mov	a,@r0
+      0008C0 A3               [24] 1742 	inc	dptr
+      0008C1 F0               [24] 1743 	movx	@dptr,a
+      0008C2 08               [12] 1744 	inc	r0
+      0008C3 E6               [12] 1745 	mov	a,@r0
+      0008C4 A3               [24] 1746 	inc	dptr
+      0008C5 F0               [24] 1747 	movx	@dptr,a
+                                   1748 ;	../contiki-sensinode/core/sys/process.c:349: events[snum].p = p;
+      0008C6 90r00rEE         [24] 1749 	mov	dptr,#_process_post_snum_1_95
+      0008C9 E0               [24] 1750 	movx	a,@dptr
+      0008CA 75 F0 07         [24] 1751 	mov	b,#0x07
+      0008CD A4               [48] 1752 	mul	ab
+      0008CE 24r03            [12] 1753 	add	a,#_events
+      0008D0 FB               [12] 1754 	mov	r3,a
+      0008D1 74s00            [12] 1755 	mov	a,#(_events >> 8)
+      0008D3 35 F0            [12] 1756 	addc	a,b
+      0008D5 FC               [12] 1757 	mov	r4,a
+      0008D6 8B 82            [24] 1758 	mov	dpl,r3
+      0008D8 8C 83            [24] 1759 	mov	dph,r4
+      0008DA A3               [24] 1760 	inc	dptr
+      0008DB A3               [24] 1761 	inc	dptr
+      0008DC A3               [24] 1762 	inc	dptr
+      0008DD A3               [24] 1763 	inc	dptr
+      0008DE ED               [12] 1764 	mov	a,r5
+      0008DF F0               [24] 1765 	movx	@dptr,a
+      0008E0 EE               [12] 1766 	mov	a,r6
+      0008E1 A3               [24] 1767 	inc	dptr
+      0008E2 F0               [24] 1768 	movx	@dptr,a
+      0008E3 EF               [12] 1769 	mov	a,r7
+      0008E4 A3               [24] 1770 	inc	dptr
+      0008E5 F0               [24] 1771 	movx	@dptr,a
+                                   1772 ;	../contiki-sensinode/core/sys/process.c:350: ++nevents;
+      0008E6 90r00r01         [24] 1773 	mov	dptr,#_nevents
+      0008E9 E0               [24] 1774 	movx	a,@dptr
+      0008EA 24 01            [12] 1775 	add	a,#0x01
+      0008EC F0               [24] 1776 	movx	@dptr,a
+                                   1777 ;	../contiki-sensinode/core/sys/process.c:358: return PROCESS_ERR_OK;
+      0008ED 90 00 00         [24] 1778 	mov	dptr,#0x0000
+      0008F0 22               [24] 1779 	ret
+                                   1780 ;------------------------------------------------------------
+                                   1781 ;Allocation info for local variables in function 'process_post_synch'
+                                   1782 ;------------------------------------------------------------
+                                   1783 ;ev                        Allocated to stack - sp -2
+                                   1784 ;data                      Allocated to stack - sp -5
+                                   1785 ;p                         Allocated to registers r5 r6 r7 
+                                   1786 ;caller                    Allocated to registers r2 r3 r4 
+                                   1787 ;------------------------------------------------------------
+                                   1788 ;	../contiki-sensinode/core/sys/process.c:362: process_post_synch(struct process *p, process_event_t ev, process_data_t data)
+                                   1789 ;	-----------------------------------------
+                                   1790 ;	 function process_post_synch
+                                   1791 ;	-----------------------------------------
+      0008F1                       1792 _process_post_synch:
+      0008F1 AD 82            [24] 1793 	mov	r5,dpl
+      0008F3 AE 83            [24] 1794 	mov	r6,dph
+      0008F5 AF F0            [24] 1795 	mov	r7,b
+                                   1796 ;	../contiki-sensinode/core/sys/process.c:364: struct process *caller = process_current;
+      0008F7 90r00r03         [24] 1797 	mov	dptr,#_process_current
+      0008FA E0               [24] 1798 	movx	a,@dptr
+      0008FB FA               [12] 1799 	mov	r2,a
+      0008FC A3               [24] 1800 	inc	dptr
+      0008FD E0               [24] 1801 	movx	a,@dptr
+      0008FE FB               [12] 1802 	mov	r3,a
+      0008FF A3               [24] 1803 	inc	dptr
+      000900 E0               [24] 1804 	movx	a,@dptr
+      000901 FC               [12] 1805 	mov	r4,a
+                                   1806 ;	../contiki-sensinode/core/sys/process.c:366: call_process(p, ev, data);
+      000902 C0 04            [24] 1807 	push	ar4
+      000904 C0 03            [24] 1808 	push	ar3
+      000906 C0 02            [24] 1809 	push	ar2
+      000908 E5 81            [12] 1810 	mov	a,sp
+      00090A 24 F8            [12] 1811 	add	a,#0xf8
+      00090C F8               [12] 1812 	mov	r0,a
+      00090D E6               [12] 1813 	mov	a,@r0
+      00090E C0 E0            [24] 1814 	push	acc
+      000910 08               [12] 1815 	inc	r0
+      000911 E6               [12] 1816 	mov	a,@r0
+      000912 C0 E0            [24] 1817 	push	acc
+      000914 08               [12] 1818 	inc	r0
+      000915 E6               [12] 1819 	mov	a,@r0
+      000916 C0 E0            [24] 1820 	push	acc
+      000918 E5 81            [12] 1821 	mov	a,sp
+      00091A 24 F8            [12] 1822 	add	a,#0xf8
+      00091C F8               [12] 1823 	mov	r0,a
+      00091D E6               [12] 1824 	mov	a,@r0
+      00091E C0 E0            [24] 1825 	push	acc
+      000920 8D 82            [24] 1826 	mov	dpl,r5
+      000922 8E 83            [24] 1827 	mov	dph,r6
+      000924 8F F0            [24] 1828 	mov	b,r7
+      000926 12r04r7C         [24] 1829 	lcall	_call_process
+      000929 E5 81            [12] 1830 	mov	a,sp
+      00092B 24 FC            [12] 1831 	add	a,#0xfc
+      00092D F5 81            [12] 1832 	mov	sp,a
+      00092F D0 02            [24] 1833 	pop	ar2
+      000931 D0 03            [24] 1834 	pop	ar3
+      000933 D0 04            [24] 1835 	pop	ar4
+                                   1836 ;	../contiki-sensinode/core/sys/process.c:367: process_current = caller;
+      000935 90r00r03         [24] 1837 	mov	dptr,#_process_current
+      000938 EA               [12] 1838 	mov	a,r2
+      000939 F0               [24] 1839 	movx	@dptr,a
+      00093A EB               [12] 1840 	mov	a,r3
+      00093B A3               [24] 1841 	inc	dptr
+      00093C F0               [24] 1842 	movx	@dptr,a
+      00093D EC               [12] 1843 	mov	a,r4
+      00093E A3               [24] 1844 	inc	dptr
+      00093F F0               [24] 1845 	movx	@dptr,a
+      000940 22               [24] 1846 	ret
+                                   1847 ;------------------------------------------------------------
+                                   1848 ;Allocation info for local variables in function 'process_poll'
+                                   1849 ;------------------------------------------------------------
+                                   1850 ;p                         Allocated to registers r5 r6 r7 
+                                   1851 ;------------------------------------------------------------
+                                   1852 ;	../contiki-sensinode/core/sys/process.c:371: process_poll(struct process *p)
+                                   1853 ;	-----------------------------------------
+                                   1854 ;	 function process_poll
+                                   1855 ;	-----------------------------------------
+      000941                       1856 _process_poll:
+      000941 AD 82            [24] 1857 	mov	r5,dpl
+      000943 AE 83            [24] 1858 	mov	r6,dph
+      000945 AF F0            [24] 1859 	mov	r7,b
+                                   1860 ;	../contiki-sensinode/core/sys/process.c:373: if(p != NULL) {
+      000947 ED               [12] 1861 	mov	a,r5
+      000948 4E               [12] 1862 	orl	a,r6
+      000949 60 31            [24] 1863 	jz	00106$
+                                   1864 ;	../contiki-sensinode/core/sys/process.c:374: if(p->state == PROCESS_STATE_RUNNING ||
+      00094B 74 07            [12] 1865 	mov	a,#0x07
+      00094D 2D               [12] 1866 	add	a,r5
+      00094E FA               [12] 1867 	mov	r2,a
+      00094F E4               [12] 1868 	clr	a
+      000950 3E               [12] 1869 	addc	a,r6
+      000951 FB               [12] 1870 	mov	r3,a
+      000952 8F 04            [24] 1871 	mov	ar4,r7
+      000954 8A 82            [24] 1872 	mov	dpl,r2
+      000956 8B 83            [24] 1873 	mov	dph,r3
+      000958 8C F0            [24] 1874 	mov	b,r4
+      00095A 12r00r00         [24] 1875 	lcall	__gptrget
+      00095D FC               [12] 1876 	mov	r4,a
+      00095E BC 01 02         [24] 1877 	cjne	r4,#0x01,00115$
+      000961 80 03            [24] 1878 	sjmp	00101$
+      000963                       1879 00115$:
+                                   1880 ;	../contiki-sensinode/core/sys/process.c:375: p->state == PROCESS_STATE_CALLED) {
+      000963 BC 02 16         [24] 1881 	cjne	r4,#0x02,00106$
+      000966                       1882 00101$:
+                                   1883 ;	../contiki-sensinode/core/sys/process.c:376: p->needspoll = 1;
+      000966 74 08            [12] 1884 	mov	a,#0x08
+      000968 2D               [12] 1885 	add	a,r5
+      000969 FD               [12] 1886 	mov	r5,a
+      00096A E4               [12] 1887 	clr	a
+      00096B 3E               [12] 1888 	addc	a,r6
+      00096C FE               [12] 1889 	mov	r6,a
+      00096D 8D 82            [24] 1890 	mov	dpl,r5
+      00096F 8E 83            [24] 1891 	mov	dph,r6
+      000971 8F F0            [24] 1892 	mov	b,r7
+      000973 74 01            [12] 1893 	mov	a,#0x01
+      000975 12r00r00         [24] 1894 	lcall	__gptrput
+                                   1895 ;	../contiki-sensinode/core/sys/process.c:377: poll_requested = 1;
+      000978 90r00rE3         [24] 1896 	mov	dptr,#_poll_requested
+      00097B F0               [24] 1897 	movx	@dptr,a
+      00097C                       1898 00106$:
+      00097C 22               [24] 1899 	ret
+                                   1900 ;------------------------------------------------------------
+                                   1901 ;Allocation info for local variables in function 'process_is_running'
+                                   1902 ;------------------------------------------------------------
+                                   1903 ;p                         Allocated to registers r5 r6 r7 
+                                   1904 ;------------------------------------------------------------
+                                   1905 ;	../contiki-sensinode/core/sys/process.c:383: process_is_running(struct process *p)
+                                   1906 ;	-----------------------------------------
+                                   1907 ;	 function process_is_running
+                                   1908 ;	-----------------------------------------
+      00097D                       1909 _process_is_running:
+      00097D AD 82            [24] 1910 	mov	r5,dpl
+      00097F AE 83            [24] 1911 	mov	r6,dph
+      000981 AF F0            [24] 1912 	mov	r7,b
+                                   1913 ;	../contiki-sensinode/core/sys/process.c:385: return p->state != PROCESS_STATE_NONE;
+      000983 74 07            [12] 1914 	mov	a,#0x07
+      000985 2D               [12] 1915 	add	a,r5
+      000986 FD               [12] 1916 	mov	r5,a
+      000987 E4               [12] 1917 	clr	a
+      000988 3E               [12] 1918 	addc	a,r6
+      000989 FE               [12] 1919 	mov	r6,a
+      00098A 8D 82            [24] 1920 	mov	dpl,r5
+      00098C 8E 83            [24] 1921 	mov	dph,r6
+      00098E 8F F0            [24] 1922 	mov	b,r7
+      000990 12r00r00         [24] 1923 	lcall	__gptrget
+      000993 FD               [12] 1924 	mov	r5,a
+      000994 E4               [12] 1925 	clr	a
+      000995 BD 00 01         [24] 1926 	cjne	r5,#0x00,00103$
+      000998 04               [12] 1927 	inc	a
+      000999                       1928 00103$:
+      000999 FD               [12] 1929 	mov	r5,a
+      00099A B4 01 00         [24] 1930 	cjne	a,#0x01,00105$
+      00099D                       1931 00105$:
+      00099D E4               [12] 1932 	clr	a
+      00099E 33               [12] 1933 	rlc	a
+      00099F FD               [12] 1934 	mov	r5,a
+      0009A0 33               [12] 1935 	rlc	a
+      0009A1 95 E0            [12] 1936 	subb	a,acc
+      0009A3 8D 82            [24] 1937 	mov	dpl,r5
+      0009A5 F5 83            [12] 1938 	mov	dph,a
+      0009A7 22               [24] 1939 	ret
+                                   1940 	.area CSEG    (CODE)
+                                   1941 	.area CONST   (CODE)
+                                   1942 	.area XINIT   (CODE)
+      000000                       1943 __xinit__process_list:
+                                   1944 ; generic printIvalPtr
+      000000 00 00 00              1945 	.byte #0x00,#0x00,#0x00
+      000003                       1946 __xinit__process_current:
+                                   1947 ; generic printIvalPtr
+      000003 00 00 00              1948 	.byte #0x00,#0x00,#0x00
+                                   1949 	.area CABS    (ABS,CODE)

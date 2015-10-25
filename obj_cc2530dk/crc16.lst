@@ -1,0 +1,329 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Oct 24 2015) (Linux)
+                                      4 ; This file was generated Sun Oct 25 01:52:10 2015
+                                      5 ;--------------------------------------------------------
+                                      6 	.module crc16
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _crc16_data
+                                     13 	.globl _crc16_add
+                                     14 ;--------------------------------------------------------
+                                     15 ; special function registers
+                                     16 ;--------------------------------------------------------
+                                     17 	.area RSEG    (ABS,DATA)
+      000000                         18 	.org 0x0000
+                                     19 ;--------------------------------------------------------
+                                     20 ; special function bits
+                                     21 ;--------------------------------------------------------
+                                     22 	.area RSEG    (ABS,DATA)
+      000000                         23 	.org 0x0000
+                                     24 ;--------------------------------------------------------
+                                     25 ; overlayable register banks
+                                     26 ;--------------------------------------------------------
+                                     27 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         28 	.ds 8
+                                     29 ;--------------------------------------------------------
+                                     30 ; internal ram data
+                                     31 ;--------------------------------------------------------
+                                     32 	.area DSEG    (DATA)
+                                     33 ;--------------------------------------------------------
+                                     34 ; overlayable items in internal ram 
+                                     35 ;--------------------------------------------------------
+                                     36 ;--------------------------------------------------------
+                                     37 ; indirectly addressable internal ram data
+                                     38 ;--------------------------------------------------------
+                                     39 	.area ISEG    (DATA)
+                                     40 ;--------------------------------------------------------
+                                     41 ; absolute internal ram data
+                                     42 ;--------------------------------------------------------
+                                     43 	.area IABS    (ABS,DATA)
+                                     44 	.area IABS    (ABS,DATA)
+                                     45 ;--------------------------------------------------------
+                                     46 ; bit data
+                                     47 ;--------------------------------------------------------
+                                     48 	.area BSEG    (BIT)
+                                     49 ;--------------------------------------------------------
+                                     50 ; paged external ram data
+                                     51 ;--------------------------------------------------------
+                                     52 	.area PSEG    (PAG,XDATA)
+                                     53 ;--------------------------------------------------------
+                                     54 ; external ram data
+                                     55 ;--------------------------------------------------------
+                                     56 	.area XSEG    (XDATA)
+                                     57 ;--------------------------------------------------------
+                                     58 ; absolute external ram data
+                                     59 ;--------------------------------------------------------
+                                     60 	.area XABS    (ABS,XDATA)
+                                     61 ;--------------------------------------------------------
+                                     62 ; external initialized ram data
+                                     63 ;--------------------------------------------------------
+                                     64 	.area XISEG   (XDATA)
+                                     65 	.area HOME    (CODE)
+                                     66 	.area GSINIT0 (CODE)
+                                     67 	.area GSINIT1 (CODE)
+                                     68 	.area GSINIT2 (CODE)
+                                     69 	.area GSINIT3 (CODE)
+                                     70 	.area GSINIT4 (CODE)
+                                     71 	.area GSINIT5 (CODE)
+                                     72 	.area GSINIT  (CODE)
+                                     73 	.area GSFINAL (CODE)
+                                     74 	.area CSEG    (CODE)
+                                     75 ;--------------------------------------------------------
+                                     76 ; global & static initialisations
+                                     77 ;--------------------------------------------------------
+                                     78 	.area HOME    (CODE)
+                                     79 	.area GSINIT  (CODE)
+                                     80 	.area GSFINAL (CODE)
+                                     81 	.area GSINIT  (CODE)
+                                     82 ;--------------------------------------------------------
+                                     83 ; Home
+                                     84 ;--------------------------------------------------------
+                                     85 	.area HOME    (CODE)
+                                     86 	.area HOME    (CODE)
+                                     87 ;--------------------------------------------------------
+                                     88 ; code
+                                     89 ;--------------------------------------------------------
+                                     90 	.area CSEG    (CODE)
+                                     91 ;------------------------------------------------------------
+                                     92 ;Allocation info for local variables in function 'crc16_add'
+                                     93 ;------------------------------------------------------------
+                                     94 ;acc                       Allocated to stack - sp -3
+                                     95 ;b                         Allocated to registers r7 
+                                     96 ;------------------------------------------------------------
+                                     97 ;	../contiki-sensinode/core/lib/crc16.c:47: crc16_add(unsigned char b, unsigned short acc)
+                                     98 ;	-----------------------------------------
+                                     99 ;	 function crc16_add
+                                    100 ;	-----------------------------------------
+      000000                        101 _crc16_add:
+                           000007   102 	ar7 = 0x07
+                           000006   103 	ar6 = 0x06
+                           000005   104 	ar5 = 0x05
+                           000004   105 	ar4 = 0x04
+                           000003   106 	ar3 = 0x03
+                           000002   107 	ar2 = 0x02
+                           000001   108 	ar1 = 0x01
+                           000000   109 	ar0 = 0x00
+      000000 AF 82            [24]  110 	mov	r7,dpl
+                                    111 ;	../contiki-sensinode/core/lib/crc16.c:57: acc ^= b;
+      000002 7E 00            [12]  112 	mov	r6,#0x00
+      000004 E5 81            [12]  113 	mov	a,sp
+      000006 24 FD            [12]  114 	add	a,#0xfd
+      000008 F8               [12]  115 	mov	r0,a
+      000009 EF               [12]  116 	mov	a,r7
+      00000A 66               [12]  117 	xrl	a,@r0
+      00000B F6               [12]  118 	mov	@r0,a
+      00000C EE               [12]  119 	mov	a,r6
+      00000D 08               [12]  120 	inc	r0
+      00000E 66               [12]  121 	xrl	a,@r0
+      00000F F6               [12]  122 	mov	@r0,a
+                                    123 ;	../contiki-sensinode/core/lib/crc16.c:58: acc  = (acc >> 8) | (acc << 8);
+      000010 E5 81            [12]  124 	mov	a,sp
+      000012 24 FD            [12]  125 	add	a,#0xfd
+      000014 F8               [12]  126 	mov	r0,a
+      000015 E6               [12]  127 	mov	a,@r0
+      000016 08               [12]  128 	inc	r0
+      000017 18               [12]  129 	dec	r0
+      000018 E6               [12]  130 	mov	a,@r0
+      000019 F6               [12]  131 	mov	@r0,a
+      00001A 08               [12]  132 	inc	r0
+      00001B F6               [12]  133 	mov	@r0,a
+                                    134 ;	../contiki-sensinode/core/lib/crc16.c:59: acc ^= (acc & 0xff00) << 4;
+      00001C E5 81            [12]  135 	mov	a,sp
+      00001E 24 FD            [12]  136 	add	a,#0xfd
+      000020 F8               [12]  137 	mov	r0,a
+      000021 7E 00            [12]  138 	mov	r6,#0x00
+      000023 08               [12]  139 	inc	r0
+      000024 E6               [12]  140 	mov	a,@r0
+      000025 C4               [12]  141 	swap	a
+      000026 54 F0            [12]  142 	anl	a,#0xF0
+      000028 CE               [12]  143 	xch	a,r6
+      000029 C4               [12]  144 	swap	a
+      00002A CE               [12]  145 	xch	a,r6
+      00002B 6E               [12]  146 	xrl	a,r6
+      00002C CE               [12]  147 	xch	a,r6
+      00002D 54 F0            [12]  148 	anl	a,#0xF0
+      00002F CE               [12]  149 	xch	a,r6
+      000030 6E               [12]  150 	xrl	a,r6
+      000031 FF               [12]  151 	mov	r7,a
+      000032 E5 81            [12]  152 	mov	a,sp
+      000034 24 FD            [12]  153 	add	a,#0xfd
+      000036 F8               [12]  154 	mov	r0,a
+      000037 EE               [12]  155 	mov	a,r6
+      000038 66               [12]  156 	xrl	a,@r0
+      000039 F6               [12]  157 	mov	@r0,a
+      00003A EF               [12]  158 	mov	a,r7
+      00003B 08               [12]  159 	inc	r0
+      00003C 66               [12]  160 	xrl	a,@r0
+      00003D F6               [12]  161 	mov	@r0,a
+                                    162 ;	../contiki-sensinode/core/lib/crc16.c:60: acc ^= (acc >> 8) >> 4;
+      00003E E5 81            [12]  163 	mov	a,sp
+      000040 24 FD            [12]  164 	add	a,#0xfd
+      000042 F8               [12]  165 	mov	r0,a
+      000043 08               [12]  166 	inc	r0
+      000044 86 06            [24]  167 	mov	ar6,@r0
+      000046 E4               [12]  168 	clr	a
+      000047 C4               [12]  169 	swap	a
+      000048 CE               [12]  170 	xch	a,r6
+      000049 C4               [12]  171 	swap	a
+      00004A 54 0F            [12]  172 	anl	a,#0x0F
+      00004C 6E               [12]  173 	xrl	a,r6
+      00004D CE               [12]  174 	xch	a,r6
+      00004E 54 0F            [12]  175 	anl	a,#0x0F
+      000050 CE               [12]  176 	xch	a,r6
+      000051 6E               [12]  177 	xrl	a,r6
+      000052 CE               [12]  178 	xch	a,r6
+      000053 FF               [12]  179 	mov	r7,a
+      000054 E5 81            [12]  180 	mov	a,sp
+      000056 24 FD            [12]  181 	add	a,#0xfd
+      000058 F8               [12]  182 	mov	r0,a
+      000059 EE               [12]  183 	mov	a,r6
+      00005A 66               [12]  184 	xrl	a,@r0
+      00005B F6               [12]  185 	mov	@r0,a
+      00005C EF               [12]  186 	mov	a,r7
+      00005D 08               [12]  187 	inc	r0
+      00005E 66               [12]  188 	xrl	a,@r0
+      00005F F6               [12]  189 	mov	@r0,a
+                                    190 ;	../contiki-sensinode/core/lib/crc16.c:61: acc ^= (acc & 0xff00) >> 5;
+      000060 E5 81            [12]  191 	mov	a,sp
+      000062 24 FD            [12]  192 	add	a,#0xfd
+      000064 F8               [12]  193 	mov	r0,a
+      000065 7E 00            [12]  194 	mov	r6,#0x00
+      000067 08               [12]  195 	inc	r0
+      000068 E6               [12]  196 	mov	a,@r0
+      000069 C4               [12]  197 	swap	a
+      00006A 03               [12]  198 	rr	a
+      00006B CE               [12]  199 	xch	a,r6
+      00006C C4               [12]  200 	swap	a
+      00006D 03               [12]  201 	rr	a
+      00006E 54 07            [12]  202 	anl	a,#0x07
+      000070 6E               [12]  203 	xrl	a,r6
+      000071 CE               [12]  204 	xch	a,r6
+      000072 54 07            [12]  205 	anl	a,#0x07
+      000074 CE               [12]  206 	xch	a,r6
+      000075 6E               [12]  207 	xrl	a,r6
+      000076 CE               [12]  208 	xch	a,r6
+      000077 FF               [12]  209 	mov	r7,a
+      000078 E5 81            [12]  210 	mov	a,sp
+      00007A 24 FD            [12]  211 	add	a,#0xfd
+      00007C F8               [12]  212 	mov	r0,a
+      00007D EE               [12]  213 	mov	a,r6
+      00007E 66               [12]  214 	xrl	a,@r0
+      00007F F6               [12]  215 	mov	@r0,a
+      000080 EF               [12]  216 	mov	a,r7
+      000081 08               [12]  217 	inc	r0
+      000082 66               [12]  218 	xrl	a,@r0
+      000083 F6               [12]  219 	mov	@r0,a
+                                    220 ;	../contiki-sensinode/core/lib/crc16.c:62: return acc;
+      000084 E5 81            [12]  221 	mov	a,sp
+      000086 24 FD            [12]  222 	add	a,#0xfd
+      000088 F8               [12]  223 	mov	r0,a
+      000089 86 82            [24]  224 	mov	dpl,@r0
+      00008B 08               [12]  225 	inc	r0
+      00008C 86 83            [24]  226 	mov	dph,@r0
+      00008E 22               [24]  227 	ret
+                                    228 ;------------------------------------------------------------
+                                    229 ;Allocation info for local variables in function 'crc16_data'
+                                    230 ;------------------------------------------------------------
+                                    231 ;len                       Allocated to stack - sp -5
+                                    232 ;acc                       Allocated to stack - sp -7
+                                    233 ;data                      Allocated to registers 
+                                    234 ;i                         Allocated to stack - sp -1
+                                    235 ;------------------------------------------------------------
+                                    236 ;	../contiki-sensinode/core/lib/crc16.c:66: crc16_data(const unsigned char *data, int len, unsigned short acc)
+                                    237 ;	-----------------------------------------
+                                    238 ;	 function crc16_data
+                                    239 ;	-----------------------------------------
+      00008F                        240 _crc16_data:
+      00008F 05 81            [12]  241 	inc	sp
+      000091 05 81            [12]  242 	inc	sp
+      000093 AD 82            [24]  243 	mov	r5,dpl
+      000095 AE 83            [24]  244 	mov	r6,dph
+      000097 AF F0            [24]  245 	mov	r7,b
+                                    246 ;	../contiki-sensinode/core/lib/crc16.c:70: for(i = 0; i < len; ++i) {
+      000099 A8 81            [24]  247 	mov	r0,sp
+      00009B 18               [12]  248 	dec	r0
+      00009C E4               [12]  249 	clr	a
+      00009D F6               [12]  250 	mov	@r0,a
+      00009E 08               [12]  251 	inc	r0
+      00009F F6               [12]  252 	mov	@r0,a
+      0000A0                        253 00103$:
+      0000A0 A8 81            [24]  254 	mov	r0,sp
+      0000A2 18               [12]  255 	dec	r0
+      0000A3 E5 81            [12]  256 	mov	a,sp
+      0000A5 24 FB            [12]  257 	add	a,#0xfb
+      0000A7 F9               [12]  258 	mov	r1,a
+      0000A8 C3               [12]  259 	clr	c
+      0000A9 E6               [12]  260 	mov	a,@r0
+      0000AA 97               [12]  261 	subb	a,@r1
+      0000AB 08               [12]  262 	inc	r0
+      0000AC E6               [12]  263 	mov	a,@r0
+      0000AD 64 80            [12]  264 	xrl	a,#0x80
+      0000AF 09               [12]  265 	inc	r1
+      0000B0 87 F0            [24]  266 	mov	b,@r1
+      0000B2 63 F0 80         [24]  267 	xrl	b,#0x80
+      0000B5 95 F0            [12]  268 	subb	a,b
+      0000B7 50 49            [24]  269 	jnc	00101$
+                                    270 ;	../contiki-sensinode/core/lib/crc16.c:71: acc = crc16_add(*data, acc);
+      0000B9 8D 82            [24]  271 	mov	dpl,r5
+      0000BB 8E 83            [24]  272 	mov	dph,r6
+      0000BD 8F F0            [24]  273 	mov	b,r7
+      0000BF 12r00r00         [24]  274 	lcall	__gptrget
+      0000C2 FA               [12]  275 	mov	r2,a
+      0000C3 A3               [24]  276 	inc	dptr
+      0000C4 AD 82            [24]  277 	mov	r5,dpl
+      0000C6 AE 83            [24]  278 	mov	r6,dph
+      0000C8 C0 07            [24]  279 	push	ar7
+      0000CA C0 06            [24]  280 	push	ar6
+      0000CC C0 05            [24]  281 	push	ar5
+      0000CE E5 81            [12]  282 	mov	a,sp
+      0000D0 24 F6            [12]  283 	add	a,#0xf6
+      0000D2 F8               [12]  284 	mov	r0,a
+      0000D3 E6               [12]  285 	mov	a,@r0
+      0000D4 C0 E0            [24]  286 	push	acc
+      0000D6 08               [12]  287 	inc	r0
+      0000D7 E6               [12]  288 	mov	a,@r0
+      0000D8 C0 E0            [24]  289 	push	acc
+      0000DA 8A 82            [24]  290 	mov	dpl,r2
+      0000DC 12r00r00         [24]  291 	lcall	_crc16_add
+      0000DF AA 82            [24]  292 	mov	r2,dpl
+      0000E1 AC 83            [24]  293 	mov	r4,dph
+      0000E3 15 81            [12]  294 	dec	sp
+      0000E5 15 81            [12]  295 	dec	sp
+      0000E7 D0 05            [24]  296 	pop	ar5
+      0000E9 D0 06            [24]  297 	pop	ar6
+      0000EB D0 07            [24]  298 	pop	ar7
+      0000ED E5 81            [12]  299 	mov	a,sp
+      0000EF 24 F9            [12]  300 	add	a,#0xf9
+      0000F1 F8               [12]  301 	mov	r0,a
+      0000F2 A6 02            [24]  302 	mov	@r0,ar2
+      0000F4 08               [12]  303 	inc	r0
+      0000F5 A6 04            [24]  304 	mov	@r0,ar4
+                                    305 ;	../contiki-sensinode/core/lib/crc16.c:72: ++data;
+                                    306 ;	../contiki-sensinode/core/lib/crc16.c:70: for(i = 0; i < len; ++i) {
+      0000F7 A8 81            [24]  307 	mov	r0,sp
+      0000F9 18               [12]  308 	dec	r0
+      0000FA 06               [12]  309 	inc	@r0
+      0000FB B6 00 02         [24]  310 	cjne	@r0,#0x00,00115$
+      0000FE 08               [12]  311 	inc	r0
+      0000FF 06               [12]  312 	inc	@r0
+      000100                        313 00115$:
+      000100 80 9E            [24]  314 	sjmp	00103$
+      000102                        315 00101$:
+                                    316 ;	../contiki-sensinode/core/lib/crc16.c:74: return acc;
+      000102 E5 81            [12]  317 	mov	a,sp
+      000104 24 F9            [12]  318 	add	a,#0xf9
+      000106 F8               [12]  319 	mov	r0,a
+      000107 86 82            [24]  320 	mov	dpl,@r0
+      000109 08               [12]  321 	inc	r0
+      00010A 86 83            [24]  322 	mov	dph,@r0
+      00010C 15 81            [12]  323 	dec	sp
+      00010E 15 81            [12]  324 	dec	sp
+      000110 22               [24]  325 	ret
+                                    326 	.area CSEG    (CODE)
+                                    327 	.area CONST   (CODE)
+                                    328 	.area XINIT   (CODE)
+                                    329 	.area CABS    (ABS,CODE)

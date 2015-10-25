@@ -1,0 +1,1307 @@
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+XABS2                               00000000    00000004 =           4. bytes (ABS,CON,XDATA)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+D:   00000000  l_BSEG                          
+D:   00000000  l_BSEG_BYTES                    
+D:   00000000  l_CABS                          
+D:   00000000  l_GSINIT1                       
+D:   00000000  l_GSINIT5                       
+D:   00000000  l_IABS                          
+D:   00000000  l_ISEG                          
+D:   00000000  l_OSEG                          
+D:   00000000  l_PSEG                          
+D:   00000000  l_REG_BANK_1                    
+D:   00000000  l_REG_BANK_2                    
+D:   00000000  l_REG_BANK_3                    
+D:   00000000  l_RSEG                          
+D:   00000000  l_RSEG0                         
+D:   00000000  l_RSEG1                         
+D:   00000000  l_XABS                          
+D:   00000000  l__CODE                         
+D:   00000000  s_BSEG                          
+D:   00000000  s_CABS                          
+D:   00000000  s_DSEG                          
+D:   00000000  s_HOME                          
+D:   00000000  s_IABS                          
+D:   00000000  s_ISEG                          
+D:   00000000  s_PSEG                          
+D:   00000000  s_REG_BANK_0                    
+D:   00000000  s_RSEG                          
+D:   00000000  s_RSEG0                         
+D:   00000000  s_RSEG1                         
+D:   00000000  s_XABS                          
+D:   00000000  s_XABS2                         
+D:   00000001  l_BIT_BANK                      
+D:   00000003  l_GSFINAL                       
+D:   00000003  l_GSINIT0                       
+D:   00000004  l_XABS2                         
+D:   00000004  s_XSEG                          
+D:   00000008  l_REG_BANK_0                    
+D:   00000008  s_REG_BANK_1                    
+D:   0000000A  l_GSINIT2                       
+D:   00000010  s_REG_BANK_2                    
+D:   00000018  l_GSINIT                        
+D:   00000018  s_REG_BANK_3                    
+D:   00000020  s_BIT_BANK                      
+D:   00000020  s_BSEG_BYTES                    
+D:   00000020  s_OSEG                          
+D:   00000020  s__CODE                         
+D:   00000021  s_SSEG                          
+D:   00000022  l_GSINIT3                       
+D:   0000002A  l_GSINIT4                       
+D:   00000074  l_DSEG                          
+D:   000000B1  l_HOME                          
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+XABS2                               00000000    00000004 =           4. bytes (ABS,CON,XDATA)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+D:   000000B1  s_GSINIT0                       
+D:   000000B4  s_GSINIT1                       
+D:   000000B4  s_GSINIT2                       
+D:   000000BE  s_GSINIT3                       
+D:   000000DF  l_SSEG                          
+D:   000000E0  s_GSINIT4                       
+D:   00000100  l_IRAM                          
+D:   0000010A  s_GSINIT                        
+D:   0000010A  s_GSINIT5                       
+D:   00000113  l_XINIT                         
+D:   00000113  l_XISEG                         
+D:   00000122  s_GSFINAL                       
+D:   00000125  s_CSEG                          
+D:   000001E7  l_CONST                         
+D:   00000C8A  l_XSEG                          
+D:   00000C8E  s_XISEG                         
+D:   0000DE82  l_CSEG                          
+D:   0000DFA7  s_CONST                         
+D:   0000E18E  s_XINIT                         
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000000  .__.ABS.                           chameleon_bitopt
+     00000080  _P0                                chameleon_bitopt
+     00000080  _P0_0                              chameleon_bitopt
+     00000081  _P0_1                              chameleon_bitopt
+     00000081  _SP                                chameleon_bitopt
+     00000082  _DPL0                              chameleon_bitopt
+     00000082  _P0_2                              chameleon_bitopt
+     00000083  _DPH0                              chameleon_bitopt
+     00000083  _P0_3                              chameleon_bitopt
+     00000084  _DPL1                              chameleon_bitopt
+     00000084  _P0_4                              chameleon_bitopt
+     00000085  _DPH1                              chameleon_bitopt
+     00000085  _P0_5                              chameleon_bitopt
+     00000086  _P0_6                              chameleon_bitopt
+     00000086  _U0CSR                             chameleon_bitopt
+     00000087  _P0_7                              chameleon_bitopt
+     00000087  _PCON                              chameleon_bitopt
+     00000088  _IT0                               chameleon_bitopt
+     00000088  _TCON                              chameleon_bitopt
+     00000089  _P0IFG                             chameleon_bitopt
+     00000089  _RFERRIF                           chameleon_bitopt
+     0000008A  _IT1                               chameleon_bitopt
+     0000008A  _P1IFG                             chameleon_bitopt
+     0000008B  _P2IFG                             chameleon_bitopt
+     0000008B  _URX0IF                            chameleon_bitopt
+     0000008C  _PICTL                             chameleon_bitopt
+     0000008D  _ADCIF                             chameleon_bitopt
+     0000008D  _P1IEN                             chameleon_bitopt
+     0000008F  _P0INP                             chameleon_bitopt
+     0000008F  _URX1IF                            chameleon_bitopt
+     00000090  _P1                                chameleon_bitopt
+     00000090  _P1_0                              chameleon_bitopt
+     00000091  _P1_1                              chameleon_bitopt
+     00000091  _RFIRQF1                           chameleon_bitopt
+     00000092  _DPS                               chameleon_bitopt
+     00000092  _P1_2                              chameleon_bitopt
+     00000093  _MPAGE                             chameleon_bitopt
+     00000093  _P1_3                              chameleon_bitopt
+     00000093  __XPAGE                            chameleon_bitopt
+     00000094  _P1_4                              chameleon_bitopt
+     00000094  _T2CTRL                            chameleon_bitopt
+     00000095  _P1_5                              chameleon_bitopt
+     00000095  _ST0                               chameleon_bitopt
+     00000096  _P1_6                              chameleon_bitopt
+     00000096  _ST1                               chameleon_bitopt
+     00000097  _P1_7                              chameleon_bitopt
+     00000097  _ST2                               chameleon_bitopt
+     00000098  _ENCIF_0                           chameleon_bitopt
+     00000098  _S0CON                             chameleon_bitopt
+     00000099  _ENCIF_1                           chameleon_bitopt
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000009A  _IEN2                              chameleon_bitopt
+     0000009B  _S1CON                             chameleon_bitopt
+     0000009C  _T2EVTCFG                          chameleon_bitopt
+     0000009D  _SLEEPSTA                          chameleon_bitopt
+     0000009E  _CLKCONSTA                         chameleon_bitopt
+     0000009F  _FMAP                              chameleon_bitopt
+     0000009F  _PSBANK                            chameleon_bitopt
+     000000A0  _P2                                chameleon_bitopt
+     000000A0  _P2_0                              chameleon_bitopt
+     000000A1  _P2_1                              chameleon_bitopt
+     000000A1  _T2IRQF                            chameleon_bitopt
+     000000A2  _P2_2                              chameleon_bitopt
+     000000A2  _T2M0                              chameleon_bitopt
+     000000A3  _P2_3                              chameleon_bitopt
+     000000A3  _T2M1                              chameleon_bitopt
+     000000A4  _P2_4                              chameleon_bitopt
+     000000A4  _T2MOVF0                           chameleon_bitopt
+     000000A5  _P2_5                              chameleon_bitopt
+     000000A5  _T2MOVF1                           chameleon_bitopt
+     000000A6  _P2_6                              chameleon_bitopt
+     000000A6  _T2MOVF2                           chameleon_bitopt
+     000000A7  _P2_7                              chameleon_bitopt
+     000000A7  _T2IRQM                            chameleon_bitopt
+     000000A8  _IEN0                              chameleon_bitopt
+     000000A8  _RFERRIE                           chameleon_bitopt
+     000000A9  _ADCIE                             chameleon_bitopt
+     000000A9  _IP0                               chameleon_bitopt
+     000000AA  _URX0IE                            chameleon_bitopt
+     000000AB  _P0IEN                             chameleon_bitopt
+     000000AB  _URX1IE                            chameleon_bitopt
+     000000AC  _ENCIE                             chameleon_bitopt
+     000000AC  _P2IEN                             chameleon_bitopt
+     000000AD  _STIE                              chameleon_bitopt
+     000000AD  _STLOAD                            chameleon_bitopt
+     000000AE  _PMUX                              chameleon_bitopt
+     000000AF  _EA                                chameleon_bitopt
+     000000AF  _T1STAT                            chameleon_bitopt
+     000000B1  _ENCDI                             chameleon_bitopt
+     000000B2  _ENCDO                             chameleon_bitopt
+     000000B3  _ENCCS                             chameleon_bitopt
+     000000B4  _ADCCON1                           chameleon_bitopt
+     000000B5  _ADCCON2                           chameleon_bitopt
+     000000B6  _ADCCON3                           chameleon_bitopt
+     000000B8  _DMAIE                             chameleon_bitopt
+     000000B8  _IEN1                              chameleon_bitopt
+     000000B9  _IP1                               chameleon_bitopt
+     000000B9  _T1IE                              chameleon_bitopt
+     000000BA  _ADCL                              chameleon_bitopt
+     000000BA  _T2IE                              chameleon_bitopt
+     000000BB  _ADCH                              chameleon_bitopt
+     000000BB  _T3IE                              chameleon_bitopt
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000000BC  _RNDL                              chameleon_bitopt
+     000000BC  _T4IE                              chameleon_bitopt
+     000000BD  _P0IE                              chameleon_bitopt
+     000000BD  _RNDH                              chameleon_bitopt
+     000000BE  _SLEEPCMD                          chameleon_bitopt
+     000000BF  _RFERRF                            chameleon_bitopt
+     000000C0  _DMAIF                             chameleon_bitopt
+     000000C0  _IRCON                             chameleon_bitopt
+     000000C1  _T1IF                              chameleon_bitopt
+     000000C1  _U0DBUF                            chameleon_bitopt
+     000000C2  _T2IF                              chameleon_bitopt
+     000000C2  _U0BAUD                            chameleon_bitopt
+     000000C3  _T2MSEL                            chameleon_bitopt
+     000000C3  _T3IF                              chameleon_bitopt
+     000000C4  _T4IF                              chameleon_bitopt
+     000000C4  _U0UCR                             chameleon_bitopt
+     000000C5  _P0IF                              chameleon_bitopt
+     000000C5  _U0GCR                             chameleon_bitopt
+     000000C6  _CLKCONCMD                         chameleon_bitopt
+     000000C7  _MEMCTR                            chameleon_bitopt
+     000000C7  _STIF                              chameleon_bitopt
+     000000C9  _WDCTL                             chameleon_bitopt
+     000000CA  _T3CNT                             chameleon_bitopt
+     000000CB  _T3CTL                             chameleon_bitopt
+     000000CC  _T3CCTL0                           chameleon_bitopt
+     000000CD  _T3CC0                             chameleon_bitopt
+     000000CE  _T3CCTL1                           chameleon_bitopt
+     000000CF  _T3CC1                             chameleon_bitopt
+     000000D0  _P                                 chameleon_bitopt
+     000000D0  _PSW                               chameleon_bitopt
+     000000D1  _DMAIRQ                            chameleon_bitopt
+     000000D1  _F1                                chameleon_bitopt
+     000000D2  _DMA1CFGL                          chameleon_bitopt
+     000000D2  _OV                                chameleon_bitopt
+     000000D3  _DMA1CFGH                          chameleon_bitopt
+     000000D3  _RS0                               chameleon_bitopt
+     000000D4  _DMA0CFGL                          chameleon_bitopt
+     000000D4  _RS1                               chameleon_bitopt
+     000000D5  _DMA0CFGH                          chameleon_bitopt
+     000000D5  _F0                                chameleon_bitopt
+     000000D6  _AC                                chameleon_bitopt
+     000000D6  _DMAARM                            chameleon_bitopt
+     000000D7  _CY                                chameleon_bitopt
+     000000D7  _DMAREQ                            chameleon_bitopt
+     000000D8  _T3OVFIF                           chameleon_bitopt
+     000000D8  _TIMIF                             chameleon_bitopt
+     000000D9  _RFD                               chameleon_bitopt
+     000000D9  _T3CH0IF                           chameleon_bitopt
+     000000DA  _T1CC0L                            chameleon_bitopt
+     000000DA  _T3CH1IF                           chameleon_bitopt
+     000000DB  _T1CC0H                            chameleon_bitopt
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000000DB  _T4OVFIF                           chameleon_bitopt
+     000000DC  _T1CC1L                            chameleon_bitopt
+     000000DC  _T4CH0IF                           chameleon_bitopt
+     000000DD  _T1CC1H                            chameleon_bitopt
+     000000DD  _T4CH1IF                           chameleon_bitopt
+     000000DE  _OVFIM                             chameleon_bitopt
+     000000DE  _T1CC2L                            chameleon_bitopt
+     000000DF  _T1CC2H                            chameleon_bitopt
+     000000E0  _ACC                               chameleon_bitopt
+     000000E0  _ACC_0                             chameleon_bitopt
+     000000E1  _ACC_1                             chameleon_bitopt
+     000000E1  _RFST                              chameleon_bitopt
+     000000E2  _ACC_2                             chameleon_bitopt
+     000000E2  _T1CNTL                            chameleon_bitopt
+     000000E3  _ACC_3                             chameleon_bitopt
+     000000E3  _T1CNTH                            chameleon_bitopt
+     000000E4  _ACC_4                             chameleon_bitopt
+     000000E4  _T1CTL                             chameleon_bitopt
+     000000E5  _ACC_5                             chameleon_bitopt
+     000000E5  _T1CCTL0                           chameleon_bitopt
+     000000E6  _ACC_6                             chameleon_bitopt
+     000000E6  _T1CCTL1                           chameleon_bitopt
+     000000E7  _ACC_7                             chameleon_bitopt
+     000000E7  _T1CCTL2                           chameleon_bitopt
+     000000E8  _IRCON2                            chameleon_bitopt
+     000000E8  _P2IF                              chameleon_bitopt
+     000000E9  _RFIRQF0                           chameleon_bitopt
+     000000E9  _UTX0IF                            chameleon_bitopt
+     000000EA  _T4CNT                             chameleon_bitopt
+     000000EA  _UTX1IF                            chameleon_bitopt
+     000000EB  _P1IF                              chameleon_bitopt
+     000000EB  _T4CTL                             chameleon_bitopt
+     000000EC  _T4CCTL0                           chameleon_bitopt
+     000000EC  _WDTIF                             chameleon_bitopt
+     000000ED  _T4CC0                             chameleon_bitopt
+     000000EE  _T4CCTL1                           chameleon_bitopt
+     000000EF  _T4CC1                             chameleon_bitopt
+     000000F0  _B                                 chameleon_bitopt
+     000000F0  _B_0                               chameleon_bitopt
+     000000F1  _B_1                               chameleon_bitopt
+     000000F1  _PERCFG                            chameleon_bitopt
+     000000F2  _APCFG                             chameleon_bitopt
+     000000F2  _B_2                               chameleon_bitopt
+     000000F3  _B_3                               chameleon_bitopt
+     000000F3  _P0SEL                             chameleon_bitopt
+     000000F4  _B_4                               chameleon_bitopt
+     000000F4  _P1SEL                             chameleon_bitopt
+     000000F5  _B_5                               chameleon_bitopt
+     000000F5  _P2SEL                             chameleon_bitopt
+     000000F6  _B_6                               chameleon_bitopt
+     000000F6  _P1INP                             chameleon_bitopt
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000000F7  _B_7                               chameleon_bitopt
+     000000F7  _P2INP                             chameleon_bitopt
+     000000F8  _ACTIVE                            chameleon_bitopt
+     000000F8  _U1CSR                             chameleon_bitopt
+     000000F9  _TX_BYTE                           chameleon_bitopt
+     000000F9  _U1DBUF                            chameleon_bitopt
+     000000FA  _RX_BYTE                           chameleon_bitopt
+     000000FA  _U1BAUD                            chameleon_bitopt
+     000000FB  _ERR                               chameleon_bitopt
+     000000FB  _U1UCR                             chameleon_bitopt
+     000000FC  _FE                                chameleon_bitopt
+     000000FC  _U1GCR                             chameleon_bitopt
+     000000FD  _P0DIR                             chameleon_bitopt
+     000000FD  _SLAVE                             chameleon_bitopt
+     000000FE  _P1DIR                             chameleon_bitopt
+     000000FE  _RE                                chameleon_bitopt
+     000000FF  _MODE                              chameleon_bitopt
+     000000FF  _P2DIR                             chameleon_bitopt
+     00006000  _RFCORE_RAM                        chameleon_bitopt
+     00006000  _RXFIFO                            chameleon_bitopt
+     00006080  _TXFIFO                            chameleon_bitopt
+     00006100  _SRC_ADDR_TABLE                    chameleon_bitopt
+     00006160  _SRCRESMASK0                       chameleon_bitopt
+     00006161  _SRCRESMASK1                       chameleon_bitopt
+     00006162  _SRCRESMASK2                       chameleon_bitopt
+     00006163  _SRCRESINDEX                       chameleon_bitopt
+     00006164  _SRCEXTPENDEN0                     chameleon_bitopt
+     00006165  _SRCEXTPENDEN1                     chameleon_bitopt
+     00006166  _SRCEXTPENDEN2                     chameleon_bitopt
+     00006167  _SRCSHORTPENDEN0                   chameleon_bitopt
+     00006168  _SRCSHORTPENDEN1                   chameleon_bitopt
+     00006169  _SRCSHORTPENDEN2                   chameleon_bitopt
+     0000616A  _EXT_ADDR0                         chameleon_bitopt
+     0000616B  _EXT_ADDR1                         chameleon_bitopt
+     0000616C  _EXT_ADDR2                         chameleon_bitopt
+     0000616D  _EXT_ADDR3                         chameleon_bitopt
+     0000616E  _EXT_ADDR4                         chameleon_bitopt
+     0000616F  _EXT_ADDR5                         chameleon_bitopt
+     00006170  _EXT_ADDR6                         chameleon_bitopt
+     00006171  _EXT_ADDR7                         chameleon_bitopt
+     00006172  _PAN_ID0                           chameleon_bitopt
+     00006173  _PAN_ID1                           chameleon_bitopt
+     00006174  _SHORT_ADDR0                       chameleon_bitopt
+     00006175  _SHORT_ADDR1                       chameleon_bitopt
+     00006180  _FRMFILT0                          chameleon_bitopt
+     00006181  _FRMFILT1                          chameleon_bitopt
+     00006182  _SRCMATCH                          chameleon_bitopt
+     00006183  _SRCSHORTEN0                       chameleon_bitopt
+     00006184  _SRCSHORTEN1                       chameleon_bitopt
+     00006185  _SRCSHORTEN2                       chameleon_bitopt
+     00006186  _SRCEXTEN0                         chameleon_bitopt
+ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00006187  _SRCEXTEN1                         chameleon_bitopt
+     00006188  _SRCEXTEN2                         chameleon_bitopt
+     00006189  _FRMCTRL0                          chameleon_bitopt
+     0000618A  _FRMCTRL1                          chameleon_bitopt
+     0000618B  _RXENABLE                          chameleon_bitopt
+     0000618C  _RXMASKSET                         chameleon_bitopt
+     0000618D  _RXMASKCLR                         chameleon_bitopt
+     0000618E  _FREQTUNE                          chameleon_bitopt
+     0000618F  _FREQCTRL                          chameleon_bitopt
+     00006190  _TXPOWER                           chameleon_bitopt
+     00006191  _TXCTRL                            chameleon_bitopt
+     00006192  _FSMSTAT0                          chameleon_bitopt
+     00006193  _FSMSTAT1                          chameleon_bitopt
+     00006194  _FIFOPCTRL                         chameleon_bitopt
+     00006195  _FSMCTRL                           chameleon_bitopt
+     00006196  _CCACTRL0                          chameleon_bitopt
+     00006197  _CCACTRL1                          chameleon_bitopt
+     00006198  _RSSI                              chameleon_bitopt
+     00006199  _RSSISTAT                          chameleon_bitopt
+     0000619A  _RXFIRST                           chameleon_bitopt
+     0000619B  _RXFIFOCNT                         chameleon_bitopt
+     0000619C  _TXFIFOCNT                         chameleon_bitopt
+     0000619D  _RXFIRST_PTR                       chameleon_bitopt
+     0000619E  _RXLAST_PTR                        chameleon_bitopt
+     0000619F  _RXP1_PTR                          chameleon_bitopt
+     000061A1  _TXFIRST_PTR                       chameleon_bitopt
+     000061A2  _TXLAST_PTR                        chameleon_bitopt
+     000061A3  _RFIRQM0                           chameleon_bitopt
+     000061A4  _RFIRQM1                           chameleon_bitopt
+     000061A5  _RFERRM                            chameleon_bitopt
+     000061A6  _MONMUX                            chameleon_bitopt
+     000061A6  _OPAMPMC                           chameleon_bitopt
+     000061A7  _RFRND                             chameleon_bitopt
+     000061A8  _MDMCTRL0                          chameleon_bitopt
+     000061A9  _MDMCTRL1                          chameleon_bitopt
+     000061AA  _FREQEST                           chameleon_bitopt
+     000061AB  _RXCTRL                            chameleon_bitopt
+     000061AC  _FSCTRL                            chameleon_bitopt
+     000061AD  _FSCAL0                            chameleon_bitopt
+     000061AE  _FSCAL1                            chameleon_bitopt
+     000061AF  _FSCAL2                            chameleon_bitopt
+     000061B0  _FSCAL3                            chameleon_bitopt
+     000061B1  _AGCCTRL0                          chameleon_bitopt
+     000061B2  _AGCCTRL1                          chameleon_bitopt
+     000061B3  _AGCCTRL2                          chameleon_bitopt
+     000061B4  _AGCCTRL3                          chameleon_bitopt
+     000061B5  _ADCTEST0                          chameleon_bitopt
+     000061B6  _ADCTEST1                          chameleon_bitopt
+     000061B7  _ADCTEST2                          chameleon_bitopt
+     000061B8  _MDMTEST0                          chameleon_bitopt
+     000061B9  _MDMTEST1                          chameleon_bitopt
+ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000061BA  _DACTEST0                          chameleon_bitopt
+     000061BB  _DACTEST1                          chameleon_bitopt
+     000061BC  _DACTEST2                          chameleon_bitopt
+     000061BD  _ATEST                             chameleon_bitopt
+     000061BE  _PTEST0                            chameleon_bitopt
+     000061BF  _PTEST1                            chameleon_bitopt
+     000061C0  _CSPPROG0                          chameleon_bitopt
+     000061C1  _CSPPROG1                          chameleon_bitopt
+     000061C2  _CSPPROG2                          chameleon_bitopt
+     000061C3  _CSPPROG3                          chameleon_bitopt
+     000061C4  _CSPPROG4                          chameleon_bitopt
+     000061C5  _CSPPROG5                          chameleon_bitopt
+     000061C6  _CSPPROG6                          chameleon_bitopt
+     000061C7  _CSPPROG7                          chameleon_bitopt
+     000061C8  _CSPPROG8                          chameleon_bitopt
+     000061C9  _CSPPROG9                          chameleon_bitopt
+     000061CA  _CSPPROG10                         chameleon_bitopt
+     000061CB  _CSPPROG11                         chameleon_bitopt
+     000061CC  _CSPPROG12                         chameleon_bitopt
+     000061CD  _CSPPROG13                         chameleon_bitopt
+     000061CE  _CSPPROG14                         chameleon_bitopt
+     000061CF  _CSPPROG15                         chameleon_bitopt
+     000061D0  _CSPPROG16                         chameleon_bitopt
+     000061D1  _CSPPROG17                         chameleon_bitopt
+     000061D2  _CSPPROG18                         chameleon_bitopt
+     000061D3  _CSPPROG19                         chameleon_bitopt
+     000061D4  _CSPPROG20                         chameleon_bitopt
+     000061D5  _CSPPROG21                         chameleon_bitopt
+     000061D6  _CSPPROG22                         chameleon_bitopt
+     000061D7  _CSPPROG23                         chameleon_bitopt
+     000061E0  _CSPCTRL                           chameleon_bitopt
+     000061E1  _CSPSTAT                           chameleon_bitopt
+     000061E2  _CSPX                              chameleon_bitopt
+     000061E3  _CSPY                              chameleon_bitopt
+     000061E4  _CSPZ                              chameleon_bitopt
+     000061E5  _CSPT                              chameleon_bitopt
+     000061EB  _RFC_OBS_CTRL0                     chameleon_bitopt
+     000061EC  _RFC_OBS_CTRL1                     chameleon_bitopt
+     000061ED  _RFC_OBS_CTRL2                     chameleon_bitopt
+     000061FA  _TXFILTCFG                         chameleon_bitopt
+     00006200  _USBADDR                           chameleon_bitopt
+     00006201  _USBPOW                            chameleon_bitopt
+     00006202  _USBIIF                            chameleon_bitopt
+     00006204  _USBOIF                            chameleon_bitopt
+     00006206  _USBCIF                            chameleon_bitopt
+     00006207  _USBIIE                            chameleon_bitopt
+     00006209  _USBOIE                            chameleon_bitopt
+     0000620B  _USBCIE                            chameleon_bitopt
+     0000620C  _USBFRML                           chameleon_bitopt
+     0000620D  _USBFRMH                           chameleon_bitopt
+     0000620E  _USBINDEX                          chameleon_bitopt
+ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000620F  _USBCTRL                           chameleon_bitopt
+     00006210  _USBMAXI                           chameleon_bitopt
+     00006211  _USBCS0                            chameleon_bitopt
+     00006211  _USBCSIL                           chameleon_bitopt
+     00006212  _USBCSIH                           chameleon_bitopt
+     00006213  _USBMAXO                           chameleon_bitopt
+     00006214  _USBCSOL                           chameleon_bitopt
+     00006215  _USBCSOH                           chameleon_bitopt
+     00006216  _USBCNT0                           chameleon_bitopt
+     00006216  _USBCNTL                           chameleon_bitopt
+     00006217  _USBCNTH                           chameleon_bitopt
+     00006220  _USBF0                             chameleon_bitopt
+     00006222  _USBF1                             chameleon_bitopt
+     00006224  _USBF2                             chameleon_bitopt
+     00006226  _USBF3                             chameleon_bitopt
+     00006228  _USBF4                             chameleon_bitopt
+     0000622A  _USBF5                             chameleon_bitopt
+     00006230  _I2CCFG                            chameleon_bitopt
+     00006231  _I2CSTAT                           chameleon_bitopt
+     00006232  _I2CDATA                           chameleon_bitopt
+     00006233  _I2CADDR                           chameleon_bitopt
+     00006234  _I2CWC                             chameleon_bitopt
+     00006235  _I2CIO                             chameleon_bitopt
+     00006243  _OBSSEL0                           chameleon_bitopt
+     00006244  _OBSSEL1                           chameleon_bitopt
+     00006245  _OBSSEL2                           chameleon_bitopt
+     00006246  _OBSSEL3                           chameleon_bitopt
+     00006247  _OBSSEL4                           chameleon_bitopt
+     00006248  _OBSSEL5                           chameleon_bitopt
+     00006249  _CHVER                             chameleon_bitopt
+     0000624A  _CHIPID                            chameleon_bitopt
+     0000624B  _TESTREG0                          chameleon_bitopt
+     00006260  _DBGDATA                           chameleon_bitopt
+     00006262  _SRCRC                             chameleon_bitopt
+     00006264  _BATTMON                           chameleon_bitopt
+     00006265  _IVCTRL                            chameleon_bitopt
+     00006270  _FCTL                              chameleon_bitopt
+     00006271  _FADDRL                            chameleon_bitopt
+     00006272  _FADDRH                            chameleon_bitopt
+     00006273  _FWDATA                            chameleon_bitopt
+     00006276  _CHIPINFO0                         chameleon_bitopt
+     00006277  _CHIPINFO1                         chameleon_bitopt
+     00006281  _IRCTL                             chameleon_bitopt
+     00006290  _CLD                               chameleon_bitopt
+     000062A0  _XX_T1CCTL0                        chameleon_bitopt
+     000062A1  _XX_T1CCTL1                        chameleon_bitopt
+     000062A2  _XX_T1CCTL2                        chameleon_bitopt
+     000062A3  _T1CCTL3                           chameleon_bitopt
+     000062A4  _T1CCTL4                           chameleon_bitopt
+     000062A6  _XX_T1CC0L                         chameleon_bitopt
+     000062A7  _XX_T1CC0H                         chameleon_bitopt
+ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000062A8  _XX_T1CC1L                         chameleon_bitopt
+     000062A9  _XX_T1CC1H                         chameleon_bitopt
+     000062AA  _XX_T1CC2L                         chameleon_bitopt
+     000062AB  _XX_T1CC2H                         chameleon_bitopt
+     000062AC  _T1CC3L                            chameleon_bitopt
+     000062AD  _T1CC3H                            chameleon_bitopt
+     000062AE  _T1CC4L                            chameleon_bitopt
+     000062AF  _T1CC4H                            chameleon_bitopt
+     000062B0  _STCC                              chameleon_bitopt
+     000062B1  _STCS                              chameleon_bitopt
+     000062B2  _STCV0                             chameleon_bitopt
+     000062B3  _STCV1                             chameleon_bitopt
+     000062B4  _STCV2                             chameleon_bitopt
+     000062C0  _OPAMPC                            chameleon_bitopt
+     000062C1  _OPAMPS                            chameleon_bitopt
+     000062D0  _CMPCTL                            chameleon_bitopt
+     00007080  _X_P0                              chameleon_bitopt
+     00007086  _X_U0CSR                           chameleon_bitopt
+     00007089  _X_P0IFG                           chameleon_bitopt
+     0000708A  _X_P1IFG                           chameleon_bitopt
+     0000708B  _X_P2IFG                           chameleon_bitopt
+     0000708C  _X_PICTL                           chameleon_bitopt
+     0000708D  _X_P1IEN                           chameleon_bitopt
+     0000708F  _X_P0INP                           chameleon_bitopt
+     00007090  _X_P1                              chameleon_bitopt
+     00007091  _X_RFIRQF1                         chameleon_bitopt
+     00007093  _X_MPAGE                           chameleon_bitopt
+     00007093  _X__XPAGE                          chameleon_bitopt
+     00007094  _X_T2CTRL                          chameleon_bitopt
+     00007095  _X_ST0                             chameleon_bitopt
+     00007096  _X_ST1                             chameleon_bitopt
+     00007097  _X_ST2                             chameleon_bitopt
+     0000709C  _X_T2EVTCFG                        chameleon_bitopt
+     0000709D  _X_SLEEPSTA                        chameleon_bitopt
+     0000709E  _X_CLKCONSTA                       chameleon_bitopt
+     0000709F  _X_FMAP                            chameleon_bitopt
+     0000709F  _X_PSBANK                          chameleon_bitopt
+     000070A0  _X_P2                              chameleon_bitopt
+     000070A1  _X_T2IRQF                          chameleon_bitopt
+     000070A2  _X_T2M0                            chameleon_bitopt
+     000070A3  _X_T2M1                            chameleon_bitopt
+     000070A4  _X_T2MOVF0                         chameleon_bitopt
+     000070A5  _X_T2MOVF1                         chameleon_bitopt
+     000070A6  _X_T2MOVF2                         chameleon_bitopt
+     000070A7  _X_T2IRQM                          chameleon_bitopt
+     000070AB  _X_P0IEN                           chameleon_bitopt
+     000070AC  _X_P2IEN                           chameleon_bitopt
+     000070AD  _X_STLOAD                          chameleon_bitopt
+     000070AE  _X_PMUX                            chameleon_bitopt
+     000070AF  _X_T1STAT                          chameleon_bitopt
+     000070B1  _X_ENCDI                           chameleon_bitopt
+ASxxxx Linker V03.00 + NoICE + sdld,  page 12.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000070B2  _X_ENCDO                           chameleon_bitopt
+     000070B3  _X_ENCCS                           chameleon_bitopt
+     000070B4  _X_ADCCON1                         chameleon_bitopt
+     000070B5  _X_ADCCON2                         chameleon_bitopt
+     000070B6  _X_ADCCON3                         chameleon_bitopt
+     000070BA  _X_ADCL                            chameleon_bitopt
+     000070BB  _X_ADCH                            chameleon_bitopt
+     000070BC  _X_RNDL                            chameleon_bitopt
+     000070BD  _X_RNDH                            chameleon_bitopt
+     000070BE  _X_SLEEPCMD                        chameleon_bitopt
+     000070BF  _X_RFERRF                          chameleon_bitopt
+     000070C1  _X_U0DBUF                          chameleon_bitopt
+     000070C2  _X_U0BAUD                          chameleon_bitopt
+     000070C3  _X_T2MSEL                          chameleon_bitopt
+     000070C4  _X_U0UCR                           chameleon_bitopt
+     000070C5  _X_U0GCR                           chameleon_bitopt
+     000070C6  _X_CLKCONCMD                       chameleon_bitopt
+     000070C7  _X_MEMCTR                          chameleon_bitopt
+     000070C9  _X_WDCTL                           chameleon_bitopt
+     000070CA  _X_T3CNT                           chameleon_bitopt
+     000070CB  _X_T3CTL                           chameleon_bitopt
+     000070CC  _X_T3CCTL0                         chameleon_bitopt
+     000070CD  _X_T3CC0                           chameleon_bitopt
+     000070CE  _X_T3CCTL1                         chameleon_bitopt
+     000070CF  _X_T3CC1                           chameleon_bitopt
+     000070D1  _X_DMAIRQ                          chameleon_bitopt
+     000070D2  _X_DMA1CFGL                        chameleon_bitopt
+     000070D3  _X_DMA1CFGH                        chameleon_bitopt
+     000070D4  _X_DMA0CFGL                        chameleon_bitopt
+     000070D5  _X_DMA0CFGH                        chameleon_bitopt
+     000070D6  _X_DMAARM                          chameleon_bitopt
+     000070D7  _X_DMAREQ                          chameleon_bitopt
+     000070D8  _X_TIMIF                           chameleon_bitopt
+     000070D9  _X_RFD                             chameleon_bitopt
+     000070DA  _X_T1CC0L                          chameleon_bitopt
+     000070DB  _X_T1CC0H                          chameleon_bitopt
+     000070DC  _X_T1CC1L                          chameleon_bitopt
+     000070DD  _X_T1CC1H                          chameleon_bitopt
+     000070DE  _X_T1CC2L                          chameleon_bitopt
+     000070DF  _X_T1CC2H                          chameleon_bitopt
+     000070E1  _X_RFST                            chameleon_bitopt
+     000070E2  _X_T1CNTL                          chameleon_bitopt
+     000070E3  _X_T1CNTH                          chameleon_bitopt
+     000070E4  _X_T1CTL                           chameleon_bitopt
+     000070E5  _X_T1CCTL0                         chameleon_bitopt
+     000070E6  _X_T1CCTL1                         chameleon_bitopt
+     000070E7  _X_T1CCTL2                         chameleon_bitopt
+     000070E9  _X_RFIRQF0                         chameleon_bitopt
+     000070EA  _X_T4CNT                           chameleon_bitopt
+     000070EB  _X_T4CTL                           chameleon_bitopt
+     000070EC  _X_T4CCTL0                         chameleon_bitopt
+ASxxxx Linker V03.00 + NoICE + sdld,  page 13.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000070ED  _X_T4CC0                           chameleon_bitopt
+     000070EE  _X_T4CCTL1                         chameleon_bitopt
+     000070EF  _X_T4CC1                           chameleon_bitopt
+     000070F1  _X_PERCFG                          chameleon_bitopt
+     000070F2  _X_APCFG                           chameleon_bitopt
+     000070F3  _X_P0SEL                           chameleon_bitopt
+     000070F4  _X_P1SEL                           chameleon_bitopt
+     000070F5  _X_P2SEL                           chameleon_bitopt
+     000070F6  _X_P1INP                           chameleon_bitopt
+     000070F7  _X_P2INP                           chameleon_bitopt
+     000070F8  _X_U1CSR                           chameleon_bitopt
+     000070F9  _X_U1DBUF                          chameleon_bitopt
+     000070FA  _X_U1BAUD                          chameleon_bitopt
+     000070FB  _X_U1UCR                           chameleon_bitopt
+     000070FC  _X_U1GCR                           chameleon_bitopt
+     000070FD  _X_P0DIR                           chameleon_bitopt
+     000070FE  _X_P1DIR                           chameleon_bitopt
+     000070FF  _X_P2DIR                           chameleon_bitopt
+     00007800  _X_INFOPAGE                        chameleon_bitopt
+     0000780C  _X_IEEE_ADDR                       chameleon_bitopt
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 14.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+REG_BANK_0                          00000000    00000008 =           8. bytes (REL,OVR)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 15.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+BIT_BANK                            00000020    00000001 =           1. bytes (REL,OVR)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 16.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+DSEG                                00000000    00000074 =         116. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000013  _bp                                _bp
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 17.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+SSEG                                00000021    000000DF =         223. bytes (REL,OVR)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000021  __start__stack                     contiki_main
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 18.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+XSEG                                00000004    00000C8A =        3210. bytes (REL,CON,XDATA)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+D:   000000B9  _usb_setup_buffer                  usb_core
+D:   00000199  _serial_line_event_message         serial_line
+D:   0000030C  _sensors_event                     sensors
+D:   00000334  _dma_conf                          dma
+D:   00000344  _dma_callback                      dma
+D:   0000034B  _sensors_flags                     smartrf_sensors
+D:   0000034F  _sleep_flag                        clock
+D:   00000350  _packetbuf_attrs                   packetbuf
+D:   00000380  _packetbuf_addrs                   packetbuf
+D:   00000442  _rimeaddr_node_addr                rimeaddr
+D:   00000521  _rimestats                         rimestats
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 19.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+XISEG                               00000C8E    00000113 =         275. bytes (REL,CON,XDATA)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+D:   00000C8E  _hello_world_process               blink
+D:   00000C97  _blink_process                     blink
+D:   00000CC4  _usb_serial_process                usb_serial
+D:   00000CE4  _usb_process                       usb_core
+D:   00000CED  _etimer_process                    etimer
+D:   00000CFB  _event_process                     usb_arch
+D:   00000D00  _configuration_head                cdc_acm_descriptors
+D:   00000D03  _serial_line_process               serial_line
+D:   00000D0C  _process_list                      process
+D:   00000D0F  _process_current                   process
+D:   00000D12  _sensors_process                   sensors
+D:   00000D2B  _sensors                           smartrf_sensors
+D:   00000D5E  _handlers                          port2
+D:   00000D67  _ctimer_process                    ctimer
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 20.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+HOME                                00000000    000000B1 =         177. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+C:   0000007E  __sdcc_program_startup             contiki_main
+C:   00000081  __sdcc_call_dptr                   
+C:   00000083  ___gptr_cmp                        
+ASxxxx Linker V03.00 + NoICE + sdld,  page 21.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSINIT0                             000000B1    00000003 =           3. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+C:   000000B1  __sdcc_gsinit_startup              
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 22.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSINIT2                             000000B4    0000000A =          10. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 23.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSINIT3                             000000BE    00000022 =          34. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+C:   000000BE  __mcs51_genXINIT                   
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 24.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSINIT4                             000000E0    0000002A =          42. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+C:   000000E0  __mcs51_genRAMCLEAR                
+C:   000000E6  __mcs51_genXRAMCLEAR               
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 25.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSINIT                              0000010A    00000018 =          24. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 26.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSFINAL                             00000122    00000003 =           3. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 27.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CSEG                                00000125    0000DE82 =       56962. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+C:   00000248  _main                              contiki_main
+C:   00000695  _usb_class_get_string_descriptor   usb_serial
+C:   0000085C  _usb_serial_flush                  usb_serial
+C:   000008CA  _usb_serial_writeb                 usb_serial
+C:   000009BF  _usb_serial_set_input              usb_serial
+C:   000009CC  _usb_serial_init                   usb_serial
+C:   000009E3  _usb_set_global_event_process      usb_core
+C:   000009F4  _usb_get_global_events             usb_core
+C:   00000A37  _usb_send_ctrl_response            usb_core
+C:   00000AE1  _usb_error_stall                   usb_core
+C:   00000AED  _usb_send_ctrl_status              usb_core
+C:   00000B3E  _usb_get_ctrl_data                 usb_core
+C:   00001209  _usb_setup                         usb_core
+C:   0000124B  _usb_register_request_handler      usb_core
+C:   000012B0  _usb_prepend_request_handler       usb_core
+C:   000012E1  _usb_get_current_configuration     usb_core
+C:   000012ED  _usb_setup_bulk_endpoint           usb_core
+C:   000012F0  _usb_setup_interrupt_endpoint      usb_core
+C:   000012F3  _usb_disable_endpoint              usb_core
+C:   00001301  _usb_discard_all_buffers           usb_core
+C:   00001304  _usb_halt_endpoint                 usb_core
+C:   0000131C  _usb_send_pending                  usb_core
+C:   0000132F  _leds_init                         leds
+C:   0000133C  _leds_blink                        leds
+C:   0000135E  _leds_get                          leds
+C:   00001361  _leds_on                           leds
+C:   00001378  _leds_off                          leds
+C:   0000138B  _leds_toggle                       leds
+C:   0000138E  _leds_invert                       leds
+C:   0000139D  _watchdog_init                     watchdog
+C:   000013A1  _watchdog_start                    watchdog
+C:   000013A5  _watchdog_periodic                 watchdog
+C:   000013B6  _watchdog_reboot                   watchdog
+C:   00001989  _etimer_request_poll               etimer
+C:   00001A9D  _etimer_set                        etimer
+C:   00001AD1  _etimer_reset                      etimer
+C:   00001AEF  _etimer_restart                    etimer
+C:   00001B0D  _etimer_adjust                     etimer
+C:   00001B57  _etimer_expired                    etimer
+C:   00001B9D  _etimer_expiration_time            etimer
+C:   00001BCC  _etimer_start_time                 etimer
+C:   00001BD9  _etimer_pending                    etimer
+C:   00001C0F  _etimer_next_expiration_time       etimer
+C:   00001C2E  _etimer_stop                       etimer
+C:   00001E19  _usb_set_ep_event_process          usb_arch
+C:   00001E4E  _usb_arch_set_global_event_proce   usb_arch
+C:   00001E5F  _usb_arch_get_global_events        usb_arch
+C:   00001E96  _usb_get_ep_events                 usb_arch
+C:   00002235  _usb_arch_setup                    usb_arch
+C:   0000228D  _usb_submit_recv_buffer            usb_arch
+ASxxxx Linker V03.00 + NoICE + sdld,  page 28.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CSEG                                00000125    0000DE82 =       56962. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+C:   000024AB  _usb_submit_xmit_buffer            usb_arch
+C:   000028EE  _usb_arch_setup_iso_endpoint       usb_arch
+C:   00002918  _usb_arch_setup_control_endpoint   usb_arch
+C:   00002942  _usb_arch_setup_bulk_endpoint      usb_arch
+C:   0000296B  _usb_arch_setup_interrupt_endpoi   usb_arch
+C:   000029F5  _usb_arch_disable_endpoint         usb_arch
+C:   00002A60  _usb_arch_discard_all_buffers      usb_arch
+C:   00002B7C  _usb_arch_control_stall            usb_arch
+C:   00002BA6  _usb_arch_halt_endpoint            usb_arch
+C:   00002D9B  _usb_arch_set_configuration        usb_arch
+C:   00002D9C  _usb_arch_get_ep_status            usb_arch
+C:   00002DC9  _usb_arch_set_address              usb_arch
+C:   00002DD0  _usb_arch_send_pending             usb_arch
+C:   0000422A  _port_1_isr                        button_sensor
+C:   000042E4  _rtimer_init                       rtimer
+C:   000042E7  _rtimer_set                        rtimer
+C:   00004390  _rtimer_run_next                   rtimer
+C:   00004455  _serial_line_input_byte            serial_line
+C:   00004658  _serial_line_init                  serial_line
+C:   0000468D  _process_alloc_event               process
+C:   00004697  _process_start                     process
+C:   00004C51  _process_exit                      process
+C:   00004C75  _process_init                      process
+C:   00004EC3  _process_run                       process
+C:   00004EE6  _process_nevents                   process
+C:   00004EFC  _process_post                      process
+C:   00004F7E  _process_post_synch                process
+C:   00004FCE  _process_poll                      process
+C:   0000500A  _process_is_running                process
+C:   000050DC  _sensors_first                     sensors
+C:   000050EE  _sensors_next                      sensors
+C:   00005128  _sensors_changed                   sensors
+C:   0000514F  _sensors_find                      sensors
+C:   000054EC  _cc2530_rf_channel_set             cc2530_rf
+C:   0000551A  _cc2530_rf_power_set               cc2530_rf
+C:   00005524  _cc2530_rf_set_addr                cc2530_rf
+C:   00005969  _putstring                         debug
+C:   00005994  _puthex                            debug
+C:   000059B3  _putbin                            debug
+C:   000059E0  _putdec                            debug
+C:   00005A19  _netstack_init                     netstack
+C:   00005A7E  _energest_type_set                 energest
+C:   00005A7F  _energest_init                     energest
+C:   00005A80  _energest_type_time                energest
+C:   00005A87  _energest_flush                    energest
+C:   00005A88  _timer_set                         timer
+C:   00005ACE  _timer_reset                       timer
+C:   00005B0A  _timer_restart                     timer
+C:   00005B32  _timer_expired                     timer
+C:   00005B95  _timer_remaining                   timer
+C:   00005D2E  _usb_cdc_acm_setup                 cdc_acm
+ASxxxx Linker V03.00 + NoICE + sdld,  page 29.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CSEG                                00000125    0000DE82 =       56962. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+C:   00005D37  _usb_cdc_acm_get_events            cdc_acm
+C:   00005D41  _usb_cdc_acm_get_line_state        cdc_acm
+C:   00005D48  _usb_cdc_acm_get_line_coding       cdc_acm
+C:   00005D4F  _usb_cdc_acm_set_event_process     cdc_acm
+C:   00005D60  _autostart_start                   autostart
+C:   00005DDB  _autostart_exit                    autostart
+C:   00005E49  __gptrput                          _gptrput
+C:   00005E64  _putchar                           putchar
+C:   00005E67  _dma_init                          dma
+C:   00005EBF  _dma_associate_process             dma
+C:   00005F1F  _dma_reset                         dma
+C:   00005FD6  __mulint                           _mulint
+C:   000060AE  _leds_arch_init                    leds_arch
+C:   000060C3  _leds_arch_get                     leds_arch
+C:   000060D5  _leds_arch_set                     leds_arch
+C:   000060EA  _clock_delay_usec                  clock
+C:   00006103  _clock_wait                        clock
+C:   0000613C  _clock_time                        clock
+C:   00006143  _clock_seconds                     clock
+C:   00006153  _clock_init                        clock
+C:   0000621B  _clock_isr                         clock
+C:   0000632A  _packetbuf_clear                   packetbuf
+C:   00006359  _packetbuf_clear_hdr               packetbuf
+C:   00006360  _packetbuf_copyfrom                packetbuf
+C:   000063D0  _packetbuf_compact                 packetbuf
+C:   000064EF  _packetbuf_copyto_hdr              packetbuf
+C:   00006564  _packetbuf_copyto                  packetbuf
+C:   00006677  _packetbuf_hdralloc                packetbuf
+C:   000066C1  _packetbuf_hdr_remove              packetbuf
+C:   000066CA  _packetbuf_hdrreduce               packetbuf
+C:   00006702  _packetbuf_set_datalen             packetbuf
+C:   0000670E  _packetbuf_dataptr                 packetbuf
+C:   00006739  _packetbuf_hdrptr                  packetbuf
+C:   00006755  _packetbuf_reference               packetbuf
+C:   00006784  _packetbuf_is_reference            packetbuf
+C:   000067CB  _packetbuf_reference_ptr           packetbuf
+C:   000067DD  _packetbuf_datalen                 packetbuf
+C:   000067E9  _packetbuf_hdrlen                  packetbuf
+C:   000067F5  _packetbuf_totlen                  packetbuf
+C:   00006815  _packetbuf_attr_clear              packetbuf
+C:   0000688B  _packetbuf_attr_copyto             packetbuf
+C:   000068DF  _packetbuf_attr_copyfrom           packetbuf
+C:   00006929  _packetbuf_set_attr                packetbuf
+C:   00006948  _packetbuf_attr                    packetbuf
+C:   00006961  _packetbuf_set_addr                packetbuf
+C:   00006996  _packetbuf_addr                    packetbuf
+C:   000069AF  _rtimer_arch_init                  rtimer_arch
+C:   000069BD  _rtimer_arch_schedule              rtimer_arch
+C:   000069D6  _rtimer_isr                        rtimer_arch
+C:   00006A27  _ringbuf_init                      ringbuf
+C:   00006AA6  _ringbuf_put                       ringbuf
+ASxxxx Linker V03.00 + NoICE + sdld,  page 30.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CSEG                                00000125    0000DE82 =       56962. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+C:   00006BBD  _ringbuf_get                       ringbuf
+C:   00006C97  _ringbuf_size                      ringbuf
+C:   00006CBA  _ringbuf_elements                  ringbuf
+C:   00006D0D  _port_2_isr                        port2_intr
+C:   00006DC7  _strncmp                           _strncmp
+C:   00006E8D  _rimeaddr_copy                     rimeaddr
+C:   00006EE3  _rimeaddr_cmp                      rimeaddr
+C:   00006F48  _rimeaddr_set_node_addr            rimeaddr
+C:   00006F64  _memset                            _memset
+C:   00006FCE  _memcpy                            _memcpy
+C:   00007EA3  _cc253x_p2_register_handler        port2
+C:   00007EF1  _cc253x_p2_unregister_handler      port2
+C:   00008022  _vprintf                           vprintf
+C:   00008059  _printf                            vprintf
+C:   00008093  _random_rand                       random
+C:   000080A9  _random_init                       random
+C:   00008419  _ctimer_init                       ctimer
+C:   00008449  _ctimer_set                        ctimer
+C:   000085B5  _ctimer_reset                      ctimer
+C:   0000866E  _ctimer_restart                    ctimer
+C:   00008727  _ctimer_stop                       ctimer
+C:   000087D8  _ctimer_expired                    ctimer
+C:   0000886A  _rime_sniffer_add                  rime
+C:   00008891  _rime_sniffer_remove               rime
+C:   00008AF7  _rime_output                       rime
+C:   00008B86  _strlen                            _strlen
+C:   00008B9E  _soc_init                          soc
+C:   00008BA7  _list_init                         list
+C:   00008BB3  _list_head                         list
+C:   00008BC8  _list_copy                         list
+C:   00008C03  _list_tail                         list
+C:   00008C56  _list_add                          list
+C:   00008D01  _list_push                         list
+C:   00008D90  _list_chop                         list
+C:   00008ED2  _list_pop                          list
+C:   00008F3D  _list_remove                       list
+C:   00009095  _list_length                       list
+C:   000090DF  _list_insert                       list
+C:   0000918C  _list_item_next                    list
+C:   000091BF  __gptrget                          _gptrget
+C:   000091DB  _announcement_init                 announcement
+C:   000091EF  _announcement_register             announcement
+C:   0000932E  _announcement_remove               announcement
+C:   00009355  _announcement_remove_value         announcement
+C:   000093B7  _announcement_set_value            announcement
+C:   00009485  _announcement_bump                 announcement
+C:   00009500  _announcement_listen               announcement
+C:   00009524  _announcement_register_listen_ca   announcement
+C:   00009530  _announcement_register_observer_   announcement
+C:   0000953C  _announcement_list                 announcement
+C:   00009550  _announcement_heard                announcement
+ASxxxx Linker V03.00 + NoICE + sdld,  page 31.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CSEG                                00000125    0000DE82 =       56962. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+C:   0000966A  __moduint                          _moduint
+C:   000096EC  _dma_isr                           dma_intr
+C:   00009E0C  _memb_init                         memb
+C:   00009F00  _memb_alloc                        memb
+C:   0000A04C  _memb_free                         memb
+C:   0000A1CC  _memb_inmemb                       memb
+C:   0000A302  _queuebuf_init                     queuebuf
+C:   0000A31D  _queuebuf_new_from_packetbuf       queuebuf
+C:   0000A4FB  _queuebuf_update_attr_from_packe   queuebuf
+C:   0000A52A  _queuebuf_free                     queuebuf
+C:   0000A5F5  _queuebuf_to_packetbuf             queuebuf
+C:   0000A7DE  _queuebuf_dataptr                  queuebuf
+C:   0000A888  _queuebuf_datalen                  queuebuf
+C:   0000A898  _queuebuf_addr                     queuebuf
+C:   0000A8BD  _queuebuf_attr                     queuebuf
+C:   0000A8EC  _queuebuf_debug_print              queuebuf
+C:   0000A8ED  _chameleon_init                    chameleon
+C:   0000A8F0  _chameleon_parse                   chameleon
+C:   0000A944  _chameleon_create                  chameleon
+C:   0000A9AC  _chameleon_hdrsize                 chameleon
+C:   0000A9CD  _channel_init                      channel
+C:   0000A9E1  _channel_set_attributes            channel
+C:   0000AA44  _channel_open                      channel
+C:   0000AA89  _channel_close                     channel
+C:   0000AAB0  _channel_lookup                    channel
+C:   0000AB3E  __sdcc_external_startup            _startup
+C:   0000AFE4  _broadcast_announcement_init       broadcast_announcement
+C:   0000B035  _broadcast_announcement_stop       broadcast_announcement
+C:   0000B050  _broadcast_announcement_beacon_i   broadcast_announcement
+C:   0000B199  __print_format                     printf_large
+C:   0000BFCC  _abc_open                          abc
+C:   0000C039  _abc_close                         abc
+C:   0000C03C  _abc_send                          abc
+C:   0000C03F  _abc_input                         abc
+C:   0000C08D  _abc_sent                          abc
+C:   0000C233  _broadcast_open                    broadcast
+C:   0000C2AE  _broadcast_close                   broadcast
+C:   0000C2B1  _broadcast_send                    broadcast
+C:   0000C886  _frame802154_hdrlen                frame802154
+C:   0000C8C8  _frame802154_create                frame802154
+C:   0000CCD4  _frame802154_parse                 frame802154
+C:   0000D344  _get_bits_in_byte                  chameleon_bitopt
+C:   0000D3B8  _get_bits                          chameleon_bitopt
+C:   0000D6A0  _set_bits_in_byte                  chameleon_bitopt
+C:   0000D743  _set_bits                          chameleon_bitopt
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 32.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CONST                               0000DFA7    000001E7 =         487. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+C:   0000DFF7  _autostart_processes               blink
+C:   0000E029  _adc_sensor                        adc_sensor
+C:   0000E08B  _button_1_sensor                   button_sensor
+C:   0000E094  _button_2_sensor                   button_sensor
+C:   0000E0A4  _device_descriptor                 cdc_acm_descriptors
+C:   0000E0B6  _configuration_block               cdc_acm_descriptors
+C:   0000E0F9  _cc2530_rf_driver                  cc2530_rf
+C:   0000E127  _rimeaddr_null                     rimeaddr
+C:   0000E129  _csma_driver                       csma
+C:   0000E13D  _rime_driver                       rime
+C:   0000E149  _nullrdc_driver                    nullrdc
+C:   0000E17B  _framer_802154                     framer_802154
+C:   0000E188  _chameleon_bitopt                  chameleon_bitopt
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 33.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+XINIT                               0000E18E    00000113 =         275. bytes (REL,CON,CODE)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 34.
+
+Files Linked                              [ module(s) ]
+
+obj_cc2530dk/contiki-main.rel             [  ]
+obj_cc2530dk/blink.app.rel                [  ]
+
+
+Libraries Linked                          [ object file ]
+
+contiki-cc2530dk.lib                      [ obj_cc2530dk/adc-sensor.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/usb-serial.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/usb-core.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/leds.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/watchdog.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/etimer.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/usb-arch.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/button-sensor.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/rtimer.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/mcs51.lib
+                                          [ crtclear.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/cdc-acm-descriptors ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/serial-line.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/process.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/sensors.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/cc2530-rf.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/mcs51.lib
+                                          [ crtxinit.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/debug.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/netstack.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/energest.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/timer.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/cdc-acm.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/autostart.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libsdcc.lib
+                                          [ _gptrput.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/putchar.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/dma.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libint.lib
+                                          [ _mulint.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/leds-arch.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/smartrf-sensors.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/clock.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/packetbuf.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/rtimer-arch.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/ringbuf.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/mcs51.lib
+                                          [ crtxclear.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/port2-intr.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libsdcc.lib
+                                          [ _strncmp.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/rimeaddr.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libsdcc.lib
+                                          [ _memset.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libsdcc.lib
+                                          [ _memcpy.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/csma.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/mcs51.lib
+                                          [ crtcall.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/port2.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libsdcc.lib
+                                          [ _bp.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libsdcc.lib
+                                          [ vprintf.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/random.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/ctimer.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/rime.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libsdcc.lib
+                                          [ _strlen.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/soc.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/mcs51.lib
+                                          [ gptr_cmp.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/list.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/mcs51.lib
+                                          [ crtstart.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/rimestats.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libsdcc.lib
+                                          [ _gptrget.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/announcement.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libint.lib
+                                          [ _moduint.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/dma_intr.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/nullrdc.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/memb.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/queuebuf.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/chameleon.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/channel.rel ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libsdcc.lib
+                                          [ _startup.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/broadcast-announcem ]
+/usr/bin/../share/sdcc/lib/large-stack-auto/libsdcc.lib
+                                          [ printf_large.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/abc.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/broadcast.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/framer-802154.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/frame802154.rel ]
+contiki-cc2530dk.lib                      [ obj_cc2530dk/chameleon-bitopt.re ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 35.
+
+User Base Address Definitions
+
+HOME = 0x0000
+ISEG = 0x0000
+BSEG = 0x0000
+
+
