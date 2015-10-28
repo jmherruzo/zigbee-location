@@ -22,11 +22,6 @@
 #define BROADCAST_INTERVAL 10
 #define BROADCAST_TICKS BROADCAST_INTERVAL*CLOCK_SECOND
 /**
-*	Interval for sending the data to the master
-**/
-#define SEND_MASTER_INTERVAL 1
-#define SEND_MASTER_TICKS SEND_MASTER_INTERVAL*CLOCK_SECOND
-/**
 *	Interval for time sync
 **/
 #define SYNC_INTERVAL 30
@@ -92,6 +87,17 @@ int mod(int a, int b)
 {
 	int aux = a/b;
 	return a-b*aux;
+}
+
+void print_neighbours(struct neighbour* neighbours, int n)
+{
+	int i;
+	for(i=0; i<n; i++)
+		printf("Addr: %u.%u RSSI: %u LQI: %u\n",
+				neighbours[i].addr.u8[0],
+				neighbours[i].addr.u8[1],
+				neighbours[i].last_rssi,
+				neighbours[i].last_lqi);
 }
 
 #endif /*__WHERE__*/

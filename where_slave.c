@@ -38,6 +38,12 @@ clock_time_t master_to_local_interval(clock_time_t master_interval);
 * \return Next ping interval.
 **/
 clock_time_t next_ping(void);
+/**
+* Calculates the time to the next update. Using the previous functions, the offsets and 
+* the offset time and time delta.
+* \return Next update interval.
+**/
+clock_time_t next_update(void);
 
 /* These hold the broadcast and unicast structures, respectively. */
 static struct broadcast_conn ping_conn, sync_conn;
@@ -50,6 +56,11 @@ struct neighbour neighbours[MAX_NEIGHBOURS];
 int n_neighbours=0;
 
 /**
+* Master address
+**/
+rimeaddr_t master_node;
+
+/**
 * Offsets for time sync
 **/
 static int offset=0, old_offset=0;
@@ -59,6 +70,7 @@ uint8_t ping_started = 0;
 /* We first declare our processes. */
 PROCESS(ping_process, "ping process");
 PROCESS(sync_process, "sync process");
+PROCESS(update_process, "update_process");
 
 AUTOSTART_PROCESSES(&sync_process);
 /*---------------------------------------------------------------------------*/
@@ -81,9 +93,11 @@ sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
   if(ping_started==0)
   {
     old_offset = offset;
+    rimeaddr_copy(&master_node ,from);
     ping_started=1;
     //Iniciamos el ping a otros nodos
     process_start(&ping_process, NULL);
+    process_start(&update_process, NULL);
     offset_time = time;
   }
   
@@ -148,12 +162,10 @@ ping_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
     rimeaddr_copy(&neighbours[id].addr, from);
     neighbours[id].last_rssi = packetbuf_attr(PACKETBUF_ATTR_RSSI);
     neighbours[id].last_lqi = packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY);
-    printf("Storing: %i %i %i\n",neighbours[id].last_rssi, neighbours[id].last_lqi, n_neighbours );
   }else //Stored neighbour
   {
     neighbours[id].last_rssi = packetbuf_attr(PACKETBUF_ATTR_RSSI);
     neighbours[id].last_lqi = packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY);
-    printf("Updating: %i %i %i\n",neighbours[id].last_rssi, neighbours[id].last_lqi, n_neighbours );
   }
 }
 /* This is where we define what function to be called when a broadcast
@@ -192,7 +204,40 @@ PROCESS_THREAD(ping_process, ev, data)
   PROCESS_END();
 }
 
+/*---------------------------------------------------------------------------*/
+/**
+* This function is called for every incoming unicast packet in the DATA_CHANNEL.
+* This never must be called
+**/
+static void
+recv_unicast(struct unicast_conn *c, const rimeaddr_t *from)
+{
+  
+}
+static const struct unicast_callbacks unicast_callbacks = {recv_unicast};
+/*---------------------------------------------------------------------------*/
+PROCESS_THREAD(update_process, ev, data)
+{
+  static struct etimer et;
+    
+  PROCESS_EXITHANDLER(unicast_close(&unicast);)
+    
+  PROCESS_BEGIN();
 
+  unicast_open(&unicast, DATA_CHANNEL, &unicast_callbacks);
+
+  while(1) {    
+    etimer_set(&et, next_update());
+    
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+    packetbuf_copyfrom(&neighbours, sizeof(struct neighbour)*n_neighbours);
+    unicast_send(&unicast, &master_node);
+    
+  }
+
+  PROCESS_END();
+}
 /*---------------------------------------------------------------------------*/
 clock_time_t master_time()
 {
@@ -214,4 +259,8 @@ clock_time_t next_ping()
   int aux = BROADCAST_TICKS;
   clock_time_t master_interval = aux - m_time%aux;
   return master_to_local_interval(master_interval);
+}
+clock_time_t next_update()
+{
+  return next_ping()+master_to_local_interval(BROADCAST_TICKS/2);
 }

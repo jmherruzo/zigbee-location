@@ -18,6 +18,11 @@
 * \return Next ping interval.
 **/
 clock_time_t next_ping(void);
+/**
+* Calculates the time to the next update.
+* \return Next update interval.
+**/
+clock_time_t next_ping(void);
 
 /* These hold the broadcast and unicast structures, respectively. */
 static struct broadcast_conn sync_conn, ping_conn;
@@ -28,14 +33,16 @@ static struct unicast_conn unicast;
 * Neighbours array
 **/
 struct neighbour neighbours[MAX_NEIGHBOURS];
+struct neighbour neighbours_buffer[MAX_NEIGHBOURS];
 int n_neighbours=0;
 
 /*---------------------------------------------------------------------------*/
 /* We first declare our processes. */
 PROCESS(sync_process, "Sync process");
 PROCESS(ping_process, "Ping process");
+PROCESS(update_process, "update_process");
 
-AUTOSTART_PROCESSES(&sync_process, &ping_process);
+AUTOSTART_PROCESSES(&sync_process, &ping_process, &update_process);
 /*---------------------------------------------------------------------------*/
 /**
 * This function is called whenever a broadcast message is received at the SYNC_CHANNEL.
@@ -48,7 +55,6 @@ sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
   clock_time_t time;
   
   packet_type = packetbuf_dataptr();
-  printf("In: %i %u %i.%i\n", *packet_type, clock_time(), from->u8[0], from->u8[1]);
 }
 /* This is where we define what function to be called when a broadcast
    is received. We pass a pointer to this structure in the
@@ -152,10 +158,50 @@ PROCESS_THREAD(ping_process, ev, data)
 }
 
 /*---------------------------------------------------------------------------*/
+/**
+* This function is called for every incoming unicast packet in the DATA_CHANNEL.
+* This never must be called
+**/
+static void
+recv_unicast(struct unicast_conn *c, const rimeaddr_t *from)
+{
+  int n_received = packetbuf_datalen()/sizeof(struct neighbour);
+  packetbuf_copyto(neighbours_buffer);
+  print_neighbours(neighbours_buffer, n_received);
+  
+}
+static const struct unicast_callbacks unicast_callbacks = {recv_unicast};
+/*---------------------------------------------------------------------------*/
+PROCESS_THREAD(update_process, ev, data)
+{
+  static struct etimer et;
+    
+  PROCESS_EXITHANDLER(unicast_close(&unicast);)
+    
+  PROCESS_BEGIN();
+
+  unicast_open(&unicast, DATA_CHANNEL, &unicast_callbacks);
+
+  while(1) {    
+    etimer_set(&et, next_update());
+    
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+    print_neighbours(neighbours, n_neighbours);
+    
+  }
+
+  PROCESS_END();
+}
+/*---------------------------------------------------------------------------*/
 clock_time_t next_ping()
 {
   clock_time_t m_time = clock_time();
   int aux = BROADCAST_TICKS;
   clock_time_t master_interval = aux - m_time%aux;
   return master_interval;
+}
+clock_time_t next_update()
+{
+  return next_ping()+(BROADCAST_TICKS/2);
 }
