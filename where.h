@@ -31,6 +31,7 @@
 *	Maximum number of neighbours to remember
 **/
 #define MAX_NEIGHBOURS 16
+#define NEIGHBOUR_BYTES 6
 
 /**
 * Channel used for communications
@@ -88,8 +89,28 @@ int mod(int a, int b)
 	int aux = a/b;
 	return a-b*aux;
 }
+/**
+*	Prints the neighbours information in console, using the next format:
+*   <number of neighbour><direction><data>
+*	\param data Data of the neighbours. Bytes of an struct neighbours array
+* 	\param n Number of neighbours in the data array
+*	\param address Address of the node
+**/
+void print_neighbours(rimeaddr_t *address, int8_t* data, int8_t n)
+{
 
-void print_neighbours(struct neighbour* neighbours, int n)
+	int i;
+	//printf("Printing neighbours: %i %c..\n", n, n);
+	printf("%c", n);
+	printf("%c", address->u8[0]);
+	printf("%c", address->u8[0]);
+	for(i=0; i<n*sizeof(struct neighbour); i++)
+		printf("%c",data[i]);
+	printf("\n");
+	
+}
+/*
+void print_neighbours(rimeaddr_t *address, struct neighbour* neighbours, int n)
 {
 	int i;
 	for(i=0; i<n; i++)
@@ -98,6 +119,6 @@ void print_neighbours(struct neighbour* neighbours, int n)
 				neighbours[i].addr.u8[1],
 				neighbours[i].last_rssi,
 				neighbours[i].last_lqi);
-}
+}*/
 
 #endif /*__WHERE__*/

@@ -181,6 +181,7 @@ PROCESS_THREAD(ping_process, ev, data)
 {
   static struct etimer et;
   struct ping_message msg;
+  char ch = 'a';
 
   PROCESS_EXITHANDLER(broadcast_close(&ping_conn););
 
@@ -194,7 +195,7 @@ PROCESS_THREAD(ping_process, ev, data)
     etimer_set(&et, next_ping());
     
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-
+    
     msg.type = MESSAGE_PING;
     packetbuf_clear();
     packetbuf_copyfrom(&msg, sizeof(struct sync_message));

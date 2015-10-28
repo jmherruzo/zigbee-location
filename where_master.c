@@ -33,7 +33,7 @@ static struct unicast_conn unicast;
 * Neighbours array
 **/
 struct neighbour neighbours[MAX_NEIGHBOURS];
-struct neighbour neighbours_buffer[MAX_NEIGHBOURS];
+int8_t neighbours_buffer[MAX_NEIGHBOURS*NEIGHBOUR_BYTES];
 int n_neighbours=0;
 
 /*---------------------------------------------------------------------------*/
@@ -79,7 +79,7 @@ PROCESS_THREAD(sync_process, ev, data)
     etimer_set(&et, CLOCK_SECOND * SYNC_INTERVAL);
 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-    printf("Sync\n");
+
     //Set local time and packet type
     msg.type = MESSAGE_SYNC;
     msg.timestamp = clock_time();
@@ -113,12 +113,10 @@ ping_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
     rimeaddr_copy(&neighbours[id].addr, from);
     neighbours[id].last_rssi = packetbuf_attr(PACKETBUF_ATTR_RSSI);
     neighbours[id].last_lqi = packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY);
-    printf("Storing: %i %i %i\n",neighbours[id].last_rssi, neighbours[id].last_lqi, n_neighbours );
   }else //Stored neighbour
   {
     neighbours[id].last_rssi = packetbuf_attr(PACKETBUF_ATTR_RSSI);
     neighbours[id].last_lqi = packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY);
-    printf("Updating: %i %i %i\n",neighbours[id].last_rssi, neighbours[id].last_lqi, n_neighbours );
   }
 }
 /* This is where we define what function to be called when a broadcast
@@ -167,8 +165,7 @@ recv_unicast(struct unicast_conn *c, const rimeaddr_t *from)
 {
   int n_received = packetbuf_datalen()/sizeof(struct neighbour);
   packetbuf_copyto(neighbours_buffer);
-  print_neighbours(neighbours_buffer, n_received);
-  
+  print_neighbours(from, neighbours_buffer, n_received);
 }
 static const struct unicast_callbacks unicast_callbacks = {recv_unicast};
 /*---------------------------------------------------------------------------*/
@@ -187,7 +184,7 @@ PROCESS_THREAD(update_process, ev, data)
     
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-    print_neighbours(neighbours, n_neighbours);
+    //print_neighbours(neighbours, n_neighbours);
     
   }
 
