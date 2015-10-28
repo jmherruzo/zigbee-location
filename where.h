@@ -35,7 +35,7 @@
 /**
 *	Maximum number of neighbours to remember
 **/
-#define MAX_NEIGHBORS 16
+#define MAX_NEIGHBOURS 16
 
 /**
 * Channel used for communications

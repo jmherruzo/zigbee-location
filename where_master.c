@@ -23,6 +23,13 @@ clock_time_t next_ping(void);
 static struct broadcast_conn sync_conn, ping_conn;
 static struct unicast_conn unicast;
 
+
+/**
+* Neighbours array
+**/
+struct neighbour neighbours[MAX_NEIGHBOURS];
+int n_neighbours=0;
+
 /*---------------------------------------------------------------------------*/
 /* We first declare our processes. */
 PROCESS(sync_process, "Sync process");
@@ -83,11 +90,30 @@ PROCESS_THREAD(sync_process, ev, data)
 static void
 ping_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
-  uint8_t *packet_type;
-  clock_time_t time;
+  int i;
+  int id=-1;
   
-  packet_type = packetbuf_dataptr();
-  printf("In: %i %u %i.%i\n", *packet_type, clock_time(), from->u8[0], from->u8[1]);
+  for(i=0; i<n_neighbours; i++)
+    if(rimeaddr_cmp(&neighbours[i].addr, from))
+    {
+      id=i;
+      break;
+    }
+  
+  if(id==-1) //New neighbour
+  {
+    id = n_neighbours;
+    n_neighbours++;
+    rimeaddr_copy(&neighbours[id].addr, from);
+    neighbours[id].last_rssi = packetbuf_attr(PACKETBUF_ATTR_RSSI);
+    neighbours[id].last_lqi = packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY);
+    printf("Storing: %i %i %i\n",neighbours[id].last_rssi, neighbours[id].last_lqi, n_neighbours );
+  }else //Stored neighbour
+  {
+    neighbours[id].last_rssi = packetbuf_attr(PACKETBUF_ATTR_RSSI);
+    neighbours[id].last_lqi = packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY);
+    printf("Updating: %i %i %i\n",neighbours[id].last_rssi, neighbours[id].last_lqi, n_neighbours );
+  }
 }
 /* This is where we define what function to be called when a broadcast
    is received. We pass a pointer to this structure in the

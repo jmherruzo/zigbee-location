@@ -44,6 +44,12 @@ static struct broadcast_conn ping_conn, sync_conn;
 static struct unicast_conn unicast;
 
 /**
+* Neighbours array
+**/
+struct neighbour neighbours[MAX_NEIGHBOURS];
+int n_neighbours=0;
+
+/**
 * Offsets for time sync
 **/
 static int offset=0, old_offset=0;
@@ -56,7 +62,7 @@ PROCESS(sync_process, "sync process");
 
 AUTOSTART_PROCESSES(&sync_process);
 /*---------------------------------------------------------------------------*/
-/* This function is called whenever a broadcast message is received at the PING_CHANNEL. */
+/* This function is called whenever a broadcast message is received at the SYNC_CHANNEL. */
 static void
 sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
@@ -76,7 +82,8 @@ sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
   {
     old_offset = offset;
     ping_started=1;
-    process_start(ping_process);
+    //Iniciamos el ping a otros nodos
+    process_start(&ping_process, NULL);
     offset_time = time;
   }
   
@@ -124,7 +131,30 @@ PROCESS_THREAD(sync_process, ev, data)
 static void
 ping_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
-  printf("Ping msg\n");
+  int i;
+  int id=-1;
+  
+  for(i=0; i<n_neighbours; i++)
+    if(rimeaddr_cmp(&neighbours[i].addr, from))
+    {
+      id=i;
+      break;
+    }
+  
+  if(id==-1) //New neighbour
+  {
+    id = n_neighbours;
+    n_neighbours++;
+    rimeaddr_copy(&neighbours[id].addr, from);
+    neighbours[id].last_rssi = packetbuf_attr(PACKETBUF_ATTR_RSSI);
+    neighbours[id].last_lqi = packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY);
+    printf("Storing: %i %i %i\n",neighbours[id].last_rssi, neighbours[id].last_lqi, n_neighbours );
+  }else //Stored neighbour
+  {
+    neighbours[id].last_rssi = packetbuf_attr(PACKETBUF_ATTR_RSSI);
+    neighbours[id].last_lqi = packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY);
+    printf("Updating: %i %i %i\n",neighbours[id].last_rssi, neighbours[id].last_lqi, n_neighbours );
+  }
 }
 /* This is where we define what function to be called when a broadcast
    is received. We pass a pointer to this structure in the
