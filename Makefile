@@ -1,4 +1,4 @@
-CONTIKI_PROJECT = cc2531-usb-demo blink example-neighbors
+CONTIKI_PROJECT = where_slave where_master
 
 DEFINES+=MODEL_CC2531=1
 

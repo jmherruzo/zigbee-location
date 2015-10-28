@@ -1,5 +1,0 @@
-HOME contiki-main.c
-HOME button-sensor.c
-HOME intr.c   
-HOME rtimer-arch.c
-HOME clock.c
