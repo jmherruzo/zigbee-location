@@ -14,8 +14,7 @@
 
 
 /**
-* Calculates the time to the next ping. Using the previous functions, the offsets and 
-* the offset time and time delta.
+* Calculates the time to the next ping.
 * \return Next ping interval.
 **/
 clock_time_t next_ping(void);
@@ -124,4 +123,13 @@ PROCESS_THREAD(ping_process, ev, data)
   }
 
   PROCESS_END();
+}
+
+/*---------------------------------------------------------------------------*/
+clock_time_t next_ping()
+{
+  clock_time_t m_time = clock_time();
+  int aux = BROADCAST_TICKS;
+  clock_time_t master_interval = aux - m_time%aux;
+  return master_interval;
 }

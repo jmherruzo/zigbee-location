@@ -61,7 +61,6 @@ static void
 sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
   struct sync_message s_msg;
-  struct ping_message *p_msg;
   uint8_t *packet_type;
   clock_time_t time;
   
@@ -110,7 +109,7 @@ PROCESS_THREAD(sync_process, ev, data)
   while(1) {
 
     /* Send a broadcast every BROADCAST_INTERVAL seconds */
-    etimer_set(&et, CLOCK_SECOND*300);
+    etimer_set(&et, CLOCK_SECOND*120);
     
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
@@ -145,7 +144,7 @@ PROCESS_THREAD(ping_process, ev, data)
 
   PROCESS_BEGIN();
 
-  broadcast_open(&ping_conn, PING_CHANNEL, &ping_con_call);
+  broadcast_open(&ping_conn, PING_CHANNEL, &ping_conn_call);
 
   while(1) {
 
