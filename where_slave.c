@@ -40,7 +40,7 @@ clock_time_t master_to_local_interval(clock_time_t master_interval);
 clock_time_t next_ping(void);
 
 /* These hold the broadcast and unicast structures, respectively. */
-static struct broadcast_conn broadcast;
+static struct broadcast_conn ping_conn, sync_conn;
 static struct unicast_conn unicast;
 
 /**
@@ -51,13 +51,14 @@ clock_time_t offset_time, offset_delta;
 uint8_t ping_started = 0;
 /*---------------------------------------------------------------------------*/
 /* We first declare our processes. */
-PROCESS(broadcast_process, "broadcast process");
+PROCESS(ping_process, "ping process");
+PROCESS(sync_process, "sync process");
 
-AUTOSTART_PROCESSES(&broadcast_process);
+AUTOSTART_PROCESSES(&ping_process, &sync_process);
 /*---------------------------------------------------------------------------*/
-/* This function is called whenever a broadcast message is received. */
+/* This function is called whenever a broadcast message is received at the PING_CHANNEL. */
 static void
-broadcast_recv(struct broadcast_conn *c, const rimeaddr_t *from)
+sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
   struct sync_message s_msg;
   struct ping_message *p_msg;
@@ -89,18 +90,62 @@ broadcast_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 /* This is where we define what function to be called when a broadcast
    is received. We pass a pointer to this structure in the
    broadcast_open() call below. */
-static const struct broadcast_callbacks broadcast_call = {broadcast_recv};
+static const struct broadcast_callbacks sync_conn_call = {sync_conn_recv};
 /*---------------------------------------------------------------------------*/
-PROCESS_THREAD(broadcast_process, ev, data)
+/**
+* Sync process
+* The only function of this is to start the Sync connection to receive the master
+* node time
+**/
+PROCESS_THREAD(sync_process, ev, data)
+{
+  static struct etimer et;
+
+  PROCESS_EXITHANDLER(broadcast_close(&sync_conn););
+
+  PROCESS_BEGIN();
+
+  broadcast_open(&sync_conn, SYNC_CHANNEL, &sync_conn_call);
+
+  while(1) {
+
+    /* Send a broadcast every BROADCAST_INTERVAL seconds */
+    etimer_set(&et, CLOCK_SECOND*300);
+    
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+  }
+
+  PROCESS_END();
+}
+
+
+/*---------------------------------------------------------------------------*/
+/* This function is called whenever a broadcast message is received at the SYNC_CHANNEL. */
+static void
+ping_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
+{
+  printf("Ping msg\n");
+}
+/* This is where we define what function to be called when a broadcast
+   is received. We pass a pointer to this structure in the
+   broadcast_open() call below. */
+static const struct broadcast_callbacks ping_conn_call = {ping_conn_recv};
+/*---------------------------------------------------------------------------*/
+/**
+* Ping process
+* This process send a broadcast every PING_INTERVAl to set the RSSI between neighbours
+**/
+PROCESS_THREAD(ping_process, ev, data)
 {
   static struct etimer et;
   struct ping_message msg;
 
-  PROCESS_EXITHANDLER(broadcast_close(&broadcast););
+  PROCESS_EXITHANDLER(broadcast_close(&ping_conn););
 
   PROCESS_BEGIN();
 
-  broadcast_open(&broadcast, PING_CHANNEL, &broadcast_call);
+  broadcast_open(&ping_conn, PING_CHANNEL, &ping_con_call);
 
   while(1) {
 
@@ -108,12 +153,11 @@ PROCESS_THREAD(broadcast_process, ev, data)
     etimer_set(&et, next_ping());
     
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-    printf("Ping %u\n",  master_time());
 
     msg.type = MESSAGE_PING;
     packetbuf_clear();
     packetbuf_copyfrom(&msg, sizeof(struct sync_message));
-    broadcast_send(&broadcast);
+    broadcast_send(&ping_conn);
   }
 
   PROCESS_END();
@@ -140,8 +184,5 @@ clock_time_t next_ping()
   clock_time_t m_time = master_time();
   int aux = BROADCAST_TICKS;
   clock_time_t master_interval = aux - m_time%aux;
-  printf("Master time: %i Waiting: %u BC: %i, Modulo: %i %i \n", 
-        m_time, master_interval, 
-        BROADCAST_TICKS,  (m_time%aux), mod(m_time, aux));
   return master_to_local_interval(master_interval);
 }

@@ -47,7 +47,7 @@ PROCESS_THREAD(sync_process, ev, data)
 
   PROCESS_BEGIN();
 
-  broadcast_open(&broadcast, PING_CHANNEL, &broadcast_call);
+  broadcast_open(&broadcast, SYNC_CHANNEL, &broadcast_call);
 
   while(1) {
 

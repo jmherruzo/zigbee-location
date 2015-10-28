@@ -40,9 +40,9 @@
 /**
 * Channel used for communications
 **/
-#define PING_CHANNEL 129
+#define PING_CHANNEL 128
 #define DATA_CHANNEL 129
-#define SYNC_CHANNEL 129
+#define SYNC_CHANNEL 130
 
 //Message type id
 #define MESSAGE_PING 1
