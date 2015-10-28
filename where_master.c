@@ -13,19 +13,30 @@
 #define THIS_NODE_ID 1
 
 
+/**
+* Calculates the time to the next ping. Using the previous functions, the offsets and 
+* the offset time and time delta.
+* \return Next ping interval.
+**/
+clock_time_t next_ping(void);
+
 /* These hold the broadcast and unicast structures, respectively. */
-static struct broadcast_conn broadcast;
+static struct broadcast_conn sync_conn, ping_conn;
 static struct unicast_conn unicast;
 
 /*---------------------------------------------------------------------------*/
 /* We first declare our processes. */
 PROCESS(sync_process, "Sync process");
+PROCESS(ping_process, "Ping process");
 
-AUTOSTART_PROCESSES(&sync_process);
+AUTOSTART_PROCESSES(&sync_process, &ping_process);
 /*---------------------------------------------------------------------------*/
-/* This function is called whenever a broadcast message is received. */
+/**
+* This function is called whenever a broadcast message is received at the SYNC_CHANNEL.
+* It dont must be called at the master side.
+**/
 static void
-broadcast_recv(struct broadcast_conn *c, const rimeaddr_t *from)
+sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
   uint8_t *packet_type;
   clock_time_t time;
@@ -36,18 +47,19 @@ broadcast_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 /* This is where we define what function to be called when a broadcast
    is received. We pass a pointer to this structure in the
    broadcast_open() call below. */
-static const struct broadcast_callbacks broadcast_call = {broadcast_recv};
+static const struct broadcast_callbacks sync_conn_call = {sync_conn_recv};
 /*---------------------------------------------------------------------------*/
+
 PROCESS_THREAD(sync_process, ev, data)
 {
   static struct etimer et;
   struct sync_message msg;
 
-  PROCESS_EXITHANDLER(broadcast_close(&broadcast);)
+  PROCESS_EXITHANDLER(broadcast_close(&sync_conn);)
 
   PROCESS_BEGIN();
 
-  broadcast_open(&broadcast, SYNC_CHANNEL, &broadcast_call);
+  broadcast_open(&sync_conn, SYNC_CHANNEL, &sync_conn_call);
 
   while(1) {
 
@@ -62,7 +74,53 @@ PROCESS_THREAD(sync_process, ev, data)
     
     packetbuf_clear();
     packetbuf_copyfrom(&msg, sizeof(struct sync_message));
-    broadcast_send(&broadcast);
+    broadcast_send(&sync_conn);
+  }
+
+  PROCESS_END();
+}
+/*---------------------------------------------------------------------------*/
+/* This function is called whenever a broadcast message is received at the PING_CHANNEL. */
+static void
+ping_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
+{
+  uint8_t *packet_type;
+  clock_time_t time;
+  
+  packet_type = packetbuf_dataptr();
+  printf("In: %i %u %i.%i\n", *packet_type, clock_time(), from->u8[0], from->u8[1]);
+}
+/* This is where we define what function to be called when a broadcast
+   is received. We pass a pointer to this structure in the
+   broadcast_open() call below. */
+static const struct broadcast_callbacks ping_conn_call = {ping_conn_recv};
+/*---------------------------------------------------------------------------*/
+/**
+* Ping process
+* This process send a broadcast every PING_INTERVAl to set the RSSI between neighbours
+**/
+PROCESS_THREAD(ping_process, ev, data)
+{
+  static struct etimer et;
+  struct sync_message msg;
+
+  PROCESS_EXITHANDLER(broadcast_close(&ping_conn);)
+
+  PROCESS_BEGIN();
+
+  broadcast_open(&ping_conn, PING_CHANNEL, &ping_conn_call);
+
+  while(1) {
+
+    /* Send a broadcast every BROADCAST_INTERVAL seconds */
+    etimer_set(&et, next_ping());
+    
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+    msg.type = MESSAGE_PING;
+    packetbuf_clear();
+    packetbuf_copyfrom(&msg, sizeof(struct sync_message));
+    broadcast_send(&ping_conn);
   }
 
   PROCESS_END();
