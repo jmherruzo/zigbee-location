@@ -54,37 +54,37 @@ uint8_t ping_started = 0;
 PROCESS(ping_process, "ping process");
 PROCESS(sync_process, "sync process");
 
-AUTOSTART_PROCESSES(&ping_process, &sync_process);
+AUTOSTART_PROCESSES(&sync_process);
 /*---------------------------------------------------------------------------*/
 /* This function is called whenever a broadcast message is received at the PING_CHANNEL. */
 static void
 sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
   struct sync_message s_msg;
-  uint8_t *packet_type;
   clock_time_t time;
-  
-  packet_type = packetbuf_dataptr();
-  if(*packet_type == MESSAGE_SYNC) //Timesync
-  {
 
-    time = clock_time();
-    memcpy(&s_msg, packetbuf_dataptr(), sizeof(s_msg));
-    old_offset = offset;
-    offset = s_msg.timestamp-time;
-    printf("Sync: offset: %i\n", offset);
-    if(old_offset==0)
-    {
-      old_offset = offset;
-      offset_time = time;
-    }
-    offset_delta = time-offset_time;
-    offset_time = time;     
-  }
-  else if(packet_type == MESSAGE_PING) //Neighbour ping -> Calculate RSSI and save
+  //Get time
+  time = clock_time();
+  //Copy msg data
+  memcpy(&s_msg, packetbuf_dataptr(), sizeof(s_msg));
+  //Set offset and old offset
+  old_offset = offset;
+  offset = s_msg.timestamp-time;
+
+  //First sync:    
+  if(ping_started==0)
   {
-    
+    old_offset = offset;
+    ping_started=1;
+    process_start(ping_process);
+    offset_time = time;
   }
+  
+  //Set offset_delta and offset_time
+  offset_delta = time-offset_time;
+  offset_time = time;
+  
+
 }
 /* This is where we define what function to be called when a broadcast
    is received. We pass a pointer to this structure in the
