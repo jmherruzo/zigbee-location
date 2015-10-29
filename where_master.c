@@ -10,8 +10,7 @@
 //Include where functions
 #include "where.h"
 
-#define THIS_NODE_ID 1
-
+#define THIS_NODE_ID 65
 
 /**
 * Calculates the time to the next ping.
@@ -22,12 +21,18 @@ clock_time_t next_ping(void);
 * Calculates the time to the next update.
 * \return Next update interval.
 **/
-clock_time_t next_ping(void);
+clock_time_t next_update(void);
 
-/* These hold the broadcast and unicast structures, respectively. */
+/**
+* These hold the broadcast and unicast structures, respectively.
+**/
 static struct broadcast_conn sync_conn, ping_conn;
 static struct unicast_conn unicast;
 
+/**
+* Rime address of this node
+**/
+rimeaddr_t *this_node;
 
 /**
 * Neighbours array
@@ -42,7 +47,7 @@ PROCESS(sync_process, "Sync process");
 PROCESS(ping_process, "Ping process");
 PROCESS(update_process, "update_process");
 
-AUTOSTART_PROCESSES(&sync_process, &ping_process, &update_process);
+AUTOSTART_PROCESSES(&sync_process);
 /*---------------------------------------------------------------------------*/
 /**
 * This function is called whenever a broadcast message is received at the SYNC_CHANNEL.
@@ -66,10 +71,20 @@ PROCESS_THREAD(sync_process, ev, data)
 {
   static struct etimer et;
   struct sync_message msg;
+  
 
   PROCESS_EXITHANDLER(broadcast_close(&sync_conn);)
 
   PROCESS_BEGIN();
+
+  //We set the node address
+  this_node->u8[0] = FIRST_BYTE_ADDRESS;
+  this_node->u8[1] = THIS_NODE_ID;
+  //rimeaddr_set_node_addr(this_node);
+  
+  //We start other process
+  process_start(&ping_process, NULL);
+  process_start(&update_process, NULL);
 
   broadcast_open(&sync_conn, SYNC_CHANNEL, &sync_conn_call);
 
@@ -184,7 +199,7 @@ PROCESS_THREAD(update_process, ev, data)
     
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-    //print_neighbours(neighbours, n_neighbours);
+    print_neighbours(this_node, (int8_t*)neighbours, n_neighbours);
     
   }
 

@@ -17,6 +17,11 @@
 #include <stdio.h>
 
 /**
+*	The first byte for the rime addresses
+**/
+#define FIRST_BYTE_ADDRESS 27
+
+/**
 *	Interval for broadcasting pings between the slaves and master
 **/
 #define BROADCAST_INTERVAL 10

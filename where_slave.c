@@ -12,7 +12,7 @@
 //Include where functions
 #include "where.h"
 
-#define THIS_NODE_ID 2
+#define THIS_NODE_ID 67
 
 //Functions definition:
 /**
@@ -120,10 +120,16 @@ static const struct broadcast_callbacks sync_conn_call = {sync_conn_recv};
 PROCESS_THREAD(sync_process, ev, data)
 {
   static struct etimer et;
+  rimeaddr_t *this_node;
 
   PROCESS_EXITHANDLER(broadcast_close(&sync_conn););
 
   PROCESS_BEGIN();
+  
+  //We set the node address
+  this_node->u8[0] = FIRST_BYTE_ADDRESS;
+  this_node->u8[1] = THIS_NODE_ID;
+  rimeaddr_set_node_addr(this_node);
 
   broadcast_open(&sync_conn, SYNC_CHANNEL, &sync_conn_call);
 
