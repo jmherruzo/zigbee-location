@@ -12,7 +12,12 @@
 //Include where functions
 #include "where.h"
 
-#define THIS_NODE_ID 67
+/**
+* Identificators of the device and room where it will be installed
+* Both values must be between 1 and 255 (8 bits)
+**/
+#define ROOM_ID 27
+#define DEVICE_ID 67
 
 //Functions definition:
 /**
@@ -124,20 +129,24 @@ PROCESS_THREAD(sync_process, ev, data)
 
   PROCESS_EXITHANDLER(broadcast_close(&sync_conn););
 
-  PROCESS_BEGIN();
-  
-  //We set the node address
-  this_node->u8[0] = FIRST_BYTE_ADDRESS;
-  this_node->u8[1] = THIS_NODE_ID;
-  rimeaddr_set_node_addr(this_node);
+  PROCESS_BEGIN();  
 
   broadcast_open(&sync_conn, SYNC_CHANNEL, &sync_conn_call);
-
+ 
+  //Wait a time to avoid errors
+  etimer_set(&et, CLOCK_SECOND*2);
+  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+  
+  //We set the node address
+  this_node->u8[0] = ROOM_ID;
+  this_node->u8[1] = DEVICE_ID;
+  rimeaddr_set_node_addr(this_node);
+  printf("%u.%u %u.%u\n", rimeaddr_node_addr.u8[0], rimeaddr_node_addr.u8[1],
+    this_node->u8[0], this_node->u8[1]);
+  
   while(1) {
-
-    /* Send a broadcast every BROADCAST_INTERVAL seconds */
-    etimer_set(&et, CLOCK_SECOND*120);
     
+    etimer_set(&et, CLOCK_SECOND*10);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
   }
@@ -147,12 +156,13 @@ PROCESS_THREAD(sync_process, ev, data)
 
 
 /*---------------------------------------------------------------------------*/
-/* This function is called whenever a broadcast message is received at the SYNC_CHANNEL. */
+/* This function is called whenever a broadcast message is received at the PING_CHANNEL. */
 static void
 ping_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
   int i;
   int id=-1;
+
   
   for(i=0; i<n_neighbours; i++)
     if(rimeaddr_cmp(&neighbours[i].addr, from))

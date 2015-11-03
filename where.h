@@ -16,20 +16,16 @@
 //Stdio include for print to serial
 #include <stdio.h>
 
-/**
-*	The first byte for the rime addresses
-**/
-#define FIRST_BYTE_ADDRESS 27
 
 /**
 *	Interval for broadcasting pings between the slaves and master
 **/
-#define BROADCAST_INTERVAL 10
+#define BROADCAST_INTERVAL 1
 #define BROADCAST_TICKS BROADCAST_INTERVAL*CLOCK_SECOND
 /**
 *	Interval for time sync
 **/
-#define SYNC_INTERVAL 30
+#define SYNC_INTERVAL 15
 #define SYNC_TICKS SYNC_INTERVAL*CLOCK_SECOND
 
 /**
@@ -108,7 +104,7 @@ void print_neighbours(rimeaddr_t *address, int8_t* data, int8_t n)
 	//printf("Printing neighbours: %i %c..\n", n, n);
 	printf("%c", n);
 	printf("%c", address->u8[0]);
-	printf("%c", address->u8[0]);
+	printf("%c", address->u8[1]);
 	for(i=0; i<n*sizeof(struct neighbour); i++)
 		printf("%c",data[i]);
 	printf("\n");
