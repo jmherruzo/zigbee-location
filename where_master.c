@@ -103,7 +103,6 @@ PROCESS_THREAD(sync_process, ev, data)
     etimer_set(&et, CLOCK_SECOND * SYNC_INTERVAL);
 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-    printf("This: %u.%u", rimeaddr_node_addr.u8[0], rimeaddr_node_addr.u8[1]);
     //Set local time and packet type
     msg.type = MESSAGE_SYNC;
     msg.timestamp = clock_time();
@@ -122,7 +121,6 @@ ping_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
   int i;
   int id=-1;
-  printf("Ping: %u.%u", from->u8[0], from->u8[1]);
     
   for(i=0; i<n_neighbours; i++)
     if(rimeaddr_cmp(&neighbours[i].addr, from))
