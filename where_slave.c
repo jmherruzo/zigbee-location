@@ -51,8 +51,7 @@ clock_time_t next_ping(void);
 clock_time_t next_update(void);
 
 /* These hold the broadcast and unicast structures, respectively. */
-static struct broadcast_conn ping_conn, sync_conn;
-static struct unicast_conn unicast;
+static struct broadcast_conn ping_conn, sync_conn, update_conn;
 
 /**
 * Neighbours array
@@ -94,6 +93,7 @@ sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
   old_offset = offset;
   offset = s_msg.timestamp-time;
 
+
   //First sync:    
   if(ping_started==0)
   {
@@ -104,6 +104,9 @@ sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
     process_start(&ping_process, NULL);
     process_start(&update_process, NULL);
     offset_time = time;
+  } else if (rimeaddr_cmp(&master_node, from)==0)
+  {
+    //rimeaddr_copy(master_node ,from);
   }
   
   //Set offset_delta and offset_time
@@ -141,8 +144,9 @@ PROCESS_THREAD(sync_process, ev, data)
   this_node->u8[0] = ROOM_ID;
   this_node->u8[1] = DEVICE_ID;
   rimeaddr_set_node_addr(this_node);
-  printf("%u.%u %u.%u\n", rimeaddr_node_addr.u8[0], rimeaddr_node_addr.u8[1],
-    this_node->u8[0], this_node->u8[1]);
+  
+  printf("%u.%u %u.%u\n",this_node->u8[0], this_node->u8[1],
+    rimeaddr_node_addr.u8[0], rimeaddr_node_addr.u8[1] );
   
   while(1) {
     
@@ -162,7 +166,6 @@ ping_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
   int i;
   int id=-1;
-
   
   for(i=0; i<n_neighbours; i++)
     if(rimeaddr_cmp(&neighbours[i].addr, from))
@@ -223,33 +226,32 @@ PROCESS_THREAD(ping_process, ev, data)
 
 /*---------------------------------------------------------------------------*/
 /**
-* This function is called for every incoming unicast packet in the DATA_CHANNEL.
-* This never must be called
+* This function is called for every incoming broadcast packet in the DATA_CHANNEL.
+* This has no function, but it must be declared
 **/
 static void
-recv_unicast(struct unicast_conn *c, const rimeaddr_t *from)
+update_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
-  
+
 }
-static const struct unicast_callbacks unicast_callbacks = {recv_unicast};
+static const struct broadcast_callbacks update_conn_call = {update_conn_recv};
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(update_process, ev, data)
 {
   static struct etimer et;
     
-  PROCESS_EXITHANDLER(unicast_close(&unicast);)
+  PROCESS_EXITHANDLER(broadcast_close(&update_conn);)
     
   PROCESS_BEGIN();
 
-  unicast_open(&unicast, DATA_CHANNEL, &unicast_callbacks);
+  broadcast_open(&update_conn, DATA_CHANNEL, NULL);
 
   while(1) {    
     etimer_set(&et, next_update());
     
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-
     packetbuf_copyfrom(&neighbours, sizeof(struct neighbour)*n_neighbours);
-    unicast_send(&unicast, &master_node);
+    broadcast_send(&update_conn);
     
   }
 

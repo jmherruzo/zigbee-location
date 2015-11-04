@@ -31,8 +31,7 @@ clock_time_t next_update(void);
 /**
 * These hold the broadcast and unicast structures, respectively.
 **/
-static struct broadcast_conn sync_conn, ping_conn;
-static struct unicast_conn unicast;
+static struct broadcast_conn sync_conn, ping_conn, update_conn;
 
 /**
 * Rime address of this node
@@ -121,7 +120,7 @@ ping_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
   int i;
   int id=-1;
-    
+   
   for(i=0; i<n_neighbours; i++)
     if(rimeaddr_cmp(&neighbours[i].addr, from))
     {
@@ -154,7 +153,8 @@ static const struct broadcast_callbacks ping_conn_call = {ping_conn_recv};
 PROCESS_THREAD(ping_process, ev, data)
 {
   static struct etimer et;
-  struct sync_message msg;
+  struct ping_message msg;
+  char type = MESSAGE_PING;
 
   PROCESS_EXITHANDLER(broadcast_close(&ping_conn);)
 
@@ -170,8 +170,13 @@ PROCESS_THREAD(ping_process, ev, data)
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
     msg.type = MESSAGE_PING;
+    
+    //Prints a number at the serial output for notifying the ping to the PC
+    
+    printf("%c\n", type);
+    
     packetbuf_clear();
-    packetbuf_copyfrom(&msg, sizeof(struct sync_message));
+    packetbuf_copyfrom(&msg, sizeof(struct ping_message));
     broadcast_send(&ping_conn);
   }
 
@@ -180,34 +185,36 @@ PROCESS_THREAD(ping_process, ev, data)
 
 /*---------------------------------------------------------------------------*/
 /**
-* This function is called for every incoming unicast packet in the DATA_CHANNEL.
-* This never must be called
+* This function is called for every incoming broadcast packet in the DATA_CHANNEL.
 **/
 static void
-recv_unicast(struct unicast_conn *c, const rimeaddr_t *from)
+update_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
   int n_received = packetbuf_datalen()/sizeof(struct neighbour);
   packetbuf_copyto(neighbours_buffer);
   print_neighbours(from, neighbours_buffer, n_received);
 }
-static const struct unicast_callbacks unicast_callbacks = {recv_unicast};
+static const struct broadcast_callbacks update_conn_call = {update_conn_recv};
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(update_process, ev, data)
 {
   static struct etimer et;
+  struct ping_message msg;
     
-  PROCESS_EXITHANDLER(unicast_close(&unicast);)
+  PROCESS_EXITHANDLER(broadcast_close(&update_conn);)
     
   PROCESS_BEGIN();
+  
+  broadcast_open(&update_conn, DATA_CHANNEL, &update_conn_call);
 
-  unicast_open(&unicast, DATA_CHANNEL, &unicast_callbacks);
 
   while(1) {    
     etimer_set(&et, next_update());
     
+    
+    
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-
-    print_neighbours(this_node, (int8_t*)neighbours, n_neighbours);
+    print_neighbours(&rimeaddr_node_addr, (int8_t*)neighbours, n_neighbours);
     
   }
 

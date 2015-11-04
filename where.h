@@ -16,6 +16,7 @@
 //Stdio include for print to serial
 #include <stdio.h>
 
+#define FIRST_BYTE_ADDRESS 27
 
 /**
 *	Interval for broadcasting pings between the slaves and master
@@ -51,6 +52,7 @@
 **/
 struct ping_message{
 	uint8_t type;
+	uint8_t device;
 };
 
 /**
@@ -92,23 +94,22 @@ int mod(int a, int b)
 }
 /**
 *	Prints the neighbours information in console, using the next format:
-*   <number of neighbour><direction><data>
+*   <message type><number of neighbour><direction><data>\n
 *	\param data Data of the neighbours. Bytes of an struct neighbours array
 * 	\param n Number of neighbours in the data array
 *	\param address Address of the node
 **/
 void print_neighbours(rimeaddr_t *address, int8_t* data, int8_t n)
 {
-
 	int i;
-	//printf("Printing neighbours: %i %c..\n", n, n);
+	char type = MESSAGE_DATA;
+	printf("%c", MESSAGE_DATA);
 	printf("%c", n);
 	printf("%c", address->u8[0]);
 	printf("%c", address->u8[1]);
 	for(i=0; i<n*sizeof(struct neighbour); i++)
 		printf("%c",data[i]);
 	printf("\n");
-	
 }
 /*
 void print_neighbours(rimeaddr_t *address, struct neighbour* neighbours, int n)
