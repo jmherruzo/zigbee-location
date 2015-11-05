@@ -246,10 +246,11 @@ PROCESS_THREAD(update_process, ev, data)
 
   broadcast_open(&update_conn, DATA_CHANNEL, NULL);
 
-  while(1) {    
+  while(1) {
     etimer_set(&et, next_update());
     
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+    packetbuf_clear();
     packetbuf_copyfrom(&neighbours, sizeof(struct neighbour)*n_neighbours);
     broadcast_send(&update_conn);
     
