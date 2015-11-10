@@ -21,12 +21,12 @@
 /**
 *	Interval for broadcasting pings between the slaves and master
 **/
-#define BROADCAST_INTERVAL 1
+#define BROADCAST_INTERVAL 5
 #define BROADCAST_TICKS BROADCAST_INTERVAL*CLOCK_SECOND
 /**
 *	Interval for time sync
 **/
-#define SYNC_INTERVAL 15
+#define SYNC_INTERVAL 20
 #define SYNC_TICKS SYNC_INTERVAL*CLOCK_SECOND
 
 /**
@@ -109,7 +109,7 @@ void print_neighbours(rimeaddr_t *address, int8_t* data, int8_t n)
 	printf("%c", address->u8[1]);
 	for(i=0; i<n*sizeof(struct neighbour); i++)
 		printf("%c",data[i]);
-	printf("\n");
+	printf("\nOK\n");
 }
 /*
 void print_neighbours(rimeaddr_t *address, struct neighbour* neighbours, int n)
