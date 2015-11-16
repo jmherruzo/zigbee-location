@@ -60,6 +60,7 @@ class service(SocketServer.BaseRequestHandler):
         if(len(lines)>0):
             pol = getIntersection(lines, room_x, room_y)
             print "Persona detectada en:" + str(pol)
+            saveToDatabase(pol, room)
         else:
             print "Persona no detectada"
         

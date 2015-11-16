@@ -6,6 +6,8 @@ import numpy as np;
 import MySQLdb
 from staticdata import *
 from shapely.geometry import *
+import time
+import pickle
 
 ##
 #	Gets the rooms x and y size
@@ -191,3 +193,20 @@ def getIntersection(links, room_x, room_y):
 			polygon = aux_pol.intersection(polygon)
 	return polygon
 	
+	
+##
+# Save the polygon data into the database
+# \param pol Polygon to save 
+# \param room Room affected
+def saveToDatabase(pol, room):
+	db = MySQLdb.connect(
+        host = DBHOST,
+        user = DBUSER,
+        passwd = DBPWD,
+        db = DB
+	)
+	cur = db.cursor()
+	cur.execute('INSERT INTO Data(time, room, position) VALUES(%i, %i, %s)',
+		time.time(), room, pickle.dumps(pol))
+	db.commit()
+	db.close()
