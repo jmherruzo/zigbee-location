@@ -193,6 +193,20 @@ def getIntersection(links, room_x, room_y):
 			polygon = aux_pol.intersection(polygon)
 	return polygon
 	
+##
+# Get the polygon points coordinates and set it in a string for database saving
+# \param pol Polygon to save to the String
+# \return resultant string
+def polToStr(pol):
+	x_coord = pol.exterior.coords.xy[0]
+	y_coord = pol.exterior.coords.xy[1]
+	result = ''
+	for i in range(len(x_coord)):
+		if(i!=0):
+			result = result+','
+		result = result+str(x_coord[i])+' '+str(y_coord[i])
+	return result
+		
 	
 ##
 # Save the polygon data into the database
@@ -206,7 +220,10 @@ def saveToDatabase(pol, room):
         db = DB
 	)
 	cur = db.cursor()
-	cur.execute('INSERT INTO Data(time, room, position) VALUES(%i, %i, %s)',
-		time.time(), room, pickle.dumps(pol))
+	query = 'INSERT INTO Data(time, room, position)'
+	query = query +'VALUES('+str(time.time())+ ','
+	query = query  + str(room) + ',\"' + polToStr(pol) +'\");'
+	print polToStr(pol)
+	cur.execute(query)
 	db.commit()
 	db.close()
