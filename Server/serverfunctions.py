@@ -152,7 +152,7 @@ def getActiveLinksAsPoints(data, default_rssi, dev_dbids, devices, room):
 #	Get the active links from a rssi data and default rssi as LineString objects
 #	\param data Data to analyze
 # 	\param default_rssi Default rssi values for each link
-#	\param dev_ids Dictionary for turning local ids into db ids 
+#	\param dev_dbids Dictionary for turning local ids into db ids 
 # 	\param devices Devices info dictionary
 #	\param room Room id
 # 	\return List of active link in Line format
@@ -225,5 +225,71 @@ def saveToDatabase(pol, room):
 	query = query  + str(room) + ',\"' + polToStr(pol) +'\");'
 	print polToStr(pol)
 	cur.execute(query)
+	db.commit()
+	db.close()
+	
+##
+# Check if a recalibration has been solicited
+# \param room Room id
+# \return True if the recalibration has been solicited, False if not
+
+def checkRecalibration( room):
+	db = MySQLdb.connect(
+        host = DBHOST,
+        user = DBUSER,
+        passwd = DBPWD,
+        db = DB
+	)
+	cur = db.cursor()
+	query = 'SELECT * FROM Recalibration WHERE done=FALSE '\
+										'and room = %d;'%room
+	cur.execute(query)
+	result = cur.fetchall()
+	db.close()
+	return len(result)>0
+	
+##
+# Set the recalibration as done for a given room id
+# \param room Room id
+def setRecalibrationDone( room):
+	db = MySQLdb.connect(
+        host = DBHOST,
+        user = DBUSER,
+        passwd = DBPWD,
+        db = DB
+	)
+	cur = db.cursor()
+	query = 'UPDATE Recalibration SET done=TRUE where room=%d;'%room
+	cur.execute(query)
+	db.commit()
+	db.close()
+	
+	
+##
+# Save the default rssi data to the database
+# \param Data data matrix
+# \param room Room which data must be saved
+# \param dev_dbids Dictionary for turning local ids into db ids 
+def saveDefaultRssi(data, room, dev_dbids):
+	n_devs = len(dev_dbids[room])
+	print n_devs
+	db = MySQLdb.connect(
+        host = DBHOST,
+        user = DBUSER,
+        passwd = DBPWD,
+        db = DB
+	)
+	cur = db.cursor()
+	basic_query = 'REPLACE INTO default_rssi(room_id, dev_1, dev_2, RSSI)'\
+				  'VALUES (%d, %d, %d, %d);'
+	for i in range(n_devs-1):
+		for j in range(i+1, n_devs):
+			print basic_query
+			print room
+			print dev_dbids[room][i]
+			print dev_dbids[room][j]
+			print data[i][j]
+			query = basic_query%(room, dev_dbids[room][i], dev_dbids[room][j], data[i][j])
+			cur.execute(query)
 	db.commit()
 	db.close()

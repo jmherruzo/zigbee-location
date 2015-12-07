@@ -1,6 +1,7 @@
 --This table will save the Rooms information
 CREATE TABLE Room(
 id INTEGER PRIMARY KEY,
+alias VARCHAR(10),
 x INTEGER,
 y INTEGER
 );
@@ -19,9 +20,9 @@ PRIMARY KEY(room_id, id)
 
 --Table for storing all the ping data between nodes
 CREATE TABLE Data(
-time INTEGER, 
+time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
 room INTEGER,
-position BLOB,
+position VARCHAR(200),
 FOREIGN KEY(room) REFERENCES Room(id),
 PRIMARY KEY(time, room)
 );
@@ -35,6 +36,14 @@ dev_2 INTEGER,
 RSSI INTEGER,
 FOREIGN KEY(room_id) REFERENCES Room(id),
 PRIMARY KEY(room_id, dev_1, dev_2)
+);
+
+--Table for storing when a Recalibration must be done or when it has been done
+CREATE TABLE Recalibration(
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	done BOOLEAN,
+	room INTEGER,
+	FOREIGN KEY(room) REFERENCES Room(id)
 );
 
 --Testdata:

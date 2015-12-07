@@ -3,7 +3,7 @@
 #	\author Jose Manuel Herruzo Ruiz
 
 
-DBHOST = '192.168.0.150'	# Database host address
+DBHOST = 'localhost'#'192.168.0.150'	# Database host address
 DBUSER = 'where'			# Database user
 DBPWD = 'qwerty'			# Database password
 DB = 'wheredb'				# Database which contains the data

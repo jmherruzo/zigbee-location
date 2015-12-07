@@ -8,5 +8,21 @@ from threading import Thread
 from staticdata import *
 from serverfunctions import *
 
-pol = Polygon([(0,0), (10, 0), (10, 10), (0, 10)])
-saveToDatabase(pol, 27)
+st = "Hola%d%d"
+st2 = st%(10,10)
+print st2
+db = MySQLdb.connect(
+	host = DBHOST,
+	user = DBUSER,
+	passwd = DBPWD,
+	db = DB
+)
+cur = db.cursor()
+a, b, c = getDevicesInfo(cur)
+d = getDefaultRssi(cur, a, b)
+d[27][0][1] = -63
+saveDefaultRssi(d[27], 27, c)
+print a
+print b
+print c
+print d

@@ -34,6 +34,10 @@ default_rssi = getDefaultRssi(cur, devices, dev_ids)
 
 db.close()
 
+#Recalibration params
+recalibration = False
+recal_num = 0
+
 
 ##
 #   Class for handling input TCP connection
@@ -56,16 +60,24 @@ class service(SocketServer.BaseRequestHandler):
         
         # Save the data into a matrix
         mat_data = dataToMatrix(load_data, dev_ids, devices)
-        lines = getActiveLinksAsLines(mat_data, default_rssi, dev_dbids, devices, room)
-        if(len(lines)>0):
-            pol = getIntersection(lines, room_x, room_y)
-            print "Persona detectada en:" + str(pol)
-            saveToDatabase(pol, room)
-        else:
-            print "Persona no detectada"
         
-        print "Client exited"
-        self.request.close()
+        # Check if need recalibration
+        if(!checkRecalibration()): # No recalibration, save data
+            lines = getActiveLinksAsLines(mat_data, default_rssi, dev_dbids, devices, room)
+            if(len(lines)>0):
+                pol = getIntersection(lines, room_x, room_y)
+                print "Persona detectada en:" + str(pol)
+                saveToDatabase(pol, room)
+            else:
+                print "Persona no detectada"
+            
+            print "Client exited"
+         else: #Recalibration, save in default data table
+            
+            
+            setRecalibrationDone()
+         
+         self.request.close()
 
 ##
 #   Class for open input TCP connection and serve it to the handler
