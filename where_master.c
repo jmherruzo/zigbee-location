@@ -60,10 +60,7 @@ AUTOSTART_PROCESSES(&sync_process);
 static void
 sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
-  uint8_t *packet_type;
-  clock_time_t time;
-  
-  packet_type = packetbuf_dataptr();
+
 }
 /* This is where we define what function to be called when a broadcast
    is received. We pass a pointer to this structure in the

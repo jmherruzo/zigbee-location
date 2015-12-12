@@ -16,13 +16,13 @@ import SendThread
 
 MESSAGE_PING = 1
 MESSAGE_DATA = 3
-HOST = '192.168.0.101'
+HOST = '192.168.0.102'
 PORT = 50007
 sync_msg = '\nOK\n'
 
 # Configure the serial connections (the parameters differs on the device you are connecting to)
 
-ser = serial.Serial("/dev/ttyACM0", 9600)
+ser = serial.Serial("/dev/ttyACM1", 9600)
 
 
 data_received = False;

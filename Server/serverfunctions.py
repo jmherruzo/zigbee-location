@@ -8,6 +8,7 @@ from staticdata import *
 from shapely.geometry import *
 import time
 import pickle
+import datetime
 
 ##
 #	Gets the rooms x and y size
@@ -37,7 +38,7 @@ def getDevicesInfo(cur):
 	# Create a dictionary for all the devices
 	devices = {}
 	for i in result:
-		if devices.get(int(i[0]), None)==None:
+		if devices.get(int(i[0]), 0)==0:
 			devices[int(i[0])] = [(int(i[1]), int(i[2]), int(i[3]))]
 		else:
 			devices[int(i[0])].append((int(i[1]), int(i[2]), int(i[3])))
@@ -70,7 +71,7 @@ def getDefaultRssi(cur, devices, dev_ids):
 	default_rssi = {}
 	for i in result:
 		room_id = int(i[0])
-		if default_rssi.get(room_id, None)==None:
+		if (default_rssi.get(room_id, "NONE"))=="NONE":
 			n_devices = len(devices[room_id])
 			default_rssi[room_id] = np.zeros((n_devices, n_devices))
 		dev_1_id = dev_ids[room_id][int(i[1])]
@@ -119,7 +120,6 @@ def getActiveLinksAsIds(data, default_rssi, room_id):
 		for j in range(i+1, n_devs):
 			if abs(data[i,j]-default_rssi[room_id][i,j])>DIFFERENCE and data[i,j]!=0:
 				links.append((i,j))
-				
 	return links
 	
 ##
@@ -204,7 +204,7 @@ def polToStr(pol):
 	for i in range(len(x_coord)):
 		if(i!=0):
 			result = result+','
-		result = result+str(x_coord[i])+' '+str(y_coord[i])
+		result = result+str(int(x_coord[i]))+' '+str(int(y_coord[i]))
 	return result
 		
 	
@@ -220,10 +220,10 @@ def saveToDatabase(pol, room):
         db = DB
 	)
 	cur = db.cursor()
+	now = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
 	query = 'INSERT INTO Data(time, room, position)'
-	query = query +'VALUES('+str(time.time())+ ','
+	query = query +'VALUES(\"'+now+ '\",'
 	query = query  + str(room) + ',\"' + polToStr(pol) +'\");'
-	print polToStr(pol)
 	cur.execute(query)
 	db.commit()
 	db.close()
@@ -272,7 +272,6 @@ def setRecalibrationDone( room):
 # \param dev_dbids Dictionary for turning local ids into db ids 
 def saveDefaultRssi(data, room, dev_dbids):
 	n_devs = len(dev_dbids[room])
-	print n_devs
 	db = MySQLdb.connect(
         host = DBHOST,
         user = DBUSER,
@@ -284,11 +283,6 @@ def saveDefaultRssi(data, room, dev_dbids):
 				  'VALUES (%d, %d, %d, %d);'
 	for i in range(n_devs-1):
 		for j in range(i+1, n_devs):
-			print basic_query
-			print room
-			print dev_dbids[room][i]
-			print dev_dbids[room][j]
-			print data[i][j]
 			query = basic_query%(room, dev_dbids[room][i], dev_dbids[room][j], data[i][j])
 			cur.execute(query)
 	db.commit()

@@ -17,7 +17,7 @@
 * Both values must be between 1 and 255 (8 bits)
 **/
 #define ROOM_ID 27
-#define DEVICE_ID 68
+#define DEVICE_ID 71
 
 //Functions definition:
 /**
@@ -93,7 +93,6 @@ sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
   old_offset = offset;
   offset = s_msg.timestamp-time;
 
-
   //First sync:    
   if(ping_started==0)
   {
@@ -104,9 +103,6 @@ sync_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
     process_start(&ping_process, NULL);
     process_start(&update_process, NULL);
     offset_time = time;
-  } else if (rimeaddr_cmp(&master_node, from)==0)
-  {
-    //rimeaddr_copy(master_node ,from);
   }
   
   //Set offset_delta and offset_time
@@ -152,6 +148,7 @@ PROCESS_THREAD(sync_process, ev, data)
     
     etimer_set(&et, CLOCK_SECOND*10);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+    etimer_reset(&et);
 
   }
 
@@ -164,6 +161,7 @@ PROCESS_THREAD(sync_process, ev, data)
 static void
 ping_conn_recv(struct broadcast_conn *c, const rimeaddr_t *from)
 {
+  
   int i;
   int id=-1;
   
@@ -200,6 +198,7 @@ PROCESS_THREAD(ping_process, ev, data)
 {
   static struct etimer et;
   struct ping_message msg;
+  clock_time_t aux_next;
   char ch = 'a';
 
   PROCESS_EXITHANDLER(broadcast_close(&ping_conn););
@@ -211,14 +210,18 @@ PROCESS_THREAD(ping_process, ev, data)
   while(1) {
 
     /* Send a broadcast every BROADCAST_INTERVAL seconds */
-    etimer_set(&et, next_ping());
+    aux_next = next_ping();
+    etimer_set(&et, aux_next);
     
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+    
     
     msg.type = MESSAGE_PING;
     packetbuf_clear();
     packetbuf_copyfrom(&msg, sizeof(struct sync_message));
     broadcast_send(&ping_conn);
+    printf("PING!\n");
+    etimer_reset(&et);
   }
 
   PROCESS_END();
@@ -240,11 +243,12 @@ PROCESS_THREAD(update_process, ev, data)
 {
   static struct etimer et;
     
+  
   PROCESS_EXITHANDLER(broadcast_close(&update_conn);)
     
   PROCESS_BEGIN();
 
-  broadcast_open(&update_conn, DATA_CHANNEL, NULL);
+  broadcast_open(&update_conn, DATA_CHANNEL, &update_conn_call);
 
   while(1) {
     etimer_set(&et, next_update());
@@ -252,9 +256,11 @@ PROCESS_THREAD(update_process, ev, data)
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
     packetbuf_clear();
     packetbuf_copyfrom(&neighbours, sizeof(struct neighbour)*n_neighbours);
-    broadcast_send(&update_conn);
+    broadcast_send(&update_conn); //This blocks the program when the time counter > 31000
+    etimer_reset(&et);
     
   }
+  
 
   PROCESS_END();
 }
@@ -273,6 +279,7 @@ clock_time_t master_to_local_interval(clock_time_t master_interval)
   return master_interval + 
          ((offset-old_offset)*(master_interval/(offset-old_offset+offset_delta)));
 }
+
 clock_time_t next_ping()
 {
   clock_time_t m_time = master_time();

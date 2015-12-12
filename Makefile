@@ -1,4 +1,4 @@
-CONTIKI_PROJECT = where_slave where_master
+CONTIKI_PROJECT = where_slave where_master blink
 
 DEFINES+=MODEL_CC2531=1
 

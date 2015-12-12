@@ -47,7 +47,7 @@ class MyWindow(QtGui.QMainWindow):
 		# this is the Canvas Widget that displays the `figure`
 		# it takes the `figure` instance as a parameter to __init__
 		self.canvas = FigureCanvas(self.figure)
-		self.btn_calibrate.clicked.connect(recalibration)
+		self.btn_calibrate.clicked.connect(self.recalibration)
 		
 		self.btn_getdata.clicked.connect(self.getData)
 		
@@ -168,7 +168,7 @@ class MyWindow(QtGui.QMainWindow):
 		y_coord = pol.exterior.coords.xy[1]
 		verts = []
 		for i in range(len(x_coord)):
-			verts.append((x_coord[i], y_coord[i]))
+			verts.append((x_coord[i]+self.min_x, y_coord[i]+self.min_y))
 		codes = [Path.MOVETO]
 		for i in range(len(x_coord)-2):
 			codes.append(Path.LINETO)
@@ -200,6 +200,8 @@ class MyWindow(QtGui.QMainWindow):
 			self.drawPolygon(polygon, pol_date)
 			
 		
+	def recalibration(self):
+		recalibration(self.room)
 		
 		
 	##

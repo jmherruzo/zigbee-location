@@ -62,22 +62,25 @@ class service(SocketServer.BaseRequestHandler):
         mat_data = dataToMatrix(load_data, dev_ids, devices)
         
         # Check if need recalibration
-        if(!checkRecalibration()): # No recalibration, save data
+        if(not checkRecalibration(room)):
             lines = getActiveLinksAsLines(mat_data, default_rssi, dev_dbids, devices, room)
             if(len(lines)>0):
                 pol = getIntersection(lines, room_x, room_y)
-                print "Persona detectada en:" + str(pol)
-                saveToDatabase(pol, room)
+                if(not pol.is_empty):
+                    print "Persona detectada en:" + str(pol)
+                    saveToDatabase(pol, room)
+                else:
+                    print 'Deberia recalibrar...'
             else:
                 print "Persona no detectada"
             
             print "Client exited"
-         else: #Recalibration, save in default data table
-            
-            
-            setRecalibrationDone()
+        else:
+            saveDefaultRssi(mat_data, room, dev_dbids)
+            default_rssi = mat_data
+            setRecalibrationDone(room)
          
-         self.request.close()
+        self.request.close()
 
 ##
 #   Class for open input TCP connection and serve it to the handler

@@ -59,7 +59,7 @@ def getLastPositionTime():
 	
 ## Prepare a recalibration
 #
-def recalibration():
+def recalibration(room):
 	db = MySQLdb.connect(
         host = DBHOST,
         user = DBUSER,
@@ -67,7 +67,7 @@ def recalibration():
         db = DB
 	)
 	cur = db.cursor()
-	cur.execute('INSERT INTO Recalibration(done) VALUES(FALSE);')
+	cur.execute('INSERT INTO Recalibration(done, room) VALUES(FALSE, %i);'%room)
 	db.commit()
 	db.close()
 	
