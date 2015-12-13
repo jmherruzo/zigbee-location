@@ -43,6 +43,7 @@ recal_num = 0
 #   Class for handling input TCP connection
 class service(SocketServer.BaseRequestHandler):
     def handle(self):
+        global default_rssi
         data = ''
         print "Client connected with ", self.client_address
         aux = ' '
@@ -77,7 +78,7 @@ class service(SocketServer.BaseRequestHandler):
             print "Client exited"
         else:
             saveDefaultRssi(mat_data, room, dev_dbids)
-            default_rssi = mat_data
+            default_rssi[room] = mat_data
             setRecalibrationDone(room)
          
         self.request.close()

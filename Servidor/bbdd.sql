@@ -22,7 +22,7 @@ PRIMARY KEY(room_id, id)
 CREATE TABLE Data(
 time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
 room INTEGER,
-position VARCHAR(200),
+position VARCHAR(300),
 FOREIGN KEY(room) REFERENCES Room(id),
 PRIMARY KEY(time, room)
 );

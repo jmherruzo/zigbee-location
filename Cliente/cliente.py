@@ -60,6 +60,7 @@ class MyWindow(QtGui.QMainWindow):
 		
 		self.ax = None
 		self.patch = None
+		self.patch_test = None
 		
 		self.updateRoom(1)
 		
@@ -163,6 +164,28 @@ class MyWindow(QtGui.QMainWindow):
 		self.lb_time.setText(str(time))
 		if self.patch != None:
 			self.patch.remove()
+		if self.patch_test != None:
+			self.patch_test.remove()
+		
+		centroid = pol.centroid
+		cir = centroid.buffer(20)
+		cir = cir.simplify(0.05, preserve_topology=False)
+		cir = cir.intersection(self.getRoomPolygon())
+
+		
+		x_coord = cir.exterior.coords.xy[0]
+		y_coord = cir.exterior.coords.xy[1]
+		verts = []
+		for i in range(len(x_coord)):
+			verts.append((x_coord[i]+self.min_x, y_coord[i]+self.min_y))
+		codes = [Path.MOVETO]
+		for i in range(len(x_coord)-2):
+			codes.append(Path.LINETO)
+		codes.append(Path.CLOSEPOLY)
+		path = Path(verts, codes)
+		self.patch = patches.PathPatch(path, facecolor='Red', lw=0, alpha=0.7)
+		self.ax.add_patch(self.patch)
+		
 		
 		x_coord = pol.exterior.coords.xy[0]
 		y_coord = pol.exterior.coords.xy[1]
@@ -174,8 +197,8 @@ class MyWindow(QtGui.QMainWindow):
 			codes.append(Path.LINETO)
 		codes.append(Path.CLOSEPOLY)
 		path = Path(verts, codes)
-		self.patch = patches.PathPatch(path, facecolor='Red', lw=0)
-		self.ax.add_patch(self.patch)
+		self.patch_test = patches.PathPatch(path, facecolor='Blue', lw=0, alpha=0.3)
+		self.ax.add_patch(self.patch_test)
 		self.canvas.draw()
 		
 		
@@ -200,8 +223,20 @@ class MyWindow(QtGui.QMainWindow):
 			self.drawPolygon(polygon, pol_date)
 			
 		
+	##
+	# Recalibration
 	def recalibration(self):
 		recalibration(self.room)
+		
+	##
+	#
+	def getRoomPolygon(self):
+		return Polygon((
+				(0,0), # left, bottom
+				(0, self.room_height), # left, top
+				(self.room_width, self.room_height), # right, top
+				(self.room_width, 0), # right, bottom
+				(self.room_width, 0)))
 		
 		
 	##

@@ -17,7 +17,7 @@
 * Both values must be between 1 and 255 (8 bits)
 **/
 #define ROOM_ID 27
-#define DEVICE_ID 68
+#define DEVICE_ID 72
 
 //Functions definition:
 /**

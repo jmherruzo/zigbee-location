@@ -170,8 +170,8 @@ def getActiveLinksAsLines(data, default_rssi, dev_dbids, devices, room):
 #	\param room_x X size of the room
 # 	\param room_y Y size of the room
 #	\return Polygon including all the points at a DISTANCE distance from the line
-def lineToPolygon(line, room_x, room_y):
-	l = line.buffer(DISTANCE)
+def lineToPolygon(line, room_x, room_y, distance):
+	l = line.buffer(distance)
 	room = Polygon([(0,0), (room_x, 0), (room_x, room_y), (0, room_y)])
 	l2 = l.intersection(room)
 	return l2.simplify(0.05, preserve_topology=False)
@@ -185,12 +185,16 @@ def lineToPolygon(line, room_x, room_y):
 #	\return Polygon where the user must be located
 def getIntersection(links, room_x, room_y):
 	polygon = None
-	for link in links:
-		if polygon==None:
-			polygon = lineToPolygon(link, room_x, room_y)
-		else:
-			aux_pol = lineToPolygon(link, room_x, room_y)
-			polygon = aux_pol.intersection(polygon)
+	for i in range(DISTANCE_INCREMENTS+1):
+		distance = DISTANCE + DISTANCE_INCREMENT*i
+		for link in links:
+			if polygon==None:
+				polygon = lineToPolygon(link, room_x, room_y, distance)
+			else:
+				aux_pol = lineToPolygon(link, room_x, room_y, distance)
+				polygon = aux_pol.intersection(polygon)
+		if polygon.area>0:
+			break
 	return polygon
 	
 ##
