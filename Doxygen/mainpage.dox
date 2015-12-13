@@ -1,0 +1,29 @@
+/**
+\mainpage Documentación del Proyecto WHERE
+
+
+Durante el desarrollo del proyecto, todo el código generado se ha ido comentando siguiendo las pautas
+indicadas para la creación de documentación de forma automática utilizando la herramienta
+doxygen y este es el resultado.
+
+Toda la documentación de los ficheros se ha llevado a cabo en idioma inglés.
+
+Además, todo el código de este proyecto se puede encontrar tanto en esta misma web, explorando cada ficheros
+en su apartado correspondiente como en el 
+<a href="https://github.com/jmherruzo/zigbee-location">repositorio de GitHub.</a>  
+
+\section Introducción
+
+Actualmente, una gran cantidad de personas mayores viven solas en sus hogares. Además esta cantidad no parará de crecer en los próximos años, pues el aumento de la longevidad viene acompañado de una mejora media de nuestro estado de salud, lo que hace que la mayoría de estas personas puedan valerse por si mismas sin prácticamente ningún tipo de problema pese a su edad. 
+
+La situación no puede, sin embargo, generalizarse, ya que hay otros muchos casos en los que, aunque la persona mayor no pueden valerse correctamente por si misma, tampoco hay familiares o allegados que puedan hacerse cargo de ellos por cualquier motivo ni posibilidades económicas para que un tercero ejerza esta labor, por lo que se ven obligados a vivir solos, aún necesitando monitorización continua y ayuda en algunos momentos.
+
+En este último caso es donde sería más útil este proyecto, que persigue monitorizar la localización de una persona dentro de su hogar, lo que, en el caso de tratarse del caso descrito anteriormente, permitiría que su familia o la persona correspondiente sepa en todo momento su estado y así facilitar la asistencia médica en caso de que ésta sea necesaria. A pesar de que ya existen sistemas que cumplen este objetivo, todos ellos requieren que la persona lleve consigo algún tipo de dispositivo que permita su localización. Aparte de la molestia que esto puede suponer, portar un determinado dispositivo puede ser un problema en algunos casos, por ejemplo, si la persona a localizar padece alguna enfermedad que afecte a la memoria, como puede ser el alzheimer, ya que sería normal que olvidara el llevarlo encima en todo momento.
+
+Para su aplicación en este contexto se ha decidido desarrollar un sistema capaz de localizar a una persona dentro de un apartamento basándose en las interferencias que provocaría al interponerse en la transmisión de una señal entre distintos dispositivos.
+
+
+
+@image html where.png
+
+*/
